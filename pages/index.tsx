@@ -1,8 +1,12 @@
+import Navbar from "@/components/Navbar";
+
 export default function Home() {
     return (
-        <main className="flex flex-row">
-            <div>Hello</div>
-            <div>World</div>
-        </main>
+        <>
+            <header>
+                <Navbar />
+            </header>
+            <main>Hello world</main>
+        </>
     );
 }
