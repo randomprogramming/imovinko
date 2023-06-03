@@ -1,5 +1,17 @@
 {
     "SearchBar": {
         "placeholder": "Zagreb"
+    },
+    "RegisterScreen": {
+        "first-name": "First Name",
+        "first-name-placeholder": "John",
+        "last-name": "Last Name",
+        "last-name-placeholder": "Doe",
+        "username": "Username",
+        "email": "E-Mail",
+        "password": "Password",
+        "confirm-password": "Confirm Password",
+        "sign-up": "Sign Up",
+        "sign-up-google": "Sign Up With Google"
     }
 }

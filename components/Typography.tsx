@@ -1,0 +1,39 @@
+import React from "react";
+import { poppins, space_grotesk, varela_round, work_sans } from "@/util/fonts";
+
+interface TypographyProps {
+    children?: React.ReactNode;
+    variant?: "h1" | "secondary";
+    uppercase?: boolean;
+    bold?: boolean;
+    font?: "space_grotesk" | "work_sans";
+}
+
+export default function Typography({ children, variant, uppercase, bold, font }: TypographyProps) {
+    let sharedClass = "";
+    if (uppercase) {
+        sharedClass += "uppercase ";
+    }
+    if (bold) {
+        sharedClass += "font-bold ";
+    }
+    if (font === "work_sans") {
+        sharedClass += work_sans.className + " ";
+    } else {
+        sharedClass += space_grotesk.className + " ";
+    }
+
+    if (variant === "h1") {
+        return <h1 className={`${sharedClass} text-4xl font-bold`}>{children}</h1>;
+    }
+
+    return (
+        <p
+            className={`${sharedClass} ${
+                variant === "secondary" ? "text-xs tracking-widest text-zinc-500" : ""
+            }`}
+        >
+            {children}
+        </p>
+    );
+}
