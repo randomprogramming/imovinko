@@ -38,6 +38,17 @@ export async function registerAccount(acc: AccountRegistrationProps) {
     return await client.post("/auth/register", acc);
 }
 
+interface LoginProps {
+    handle: string;
+    password: string;
+}
+interface LoginResponse {
+    accessToken: string;
+}
+export async function login(data: LoginProps) {
+    return await client.post<LoginResponse>("/auth/login", data);
+}
+
 interface Account {
     id: string;
     username: string | null;

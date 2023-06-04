@@ -14,5 +14,13 @@
         "sign-up": "Sign Up",
         "sign-up-google": "Sign Up With Google",
         "or": "Or"
+    },
+    "Login": {
+        "welcome": "Welcome back",
+        "sign-in-google": "Sign In Using Google",
+        "or": "Or",
+        "username-or-email": "Username or E-Mail",
+        "password": "Password",
+        "sign-in": "Sign In"
     }
 }

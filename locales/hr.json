@@ -14,5 +14,13 @@
         "sign-up": "Registriraj se",
         "sign-up-google": "Registracija putem Google računa",
         "or": "Ili"
+    },
+    "Login": {
+        "welcome": "Dobrodošli natrag",
+        "sign-in-google": "Prijava Putem Google Računa",
+        "or": "Ili",
+        "username-or-email": "Korisničko Ime ili E-Mail",
+        "password": "Lozinka",
+        "sign-in": "Prijavi se"
     }
 }
