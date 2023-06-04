@@ -100,6 +100,7 @@ export default function Login() {
                             className="mt-1"
                             onChange={setPassword}
                             placeholder={t("password")}
+                            type="password"
                         />
                     </div>
 
