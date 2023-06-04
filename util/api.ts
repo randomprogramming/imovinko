@@ -1,28 +1,12 @@
 import axios from "axios";
+import { getJWTCookie } from "./cookie";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
-// function parseJwt(token: string): Account | null {
-//     if (typeof window === "undefined") return null;
-
-//     const base64Url = token.split(".")[1];
-//     const base64 = base64Url.replace("-", "+").replace("_", "/");
-//     return JSON.parse(window.atob(base64));
-// }
-
-function getCookie(cookiename: string) {
-    if (typeof document === "undefined") return;
-
-    // Get name followed by anything except a semicolon
-    var cookiestring = RegExp(cookiename + "=[^;]+").exec(document.cookie);
-    // Return everything after the equal sign, or an empty string if the cookie name not found
-    return decodeURIComponent(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, "") : "");
-}
-const jwt = getCookie(process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || "");
 const client = axios.create({
     baseURL,
     headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${getJWTCookie()}`,
     },
 });
 
@@ -49,7 +33,7 @@ export async function login(data: LoginProps) {
     return await client.post<LoginResponse>("/auth/login", data);
 }
 
-interface Account {
+export interface Account {
     id: string;
     username: string | null;
     firstName: string | null;
@@ -58,6 +42,10 @@ interface Account {
 }
 export async function getMe(): Promise<Account> {
     return await client.get("/auth/me");
+}
+
+export async function logoutRequest() {
+    return await client.post("/auth/logout");
 }
 
 export const GOOGLE_REGISTER_URL = baseURL + "/auth/google";

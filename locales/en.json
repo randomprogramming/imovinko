@@ -22,5 +22,9 @@
         "username-or-email": "Username or E-Mail",
         "password": "Password",
         "sign-in": "Sign In"
+    },
+    "AuthDropdown": {
+        "submit-ad": "Submit Ad",
+        "logout": "Logout"
     }
 }

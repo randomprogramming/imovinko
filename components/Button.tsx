@@ -11,7 +11,7 @@ interface IButtonProps {
 function Transparent({ onClick, children }: IButtonProps) {
     return (
         <button
-            className="p-2 hover:bg-zinc-400 transition-all flex items-center justify-center rounded-lg"
+            className="p-2 hover:bg-zinc-300 transition-all flex items-center justify-center rounded-lg"
             onClick={onClick}
         >
             {children}

@@ -22,5 +22,9 @@
         "username-or-email": "Korisničko Ime ili E-Mail",
         "password": "Lozinka",
         "sign-in": "Prijavi se"
+    },
+    "AuthDropdown": {
+        "submit-ad": "Predaj oglas",
+        "logout": "Odjavi se"
     }
 }

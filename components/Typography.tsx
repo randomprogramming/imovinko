@@ -7,9 +7,17 @@ interface TypographyProps {
     uppercase?: boolean;
     bold?: boolean;
     font?: "space_grotesk" | "work_sans";
+    className?: string;
 }
 
-export default function Typography({ children, variant, uppercase, bold, font }: TypographyProps) {
+export default function Typography({
+    children,
+    variant,
+    uppercase,
+    bold,
+    font,
+    className,
+}: TypographyProps) {
     let sharedClass = "";
     if (uppercase) {
         sharedClass += "uppercase ";
@@ -24,14 +32,14 @@ export default function Typography({ children, variant, uppercase, bold, font }:
     }
 
     if (variant === "h1") {
-        return <h1 className={`${sharedClass} text-4xl font-bold`}>{children}</h1>;
+        return <h1 className={`${sharedClass} text-4xl font-bold ${className}`}>{children}</h1>;
     }
 
     return (
         <p
             className={`${sharedClass} ${
                 variant === "secondary" ? "text-xs tracking-widest text-zinc-600" : ""
-            }`}
+            } ${className}`}
         >
             {children}
         </p>

@@ -1,17 +1,18 @@
 import React from "react";
 
-export type IconName = "search" | "account" | "google" | "loading";
+export type IconName = "search" | "account" | "google" | "loading" | "logout" | "house-plus";
 
 interface IconProps {
     name: IconName;
     height?: string | number;
     width?: string | number;
+    className?: string;
 }
 
 const DEFAULT_W = "24";
 const DEFAULT_H = "24";
 // TODO: Add a default color for these
-export default function Icon({ name, height, width }: IconProps) {
+export default function Icon({ name, height, width, className }: IconProps) {
     switch (name) {
         case "search":
             return (
@@ -92,6 +93,71 @@ export default function Icon({ name, height, width }: IconProps) {
                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                         fill="currentFill"
                     />
+                </svg>
+            );
+        case "logout":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path
+                            d="M21 12L13 12"
+                            stroke="#fafafa"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+                            stroke="#fafafa"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+                            stroke="#fafafa"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={className}
+                        ></path>
+                    </g>
+                </svg>
+            );
+        case "house-plus":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke=""
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <g>
+                            <path
+                                d="M12 16.0001V13.0001M12 13.0001V10.0001M12 13.0001H9M12 13.0001H15M4 16.8002V11.4522C4 10.9179 4 10.6506 4.06497 10.4019C4.12255 10.1816 4.2173 9.97307 4.34521 9.78464C4.48955 9.57201 4.69064 9.39569 5.09277 9.04383L9.89436 4.84244C10.6398 4.19014 11.0126 3.86397 11.4324 3.73982C11.8026 3.63035 12.1972 3.63035 12.5674 3.73982C12.9875 3.86406 13.3608 4.19054 14.1074 4.84383L18.9074 9.04383C19.3096 9.39569 19.5102 9.57201 19.6546 9.78464C19.7825 9.97307 19.8775 10.1816 19.9351 10.4019C20 10.6505 20 10.9184 20 11.4522V16.8037C20 17.9216 20 18.4811 19.7822 18.9086C19.5905 19.2849 19.2842 19.5906 18.9079 19.7823C18.4805 20.0001 17.9215 20.0001 16.8036 20.0001H7.19691C6.07899 20.0001 5.5192 20.0001 5.0918 19.7823C4.71547 19.5906 4.40973 19.2849 4.21799 18.9086C4 18.4807 4 17.9203 4 16.8002Z"
+                                stroke="#fafafa"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className={className}
+                            ></path>
+                        </g>
+                    </g>
                 </svg>
             );
     }
