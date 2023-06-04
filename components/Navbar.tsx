@@ -52,7 +52,7 @@ function AuthDropdown() {
             </Button.Transparent>
             <div
                 className={`absolute right-0 w-full z-30 mt-3 transition-all duration-100 rounded-lg shadow-lg ${
-                    dropdown ? "visible bg-zinc-800 top-8" : "invisible bg-transparent -top-2"
+                    dropdown ? "visible bg-zinc-800 top-8" : "invisible bg-transparent top-4"
                 }`}
                 style={{
                     minWidth: "175px",
