@@ -2,7 +2,7 @@
     "SearchBar": {
         "placeholder": "Zagreb"
     },
-    "RegisterScreen": {
+    "Register": {
         "first-name": "Ime",
         "first-name-placeholder": "Vinko",
         "last-name": "Prezime",
@@ -12,6 +12,7 @@
         "password": "Lozinka",
         "confirm-password": "Potvrdi Lozinku",
         "sign-up": "Registriraj se",
-        "sign-up-google": "Registracija putem Google računa"
+        "sign-up-google": "Registracija putem Google računa",
+        "or": "Ili"
     }
 }

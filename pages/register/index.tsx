@@ -1,13 +1,23 @@
-import { useTranslations } from "next-intl";
-import React, { useState } from "react";
-import Typography from "../Typography";
-import Button from "../Button";
-import Input from "../Input";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import Typography from "@/components/Typography";
 import { GOOGLE_REGISTER_URL, registerAccount } from "@/util/api";
+import { NextPageContext } from "next";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import Image from "next/image";
 
-export default function RegisterScreen() {
-    const t = useTranslations("RegisterScreen");
+export async function getStaticProps(context: NextPageContext) {
+    return {
+        props: {
+            messages: (await import(`../../locales/${context.locale || "hr"}.json`)).default,
+        },
+    };
+}
+
+export default function Register() {
+    const t = useTranslations("Register");
     const router = useRouter();
 
     const [firstName, setFirstName] = useState<string | null>(null);
@@ -57,14 +67,18 @@ export default function RegisterScreen() {
 
     return (
         <div className="flex-1 flex flex-row">
-            <div className="flex-1 relative h-full rounded-xl overflow-hidden p-6">
-                {/* TODO: REmove this and bgcolore from globals.css */}
-                <div className="bgcolored w-full h-full" />
-                {/* <Image
-                    src="https://img.freepik.com/premium-vector/abstract-modern-background-geometric-shapes-modern-minimalist-art-print-wallpaper-templates_422344-2145.jpg?w=2000"
-                    alt="abstrct"
-                    fill
-                /> */}
+            <div className="flex-1 hidden lg:flex">
+                <div className="relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden">
+                    {/* TODO: Put logo in top left of the image, also potentially put some text */}
+                    <Image
+                        src="/images/register-cover.jpg"
+                        alt="modern house exterior"
+                        fill
+                        style={{
+                            objectFit: "cover",
+                        }}
+                    />
+                </div>
             </div>
             <div className="flex-1 flex flex-col justify-between items-center">
                 <div className="px-10 py-6 w-full">
@@ -80,7 +94,17 @@ export default function RegisterScreen() {
                         />
                     </div>
 
-                    <div className="mt-10 flex flex-row">
+                    <div className="flex flex-row items-center my-8">
+                        <div className="flex-1 ml-20 h-0.5 bg-zinc-600" />
+                        <div className="px-6 select-none">
+                            <Typography variant="secondary" uppercase>
+                                {t("or")}
+                            </Typography>
+                        </div>
+                        <div className="flex-1 mr-20 h-0.5 bg-zinc-600" />
+                    </div>
+
+                    <div className="flex flex-row">
                         <div className="flex-1">
                             <label htmlFor="firstName">
                                 <Typography variant="secondary" uppercase>

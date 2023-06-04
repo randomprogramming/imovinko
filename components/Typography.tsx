@@ -30,7 +30,7 @@ export default function Typography({ children, variant, uppercase, bold, font }:
     return (
         <p
             className={`${sharedClass} ${
-                variant === "secondary" ? "text-xs tracking-widest text-zinc-500" : ""
+                variant === "secondary" ? "text-xs tracking-widest text-zinc-600" : ""
             }`}
         >
             {children}
