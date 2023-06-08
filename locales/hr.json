@@ -26,5 +26,30 @@
     "AuthDropdown": {
         "submit-ad": "Predaj oglas",
         "logout": "Odjavi se"
+    },
+    "List": {
+        "title": "Odaberite tip nekretnine",
+        "house": "Kuća",
+        "apartment": "Stan",
+        "land": "Zemljište"
+    },
+    "ListApartment": {
+        "title": "Informacije o stanu",
+        "ad-title": "Naslov",
+        "ad-title-desc": "Naslov oglasa do maksimalno 100 znakova.",
+        "ad-title-placeholder": "Predivan studio apartman u centru grada",
+        "offering-type": "Tip ponude",
+        "offering-type-desc": "Odaberite koji tipovi ponude vrijede za ovaj stan. Dozvoljeno je odabrati više opcija.",
+        "for-sale": "Za prodaju",
+        "short-term-rent": "Kratkotrajno iznajmljivanje (dnevno)",
+        "long-term-rent": "Dugoročno iznajmljivanje (mjesečno)",
+        "location": "Lokacija stana",
+        "location-desc": "Molimo da odaberete lokaciju stana tako da pomičete mapu dokle oznaka ne pokazuje točnu lokaciju stana. Također možete tražiti adresu stana.",
+        "area": "Površina",
+        "area-desc": "Površina stana izražena u metrima kvadratnim (m²).",
+        "submit": "Predaj Oglas"
+    },
+    "Map": {
+        "search": "Traži"
     }
 }

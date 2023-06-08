@@ -48,4 +48,12 @@ export async function logoutRequest() {
     return await client.post("/auth/logout");
 }
 
+export interface Coordinates {
+    lat: number;
+    lon: number;
+}
+export async function geocode(query: string) {
+    return await client.get<Coordinates | null>("/geocode/", { params: { query } });
+}
+
 export const GOOGLE_REGISTER_URL = baseURL + "/auth/google";

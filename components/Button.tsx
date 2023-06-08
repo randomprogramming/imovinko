@@ -23,16 +23,25 @@ interface PrimaryButtonProps extends IButtonProps {
     hollow?: boolean;
     icon?: IconName;
     loading?: boolean;
+    className?: string;
 }
 
-function Primary({ onClick, children, label, hollow, icon, loading }: PrimaryButtonProps) {
+function Primary({
+    onClick,
+    children,
+    label,
+    hollow,
+    icon,
+    loading,
+    className,
+}: PrimaryButtonProps) {
     return (
         <button
             className={`p-2 hover:bg-zinc-800 disabled:bg-zinc-600 ${
                 hollow
                     ? "text-zinc-900 hover:text-white bg-transparent border-2 border-zinc-900"
                     : "text-white bg-zinc-900 shadow-md"
-            } w-full transition-all flex items-center justify-center rounded-md hover:rounded-lg disabled:rounded-md h-14`}
+            } w-full transition-all flex items-center justify-center rounded-md hover:rounded-lg disabled:rounded-md h-14 ${className}`}
             onClick={onClick}
             disabled={loading}
         >

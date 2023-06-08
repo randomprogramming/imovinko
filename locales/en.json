@@ -26,5 +26,30 @@
     "AuthDropdown": {
         "submit-ad": "Submit Ad",
         "logout": "Logout"
+    },
+    "List": {
+        "title": "Choose property type",
+        "house": "House",
+        "apartment": "Apartment",
+        "land": "Land"
+    },
+    "ListApartment": {
+        "title": "Apartment Information",
+        "ad-title": "Title",
+        "ad-title-desc": "Ad title up to a maximum of 100 characters.",
+        "ad-title-placeholder": "Beautiful studio apartment in the city centre",
+        "offering-type": "Offering Type",
+        "offering-type-desc": "Please choose how this apartment will be listed. Multiple options are allowed.",
+        "for-sale": "For Sale",
+        "short-term-rent": "Short Term Rent (Daily)",
+        "long-term-rent": "Long Term Rent (Monthly)",
+        "location": "Apartment Location",
+        "location-desc": "Please select the location of the apartment by moving the map until the pointer points to the correct location. You may also search for the location.",
+        "area": "Area",
+        "area-desc": "Apartment area expressed in square meter (m²).",
+        "submit": "Submit Ad"
+    },
+    "Map": {
+        "search": "Search"
     }
 }

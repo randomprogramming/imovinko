@@ -6,11 +6,14 @@ import useAuthentication from "@/hooks/useAuthentication";
 import React, { useState } from "react";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
 
 function AuthDropdown() {
     const t = useTranslations("AuthDropdown");
 
     const { account, logout } = useAuthentication();
+
+    const router = useRouter();
 
     const [dropdown, setDropdown] = useState(false);
 
@@ -38,6 +41,10 @@ function AuthDropdown() {
         return account.email;
     }
 
+    function toCreateListingPage() {
+        router.push("/list");
+    }
+
     return (
         <div className="relative">
             <Button.Transparent
@@ -61,7 +68,10 @@ function AuthDropdown() {
                 <div className="p-2">
                     {dropdown && (
                         <div className="space-y-2">
-                            <button className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all p-2 rounded-lg cursor-pointer">
+                            <Link
+                                to="/list"
+                                className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all p-2 rounded-lg cursor-pointer"
+                            >
                                 <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
                                     {t("submit-ad")}
                                 </Typography>
@@ -69,7 +79,7 @@ function AuthDropdown() {
                                     name="house-plus"
                                     className="stroke-zinc-200 group-hover:stroke-zinc-800 transition-all"
                                 />
-                            </button>
+                            </Link>
 
                             <button
                                 onClick={logout}
@@ -91,13 +101,21 @@ function AuthDropdown() {
     );
 }
 
-export default function Navbar() {
+interface NavbarProps {
+    hideSearchBar?: boolean;
+}
+export default function Navbar({ hideSearchBar }: NavbarProps) {
     const auth = useAuthentication();
 
     return (
         <div className="container mx-auto flex flex-row items-center my-4">
             <div>Logo</div>
-            <Searchbar className="flex-1 mx-4" />
+            {hideSearchBar ? (
+                // h-12 is the same height as the searchbar
+                <div className="flex-1 h-12" />
+            ) : (
+                <Searchbar className="flex-1 mx-4" />
+            )}
 
             {/* Profile section */}
             {/* Mobile View */}
