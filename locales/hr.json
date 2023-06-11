@@ -47,7 +47,9 @@
         "location-desc": "Molimo da odaberete lokaciju stana tako da pomičete mapu dokle oznaka ne pokazuje točnu lokaciju stana. Također možete tražiti adresu stana.",
         "area": "Površina",
         "area-desc": "Površina stana izražena u metrima kvadratnim (m²).",
-        "submit": "Predaj Oglas"
+        "submit": "Predaj Oglas",
+        "images": "Slike apartmana",
+        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 10MB."
     },
     "Map": {
         "search": "Traži"

@@ -47,7 +47,9 @@
         "location-desc": "Please select the location of the apartment by moving the map until the pointer points to the correct location. You may also search for the location.",
         "area": "Area",
         "area-desc": "Apartment area expressed in square meter (m²).",
-        "submit": "Submit Ad"
+        "submit": "Submit Ad",
+        "images": "Apartment images",
+        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 10MB."
     },
     "Map": {
         "search": "Search"

@@ -6,14 +6,11 @@ import useAuthentication from "@/hooks/useAuthentication";
 import React, { useState } from "react";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/router";
 
 function AuthDropdown() {
     const t = useTranslations("AuthDropdown");
 
     const { account, logout } = useAuthentication();
-
-    const router = useRouter();
 
     const [dropdown, setDropdown] = useState(false);
 
@@ -39,10 +36,6 @@ function AuthDropdown() {
         }
 
         return account.email;
-    }
-
-    function toCreateListingPage() {
-        router.push("/list");
     }
 
     return (
@@ -109,7 +102,12 @@ export default function Navbar({ hideSearchBar }: NavbarProps) {
 
     return (
         <div className="container mx-auto flex flex-row items-center my-4">
-            <div>Logo</div>
+            <Link to="/" className="px-1 pt-1 hidden md:block">
+                <Icon name="logo-text" height="36" />
+            </Link>
+            <Link to="/" className="md:hidden">
+                <Icon name="logo" height="36" />
+            </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
                 <div className="flex-1 h-12" />

@@ -20,3 +20,15 @@ export function getJWTCookie() {
 export function deleteJWTCookie() {
     delete_cookie(process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || "");
 }
+
+export function setJWTCookie(value: string) {
+    let date = new Date();
+    date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie =
+        (process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || "") +
+        "=" +
+        (value || "") +
+        expires +
+        "; path=/";
+}

@@ -70,6 +70,7 @@ export default function Map({
 
     return (
         <div ref={mapContainer} className={`${className}`} style={style}>
+            {/* TODO: Before loading the map, hide the marker, otherwise it flashes in the middle of the screen for a second */}
             {showCenterMarker && (
                 <div
                     className="absolute top-1/2 left-1/2 z-30 select-none pointer-events-none"

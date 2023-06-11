@@ -13,7 +13,7 @@ export default function Link({ to, onClick, children, className }: LinkProps) {
     if (to) {
         return (
             <NextLink href={to} className={`${className}`}>
-                <Typography>{children}</Typography>
+                {children}
             </NextLink>
         );
     }

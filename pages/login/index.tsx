@@ -7,6 +7,9 @@ import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import { GOOGLE_REGISTER_URL, login } from "@/util/api";
 import Input from "@/components/Input";
+import { setJWTCookie } from "@/util/cookie";
+import Link from "@/components/Link";
+import Icon from "@/components/Icon";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -28,7 +31,8 @@ export default function Login() {
         try {
             setIsSendingLoginReq(true);
             const response = await login({ handle, password });
-            console.log(response.data.accessToken);
+            setJWTCookie(response.data.accessToken);
+            router.push("/");
         } catch (e) {
         } finally {
             setIsSendingLoginReq(false);
@@ -39,7 +43,9 @@ export default function Login() {
         <div className="flex-1 flex flex-row">
             <div className="hidden lg:flex" style={{ flex: 3 }}>
                 <div className="relative w-full flex-1 overflow-hidden">
-                    {/* TODO: Put logo in top left of the image, also potentially put some text */}
+                    <Link to="/" className="absolute z-30 top-10 left-12 p-1">
+                        <Icon name="logo-text" height={48} />
+                    </Link>
                     <Image
                         src="/images/login-cover.jpg"
                         alt="modern house exterior"

@@ -1,4 +1,4 @@
-import { Account, logoutRequest } from "@/util/api";
+import { Account } from "@/util/api";
 import { deleteJWTCookie, getJWTCookie } from "@/util/cookie";
 import { decodeJwt } from "@/util/jwt";
 import { useRouter } from "next/router";

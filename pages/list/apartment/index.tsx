@@ -3,9 +3,11 @@ import Input from "@/components/Input";
 import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
+import { ListingFor, createListing, patchPropertyMedia, uploadMedia } from "@/util/api";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import ImageUpload from "@/components/ImageUpload";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -35,6 +37,7 @@ function FlexRow({ children, singleCol, hideBottomBorder, noPadding }: FlexRowPr
 function RowItem({ children }: FlexRowProps) {
     return <div className="w-full md:w-1/2 flex flex-col mt-3 md:mt-0">{children}</div>;
 }
+
 interface TitleColProps {
     title: string;
     children?: React.ReactNode;
@@ -51,6 +54,7 @@ function TitleCol({ title, children }: TitleColProps) {
 export default function ListApartment() {
     const t = useTranslations("ListApartment");
 
+    const imageUploadRef = useRef<HTMLInputElement>(null);
     const [isSubmittingAd, setIsSubmittingAd] = useState(false);
     const [title, setTitle] = useState("");
     const [isForSale, setIsForSale] = useState(false);
@@ -61,10 +65,30 @@ export default function ListApartment() {
         lon: 0,
     });
     const [area, setArea] = useState(0);
+    const [images, setImages] = useState<File[]>([]);
 
     async function submitAd() {
         try {
+            // First create the apartment, then PATCH or PUT the images,
+            // othwerise we might be uploading images for nothing when user enters some invalid apartment info
             setIsSubmittingAd(true);
+            const resp = await createListing({
+                title,
+                area,
+                lat: location.lat,
+                lon: location.lon,
+                listingFor: ListingFor.apartment,
+                isForLongTermRent,
+                isForShortTermRent,
+                isForSale,
+            });
+
+            const imageUrls = await uploadMedia(images);
+            await patchPropertyMedia({
+                ...resp.data,
+                media: imageUrls,
+            });
+            // TODO: Route to the page where all user listings are once that page exists
         } catch (e) {
         } finally {
             setIsSubmittingAd(false);
@@ -89,6 +113,36 @@ export default function ListApartment() {
                                     placeholder={t("ad-title-placeholder")}
                                 />
                             </RowItem>
+                        </FlexRow>
+
+                        <FlexRow singleCol>
+                            <input
+                                ref={imageUploadRef}
+                                type="file"
+                                name="images"
+                                id="images"
+                                multiple
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                    let newImages: File[] = [];
+                                    if (e.target.files) {
+                                        for (
+                                            let index = 0;
+                                            index < e.target.files.length;
+                                            index++
+                                        ) {
+                                            newImages.push(e.target.files[index]);
+                                        }
+                                    }
+
+                                    if (newImages.length) {
+                                        setImages([...images, ...newImages]);
+                                    }
+                                }}
+                            />
+                            <TitleCol title={t("images")}>{t("images-desc")}</TitleCol>
+                            <ImageUpload images={images} inputRef={imageUploadRef} />
                         </FlexRow>
 
                         <FlexRow>

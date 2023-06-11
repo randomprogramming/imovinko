@@ -23,7 +23,7 @@ function LinkButton({ href, title, icon }: LinkButtonProps) {
     return (
         <Link
             href={href}
-            className="w-full md:w-60 bg-zinc-50 hover:bg-white hover:shadow-sm transition-all rounded-md shadow-md px-2 py-8"
+            className="w-full md:w-60 bg-zinc-50 hover:bg-zinc-100 hover:shadow-sm transition-all rounded-md shadow-md px-2 py-8"
         >
             <div className="flex justify-center items-center">
                 <Icon name={icon} height="50px" width="50px" />
