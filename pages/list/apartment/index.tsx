@@ -184,7 +184,7 @@ export default function ListApartment() {
                                 style={{
                                     height: "50vh",
                                 }}
-                                onChange={setLocation}
+                                onCenterChange={setLocation}
                             />
                         </FlexRow>
 

@@ -154,3 +154,19 @@ export async function patchPropertyMedia(data: PatchPropertyMediaData) {
         },
     });
 }
+
+interface BoundingBox {
+    nwlng: number;
+    nwlat: number;
+    selng: number;
+    selat: number;
+}
+export async function findListingsByBoundingBox(boundingBox: BoundingBox) {
+    return await client({
+        url: "/listing/",
+        method: "GET",
+        params: {
+            ...boundingBox,
+        },
+    });
+}
