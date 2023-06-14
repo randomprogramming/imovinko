@@ -49,7 +49,14 @@
         "area-desc": "Apartment area expressed in square meter (m²).",
         "submit": "Submit Ad",
         "images": "Apartment images",
-        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 10MB."
+        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 10MB.",
+        "sale-information": "Sale information",
+        "short-term-rent-information": "Short Term Rent information",
+        "long-term-rent-information": "Long Term Rent information",
+        "sale-price": "Price",
+        "sale-price-description": "Price of the apartment in €.",
+        "short-term-price-description": "Price of the apartment per night in €.",
+        "long-term-price-description": "Price of the monthly rent in €."
     },
     "Map": {
         "search": "Search"

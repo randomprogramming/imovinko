@@ -49,7 +49,14 @@
         "area-desc": "Površina stana izražena u metrima kvadratnim (m²).",
         "submit": "Predaj Oglas",
         "images": "Slike apartmana",
-        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 10MB."
+        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 10MB.",
+        "sale-information": "Informacije za prodaju",
+        "short-term-rent-information": "Informacije za kratkotrajno iznajmljivanje",
+        "long-term-rent-information": "Informacije za dugoročno iznajmljivanje",
+        "sale-price": "Cijena",
+        "sale-price-description": "Cijena stana izražena u €.",
+        "short-term-price-description": "Cijena noćenja u €.",
+        "long-term-price-description": "Cijena mjesečne rente u €."
     },
     "Map": {
         "search": "Traži"

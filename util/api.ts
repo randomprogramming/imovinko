@@ -71,12 +71,22 @@ export enum ListingFor {
     house = "house",
     land = "land",
 }
+
 interface CreateListingData {
     listingFor: ListingFor;
-    title: string;
+
     isForSale?: boolean;
+    saleListingTitle?: string;
+    saleListingPrice?: number;
+
     isForShortTermRent?: boolean;
+    shortTermListingTitle?: string;
+    shortTermListingPrice?: number;
+
     isForLongTermRent?: boolean;
+    longTermListingTitle?: string;
+    longTermListingPrice?: number;
+
     lat: number;
     lon: number;
     area: number;
