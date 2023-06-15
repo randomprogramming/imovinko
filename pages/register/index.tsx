@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Image from "next/image";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -19,6 +20,8 @@ export async function getStaticProps(context: NextPageContext) {
 export default function Register() {
     const t = useTranslations("Register");
     const router = useRouter();
+
+    const fieldErrorCodesParser = useFieldErrorCodes();
 
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
@@ -48,6 +51,7 @@ export default function Register() {
 
     async function onRegister() {
         try {
+            fieldErrorCodesParser.empty();
             setIsSendingRegisterReq(true);
             const resp = await registerAccount({
                 username,
@@ -58,8 +62,12 @@ export default function Register() {
                 confirmPassword,
             });
             console.log(resp);
-        } catch (e) {
-            console.error(e);
+        } catch (e: any) {
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else {
+                console.error(e);
+            }
         } finally {
             setIsSendingRegisterReq(false);
         }
@@ -116,6 +124,8 @@ export default function Register() {
                                 className="mt-1"
                                 onChange={setFirstNameParsed}
                                 placeholder={t("first-name-placeholder")}
+                                hasError={fieldErrorCodesParser.has("firstName")}
+                                errorMsg={fieldErrorCodesParser.getTranslated("firstName")}
                             />
                         </div>
 
@@ -133,6 +143,8 @@ export default function Register() {
                                 className="mt-1"
                                 onChange={setLastNameParsed}
                                 placeholder={t("last-name-placeholder")}
+                                hasError={fieldErrorCodesParser.has("lastName")}
+                                errorMsg={fieldErrorCodesParser.getTranslated("lastName")}
                             />
                         </div>
                     </div>
@@ -143,9 +155,12 @@ export default function Register() {
                                 {t("username")}
                             </Typography>
                         </label>
+
                         <Input
                             name="username"
                             className="mt-1"
+                            hasError={fieldErrorCodesParser.has("username")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("username")}
                             onChange={setUsername}
                             placeholder="username300"
                         />
@@ -163,6 +178,8 @@ export default function Register() {
                             type="email"
                             onChange={setEmail}
                             placeholder="my.mail@gmail.com"
+                            hasError={fieldErrorCodesParser.has("email")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("email")}
                         />
                     </div>
 
@@ -178,6 +195,8 @@ export default function Register() {
                             type="password"
                             onChange={setPassword}
                             placeholder={t("password")}
+                            hasError={fieldErrorCodesParser.has("password")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("password")}
                         />
                     </div>
 
@@ -193,6 +212,8 @@ export default function Register() {
                             type="password"
                             onChange={setConfirmPassword}
                             placeholder={t("confirm-password")}
+                            hasError={fieldErrorCodesParser.has("confirmPassword")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("confirmPassword")}
                         />
                     </div>
 

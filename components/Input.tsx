@@ -40,6 +40,8 @@ interface InputProps extends CheckBoxInputProps {
     onChange?(newVal: string): void;
     value?: string;
     small?: boolean;
+    hasError?: boolean;
+    errorMsg?: string;
 }
 export default function Input({
     name,
@@ -51,26 +53,37 @@ export default function Input({
     onCheckedChange,
     value,
     small,
+    hasError,
+    errorMsg,
 }: InputProps) {
     if (type === "checkbox") {
         return <CheckBoxInput checked={checked} name={name} onCheckedChange={onCheckedChange} />;
     }
 
     return (
-        <input
-            id={name}
-            type={type}
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            onChange={(e) => {
-                if (onChange) {
-                    onChange(e.currentTarget.value);
-                }
-            }}
-            className={`${space_grotesk.className} ${
-                small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
-            } bg-white border-none outline-none shadow-sm ${className}`}
-        />
+        <div className="relative">
+            <input
+                id={name}
+                type={type}
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                onChange={(e) => {
+                    if (onChange) {
+                        onChange(e.currentTarget.value);
+                    }
+                }}
+                className={`relative z-30 ${space_grotesk.className} ${
+                    small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
+                } bg-white border-2 ${
+                    hasError ? "border-rose-700" : "border-transparent"
+                } outline-none shadow-sm ${className}`}
+            />
+            {hasError && errorMsg && (
+                <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">
+                    <Typography className="text-sm">{errorMsg}</Typography>
+                </div>
+            )}
+        </div>
     );
 }

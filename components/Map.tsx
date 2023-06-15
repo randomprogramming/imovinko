@@ -16,6 +16,7 @@ interface MapProps {
     style?: React.CSSProperties;
     onCenterChange?(coords: Coordinates): void;
     onBoundsChange?(bounds: mapboxgl.LngLatBounds): void;
+    children?: React.ReactNode;
 }
 export default function Map({
     className,
@@ -24,6 +25,7 @@ export default function Map({
     onCenterChange,
     showSearchBox,
     onBoundsChange,
+    children,
 }: MapProps) {
     const t = useTranslations("Map");
 
@@ -117,6 +119,7 @@ export default function Map({
                         </button>
                     </div>
                 )}
+                {children}
             </MapComponent>
         </div>
     );

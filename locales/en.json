@@ -60,5 +60,11 @@
     },
     "Map": {
         "search": "Search"
+    },
+    "ErrorCodes": {
+        "too_small": "Too short",
+        "not_matching": "Passwords do not match",
+        "invalid_email": "Invalid e-mail",
+        "unknown": "Unknown error"
     }
 }
