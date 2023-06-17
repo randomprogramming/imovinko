@@ -31,6 +31,12 @@ export async function registerAccount(acc: AccountRegistrationProps) {
     });
 }
 
+export enum OfferingType {
+    shortTermRent = "shortTermRent",
+    longTermRent = "longTermRent",
+    sale = "sale",
+}
+
 interface LoginProps {
     handle: string;
     password: string;
@@ -93,7 +99,7 @@ interface CreateListingData {
 }
 interface CreateListingResponse {
     id: string;
-    listinFor: ListingFor;
+    listingFor: ListingFor;
 }
 export async function createListing(data: CreateListingData) {
     return await client<CreateListingResponse>({
@@ -171,12 +177,106 @@ interface BoundingBox {
     selng: number;
     selat: number;
 }
+interface BasicProperty {
+    latitude: number;
+    longitude: number;
+    media: {
+        url: string;
+    }[];
+}
+export interface ListingOnMap {
+    id: string;
+    title: string;
+    price: number;
+    apartment: BasicProperty | null;
+    house: BasicProperty | null;
+    land: BasicProperty | null;
+    offeringType: OfferingType;
+}
 export async function findListingsByBoundingBox(boundingBox: BoundingBox) {
-    return await client({
+    return await client<ListingOnMap[]>({
         url: "/listing/",
         method: "GET",
         params: {
             ...boundingBox,
         },
+    });
+}
+
+export interface Apartment {
+    id: string;
+    latitude: number;
+    longitude: number;
+    surfaceArea: number;
+    ownerId: string;
+    createdAt: string | Date;
+    updatedAt: string | Date;
+    owner: {
+        id: string;
+        firstName?: string;
+        lastName?: string;
+        username?: string;
+        createdAt: string | Date;
+    };
+    media: {
+        url: string;
+    }[];
+}
+export interface House {
+    id: string;
+    latitude: number;
+    longitude: number;
+    surfaceArea: number;
+    ownerId: string;
+    createdAt: string | Date;
+    updatedAt: string | Date;
+    owner: {
+        id: string;
+        firstName?: string;
+        lastName?: string;
+        username?: string;
+        createdAt: string | Date;
+    };
+    media: {
+        url: string;
+    }[];
+}
+interface Land {
+    id: string;
+    latitude: number;
+    longitude: number;
+    surfaceArea: number;
+    ownerId: string;
+    createdAt: string | Date;
+    updatedAt: string | Date;
+    owner: {
+        id: string;
+        firstName?: string;
+        lastName?: string;
+        username?: string;
+        createdAt: string | Date;
+    };
+    media: {
+        url: string;
+    }[];
+}
+export interface Listing {
+    id: string;
+    title: string;
+    offeringType: OfferingType;
+    price: number;
+    houseId: string | null;
+    apartmentId: string | null;
+    landId: string | null;
+    createdAt: string | Date;
+    updatedAt: string | Date;
+    apartment: Apartment | null;
+    house: House | null;
+    land: Land | null;
+}
+export async function findListing(id: string) {
+    return await client<Listing>({
+        url: `/listing/${id}`,
+        method: "GET",
     });
 }

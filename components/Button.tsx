@@ -6,12 +6,13 @@ interface IButtonProps {
     onClick?(e: React.MouseEvent<HTMLButtonElement>): void;
     children?: React.ReactNode;
     label?: string;
+    className?: string;
 }
 
-function Transparent({ onClick, children }: IButtonProps) {
+function Transparent({ onClick, children, className }: IButtonProps) {
     return (
         <button
-            className="p-2 hover:bg-zinc-300 transition-all flex items-center justify-center rounded-lg"
+            className={`p-2 hover:bg-zinc-300 transition-all flex items-center justify-center rounded-lg ${className}`}
             onClick={onClick}
         >
             {children}
@@ -23,7 +24,6 @@ interface PrimaryButtonProps extends IButtonProps {
     hollow?: boolean;
     icon?: IconName;
     loading?: boolean;
-    className?: string;
 }
 
 function Primary({

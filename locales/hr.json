@@ -59,7 +59,9 @@
         "long-term-price-description": "Cijena mjesečne rente u €."
     },
     "Map": {
-        "search": "Traži"
+        "search": "Traži",
+        "per-night": "noćenje",
+        "per-month": "mjesečno"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

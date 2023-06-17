@@ -59,7 +59,9 @@
         "long-term-price-description": "Price of the monthly rent in €."
     },
     "Map": {
-        "search": "Search"
+        "search": "Search",
+        "per-night": "per night",
+        "per-month": "per month"
     },
     "ErrorCodes": {
         "too_small": "Too short",
