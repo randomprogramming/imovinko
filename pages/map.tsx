@@ -10,6 +10,8 @@ import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { Marker } from "react-map-gl";
+import { Carousel } from "react-responsive-carousel";
+import Image from "next/image";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -79,6 +81,16 @@ export default function MapScreen() {
         setOpenProperty(p);
     }
 
+    function getPropertyMedia(p: ListingOnMap) {
+        if (p.apartment) {
+            return p.apartment.media;
+        } else if (p.house) {
+            return p.house.media;
+        } else {
+            return p.land!.media;
+        }
+    }
+
     function getPriceString(p: ListingOnMap) {
         if (p.offeringType === OfferingType.shortTermRent) {
             return ` ${t("per-night")}`;
@@ -103,8 +115,8 @@ export default function MapScreen() {
                     >
                         {openProperty && (
                             <div className="flex-1 flex flex-col">
-                                <div className="relative">
-                                    <div className="absolute top-1 left-1">
+                                <div className="relative h-52">
+                                    <div className="absolute top-1 left-1 z-50">
                                         <Button.Transparent
                                             className="group hover:bg-zinc-700"
                                             onClick={() => {
@@ -118,11 +130,7 @@ export default function MapScreen() {
                                             />
                                         </Button.Transparent>
                                     </div>
-                                    <img
-                                        src={openProperty.apartment?.media.at(0)?.url}
-                                        className="rounded-lg"
-                                    />
-                                    <div className="absolute top-1 right-1">
+                                    <div className="absolute top-1 right-1 z-50">
                                         <Button.Transparent
                                             className="group hover:bg-zinc-700"
                                             onClick={() => setOpenProperty(null)}
@@ -130,6 +138,74 @@ export default function MapScreen() {
                                             <Icon name="close" className="group-hover:fill-white" />
                                         </Button.Transparent>
                                     </div>
+                                    {/*  // TODO: If theres only one image, hide the arros and hide the little select circles beneath */}
+                                    <Carousel
+                                        autoPlay={false}
+                                        infiniteLoop={true}
+                                        showThumbs={false}
+                                        showStatus={false}
+                                        swipeable={true}
+                                        emulateTouch={true}
+                                        className="rounded-lg overflow-hidden"
+                                        renderArrowPrev={(onClickHandler) => {
+                                            return (
+                                                <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
+                                                    <button
+                                                        onClick={onClickHandler}
+                                                        className="rounded-full p-1.5"
+                                                    >
+                                                        <div className="rounded-full bg-white p-1 w-full">
+                                                            <Icon
+                                                                name="left"
+                                                                height={20}
+                                                                width={20}
+                                                            />
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            );
+                                        }}
+                                        renderArrowNext={(onClickHandler) => {
+                                            return (
+                                                <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
+                                                    <button
+                                                        onClick={onClickHandler}
+                                                        className="rounded-full p-1.5"
+                                                    >
+                                                        <div className="rounded-full bg-white p-1 w-full">
+                                                            <Icon
+                                                                name="right"
+                                                                height={20}
+                                                                width={20}
+                                                            />
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            );
+                                        }}
+                                    >
+                                        {getPropertyMedia(openProperty).map((m) => {
+                                            return (
+                                                <div
+                                                    key={m.url}
+                                                    className="select-none relative min-w-full"
+                                                    style={{
+                                                        height: "30vh",
+                                                        maxHeight: "512px",
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src={m.url}
+                                                        alt="media image"
+                                                        fill
+                                                        style={{
+                                                            objectFit: "cover",
+                                                        }}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                    </Carousel>
                                 </div>
                                 <div className="border-b-2 border-zinc-300 pb-2">
                                     <Typography variant="h1" className="mt-2">
