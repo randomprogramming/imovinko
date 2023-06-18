@@ -68,5 +68,11 @@
         "not_matching": "Lozinke se ne podudaraju",
         "invalid_email": "Neispravan e-mail",
         "unknown": "Nepoznata greška"
+    },
+    "ListingPage": {
+        "per-night": "noćenje",
+        "per-month": "mjesečno",
+        "listing-by": "Oglasivač",
+        "location": "Lokacija nekretnine"
     }
 }

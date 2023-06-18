@@ -17,6 +17,9 @@ interface MapProps {
     onCenterChange?(coords: Coordinates): void;
     onBoundsChange?(bounds: mapboxgl.LngLatBounds): void;
     children?: React.ReactNode;
+    centerLat?: number;
+    centerLon?: number;
+    zoom?: number;
 }
 export default function Map({
     className,
@@ -26,6 +29,9 @@ export default function Map({
     showSearchBox,
     onBoundsChange,
     children,
+    centerLat,
+    centerLon,
+    zoom,
 }: MapProps) {
     const t = useTranslations("Map");
 
@@ -75,9 +81,9 @@ export default function Map({
                 ref={map}
                 mapLib={mapboxgl}
                 initialViewState={{
-                    longitude: 15.9819,
-                    latitude: 45.815,
-                    zoom: 10,
+                    longitude: centerLon || 15.9819,
+                    latitude: centerLat || 45.815,
+                    zoom: zoom || 10,
                 }}
                 style={{
                     height: "100%",

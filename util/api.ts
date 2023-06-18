@@ -157,7 +157,7 @@ export async function uploadMedia(images: File[]): Promise<string[]> {
 
 interface PatchPropertyMediaData {
     id: string;
-    listinFor: ListingFor;
+    listingFor: ListingFor;
     media: string[];
 }
 export async function patchPropertyMedia(data: PatchPropertyMediaData) {
@@ -202,7 +202,9 @@ export async function findListingsByBoundingBox(boundingBox: BoundingBox) {
         },
     });
 }
-
+export interface Media {
+    url: string;
+}
 export interface Apartment {
     id: string;
     latitude: number;
@@ -211,13 +213,7 @@ export interface Apartment {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: {
-        id: string;
-        firstName?: string;
-        lastName?: string;
-        username?: string;
-        createdAt: string | Date;
-    };
+    owner: Omit<Account, "email">;
     media: {
         url: string;
     }[];
@@ -230,13 +226,7 @@ export interface House {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: {
-        id: string;
-        firstName?: string;
-        lastName?: string;
-        username?: string;
-        createdAt: string | Date;
-    };
+    owner: Omit<Account, "email">;
     media: {
         url: string;
     }[];
@@ -249,16 +239,8 @@ interface Land {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: {
-        id: string;
-        firstName?: string;
-        lastName?: string;
-        username?: string;
-        createdAt: string | Date;
-    };
-    media: {
-        url: string;
-    }[];
+    owner: Omit<Account, "email">;
+    media: Media[];
 }
 export interface Listing {
     id: string;

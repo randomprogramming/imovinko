@@ -68,5 +68,11 @@
         "not_matching": "Passwords do not match",
         "invalid_email": "Invalid e-mail",
         "unknown": "Unknown error"
+    },
+    "ListingPage": {
+        "per-night": "per night",
+        "per-month": "per month",
+        "listing-by": "Listing by",
+        "location": "Property Location"
     }
 }

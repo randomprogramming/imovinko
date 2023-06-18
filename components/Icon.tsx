@@ -17,7 +17,8 @@ export type IconName =
     | "heart"
     | "close"
     | "left"
-    | "right";
+    | "right"
+    | "area";
 
 interface IconProps {
     name: IconName;
@@ -730,6 +731,24 @@ export default function Icon({ name, height, width, className }: IconProps) {
                             d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"
                             fill="#000000"
                         ></path>
+                    </g>
+                </svg>
+            );
+        case "area":
+            return (
+                <svg
+                    fill="#000000"
+                    width={width || DEFAULT_W}
+                    className={className}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.002 14H5V5h14l.002 14z"></path>
+                        <path d="M15 12h2V7h-5v2h3zm-3 3H9v-3H7v5h5z"></path>
                     </g>
                 </svg>
             );
