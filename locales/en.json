@@ -56,12 +56,17 @@
         "sale-price": "Price",
         "sale-price-description": "Price of the apartment in €.",
         "short-term-price-description": "Price of the apartment per night in €.",
-        "long-term-price-description": "Price of the monthly rent in €."
+        "long-term-price-description": "Price of the monthly rent in €.",
+        "description": "Description",
+        "sale-description-description": "Description to be shown on the apartment sale page.",
+        "short-term-rent-description": "Description to be shown on the apartment short term rent page.",
+        "long-term-rent-description": "Description to be shown on the apartment long term rent page."
     },
     "Map": {
         "search": "Search",
         "per-night": "per night",
-        "per-month": "per month"
+        "per-month": "per month",
+        "more-details": "More details"
     },
     "ErrorCodes": {
         "too_small": "Too short",

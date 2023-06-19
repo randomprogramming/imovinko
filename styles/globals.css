@@ -12,3 +12,13 @@ body,
     background-color: #ececec;
     color: #222222;
 }
+
+.mapboxgl-popup-tip {
+    display: none !important;
+}
+
+.mapboxgl-popup-content {
+    padding: 0 !important;
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+}

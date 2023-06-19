@@ -9,7 +9,7 @@ import type { LngLatBounds } from "mapbox-gl";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import { Marker } from "react-map-gl";
+import { Marker, Popup } from "react-map-gl";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
 
@@ -70,17 +70,6 @@ export default function MapScreen() {
         }
     }
 
-    function setOpenPropertyWithDelay(p: ListingOnMap) {
-        if (openProperty) {
-            setOpenProperty(null);
-            setTimeout(() => {
-                setOpenProperty(p);
-            }, 200);
-            return;
-        }
-        setOpenProperty(p);
-    }
-
     function getPropertyMedia(p: ListingOnMap) {
         if (p.apartment) {
             return p.apartment.media;
@@ -99,6 +88,21 @@ export default function MapScreen() {
         }
     }
 
+    function onPropertyOpen(p: ListingOnMap) {
+        if (openProperty) {
+            setOpenProperty(null);
+            setTimeout(() => {
+                setOpenProperty(p);
+            }, 200);
+        } else {
+            setOpenProperty(p);
+        }
+    }
+
+    function onPropertyClose() {
+        setOpenProperty(null);
+    }
+
     return (
         <>
             <header className="z-30">
@@ -106,108 +110,108 @@ export default function MapScreen() {
             </header>
             <main className="absolute w-screen h-screen flex">
                 <Map className="flex-1" onBoundsChange={onMapBoundsChange}>
-                    <div
-                        className={`absolute z-40 right-14 ${
-                            openProperty
-                                ? "top-24 visible flex flex-col"
-                                : "top-full invisible hidden"
-                        } transition-all duration-300 bottom-10 bg-zinc-100 w-0 hidden rounded-2xl shadow-xl md:flex md:w-1/3 lg:w-1/4 py-2 px-2`}
-                    >
-                        {openProperty && (
-                            <div className="flex-1 flex flex-col">
-                                <div className="relative h-52">
-                                    <div className="absolute top-1 left-1 z-50">
-                                        <Button.Transparent
-                                            className="group hover:bg-zinc-700"
-                                            onClick={() => {
-                                                // TODO: Implement
-                                                console.log("Implement me");
-                                            }}
-                                        >
-                                            <Icon
-                                                name="heart"
-                                                className="group-hover:stroke-white"
-                                            />
-                                        </Button.Transparent>
-                                    </div>
-                                    <div className="absolute top-1 right-1 z-50">
-                                        <Button.Transparent
-                                            className="group hover:bg-zinc-700"
-                                            onClick={() => setOpenProperty(null)}
-                                        >
-                                            <Icon name="close" className="group-hover:fill-white" />
-                                        </Button.Transparent>
-                                    </div>
-                                    {/*  // TODO: If theres only one image, hide the arros and hide the little select circles beneath */}
-                                    <Carousel
-                                        autoPlay={false}
-                                        infiniteLoop={true}
-                                        showThumbs={false}
-                                        showStatus={false}
-                                        swipeable={true}
-                                        emulateTouch={true}
-                                        className="rounded-lg overflow-hidden"
-                                        renderArrowPrev={(onClickHandler) => {
-                                            return (
-                                                <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
-                                                    <button
-                                                        onClick={onClickHandler}
-                                                        className="rounded-full p-1.5"
-                                                    >
-                                                        <div className="rounded-full bg-white p-1 w-full">
-                                                            <Icon
-                                                                name="left"
-                                                                height={20}
-                                                                width={20}
-                                                            />
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            );
-                                        }}
-                                        renderArrowNext={(onClickHandler) => {
-                                            return (
-                                                <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
-                                                    <button
-                                                        onClick={onClickHandler}
-                                                        className="rounded-full p-1.5"
-                                                    >
-                                                        <div className="rounded-full bg-white p-1 w-full">
-                                                            <Icon
-                                                                name="right"
-                                                                height={20}
-                                                                width={20}
-                                                            />
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            );
+                    {openProperty && (
+                        <Popup
+                            closeButton={false}
+                            style={{
+                                padding: 0,
+                                width: "40vw",
+                                maxWidth: "540px",
+                            }}
+                            anchor="top"
+                            latitude={getPropertyLat(openProperty)}
+                            longitude={getPropertyLng(openProperty)}
+                            onClose={() => setOpenProperty(null)}
+                            closeOnClick={false}
+                            className={`${
+                                openProperty ? "opacity-100" : "opacity-0"
+                            } transition-all duration-300`}
+                        >
+                            <div className="w-full relative">
+                                <div className="absolute top-2 left-2 z-50">
+                                    <Button.Transparent
+                                        className="group bg-white hover:bg-zinc-200 !p-1.5"
+                                        onClick={() => {
+                                            // TODO: Implement
+                                            console.log("Implement me");
                                         }}
                                     >
-                                        {getPropertyMedia(openProperty).map((m) => {
-                                            return (
-                                                <div
-                                                    key={m.url}
-                                                    className="select-none relative min-w-full"
-                                                    style={{
-                                                        height: "30vh",
-                                                        maxHeight: "512px",
-                                                    }}
-                                                >
-                                                    <Image
-                                                        src={m.url}
-                                                        alt="media image"
-                                                        fill
-                                                        style={{
-                                                            objectFit: "cover",
-                                                        }}
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    </Carousel>
+                                        <Icon name="heart" height={20} width={20} />
+                                    </Button.Transparent>
                                 </div>
-                                <div className="border-b-2 border-zinc-300 pb-2">
+                                <div className="absolute top-2 right-2 z-50">
+                                    <Button.Transparent
+                                        className="group bg-white hover:bg-zinc-200 !p-1.5"
+                                        onClick={() => onPropertyClose()}
+                                    >
+                                        <Icon name="close" height={20} width={20} />
+                                    </Button.Transparent>
+                                </div>
+                                <Carousel
+                                    autoPlay={false}
+                                    infiniteLoop={true}
+                                    showThumbs={false}
+                                    showStatus={false}
+                                    swipeable={true}
+                                    emulateTouch={true}
+                                    className="w-full"
+                                    renderArrowPrev={(onClickHandler) => {
+                                        return (
+                                            <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
+                                                <button
+                                                    onClick={onClickHandler}
+                                                    className="rounded-full p-1.5 group"
+                                                >
+                                                    <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                        <Icon name="left" height={20} width={20} />
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        );
+                                    }}
+                                    renderArrowNext={(onClickHandler) => {
+                                        return (
+                                            <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
+                                                <button
+                                                    onClick={onClickHandler}
+                                                    className="rounded-full p-1.5 group"
+                                                >
+                                                    <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                        <Icon name="right" height={20} width={20} />
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        );
+                                    }}
+                                >
+                                    {getPropertyMedia(openProperty).map((m) => {
+                                        return (
+                                            <div
+                                                key={m.url}
+                                                className="select-none relative min-w-full"
+                                                style={{
+                                                    height: "30vh",
+                                                    maxHeight: "512px",
+                                                }}
+                                            >
+                                                <Image
+                                                    src={m.url}
+                                                    alt="media image"
+                                                    fill
+                                                    style={{
+                                                        objectFit: "cover",
+                                                    }}
+                                                    // Since this is just a thumbnail, we can lower the quality
+                                                    quality={30}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </Carousel>
+                            </div>
+
+                            <div className="pb-4 px-4">
+                                <div className="pb-1">
                                     <Typography variant="h1" className="mt-2">
                                         {openProperty.price.toLocaleString()} €{" "}
                                         <span className="text-sm font-normal">
@@ -220,16 +224,16 @@ export default function MapScreen() {
                                     <Typography variant="h2" className="my-2">
                                         {openProperty.title}
                                     </Typography>
-                                    <Typography>Description TODO: Implement me!!</Typography>
                                 </div>
                                 <div>
                                     <Link to={`/listing/${openProperty.id}`}>
-                                        <Button.Primary label={"hello world"} />
+                                        <Button.Primary label={t("more-details")} />
                                     </Link>
                                 </div>
                             </div>
-                        )}
-                    </div>
+                        </Popup>
+                    )}
+
                     <div className="relative">
                         {properties.map((p) => {
                             return (
@@ -242,9 +246,8 @@ export default function MapScreen() {
                                         zIndex: hoveredProperty === p.id ? "30" : "10",
                                         cursor: "pointer",
                                     }}
-                                    onClick={() => setOpenPropertyWithDelay(p)}
+                                    onClick={() => onPropertyOpen(p)}
                                 >
-                                    {/* <Pin /> */}
                                     <div
                                         className="p-1 group"
                                         onMouseEnter={() => {
@@ -256,7 +259,7 @@ export default function MapScreen() {
                                             }
                                         }}
                                     >
-                                        <div className="bg-white p-1 rounded-xl group-hover:px-2 group-hover:py-1.5 transition-all shadow-lg border border-zinc-300">
+                                        <div className="bg-white p-1 rounded-xl group-hover:px-2 group-hover:py-1.5 transition-all shadow-sm border border-zinc-300">
                                             <Typography className="text-sm">
                                                 {p.price.toLocaleString()} €
                                             </Typography>

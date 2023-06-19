@@ -56,12 +56,17 @@
         "sale-price": "Cijena",
         "sale-price-description": "Cijena stana izražena u €.",
         "short-term-price-description": "Cijena noćenja u €.",
-        "long-term-price-description": "Cijena mjesečne rente u €."
+        "long-term-price-description": "Cijena mjesečne rente u €.",
+        "description": "Opis",
+        "sale-description-description": "Opis koji će se prikazati na oglasu za prodaju apartmana.",
+        "short-term-rent-description": "Opis koji će se prikazati na oglasu za kratkotrajno iznajmljivanje.",
+        "long-term-rent-description": "Opis koji će se prikazati na oglasu za dugoročno iznajmljivanje."
     },
     "Map": {
         "search": "Traži",
         "per-night": "noćenje",
-        "per-month": "mjesečno"
+        "per-month": "mjesečno",
+        "more-details": "Više detalja"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

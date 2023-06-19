@@ -84,14 +84,17 @@ interface CreateListingData {
     isForSale?: boolean;
     saleListingTitle?: string;
     saleListingPrice?: number;
+    saleListingDescription?: string;
 
     isForShortTermRent?: boolean;
     shortTermListingTitle?: string;
     shortTermListingPrice?: number;
+    shortTermListingDescription?: string;
 
     isForLongTermRent?: boolean;
     longTermListingTitle?: string;
     longTermListingPrice?: number;
+    longTermListingDescription?: string;
 
     lat: number;
     lon: number;
@@ -188,6 +191,7 @@ export interface ListingOnMap {
     id: string;
     title: string;
     price: number;
+    description: string;
     apartment: BasicProperty | null;
     house: BasicProperty | null;
     land: BasicProperty | null;
@@ -245,6 +249,7 @@ interface Land {
 export interface Listing {
     id: string;
     title: string;
+    description: string;
     offeringType: OfferingType;
     price: number;
     houseId: string | null;

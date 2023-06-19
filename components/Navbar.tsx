@@ -63,7 +63,7 @@ function AuthDropdown() {
                         <div className="space-y-2">
                             <Link
                                 to="/list"
-                                className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all p-2 rounded-lg cursor-pointer"
+                                className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
                             >
                                 <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
                                     {t("submit-ad")}
@@ -76,7 +76,7 @@ function AuthDropdown() {
 
                             <button
                                 onClick={logout}
-                                className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all p-2 rounded-lg cursor-pointer"
+                                className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
                             >
                                 <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
                                     {t("logout")}

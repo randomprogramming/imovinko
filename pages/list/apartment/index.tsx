@@ -60,12 +60,15 @@ export default function ListApartment() {
     const [isForSale, setIsForSale] = useState(false);
     const [saleListingTitle, setSaleListingTitle] = useState("");
     const [saleListingPrice, setSaleListingPrice] = useState<number>();
+    const [saleListingDescription, setSaleListingDescription] = useState<string>("");
     const [isForShortTermRent, setIsForShortTermRent] = useState(false);
     const [shortTermListingTitle, setShortTermListingTitle] = useState("");
     const [shortTermListingPrice, setShortTermListingPrice] = useState<number>();
+    const [shortTermListingDescription, setShortTermListingDescription] = useState<string>("");
     const [isForLongTermRent, setIsForLongTermRent] = useState(false);
     const [longTermListingTitle, setLongTermListingTitle] = useState("");
     const [longTermListingPrice, setLongTermListingPrice] = useState<number>();
+    const [longTermListingDescription, setLongTermListingDescription] = useState<string>("");
     const [location, setLocation] = useState({
         lat: 0,
         lon: 0,
@@ -81,13 +84,28 @@ export default function ListApartment() {
             let listingData = {};
 
             if (isForSale) {
-                listingData = { ...listingData, saleListingPrice, saleListingTitle };
+                listingData = {
+                    ...listingData,
+                    saleListingPrice,
+                    saleListingTitle,
+                    saleListingDescription,
+                };
             }
             if (isForShortTermRent) {
-                listingData = { ...listingData, shortTermListingPrice, shortTermListingTitle };
+                listingData = {
+                    ...listingData,
+                    shortTermListingPrice,
+                    shortTermListingTitle,
+                    shortTermListingDescription,
+                };
             }
             if (isForLongTermRent) {
-                listingData = { ...listingData, longTermListingPrice, longTermListingTitle };
+                listingData = {
+                    ...listingData,
+                    longTermListingPrice,
+                    longTermListingTitle,
+                    longTermListingDescription,
+                };
             }
             const resp = await createListing({
                 area,
@@ -197,6 +215,20 @@ export default function ListApartment() {
                                 </RowItem>
                             </FlexRow>
                             <FlexRow hideBottomBorder>
+                                <TitleCol title={t("description")}>
+                                    {t("sale-description-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={saleListingDescription}
+                                        onChange={(val) => {
+                                            setSaleListingDescription(val);
+                                        }}
+                                        type="textarea"
+                                    />
+                                </RowItem>
+                            </FlexRow>
+                            <FlexRow hideBottomBorder>
                                 <TitleCol title={t("sale-price")}>
                                     {t("sale-price-description")}
                                 </TitleCol>
@@ -233,6 +265,20 @@ export default function ListApartment() {
                                 </RowItem>
                             </FlexRow>
                             <FlexRow hideBottomBorder>
+                                <TitleCol title={t("description")}>
+                                    {t("short-term-rent-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={shortTermListingDescription}
+                                        onChange={(val) => {
+                                            setShortTermListingDescription(val);
+                                        }}
+                                        type="textarea"
+                                    />
+                                </RowItem>
+                            </FlexRow>
+                            <FlexRow hideBottomBorder>
                                 <TitleCol title={t("sale-price")}>
                                     {t("short-term-price-description")}
                                 </TitleCol>
@@ -265,6 +311,20 @@ export default function ListApartment() {
                                         value={longTermListingTitle}
                                         onChange={setLongTermListingTitle}
                                         placeholder={t("ad-title-placeholder")}
+                                    />
+                                </RowItem>
+                            </FlexRow>
+                            <FlexRow hideBottomBorder>
+                                <TitleCol title={t("description")}>
+                                    {t("long-term-rent-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={longTermListingDescription}
+                                        onChange={(val) => {
+                                            setLongTermListingDescription(val);
+                                        }}
+                                        type="textarea"
                                     />
                                 </RowItem>
                             </FlexRow>

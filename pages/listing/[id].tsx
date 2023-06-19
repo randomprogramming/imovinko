@@ -29,7 +29,7 @@ function IconRow({ listing }: IconRowProps) {
     if (listing.apartment) {
         return (
             <div className="flex flex-row">
-                <div className="flex flex-row">
+                <div className="flex flex-row space-x-2">
                     <Icon name="area" />
                     <Typography>{listing.apartment.surfaceArea} m²</Typography>
                 </div>
@@ -38,7 +38,7 @@ function IconRow({ listing }: IconRowProps) {
     } else if (listing.house) {
         return (
             <div className="flex flex-row">
-                <div className="flex flex-row">
+                <div className="flex flex-row space-x-2">
                     <Icon name="area" />
                     <Typography>{listing.house.surfaceArea} m²</Typography>
                 </div>
@@ -47,7 +47,7 @@ function IconRow({ listing }: IconRowProps) {
     } else if (listing.land) {
         return (
             <div className="flex flex-row">
-                <div className="flex flex-row">
+                <div className="flex flex-row space-x-2">
                     <Icon name="area" />
                     <Typography>{listing.land.surfaceArea} m²</Typography>
                 </div>
@@ -303,7 +303,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             </header>
             <main className="flex-1 space-y-8">
                 <section className="flex flex-col lg:flex-row container mx-auto mt-8">
-                    <div className="flex-1 flex flex-col w-1/2">
+                    <div className="flex-1 flex flex-col w-1/2 pr-6">
                         <div>
                             <Typography variant="h1">{listing.title}</Typography>
                             <Typography variant="secondary" uppercase>
@@ -322,7 +322,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <IconRow listing={listing} />
                         </div>
                         <div className="mt-4">
-                            <Typography>Description goes here</Typography>
+                            <Typography>{listing.description}</Typography>
                         </div>
                     </div>
                     <div className="flex-1 flex flex-col w-1/2">

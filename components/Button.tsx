@@ -12,7 +12,7 @@ interface IButtonProps {
 function Transparent({ onClick, children, className }: IButtonProps) {
     return (
         <button
-            className={`p-2 hover:bg-zinc-300 transition-all flex items-center justify-center rounded-lg ${className}`}
+            className={`outline-none p-2 hover:bg-zinc-300 transition-all flex items-center justify-center rounded-lg ${className}`}
             onClick={onClick}
         >
             {children}
@@ -37,7 +37,7 @@ function Primary({
 }: PrimaryButtonProps) {
     return (
         <button
-            className={`p-2 hover:bg-zinc-800 disabled:bg-zinc-600 ${
+            className={`outline-none p-2 hover:bg-zinc-800 disabled:bg-zinc-600 ${
                 hollow
                     ? "text-zinc-900 hover:text-white bg-transparent border-2 border-zinc-900"
                     : "text-white bg-zinc-900 shadow-md"
