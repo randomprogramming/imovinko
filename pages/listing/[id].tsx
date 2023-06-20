@@ -296,6 +296,53 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return "";
     }
 
+    function getPropertyLocationString(p: Listing) {
+        let region: string | null = null;
+        let city: string | null = null;
+        let street: string | null = null;
+        let address: string | null = null;
+
+        if (p.apartment) {
+            region = p.apartment.region;
+            city = p.apartment.city;
+            street = p.apartment.street;
+            address = p.apartment.address;
+        } else if (p.house) {
+            region = p.house.region;
+            city = p.house.city;
+            street = p.house.street;
+            address = p.house.address;
+        } else {
+            region = p.land!.region;
+            city = p.land!.city;
+            street = p.land!.street;
+        }
+
+        let locationStr = "";
+        if (street) {
+            locationStr += street;
+            if (address) {
+                locationStr += ` ${address}`;
+            }
+        }
+        if (city) {
+            if (locationStr.length > 0) {
+                locationStr += `, ${city}`;
+            } else {
+                locationStr += city;
+            }
+        }
+        if (region) {
+            if (locationStr.length > 0) {
+                locationStr += `, ${region}`;
+            } else {
+                locationStr += region;
+            }
+        }
+
+        return locationStr;
+    }
+
     return (
         <>
             <header>
@@ -307,7 +354,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         <div>
                             <Typography variant="h1">{listing.title}</Typography>
                             <Typography variant="secondary" uppercase>
-                                Zagreb, Grad Zagreb
+                                {getPropertyLocationString(listing)}
                             </Typography>
                         </div>
                         <div className="mt-1">

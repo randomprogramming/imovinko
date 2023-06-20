@@ -180,7 +180,7 @@ interface BoundingBox {
     selng: number;
     selat: number;
 }
-interface BasicProperty {
+interface BasicProperty extends PropertyLocation {
     latitude: number;
     longitude: number;
     media: {
@@ -206,10 +206,18 @@ export async function findListingsByBoundingBox(boundingBox: BoundingBox) {
         },
     });
 }
+export interface PropertyLocation {
+    country: string | null;
+    region: string | null; // županija
+    city: string | null;
+    postcode: string | null;
+    street: string | null;
+    address: string | null;
+}
 export interface Media {
     url: string;
 }
-export interface Apartment {
+export interface Apartment extends PropertyLocation {
     id: string;
     latitude: number;
     longitude: number;
@@ -222,7 +230,7 @@ export interface Apartment {
         url: string;
     }[];
 }
-export interface House {
+export interface House extends PropertyLocation {
     id: string;
     latitude: number;
     longitude: number;
@@ -235,7 +243,7 @@ export interface House {
         url: string;
     }[];
 }
-interface Land {
+interface Land extends PropertyLocation {
     id: string;
     latitude: number;
     longitude: number;

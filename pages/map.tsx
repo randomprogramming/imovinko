@@ -103,6 +103,47 @@ export default function MapScreen() {
         setOpenProperty(null);
     }
 
+    function getPropertyLocationString(p: ListingOnMap) {
+        let region: string | null = null;
+        let city: string | null = null;
+        let street: string | null = null;
+
+        if (p.apartment) {
+            region = p.apartment.region;
+            city = p.apartment.city;
+            street = p.apartment.street;
+        } else if (p.house) {
+            region = p.house.region;
+            city = p.house.city;
+            street = p.house.street;
+        } else {
+            region = p.land!.region;
+            city = p.land!.city;
+            street = p.land!.street;
+        }
+
+        let locationStr = "";
+        if (street) {
+            locationStr += street;
+        }
+        if (city) {
+            if (locationStr.length > 0) {
+                locationStr += `, ${city}`;
+            } else {
+                locationStr += city;
+            }
+        }
+        if (region) {
+            if (locationStr.length > 0) {
+                locationStr += `, ${region}`;
+            } else {
+                locationStr += region;
+            }
+        }
+
+        return locationStr;
+    }
+
     return (
         <>
             <header className="z-30">
@@ -218,7 +259,11 @@ export default function MapScreen() {
                                             {getPriceString(openProperty)}
                                         </span>
                                     </Typography>
-                                    <div>Address</div>
+                                    <div>
+                                        <Typography variant="secondary" uppercase>
+                                            {getPropertyLocationString(openProperty)}
+                                        </Typography>
+                                    </div>
                                 </div>
                                 <div className="flex-1">
                                     <Typography variant="h2" className="my-2">
