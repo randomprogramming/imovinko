@@ -99,6 +99,10 @@ interface CreateListingData {
     lat: number;
     lon: number;
     area: number;
+
+    bedroomCount?: number | null;
+    bathroomCount?: number | null;
+    parkingSpaceCount?: number | null;
 }
 interface CreateListingResponse {
     id: string;
@@ -229,6 +233,9 @@ export interface Apartment extends PropertyLocation {
     media: {
         url: string;
     }[];
+    bedroomCount: number | null;
+    bathroomCount: number | null;
+    parkingSpaceCount: number | null;
 }
 export interface House extends PropertyLocation {
     id: string;
@@ -242,6 +249,9 @@ export interface House extends PropertyLocation {
     media: {
         url: string;
     }[];
+    bedroomCount: number | null;
+    bathroomCount: number | null;
+    parkingSpaceCount: number | null;
 }
 interface Land extends PropertyLocation {
     id: string;

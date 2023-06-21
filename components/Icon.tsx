@@ -18,7 +18,10 @@ export type IconName =
     | "close"
     | "left"
     | "right"
-    | "area";
+    | "area"
+    | "bed"
+    | "bath"
+    | "car";
 
 interface IconProps {
     name: IconName;
@@ -749,6 +752,86 @@ export default function Icon({ name, height, width, className }: IconProps) {
                     <g>
                         <path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.002 14H5V5h14l.002 14z"></path>
                         <path d="M15 12h2V7h-5v2h3zm-3 3H9v-3H7v5h5z"></path>
+                    </g>
+                </svg>
+            );
+        case "bed":
+            return (
+                <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 32 32"
+                    enable-background="new 0 0 32 32"
+                    width={width || DEFAULT_W}
+                    className={className}
+                    height={height || DEFAULT_H}
+                    fill="#000000"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path
+                            fill="none"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeMiterlimit="10"
+                            d="M28,16V9c0-1.1-0.9-2-2-2H6C4.9,7,4,7.9,4,9v7"
+                        ></path>
+                        <path
+                            fill="none"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeMiterlimit="10"
+                            d="M8,16v-2c0-1.1,0.9-2,2-2h4c1.1,0,2,0.9,2,2v2"
+                        ></path>
+                        <path
+                            fill="none"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeMiterlimit="10"
+                            d="M16,16v-2c0-1.1,0.9-2,2-2h4c1.1,0,2,0.9,2,2v2"
+                        ></path>
+                        <path
+                            fill="none"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeMiterlimit="10"
+                            d="M3,18v8h3v-2h20v2h3v-8c0-1.1-0.9-2-2-2H5 C3.9,16,3,16.9,3,18z"
+                        ></path>
+                    </g>
+                </svg>
+            );
+        case "bath":
+            return (
+                <svg
+                    fill="#000000"
+                    width={width || DEFAULT_W}
+                    className={className}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path d="M22,12H5V5A2,2,0,0,1,7,3H9a2,2,0,0,1,1.838,1.214A3.5,3.5,0,0,0,8.5,7.5V9a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V7.5a3.5,3.5,0,0,0-2.6-3.368A4,4,0,0,0,9,1H7A4,4,0,0,0,3,5v7H2a1,1,0,0,0,0,2H3v4a3,3,0,0,0,2,2.816V22a1,1,0,0,0,2,0V21H17v1a1,1,0,0,0,2,0V20.816A3,3,0,0,0,21,18V14h1a1,1,0,0,0,0-2ZM13.5,7.5V8h-3V7.5a1.5,1.5,0,0,1,3,0ZM19,18a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14H19Z"></path>
+                    </g>
+                </svg>
+            );
+        case "car":
+            return (
+                <svg
+                    fill="#000000"
+                    width={width || DEFAULT_W}
+                    className={className}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path d="M20,10h-.341L17.18,4.214A2,2,0,0,0,15.341,3H4.754A2.008,2.008,0,0,0,2.831,4.451L1.038,10.726a1.019,1.019,0,0,0-.005.111A.889.889,0,0,0,1,11v5a2,2,0,0,0,2,2h.142a3.981,3.981,0,0,0,7.716,0h2.284a3.981,3.981,0,0,0,7.716,0H21a2,2,0,0,0,2-2V13A3,3,0,0,0,20,10ZM12,5h3.341l2.142,5H12ZM4.754,5H10v5H3.325ZM7,19a2,2,0,1,1,2-2A2,2,0,0,1,7,19Zm10,0a2,2,0,1,1,2-2A2,2,0,0,1,17,19Zm4-3h-.142a3.981,3.981,0,0,0-7.716,0H10.858a3.981,3.981,0,0,0-7.716,0H3V12H20a1,1,0,0,1,1,1Z"></path>
                     </g>
                 </svg>
             );

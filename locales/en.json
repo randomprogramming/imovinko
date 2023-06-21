@@ -60,7 +60,13 @@
         "description": "Description",
         "sale-description-description": "Description to be shown on the apartment sale page.",
         "short-term-rent-description": "Description to be shown on the apartment short term rent page.",
-        "long-term-rent-description": "Description to be shown on the apartment long term rent page."
+        "long-term-rent-description": "Description to be shown on the apartment long term rent page.",
+        "bedroom-count": "Number of bedrooms",
+        "bedroom-count-description": "Total number of bedrooms in the apartment",
+        "bathroom-count": "Number of bathrooms",
+        "bathroom-count-description": "Total number of bathrooms in the apartment",
+        "parking-count": "Number of parking spaces",
+        "parking-count-description": "Number of parking spaces which belong to the apartment"
     },
     "Map": {
         "search": "Search",
@@ -78,6 +84,10 @@
         "per-night": "per night",
         "per-month": "per month",
         "listing-by": "Listing by",
-        "location": "Property Location"
+        "location": "Property Location",
+        "area": "Surface Area",
+        "bedrooms": "Bedrooms",
+        "bathrooms": "Bathrooms",
+        "parking-spaces": "Parking Spaces"
     }
 }

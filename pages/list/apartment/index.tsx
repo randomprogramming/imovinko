@@ -75,6 +75,9 @@ export default function ListApartment() {
     });
     const [area, setArea] = useState(0);
     const [images, setImages] = useState<File[]>([]);
+    const [bedroomCount, setBedroomCount] = useState<number | null>();
+    const [bathroomCount, setBathroomCount] = useState<number | null>();
+    const [parkingSpaceCount, setParkingSpaceCount] = useState<number | null>();
 
     async function submitAd() {
         try {
@@ -115,6 +118,9 @@ export default function ListApartment() {
                 isForLongTermRent,
                 isForShortTermRent,
                 isForSale,
+                bathroomCount,
+                bedroomCount,
+                parkingSpaceCount,
                 ...listingData,
             });
 
@@ -343,6 +349,51 @@ export default function ListApartment() {
                                     />
                                 </RowItem>
                             </FlexRow>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("bedroom-count")}>
+                                {t("bedroom-count-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={bedroomCount || ""}
+                                    onChange={(val) => {
+                                        setBedroomCount(parseInt(val));
+                                    }}
+                                    type="number"
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("bathroom-count")}>
+                                {t("bathroom-count-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={bathroomCount || ""}
+                                    onChange={(val) => {
+                                        setBathroomCount(parseInt(val));
+                                    }}
+                                    type="number"
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("parking-count")}>
+                                {t("parking-count-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={parkingSpaceCount || ""}
+                                    onChange={(val) => {
+                                        setParkingSpaceCount(parseInt(val));
+                                    }}
+                                    type="number"
+                                />
+                            </RowItem>
                         </FlexRow>
 
                         <FlexRow singleCol noPadding>

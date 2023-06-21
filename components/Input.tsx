@@ -38,7 +38,7 @@ interface InputProps extends CheckBoxInputProps {
     type?: React.HTMLInputTypeAttribute;
     placeholder?: string;
     onChange?(newVal: string): void;
-    value?: string;
+    value?: string | number;
     small?: boolean;
     hasError?: boolean;
     errorMsg?: string;

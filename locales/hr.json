@@ -60,7 +60,13 @@
         "description": "Opis",
         "sale-description-description": "Opis koji će se prikazati na oglasu za prodaju apartmana.",
         "short-term-rent-description": "Opis koji će se prikazati na oglasu za kratkotrajno iznajmljivanje.",
-        "long-term-rent-description": "Opis koji će se prikazati na oglasu za dugoročno iznajmljivanje."
+        "long-term-rent-description": "Opis koji će se prikazati na oglasu za dugoročno iznajmljivanje.",
+        "bedroom-count": "Broj spavaćih soba",
+        "bedroom-count-description": "Ukupan broj spavaćih soba u stanu",
+        "bathroom-count": "Broj kupaonica",
+        "bathroom-count-description": "Ukupan broj kupaonica u stanu",
+        "parking-count": "Broj parkirnih mjesta",
+        "parking-count-description": "Broj parkirnih mjesta koja pripadaju stanu"
     },
     "Map": {
         "search": "Traži",
@@ -78,6 +84,10 @@
         "per-night": "noćenje",
         "per-month": "mjesečno",
         "listing-by": "Oglasivač",
-        "location": "Lokacija nekretnine"
+        "location": "Lokacija nekretnine",
+        "area": "Površina",
+        "bedrooms": "Spavaće sobe",
+        "bathrooms": "Kupaonice",
+        "parking-spaces": "Parkirna mjesta"
     }
 }
