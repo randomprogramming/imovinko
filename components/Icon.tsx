@@ -761,7 +761,7 @@ export default function Icon({ name, height, width, className }: IconProps) {
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 32 32"
-                    enable-background="new 0 0 32 32"
+                    enableBackground="new 0 0 32 32"
                     width={width || DEFAULT_W}
                     className={className}
                     height={height || DEFAULT_H}

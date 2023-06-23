@@ -3,11 +3,13 @@ import Typography from "@/components/Typography";
 import { Account, Listing, Media, OfferingType, findListing } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Map from "@/components/Map";
 import { Marker } from "react-map-gl";
+import Carousel from "re-carousel";
+import Button from "@/components/Button";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
     let listing = null;
@@ -128,161 +130,54 @@ function IconRow({ listing }: IconRowProps) {
     return null;
 }
 
+interface ClickableImageProps {
+    url: string;
+    onClick?(): void;
+}
+function ClickableImage({ url, onClick }: ClickableImageProps) {
+    return (
+        <div
+            className="relative w-full rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-sm hover:opacity-90 transition-all"
+            style={{
+                height: "33vh",
+                maxHeight: "550px",
+            }}
+            onClick={onClick}
+        >
+            <Image
+                src={url}
+                alt="property image"
+                fill
+                style={{
+                    objectFit: "cover",
+                }}
+            />
+        </div>
+    );
+}
+
 interface MediaComponentProps {
     media: Media[];
+    onImageClick?(): void;
 }
-function MediaComponent({ media }: MediaComponentProps) {
+function MediaComponent({ media, onImageClick }: MediaComponentProps) {
     if (media.length <= 2) {
         return (
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full space-y-4">
                 {media.map((m) => {
-                    return (
-                        <div
-                            className="relative w-full rounded-lg shadow-md overflow-hidden"
-                            style={{
-                                height: "40vh",
-                                maxHeight: "750px",
-                            }}
-                        >
-                            <Image
-                                src={m.url}
-                                alt="property image"
-                                fill
-                                style={{
-                                    objectFit: "cover",
-                                }}
-                            />
-                        </div>
-                    );
+                    return <ClickableImage url={m.url} />;
                 })}
             </div>
         );
     }
-    if (media.length === 3) {
-        return (
-            <div className="flex flex-col w-full space-y-4">
-                <div
-                    className="relative w-full rounded-lg shadow-md overflow-hidden"
-                    style={{
-                        height: "40vh",
-                        maxHeight: "750px",
-                    }}
-                >
-                    <Image
-                        src={media[0].url}
-                        alt="property image"
-                        fill
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
-                </div>
-                <div className="flex flex-row w-full space-x-4">
-                    <div
-                        className="relative w-full rounded-md shadow-md overflow-hidden"
-                        style={{
-                            height: "40vh",
-                            maxHeight: "750px",
-                        }}
-                    >
-                        <Image
-                            src={media[1].url}
-                            alt="property image"
-                            fill
-                            style={{
-                                objectFit: "cover",
-                            }}
-                        />
-                    </div>
-                    <div
-                        className="relative w-full rounded-md shadow-md overflow-hidden"
-                        style={{
-                            height: "40vh",
-                            maxHeight: "750px",
-                        }}
-                    >
-                        <Image
-                            src={media[2].url}
-                            alt="property image"
-                            fill
-                            style={{
-                                objectFit: "cover",
-                            }}
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="flex flex-col w-full space-y-4">
-            <div
-                className="relative w-full rounded-lg shadow-md overflow-hidden"
-                style={{
-                    height: "40vh",
-                    maxHeight: "750px",
-                }}
-            >
-                <Image
-                    src={media[0].url}
-                    alt="property image"
-                    fill
-                    style={{
-                        objectFit: "cover",
-                    }}
-                />
+            <ClickableImage url={media[0].url} onClick={onImageClick} />
+            <div className="flex flex-row space-x-4">
+                <ClickableImage url={media[1].url} onClick={onImageClick} />
+                <ClickableImage url={media[2].url} onClick={onImageClick} />
             </div>
-            <div className="flex flex-row w-full space-x-4">
-                <div
-                    className="relative w-full rounded-md shadow-md overflow-hidden"
-                    style={{
-                        height: "40vh",
-                        maxHeight: "750px",
-                    }}
-                >
-                    <Image
-                        src={media[1].url}
-                        alt="property image"
-                        fill
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
-                </div>
-                <div
-                    className="relative w-full rounded-md shadow-md overflow-hidden"
-                    style={{
-                        height: "40vh",
-                        maxHeight: "750px",
-                    }}
-                >
-                    <Image
-                        src={media[2].url}
-                        alt="property image"
-                        fill
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
-                </div>
-            </div>
-            <div
-                className="relative w-full rounded-lg shadow-md overflow-hidden"
-                style={{
-                    height: "40vh",
-                    maxHeight: "750px",
-                }}
-            >
-                <Image
-                    src={media[3].url}
-                    alt="property image"
-                    fill
-                    style={{
-                        objectFit: "cover",
-                    }}
-                />
-            </div>
+            {media.length > 4 && <ClickableImage url={media[3].url} onClick={onImageClick} />}
         </div>
     );
 }
@@ -293,6 +188,11 @@ interface ListingPageProps {
 export default function ListingPage({ listing }: ListingPageProps) {
     const MARKER_SIZE = 48;
     const t = useTranslations("ListingPage");
+    const [isMediaPopupOpen, setIsMediaPopupOpen] = useState(false);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    // remember where the user was when they open the media popup and scroll to that place when they close the popup
+    const [scrollWhenOpeningImage, setScrollWhenOpeningImage] = useState(0);
+    const totalSlides = getPropertyMedia(listing).length;
 
     function getPriceString(p: Listing) {
         if (p.offeringType === OfferingType.shortTermRent) {
@@ -414,12 +314,141 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return locationStr;
     }
 
+    React.useEffect(() => {
+        if (isMediaPopupOpen) {
+            setScrollWhenOpeningImage(document.documentElement.scrollTop);
+            window.scroll(0, 0);
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+            window.scroll(0, scrollWhenOpeningImage);
+        }
+    }, [isMediaPopupOpen]);
+
     return (
         <>
             <header>
                 <Navbar />
             </header>
-            <main className="flex-1 space-y-8">
+            <main
+                className={`flex-1 space-y-8 ${
+                    isMediaPopupOpen ? "overflow-y-hidden" : "overflow-auto"
+                }`}
+            >
+                {true && (
+                    <div
+                        className={`${
+                            isMediaPopupOpen ? "opacity-100" : "opacity-0 invisible"
+                        } absolute top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
+                    >
+                        <div className="flex flex-col h-full w-full">
+                            <div className="h-[10%] flex flex-row">
+                                <div
+                                    style={{
+                                        minWidth: "25%",
+                                        width: "25%",
+                                        maxWidth: "25%",
+                                    }}
+                                />
+                                <div className="flex-1 flex items-center justify-center">
+                                    <Typography className="text-zinc-50">
+                                        {currentSlide + 1} / {totalSlides}
+                                    </Typography>
+                                </div>
+                                <div
+                                    className="flex items-center justify-center"
+                                    style={{
+                                        minWidth: "25%",
+                                        width: "25%",
+                                        maxWidth: "25%",
+                                    }}
+                                >
+                                    <Button.Transparent
+                                        className="border-zinc-50 border-2 px-4 hover:bg-zinc-700"
+                                        onClick={() => {
+                                            setIsMediaPopupOpen(false);
+                                        }}
+                                    >
+                                        <div className="flex flex-row items-center justify-center space-x-2">
+                                            <Icon
+                                                name="close"
+                                                className="fill-zinc-50"
+                                                height={20}
+                                                width={20}
+                                            />
+                                            <Typography className="text-zinc-50">
+                                                {t("close")}
+                                            </Typography>
+                                        </div>
+                                    </Button.Transparent>
+                                </div>
+                            </div>
+                            <div className="flex-1 h-[80%] flex flex-row">
+                                <Carousel
+                                    loop
+                                    widgets={[
+                                        (props) => {
+                                            if (props.index !== currentSlide) {
+                                                setCurrentSlide(props.index);
+                                            }
+
+                                            return null;
+                                        },
+                                        (props) => {
+                                            return (
+                                                <div className="text-white absolute w-full bottom-0 top-0 z-[100]">
+                                                    <div className="absolute left-6 top-1/2">
+                                                        <button
+                                                            onClick={props.prevHandler}
+                                                            className="rounded-full p-1.5 group"
+                                                        >
+                                                            <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                                <Icon
+                                                                    name="left"
+                                                                    height={32}
+                                                                    width={32}
+                                                                />
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                    <div className="absolute right-6 top-1/2">
+                                                        <button
+                                                            onClick={props.nextHandler}
+                                                            className="rounded-full p-1.5 group"
+                                                        >
+                                                            <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                                <Icon
+                                                                    name="right"
+                                                                    height={32}
+                                                                    width={32}
+                                                                />
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        },
+                                    ]}
+                                    frames={getPropertyMedia(listing).map((m) => {
+                                        return (
+                                            <div className="flex items-center justify-center w-full h-full">
+                                                {/* NextJS's images are literal hell to work with */}
+                                                <img
+                                                    className="select-none max-h-full w-auto"
+                                                    src={m.url}
+                                                    alt="property image"
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                />
+                            </div>
+                            <div className="text-white h-[10%]">
+                                {/* TODO: Put thumbnails here */}
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <section className="flex flex-col lg:flex-row container mx-auto mt-8">
                     <div className="flex-1 flex flex-col w-1/2 pr-6">
                         <div>
@@ -442,7 +471,12 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </div>
                     </div>
                     <div className="flex-1 flex flex-col w-1/2">
-                        <MediaComponent media={getPropertyMedia(listing)} />
+                        <MediaComponent
+                            media={getPropertyMedia(listing)}
+                            onImageClick={() => {
+                                setIsMediaPopupOpen(true);
+                            }}
+                        />
                     </div>
                 </section>
                 <section className="container mx-auto">

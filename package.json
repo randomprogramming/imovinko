@@ -21,6 +21,7 @@
         "next": "13.4.4",
         "next-intl": "^2.14.6",
         "postcss": "8.4.24",
+        "re-carousel": "^2.4.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-map-gl": "^7.0.25",
@@ -30,6 +31,7 @@
     },
     "devDependencies": {
         "@types/mapbox-gl": "^2.7.11",
+        "@types/re-carousel": "^2.4.0",
         "prettier": "^2.8.8"
     }
 }

@@ -88,6 +88,7 @@
         "area": "Površina",
         "bedrooms": "Spavaće sobe",
         "bathrooms": "Kupaonice",
-        "parking-spaces": "Parkirna mjesta"
+        "parking-spaces": "Parkirna mjesta",
+        "close": "Zatvori"
     }
 }
