@@ -133,8 +133,11 @@ function IconRow({ listing }: IconRowProps) {
 interface ClickableImageProps {
     url: string;
     onClick?(): void;
+    showBanner?: boolean;
 }
-function ClickableImage({ url, onClick }: ClickableImageProps) {
+function ClickableImage({ url, onClick, showBanner }: ClickableImageProps) {
+    const t = useTranslations("ListingPage");
+
     return (
         <div
             className="relative w-full rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-sm hover:opacity-90 transition-all"
@@ -152,6 +155,11 @@ function ClickableImage({ url, onClick }: ClickableImageProps) {
                     objectFit: "cover",
                 }}
             />
+            {showBanner && (
+                <div className="absolute right-0 bottom-10 bg-zinc-50 px-2 py-1 rounded-tl-md rounded-bl-md flex flex-row items-center justify-center space-x-2 shadow-sm border border-zinc-300 border-r-0">
+                    <Icon name="show-more" /> <Typography>{t("show-more-images")}</Typography>
+                </div>
+            )}
         </div>
     );
 }
@@ -177,7 +185,9 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
                 <ClickableImage url={media[1].url} onClick={onImageClick} />
                 <ClickableImage url={media[2].url} onClick={onImageClick} />
             </div>
-            {media.length > 4 && <ClickableImage url={media[3].url} onClick={onImageClick} />}
+            {media.length > 4 && (
+                <ClickableImage url={media[3].url} onClick={onImageClick} showBanner />
+            )}
         </div>
     );
 }

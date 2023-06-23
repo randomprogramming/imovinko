@@ -89,6 +89,7 @@
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
         "parking-spaces": "Parking Spaces",
-        "close": "Close"
+        "close": "Close",
+        "show-more-images": "Show more images"
     }
 }
