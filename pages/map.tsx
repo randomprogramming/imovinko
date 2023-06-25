@@ -435,7 +435,7 @@ export default function MapScreen() {
                                         </Typography>
                                     </div>
                                     <div>
-                                        <Link to={`/listing/${openProperty.id}`}>
+                                        <Link to={`/listing/${openProperty.prettyId}`}>
                                             <Button.Primary label={t("more-details")} />
                                         </Link>
                                     </div>
@@ -447,12 +447,12 @@ export default function MapScreen() {
                             {properties.map((p) => {
                                 return (
                                     <Marker
-                                        key={p.id}
+                                        key={p.prettyId}
                                         longitude={getPropertyLng(p)}
                                         latitude={getPropertyLat(p)}
                                         anchor="bottom"
                                         style={{
-                                            zIndex: hoveredProperty === p.id ? "30" : "10",
+                                            zIndex: hoveredProperty === p.prettyId ? "30" : "10",
                                             cursor: "pointer",
                                         }}
                                         onClick={() => onPropertyOpen(p)}
@@ -460,7 +460,7 @@ export default function MapScreen() {
                                         <div
                                             className="p-1 group"
                                             onMouseEnter={() => {
-                                                setHoveredProperty(p.id);
+                                                setHoveredProperty(p.prettyId);
                                             }}
                                             onMouseLeave={() => {
                                                 if (hoveredProperty) {

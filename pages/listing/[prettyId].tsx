@@ -13,8 +13,8 @@ import Button from "@/components/Button";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
     let listing = null;
-    if (typeof params?.id === "string") {
-        listing = (await findListing(params.id)).data;
+    if (typeof params?.prettyId === "string") {
+        listing = (await findListing(params.prettyId)).data;
     }
     return {
         props: {

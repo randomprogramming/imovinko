@@ -198,7 +198,7 @@ interface BasicProperty extends PropertyLocation {
     }[];
 }
 export interface ListingOnMap {
-    id: string;
+    prettyId: string;
     title: string;
     price: number;
     description: string;
