@@ -37,6 +37,12 @@ export enum OfferingType {
     sale = "sale",
 }
 
+export enum PropertyType {
+    apartment = "apartment",
+    house = "house",
+    land = "land",
+}
+
 interface LoginProps {
     handle: string;
     password: string;
@@ -201,12 +207,18 @@ export interface ListingOnMap {
     land: BasicProperty | null;
     offeringType: OfferingType;
 }
-export async function findListingsByBoundingBox(boundingBox: BoundingBox) {
+export async function findListingsByBoundingBox(
+    boundingBox: BoundingBox,
+    propertyType: PropertyType[],
+    offeringType: OfferingType[]
+) {
     return await client<ListingOnMap[]>({
         url: "/listing/",
         method: "GET",
         params: {
             ...boundingBox,
+            propertyType: propertyType.join(","),
+            offeringType: offeringType.join(","),
         },
     });
 }

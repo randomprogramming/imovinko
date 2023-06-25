@@ -8,6 +8,9 @@ import { Coordinates, geocode } from "@/util/api";
 import MapComponent, { MapRef } from "react-map-gl";
 
 const MARKER_SIZE = 64;
+const STARTING_LON = 15.9819;
+const STARTING_LAT = 45.815;
+const STARTING_ZOOM = 10;
 
 interface MapProps {
     showSearchBox?: boolean;
@@ -20,6 +23,7 @@ interface MapProps {
     centerLat?: number;
     centerLon?: number;
     zoom?: number;
+    onLoad?(): void;
 }
 export default function Map({
     className,
@@ -32,6 +36,7 @@ export default function Map({
     centerLat,
     centerLon,
     zoom,
+    onLoad,
 }: MapProps) {
     const t = useTranslations("Map");
 
@@ -77,13 +82,22 @@ export default function Map({
     return (
         <div className={`${className} overflow-hidden`} style={style}>
             <MapComponent
-                onLoad={() => setIsMapLoaded(true)}
+                onLoad={() => {
+                    setIsMapLoaded(true);
+                    onLoad && onLoad();
+                    // This triggers the "onmoveend" callback when the map first renders
+                    map.current?.flyTo({
+                        center: [centerLon || STARTING_LON, centerLat || STARTING_LAT],
+                        zoom: zoom || STARTING_ZOOM,
+                        duration: 0,
+                    });
+                }}
                 ref={map}
                 mapLib={mapboxgl}
                 initialViewState={{
-                    longitude: centerLon || 15.9819,
-                    latitude: centerLat || 45.815,
-                    zoom: zoom || 10,
+                    longitude: centerLon || STARTING_LON,
+                    latitude: centerLat || STARTING_LAT,
+                    zoom: zoom || STARTING_ZOOM,
                 }}
                 style={{
                     height: "100%",

@@ -1,6 +1,7 @@
 {
     "SearchBar": {
-        "placeholder": "Zagreb"
+        "placeholder": "Zagreb",
+        "Close": "Zatvori"
     },
     "Register": {
         "first-name": "Ime",
@@ -72,7 +73,17 @@
         "search": "Traži",
         "per-night": "noćenje",
         "per-month": "mjesečno",
-        "more-details": "Više detalja"
+        "more-details": "Više detalja",
+        "for-sale": "Za prodaju",
+        "short-term-rent": "Kratkotrajan najam",
+        "long-term-rent": "Dugoročan najam",
+        "house": "Kuća",
+        "apartment": "Stan",
+        "land": "Zemljište",
+        "property": "Nekretnina",
+        "type": "Tip ponude",
+        "select": "Odaberi",
+        "no-option": "Nema opcija"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

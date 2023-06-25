@@ -1,6 +1,7 @@
 {
     "SearchBar": {
-        "placeholder": "Zagreb"
+        "placeholder": "Zagreb",
+        "close": "Close"
     },
     "Register": {
         "first-name": "First Name",
@@ -72,7 +73,17 @@
         "search": "Search",
         "per-night": "per night",
         "per-month": "per month",
-        "more-details": "More details"
+        "more-details": "More details",
+        "for-sale": "For Sale",
+        "short-term-rent": "Short Term Rent",
+        "long-term-rent": "Long Term Rent",
+        "house": "House",
+        "apartment": "Apartment",
+        "land": "Land",
+        "property": "Property",
+        "type": "Offering Type",
+        "select": "Select",
+        "no-option": "No option"
     },
     "ErrorCodes": {
         "too_small": "Too short",

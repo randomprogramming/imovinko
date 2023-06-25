@@ -6,8 +6,9 @@ interface CheckBoxInputProps {
     name?: string;
     checked?: boolean;
     onCheckedChange?(newVal: boolean): void;
+    className?: string;
 }
-function CheckBoxInput({ name, checked, onCheckedChange }: CheckBoxInputProps) {
+function CheckBoxInput({ name, checked, onCheckedChange, className }: CheckBoxInputProps) {
     const [isChecked, setIsChecked] = useState(!!checked);
 
     React.useEffect(() => {
@@ -16,7 +17,7 @@ function CheckBoxInput({ name, checked, onCheckedChange }: CheckBoxInputProps) {
 
     return (
         <div
-            className="flex flex-row items-center hover:bg-zinc-300 w-fit px-2 py-1 rounded-md transition-all cursor-pointer"
+            className={`${className} flex flex-row items-center hover:bg-zinc-300 w-fit px-2 py-1 rounded-md transition-all cursor-pointer`}
             onClick={() => {
                 setIsChecked(!isChecked);
             }}
@@ -57,7 +58,14 @@ export default function Input({
     errorMsg,
 }: InputProps) {
     if (type === "checkbox") {
-        return <CheckBoxInput checked={checked} name={name} onCheckedChange={onCheckedChange} />;
+        return (
+            <CheckBoxInput
+                className={className}
+                checked={checked}
+                name={name}
+                onCheckedChange={onCheckedChange}
+            />
+        );
     }
 
     if (type === "textarea") {
