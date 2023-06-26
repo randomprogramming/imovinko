@@ -96,8 +96,9 @@ function AuthDropdown() {
 
 interface NavbarProps {
     hideSearchBar?: boolean;
+    lighterSearchbar?: boolean;
 }
-export default function Navbar({ hideSearchBar }: NavbarProps) {
+export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps) {
     const auth = useAuthentication();
 
     return (
@@ -112,7 +113,7 @@ export default function Navbar({ hideSearchBar }: NavbarProps) {
                 // h-12 is the same height as the searchbar
                 <div className="flex-1 h-12" />
             ) : (
-                <Searchbar className="flex-1 mx-4" />
+                <Searchbar className="flex-1 mx-4" light={lighterSearchbar} />
             )}
 
             {/* Profile section */}

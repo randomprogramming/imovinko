@@ -230,6 +230,9 @@ export interface PropertyLocation {
     street: string | null;
     address: string | null;
 }
+export interface FullAccount extends Account {
+    createdAt: string | Date;
+}
 export interface Media {
     url: string;
 }
@@ -241,7 +244,7 @@ export interface Apartment extends PropertyLocation {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: Omit<Account, "email">;
+    owner: Omit<FullAccount, "email">;
     media: {
         url: string;
     }[];
@@ -257,7 +260,7 @@ export interface House extends PropertyLocation {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: Omit<Account, "email">;
+    owner: Omit<FullAccount, "email">;
     media: {
         url: string;
     }[];
@@ -273,7 +276,7 @@ interface Land extends PropertyLocation {
     ownerId: string;
     createdAt: string | Date;
     updatedAt: string | Date;
-    owner: Omit<Account, "email">;
+    owner: Omit<FullAccount, "email">;
     media: Media[];
 }
 export interface Listing {
@@ -290,6 +293,7 @@ export interface Listing {
     apartment: Apartment | null;
     house: House | null;
     land: Land | null;
+    viewCount: number;
 }
 export async function findListing(id: string) {
     return await client<Listing>({

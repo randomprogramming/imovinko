@@ -3,7 +3,7 @@ import { poppins, space_grotesk, varela_round, work_sans } from "@/util/fonts";
 
 interface TypographyProps {
     children?: React.ReactNode;
-    variant?: "h1" | "h2" | "secondary";
+    variant?: "h1" | "h2" | "span" | "secondary";
     uppercase?: boolean;
     bold?: boolean;
     font?: "space_grotesk" | "work_sans";
@@ -37,6 +37,10 @@ export default function Typography({
 
     if (variant === "h2") {
         return <h2 className={`${sharedClass} text-2xl font-bold ${className}`}>{children}</h2>;
+    }
+
+    if (variant === "span") {
+        return <span className={`${sharedClass} ${className}`}>{children}</span>;
     }
 
     return (

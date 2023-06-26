@@ -1,32 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import Icon from "./Icon";
 import { space_grotesk } from "@/util/fonts";
+import { geocode } from "@/util/api";
+import { useRouter } from "next/router";
 
 interface SearchbarProps {
     className?: string;
+    light?: boolean;
 }
-
-export default function Searchbar({ className }: SearchbarProps) {
+export default function Searchbar({ className, light }: SearchbarProps) {
     const t = useTranslations("SearchBar");
 
+    const router = useRouter();
+
+    const [searchVal, setSearchVal] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    async function onSearch() {
+        setIsLoading(true);
+        try {
+            const { data } = await geocode(searchVal);
+
+            if (data) {
+                return router.push({
+                    pathname: "/map",
+                    query: {
+                        ...data,
+                    },
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            setIsLoading(false);
+        }
+    }
 
     return (
         <div className={`${className} flex-1 relative flex`}>
             <div
-                className={`flex-1 flex flex-row bg-zinc-300 rounded-lg h-12 shadow-sm relative z-30 items-center justify-center pl-2 space-x-2`}
+                className={`flex-1 flex flex-row ${
+                    light ? "bg-zinc-100" : "bg-zinc-300"
+                } rounded-lg h-12 shadow-sm relative z-30 items-center justify-center pr-2`}
             >
-                <div>
+                <div onClick={onSearch} className="cursor-pointer p-2">
                     <Icon name="search" />
                 </div>
                 <input
-                    className={`flex-1 bg-zinc-300 outline-none h-full ${space_grotesk.className} z-40 rounded-lg`}
+                    className={`flex-1 ${
+                        light ? "bg-zinc-100" : "bg-zinc-300"
+                    } outline-none h-full ${space_grotesk.className} z-40 rounded-lg`}
                     placeholder={t("placeholder")}
+                    value={searchVal}
+                    onKeyDown={(e) => {
+                        if (e.key.toLowerCase() === "enter") {
+                            onSearch();
+                        }
+                    }}
+                    onChange={(e) => {
+                        setSearchVal(e.target.value);
+                    }}
                     onFocus={() => {
                         // setIsDropdownOpen(true);
                     }}
                 />
+                {isLoading && (
+                    <div onClick={onSearch}>
+                        <Icon name="loading" className="!text-zinc-900 !fill-zinc-100" />
+                    </div>
+                )}
             </div>
             {/* <div
                 className={`${

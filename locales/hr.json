@@ -101,6 +101,9 @@
         "bathrooms": "Kupaonice",
         "parking-spaces": "Parkirna mjesta",
         "close": "Zatvori",
-        "show-more-images": "Prikaži još slika"
+        "show-more-images": "Prikaži još slika",
+        "lister-joined": "Oglasivač se pridružio",
+        "listing-posted": "Oglas objavljen",
+        "view-count": "Broj prikaza oglasa"
     }
 }

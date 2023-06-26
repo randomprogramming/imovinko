@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { Account, Listing, Media, OfferingType, findListing } from "@/util/api";
+import { Account, FullAccount, Listing, Media, OfferingType, findListing } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
@@ -277,6 +277,31 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return "";
     }
 
+    function getAccountJoinDate(p: Listing) {
+        let account: Omit<FullAccount, "email"> | null = null;
+        if (p.apartment) {
+            account = p.apartment.owner;
+        }
+        if (p.house) {
+            account = p.house.owner;
+        }
+        if (p.land) {
+            account = p.land.owner;
+        }
+
+        if (!account) {
+            return "";
+        }
+
+        return new Date(account.createdAt)
+            .toLocaleDateString(undefined, {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            })
+            .replaceAll("/", ".");
+    }
+
     function getPropertyLocationString(p: Listing) {
         let region: string | null = null;
         let city: string | null = null;
@@ -476,8 +501,65 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </Typography>
                         </div>
                         <IconRow listing={listing} />
+
                         <div className="mt-4">
                             <Typography>{listing.description}</Typography>
+                        </div>
+
+                        <div className="w-fit bg-white rounded-lg shadow-md mt-10">
+                            <div>
+                                <div className="-translate-y-1/2 pl-10">
+                                    <Icon name="account" height={64} width={64} />
+                                </div>
+                            </div>
+                            <div className="-mt-6 px-12">
+                                {/* TODO: Show users avatar here */}
+                                {/* TODO: Add link to users other listings here */}
+                                {/* TODO: Add users contact info here */}
+                                <Typography className="text-lg">
+                                    {t("listing-by")}:{" "}
+                                    <Typography variant="span" bold>
+                                        {getAccountHandle(listing)}
+                                    </Typography>
+                                </Typography>
+                                <Typography>
+                                    {t("lister-joined")}:{" "}
+                                    <Typography variant="span" bold>
+                                        {getAccountJoinDate(listing)}
+                                    </Typography>
+                                </Typography>
+                            </div>
+                            <div className="w-full my-4 px-6">
+                                <div className="bg-zinc-300 h-0.5 rounded-full" />
+                            </div>
+                            <div className="mb-6 px-12">
+                                <Typography>
+                                    {t("listing-posted")}:{" "}
+                                    <Typography variant="span" bold>
+                                        {new Date(listing.createdAt)
+                                            .toLocaleDateString(undefined, {
+                                                day: "2-digit",
+                                                month: "2-digit",
+                                                year: "numeric",
+                                            })
+                                            .replaceAll("/", ".") +
+                                            " " +
+                                            new Date(listing.createdAt).toLocaleTimeString(
+                                                undefined,
+                                                {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                }
+                                            )}
+                                    </Typography>
+                                </Typography>
+                                <Typography>
+                                    {t("view-count")}:{" "}
+                                    <Typography variant="span" bold>
+                                        {listing.viewCount}
+                                    </Typography>
+                                </Typography>
+                            </div>
                         </div>
                     </div>
                     <div className="flex-1 flex flex-col w-1/2">
@@ -489,22 +571,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         />
                     </div>
                 </section>
-                <section className="container mx-auto">
-                    <Typography variant="h2" className="mb-4">
-                        {t("listing-by")}
-                    </Typography>
-                    <div className="flex justify-center items-center">
-                        <div className="flex flex-col items-center">
-                            {/* TODO: Show users avatar here */}
-                            {/* TODO: Add link to users other listings here */}
-                            {/* TODO: Add users contact info here */}
-                            <div>
-                                <Icon name="account" height={64} width={64} />
-                            </div>
-                            <Typography className="text-lg">{getAccountHandle(listing)}</Typography>
-                        </div>
-                    </div>
-                </section>
+
                 <section className="container mx-auto">
                     <Typography variant="h2" className="mb-4">
                         {t("location")}

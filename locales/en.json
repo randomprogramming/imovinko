@@ -101,6 +101,9 @@
         "bathrooms": "Bathrooms",
         "parking-spaces": "Parking Spaces",
         "close": "Close",
-        "show-more-images": "Show more images"
+        "show-more-images": "Show more images",
+        "lister-joined": "Lister joined",
+        "listing-posted": "Listing posted",
+        "view-count": "Listing views"
     }
 }

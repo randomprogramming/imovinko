@@ -6,23 +6,30 @@ import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import { ListingOnMap, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
 import { LngLatBounds } from "mapbox-gl";
-import { NextPageContext } from "next";
+import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { Marker, Popup } from "react-map-gl";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
 import Select, { components } from "react-select";
+import { ParsedUrlQuery } from "querystring";
 
-export async function getStaticProps(context: NextPageContext) {
+export const getServerSideProps: GetServerSideProps = async ({ locale, query }) => {
     return {
         props: {
-            messages: (await import(`../locales/${context.locale || "hr"}.json`)).default,
+            messages: (await import(`../locales/${locale || "hr"}.json`)).default,
+            query,
         },
     };
-}
+};
 
-export default function MapScreen() {
+interface MapScreenProps {
+    query: ParsedUrlQuery;
+}
+export default function MapScreen({ query }: MapScreenProps) {
+    const queryLat = typeof query.lat === "string" ? parseFloat(query.lat) : null;
+    const queryLon = typeof query.lon === "string" ? parseFloat(query.lon) : null;
     const t = useTranslations("Map");
 
     const offeringTypeDropdownValues = [
@@ -184,129 +191,138 @@ export default function MapScreen() {
     return (
         <>
             <header className="z-30">
-                <Navbar />
+                <Navbar lighterSearchbar />
             </header>
             <main>
                 <div className="relative z-30">
-                    <div className="container mx-auto flex flex-row space-x-4 flex-wrap">
-                        <Select
-                            onChange={(val) => {
-                                setPropertyTypeDropdownSelectedValues([...val]);
-                            }}
-                            isMulti
-                            isSearchable={false}
-                            closeMenuOnSelect={false}
-                            components={{
-                                Placeholder: ({ children, ...props }) => {
-                                    return (
-                                        <components.Placeholder {...props}>
-                                            <Typography>
-                                                {t("property") + ": " + t("select") + "..."}
-                                            </Typography>
-                                        </components.Placeholder>
-                                    );
-                                },
-                                ValueContainer: ({ children, ...props }) => {
-                                    return (
-                                        <components.ValueContainer {...props}>
-                                            {props.hasValue && (
-                                                <Typography className="mr-1">
-                                                    {t("property") + ": "}
+                    <div className="container mx-auto flex flex-row flex-wrap">
+                        <div className="mx-4">
+                            <Select
+                                onChange={(val) => {
+                                    setPropertyTypeDropdownSelectedValues([...val]);
+                                }}
+                                isMulti
+                                isSearchable={false}
+                                closeMenuOnSelect={false}
+                                components={{
+                                    Placeholder: ({ children, ...props }) => {
+                                        return (
+                                            <components.Placeholder {...props}>
+                                                <Typography>
+                                                    {t("property") + ": " + t("select") + "..."}
                                                 </Typography>
-                                            )}
-                                            {children}
-                                        </components.ValueContainer>
-                                    );
-                                },
-                                MultiValue: ({ children, ...props }) => {
-                                    return (
-                                        <components.MultiValue
-                                            {...props}
-                                            className="flex items-center justify-center"
-                                        >
-                                            <Typography>{children}</Typography>
-                                        </components.MultiValue>
-                                    );
-                                },
-                            }}
-                            noOptionsMessage={() => {
-                                return <Typography>{t("no-option")}</Typography>;
-                            }}
-                            classNames={{
-                                control() {
-                                    return "!rounded-xl bg-zinc-50 p-2 shadow-md";
-                                },
-                                multiValueRemove() {
-                                    return "!p-2";
-                                },
-                                multiValue() {
-                                    return "!rounded-lg";
-                                },
-                            }}
-                            defaultValue={propertyTypeDropdownSelectedValues}
-                            options={propertyValueDropdownValues}
-                        />
-                        <Select
-                            isMulti
-                            isSearchable={false}
-                            closeMenuOnSelect={false}
-                            noOptionsMessage={() => {
-                                return <Typography>{t("no-option")}</Typography>;
-                            }}
-                            components={{
-                                Placeholder: ({ children, ...props }) => {
-                                    return (
-                                        <components.Placeholder {...props}>
-                                            <Typography className="mr-1">
-                                                {t("type") + ": " + t("select") + "..."}
-                                            </Typography>
-                                        </components.Placeholder>
-                                    );
-                                },
-                                ValueContainer: ({ children, ...props }) => {
-                                    return (
-                                        <components.ValueContainer {...props}>
-                                            {props.hasValue && (
+                                            </components.Placeholder>
+                                        );
+                                    },
+                                    ValueContainer: ({ children, ...props }) => {
+                                        return (
+                                            <components.ValueContainer {...props}>
+                                                {props.hasValue && (
+                                                    <Typography className="mr-1">
+                                                        {t("property") + ": "}
+                                                    </Typography>
+                                                )}
+                                                {children}
+                                            </components.ValueContainer>
+                                        );
+                                    },
+                                    MultiValue: ({ children, ...props }) => {
+                                        return (
+                                            <components.MultiValue
+                                                {...props}
+                                                className="flex items-center justify-center"
+                                            >
+                                                <Typography>{children}</Typography>
+                                            </components.MultiValue>
+                                        );
+                                    },
+                                }}
+                                noOptionsMessage={() => {
+                                    return <Typography>{t("no-option")}</Typography>;
+                                }}
+                                classNames={{
+                                    control() {
+                                        return "!rounded-xl bg-zinc-50 p-2 shadow-md";
+                                    },
+                                    multiValueRemove() {
+                                        return "!p-2";
+                                    },
+                                    multiValue() {
+                                        return "!rounded-lg";
+                                    },
+                                }}
+                                defaultValue={propertyTypeDropdownSelectedValues}
+                                options={propertyValueDropdownValues}
+                            />
+                        </div>
+                        <div className="mx-4">
+                            <Select
+                                isMulti
+                                isSearchable={false}
+                                closeMenuOnSelect={false}
+                                noOptionsMessage={() => {
+                                    return <Typography>{t("no-option")}</Typography>;
+                                }}
+                                components={{
+                                    Placeholder: ({ children, ...props }) => {
+                                        return (
+                                            <components.Placeholder {...props}>
                                                 <Typography className="mr-1">
-                                                    {t("type") + ": "}
+                                                    {t("type") + ": " + t("select") + "..."}
                                                 </Typography>
-                                            )}
-                                            {children}
-                                        </components.ValueContainer>
-                                    );
-                                },
-                                MultiValue: ({ children, ...props }) => {
-                                    return (
-                                        <components.MultiValue
-                                            {...props}
-                                            className="flex items-center justify-center"
-                                        >
-                                            <Typography>{children}</Typography>
-                                        </components.MultiValue>
-                                    );
-                                },
-                            }}
-                            onChange={(newval) => {
-                                setOfferingTypeDropdownSelectedValues([...newval]);
-                            }}
-                            classNames={{
-                                control() {
-                                    return "!rounded-xl bg-zinc-50 p-2 shadow-md";
-                                },
-                                multiValueRemove() {
-                                    return "!p-2";
-                                },
-                                multiValue() {
-                                    return "!rounded-lg";
-                                },
-                            }}
-                            defaultValue={offeringTypeDropdownSelectedValues}
-                            options={offeringTypeDropdownValues}
-                        />
+                                            </components.Placeholder>
+                                        );
+                                    },
+                                    ValueContainer: ({ children, ...props }) => {
+                                        return (
+                                            <components.ValueContainer {...props}>
+                                                {props.hasValue && (
+                                                    <Typography className="mr-1">
+                                                        {t("type") + ": "}
+                                                    </Typography>
+                                                )}
+                                                {children}
+                                            </components.ValueContainer>
+                                        );
+                                    },
+                                    MultiValue: ({ children, ...props }) => {
+                                        return (
+                                            <components.MultiValue
+                                                {...props}
+                                                className="flex items-center justify-center"
+                                            >
+                                                <Typography>{children}</Typography>
+                                            </components.MultiValue>
+                                        );
+                                    },
+                                }}
+                                onChange={(newval) => {
+                                    setOfferingTypeDropdownSelectedValues([...newval]);
+                                }}
+                                classNames={{
+                                    control() {
+                                        return "!rounded-xl bg-zinc-50 p-2 shadow-md";
+                                    },
+                                    multiValueRemove() {
+                                        return "!p-2";
+                                    },
+                                    multiValue() {
+                                        return "!rounded-lg";
+                                    },
+                                }}
+                                defaultValue={offeringTypeDropdownSelectedValues}
+                                options={offeringTypeDropdownValues}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="fixed top-0 left-0 w-screen h-screen flex">
-                    <Map className="flex-1" onBoundsChange={setMapBounds} onLoad={() => {}}>
+                    <Map
+                        className="flex-1"
+                        onBoundsChange={setMapBounds}
+                        centerLat={queryLat || undefined}
+                        centerLon={queryLon || undefined}
+                    >
                         {openProperty && (
                             <Popup
                                 closeButton={false}
