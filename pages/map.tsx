@@ -328,8 +328,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 closeButton={false}
                                 style={{
                                     padding: 0,
-                                    width: "40vw",
-                                    maxWidth: "540px",
+                                    width: "35vw",
+                                    maxWidth: "420px",
                                 }}
                                 anchor="top"
                                 latitude={getPropertyLat(openProperty)}
@@ -411,8 +411,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                                                     key={m.url}
                                                     className="select-none relative min-w-full"
                                                     style={{
-                                                        height: "30vh",
-                                                        maxHeight: "512px",
+                                                        height: "28vh",
+                                                        maxHeight: "300px",
                                                     }}
                                                 >
                                                     <Image
