@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import Link from "@/components/Link";
+import Icon from "@/components/Icon";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -78,8 +80,11 @@ export default function Register() {
             <div className="flex-1 hidden lg:flex">
                 <div className="relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden shadow-lg">
                     {/* TODO: Put logo in top left of the image, also potentially put some text */}
+                    <Link to="/" className="absolute z-30 top-10 left-12 p-1">
+                        <Icon name="logo-text" height={48} />
+                    </Link>
                     <Image
-                        src="/images/register-cover.jpg"
+                        src="/images/register-cover-new.jpg"
                         alt="modern house exterior"
                         fill
                         style={{
@@ -223,6 +228,15 @@ export default function Register() {
                             onClick={onRegister}
                             loading={isSendingRegisterReq}
                         />
+                    </div>
+
+                    <div className="mt-6">
+                        <Typography>
+                            {t("already-registered")}{" "}
+                            <Link to="/login" className="font-bold">
+                                {t("log-in-here")}
+                            </Link>
+                        </Typography>
                     </div>
                 </div>
             </div>

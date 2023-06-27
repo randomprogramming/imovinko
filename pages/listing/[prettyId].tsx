@@ -506,7 +506,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <Typography>{listing.description}</Typography>
                         </div>
 
-                        <div className="w-fit bg-white rounded-lg shadow-md mt-10">
+                        <div className="w-fit bg-white rounded-md shadow-sm mt-10">
                             <div>
                                 <div className="-translate-y-1/2 pl-10">
                                     <Icon name="account" height={64} width={64} />

@@ -117,6 +117,15 @@ export default function Login() {
                             loading={isSendingLoginReq}
                         />
                     </div>
+
+                    <div className="mt-6">
+                        <Typography>
+                            {t("no-account")}{" "}
+                            <Link to="/register" className="font-bold">
+                                {t("register-here")}
+                            </Link>
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </div>

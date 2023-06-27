@@ -196,7 +196,7 @@ export default function MapScreen({ query }: MapScreenProps) {
             <main>
                 <div className="relative z-30">
                     <div className="container mx-auto flex flex-row flex-wrap">
-                        <div className="mx-4">
+                        <div className="mx-4 mt-2">
                             <Select
                                 onChange={(val) => {
                                     setPropertyTypeDropdownSelectedValues([...val]);
@@ -255,7 +255,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 options={propertyValueDropdownValues}
                             />
                         </div>
-                        <div className="mx-4">
+                        <div className="mx-4 mt-2">
                             <Select
                                 isMulti
                                 isSearchable={false}

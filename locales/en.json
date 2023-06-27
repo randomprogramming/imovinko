@@ -14,7 +14,9 @@
         "confirm-password": "Confirm Password",
         "sign-up": "Sign Up",
         "sign-up-google": "Sign Up With Google",
-        "or": "Or"
+        "or": "Or",
+        "already-registered": "Already have an account?",
+        "log-in-here": "Log in here!"
     },
     "Login": {
         "welcome": "Welcome back",
@@ -22,7 +24,9 @@
         "or": "Or",
         "username-or-email": "Username or E-Mail",
         "password": "Password",
-        "sign-in": "Sign In"
+        "sign-in": "Sign In",
+        "no-account": "Don't have an account?",
+        "register-here": "Create one here!"
     },
     "AuthDropdown": {
         "submit-ad": "Submit Ad",

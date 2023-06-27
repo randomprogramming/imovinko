@@ -14,7 +14,9 @@
         "confirm-password": "Potvrdi Lozinku",
         "sign-up": "Registriraj se",
         "sign-up-google": "Registracija putem Google računa",
-        "or": "Ili"
+        "or": "Ili",
+        "already-registered": "Već imaš račun?",
+        "log-in-here": "Prijavi se ovdje!"
     },
     "Login": {
         "welcome": "Dobrodošli natrag",
@@ -22,7 +24,9 @@
         "or": "Ili",
         "username-or-email": "Korisničko Ime ili E-Mail",
         "password": "Lozinka",
-        "sign-in": "Prijavi se"
+        "sign-in": "Prijavi se",
+        "no-account": "Još nemate račun?",
+        "register-here": "Napravite ga ovdje."
     },
     "AuthDropdown": {
         "submit-ad": "Predaj oglas",
