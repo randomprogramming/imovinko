@@ -7,14 +7,23 @@ interface LinkProps {
     to?: string;
     children: React.ReactNode;
     className?: string;
+    disableAnimatedHover?: boolean;
 }
 
-export default function Link({ to, onClick, children, className }: LinkProps) {
+export default function Link({
+    to,
+    onClick,
+    children,
+    className,
+    disableAnimatedHover,
+}: LinkProps) {
     if (to) {
         return (
             <NextLink href={to} className={`${className} group relative`}>
                 {children}
-                <span className="absolute w-0 group-hover:w-full transition-all duration-200 h-0.5 bg-zinc-800 -bottom-0.5 left-0" />
+                {!disableAnimatedHover && (
+                    <span className="absolute w-0 group-hover:w-full transition-all duration-200 h-0.5 bg-zinc-800 -bottom-0.5 left-0" />
+                )}
             </NextLink>
         );
     }

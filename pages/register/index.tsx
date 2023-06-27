@@ -80,7 +80,7 @@ export default function Register() {
             <div className="flex-1 hidden lg:flex">
                 <div className="relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden shadow-lg">
                     {/* TODO: Put logo in top left of the image, also potentially put some text */}
-                    <Link to="/" className="absolute z-30 top-10 left-12 p-1">
+                    <Link to="/" className="absolute z-30 top-10 left-12 p-1" disableAnimatedHover>
                         <Icon name="logo-text" height={48} />
                     </Link>
                     <Image

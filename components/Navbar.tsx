@@ -8,7 +8,7 @@ import Typography from "./Typography";
 import { useTranslations } from "next-intl";
 
 function AuthDropdown() {
-    const t = useTranslations("AuthDropdown");
+    const t = useTranslations("Navbar");
 
     const { account, logout } = useAuthentication();
 
@@ -99,14 +99,16 @@ interface NavbarProps {
     lighterSearchbar?: boolean;
 }
 export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps) {
+    const t = useTranslations("Navbar");
+
     const auth = useAuthentication();
 
     return (
         <div className="container mx-auto flex flex-row items-center my-4">
-            <Link to="/" className="px-1 pt-1 hidden md:block">
+            <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
                 <Icon name="logo-text" height="36" />
             </Link>
-            <Link to="/" className="md:hidden">
+            <Link to="/" className="md:hidden" disableAnimatedHover>
                 <Icon name="logo" height="36" />
             </Link>
             {hideSearchBar ? (
@@ -132,9 +134,9 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
                 {auth.account ? (
                     <AuthDropdown />
                 ) : (
-                    <div className="flex flex-row">
-                        <Link to="/register">Sign Up</Link>
-                        <Link to="/login">Log In</Link>
+                    <div className="flex flex-row space-x-4">
+                        <Link to="/register">{t("sign-up")}</Link>
+                        <Link to="/login">{t("sign-in")}</Link>
                     </div>
                 )}
             </div>

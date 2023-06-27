@@ -28,9 +28,11 @@
         "no-account": "Još nemate račun?",
         "register-here": "Napravite ga ovdje."
     },
-    "AuthDropdown": {
+    "Navbar": {
         "submit-ad": "Predaj oglas",
-        "logout": "Odjavi se"
+        "logout": "Odjavi se",
+        "sign-up": "Registriraj se",
+        "sign-in": "Prijavi se"
     },
     "List": {
         "title": "Odaberite tip nekretnine",

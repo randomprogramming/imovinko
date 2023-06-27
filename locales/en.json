@@ -28,9 +28,11 @@
         "no-account": "Don't have an account?",
         "register-here": "Create one here!"
     },
-    "AuthDropdown": {
+    "Navbar": {
         "submit-ad": "Submit Ad",
-        "logout": "Logout"
+        "logout": "Logout",
+        "sign-up": "Sign Up",
+        "sign-in": "Sign In"
     },
     "List": {
         "title": "Choose property type",
