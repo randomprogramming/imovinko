@@ -111,5 +111,9 @@
         "lister-joined": "Oglasivač se pridružio",
         "listing-posted": "Oglas objavljen",
         "view-count": "Broj prikaza oglasa"
+    },
+    "ListingsPage": {
+        "per-night": "noćenje",
+        "per-month": "mjesečno"
     }
 }

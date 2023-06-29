@@ -4,7 +4,7 @@ import Link from "@/components/Link";
 import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { ListingOnMap, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
+import { ListingBasic, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
 import { LngLatBounds } from "mapbox-gl";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
@@ -43,9 +43,9 @@ export default function MapScreen({ query }: MapScreenProps) {
         { value: PropertyType.land, label: t("land") },
     ];
 
-    const [properties, setProperties] = useState<ListingOnMap[]>([]);
+    const [properties, setProperties] = useState<ListingBasic[]>([]);
     const [hoveredProperty, setHoveredProperty] = useState<null | string>(null);
-    const [openProperty, setOpenProperty] = useState<ListingOnMap | null>(null);
+    const [openProperty, setOpenProperty] = useState<ListingBasic | null>(null);
 
     const [propertyTypeDropdownSelectedValues, setPropertyTypeDropdownSelectedValues] = useState(
         propertyValueDropdownValues
@@ -88,7 +88,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
-    function getPropertyLat(p: ListingOnMap) {
+    function getPropertyLat(p: ListingBasic) {
         if (p.apartment) {
             return p.apartment.latitude;
         } else if (p.house) {
@@ -98,7 +98,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
-    function getPropertyLng(p: ListingOnMap) {
+    function getPropertyLng(p: ListingBasic) {
         if (p.apartment) {
             return p.apartment.longitude;
         } else if (p.house) {
@@ -108,7 +108,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
-    function getPropertyMedia(p: ListingOnMap) {
+    function getPropertyMedia(p: ListingBasic) {
         if (p.apartment) {
             return p.apartment.media;
         } else if (p.house) {
@@ -118,7 +118,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
-    function getPriceString(p: ListingOnMap) {
+    function getPriceString(p: ListingBasic) {
         if (p.offeringType === OfferingType.shortTermRent) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
@@ -126,7 +126,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
-    function onPropertyOpen(p: ListingOnMap) {
+    function onPropertyOpen(p: ListingBasic) {
         if (openProperty) {
             setOpenProperty(null);
             setTimeout(() => {
@@ -141,7 +141,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         setOpenProperty(null);
     }
 
-    function getPropertyLocationString(p: ListingOnMap) {
+    function getPropertyLocationString(p: ListingBasic) {
         let region: string | null = null;
         let city: string | null = null;
         let street: string | null = null;

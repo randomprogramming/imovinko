@@ -10,6 +10,7 @@ import Map from "@/components/Map";
 import { Marker } from "react-map-gl";
 import Carousel from "re-carousel";
 import Button from "@/components/Button";
+import IconRow from "@/components/listing/IconRow";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
     let listing = null;
@@ -23,112 +24,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
         },
     };
 };
-
-interface IconRowProps {
-    listing: Listing;
-}
-function IconRow({ listing }: IconRowProps) {
-    const t = useTranslations("ListingPage");
-
-    if (listing.apartment) {
-        return (
-            <div className="bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm my-4">
-                <div className="flex flex-row space-x-3">
-                    <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                        <Icon name="area" />
-                        <Typography>{listing.apartment.surfaceArea} m²</Typography>
-                        <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                            <Typography className="text-xs">{t("area")}</Typography>
-                        </div>
-                    </div>
-                    {listing.apartment.bedroomCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="bed" />
-                            <Typography>{listing.apartment.bedroomCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("bedrooms")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                    {listing.apartment.bathroomCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="bath" height={20} width={20} />
-                            <Typography>{listing.apartment.bathroomCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("bathrooms")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                    {listing.apartment.parkingSpaceCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="car" />
-                            <Typography>{listing.apartment.parkingSpaceCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("parking-spaces")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-    } else if (listing.house) {
-        return (
-            <div className="bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm my-4">
-                <div className="flex flex-row space-x-3">
-                    <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                        <Icon name="area" />
-                        <Typography>{listing.house.surfaceArea} m²</Typography>
-                        <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                            <Typography className="text-xs">{t("area")}</Typography>
-                        </div>
-                    </div>
-                    {listing.house.bedroomCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="bed" />
-                            <Typography>{listing.house.bedroomCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("bedrooms")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                    {listing.house.bathroomCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="bath" height={20} width={20} />
-                            <Typography>{listing.house.bathroomCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("bathrooms")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                    {listing.house.parkingSpaceCount && (
-                        <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                            <Icon name="car" />
-                            <Typography>{listing.house.parkingSpaceCount}</Typography>
-                            <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                                <Typography className="text-xs">{t("parking-spaces")}</Typography>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-    } else if (listing.land) {
-        return (
-            <div className="bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm my-4">
-                <div className="flex flex-row space-x-3">
-                    <div className="flex flex-row space-x-1 group hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
-                        <Icon name="area" />
-                        <Typography>{listing.land.surfaceArea} m²</Typography>
-                        <div className="opacity-0 group-hover:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
-                            <Typography className="text-xs">{t("area")}</Typography>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    return null;
-}
 
 interface ClickableImageProps {
     url: string;
@@ -500,7 +395,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 </span>
                             </Typography>
                         </div>
-                        <IconRow listing={listing} />
+                        <div className="my-4">
+                            <IconRow listing={listing} />
+                        </div>
 
                         <div className="mt-4">
                             <Typography>{listing.description}</Typography>

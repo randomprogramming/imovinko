@@ -196,8 +196,12 @@ interface BasicProperty extends PropertyLocation {
     media: {
         url: string;
     }[];
+    surfaceArea: number;
+    bedroomCount: number | null;
+    bathroomCount: number | null;
+    parkingSpaceCount: number | null;
 }
-export interface ListingOnMap {
+export interface ListingBasic {
     prettyId: string;
     title: string;
     price: number;
@@ -212,11 +216,24 @@ export async function findListingsByBoundingBox(
     propertyType: PropertyType[],
     offeringType: OfferingType[]
 ) {
-    return await client<ListingOnMap[]>({
+    return await client<ListingBasic[]>({
         url: "/listing/",
         method: "GET",
         params: {
             ...boundingBox,
+            propertyType: propertyType.join(","),
+            offeringType: offeringType.join(","),
+        },
+    });
+}
+export async function findListingsByQuery(
+    propertyType: PropertyType[],
+    offeringType: OfferingType[]
+) {
+    return await client<ListingBasic[]>({
+        url: "/listing/",
+        method: "GET",
+        params: {
             propertyType: propertyType.join(","),
             offeringType: offeringType.join(","),
         },

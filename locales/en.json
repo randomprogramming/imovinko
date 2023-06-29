@@ -111,5 +111,9 @@
         "lister-joined": "Lister joined",
         "listing-posted": "Listing posted",
         "view-count": "Listing views"
+    },
+    "ListingsPage": {
+        "per-night": "per night",
+        "per-month": "per month"
     }
 }
