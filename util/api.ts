@@ -210,6 +210,7 @@ export interface ListingBasic {
     house: BasicProperty | null;
     land: BasicProperty | null;
     offeringType: OfferingType;
+    createdAt: string | Date;
 }
 export interface PaginatedListingBasic {
     data: ListingBasic[];

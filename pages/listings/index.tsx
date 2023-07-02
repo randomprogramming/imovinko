@@ -235,11 +235,30 @@ function ListingCard({ listing }: UIBlockProps) {
                     </div>
                 </div>
                 <div className="bg-zinc-300 h-px w-full mt-2" />
-                <div className="text-right p-2">
-                    <Typography bold className="text-xl">
-                        {listing.price.toLocaleString()} €{" "}
-                        <span className="text-sm font-normal">{getPriceString(listing)}</span>
-                    </Typography>
+                <div className="flex flex-row items-center p-2">
+                    <div>
+                        <Typography className="text-sm">
+                            {t("posted")}:{" "}
+                            <Typography variant="span" className="text-sm font-normal">
+                                {new Date(listing.createdAt)
+                                    .toLocaleDateString(undefined, {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replaceAll("/", ".")}
+                            </Typography>
+                        </Typography>
+                    </div>
+                    <div className="flex-1" />
+                    <div>
+                        <Typography bold className="text-xl">
+                            {listing.price.toLocaleString()} €{" "}
+                            <Typography variant="span" className="text-sm font-normal">
+                                {getPriceString(listing)}
+                            </Typography>
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </div>
@@ -355,11 +374,30 @@ function ListingListItem({ listing }: UIBlockProps) {
                 </div>
                 {/* Push the price element to the end */}
                 <div className="flex-1" />
-                <div className="self-end">
-                    <Typography bold className="text-xl">
-                        {listing.price.toLocaleString()} €{" "}
-                        <span className="text-sm font-normal">{getPriceString(listing)}</span>
-                    </Typography>
+                <div className="flex flex-row w-full items-center">
+                    <div>
+                        <Typography className="text-sm">
+                            {t("posted")}:{" "}
+                            <Typography variant="span" className="text-sm font-normal">
+                                {new Date(listing.createdAt)
+                                    .toLocaleDateString(undefined, {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replaceAll("/", ".")}
+                            </Typography>
+                        </Typography>
+                    </div>
+                    <div className="flex-1" />
+                    <div>
+                        <Typography bold className="text-xl">
+                            {listing.price.toLocaleString()} €{" "}
+                            <Typography variant="span" className="text-sm font-normal">
+                                {getPriceString(listing)}
+                            </Typography>
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </div>
@@ -373,7 +411,7 @@ interface ListingsPageProps {
 export default function ListingsPage({ listings, params }: ListingsPageProps) {
     const t = useTranslations("ListingsPage");
 
-    const [useCards, setUseCards] = useState(false); // Use Cards or List UI for showing listings
+    const [useCards, setUseCards] = useState(true); // Use Cards or List UI for showing listings
 
     const [filterApartments, setFilterApartments] = useState(
         !!params?.propertyTypes?.includes(PropertyType.apartment)

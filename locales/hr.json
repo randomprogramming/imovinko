@@ -127,6 +127,7 @@
         "price": "Cijena",
         "to": "do",
         "search": "Traži",
-        "listings": "oglasa"
+        "listings": "oglasa",
+        "posted": "Objavljeno"
     }
 }

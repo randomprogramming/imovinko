@@ -127,6 +127,7 @@
         "price": "Price",
         "to": "to",
         "search": "Search",
-        "listings": "listings"
+        "listings": "listings",
+        "posted": "Posted"
     }
 }
