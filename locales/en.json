@@ -129,6 +129,11 @@
         "to": "to",
         "search": "Search",
         "listings": "listings",
-        "posted": "Posted"
+        "posted": "Posted",
+        "sort": "Sort",
+        "newest-first": "Newest first",
+        "oldest-first": "Oldest first",
+        "cheapest-first": "Cheapest first",
+        "expensive-first": "Expensive first"
     }
 }

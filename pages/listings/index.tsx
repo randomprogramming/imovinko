@@ -44,6 +44,22 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         delete query.priceTo;
     }
 
+    let sortBy = query.sortBy;
+    if (Array.isArray(sortBy)) {
+        sortBy = sortBy.at(0);
+    }
+    if (sortBy !== "createdAt" && sortBy !== "price") {
+        sortBy = "createdAt";
+    }
+
+    let sortDirectionTyped: "asc" | "desc" | undefined = undefined;
+    let sortDirection = query.sortDirection;
+    if (sortDirection !== "asc" && sortDirection !== "desc") {
+        sortDirectionTyped = "desc";
+    } else {
+        sortDirectionTyped = sortDirection;
+    }
+
     let propertyTypes: PropertyType[] = [];
     if (Array.isArray(query.propertyTypes)) {
         query.propertyTypes.forEach((pt) => {
@@ -103,7 +119,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         offeringTypes,
         page,
         priceFrom,
-        priceTo
+        priceTo,
+        sortBy,
+        sortDirectionTyped
     );
 
     return {
@@ -478,6 +496,22 @@ interface ListingsPageProps {
 export default function ListingsPage({ listings, params }: ListingsPageProps) {
     const t = useTranslations("ListingsPage");
 
+    let selectedSort = "";
+    if (params?.sortBy && (params.sortBy === "createdAt" || params.sortBy === "price")) {
+        selectedSort += params.sortBy;
+    } else {
+        selectedSort += "createdAt";
+    }
+    selectedSort += "-";
+    if (
+        params?.sortDirection &&
+        (params.sortDirection === "asc" || params.sortDirection === "desc")
+    ) {
+        selectedSort += params.sortDirection;
+    } else {
+        selectedSort += "desc";
+    }
+
     const [useCards, setUseCards] = useState(params?.useList !== "true"); // Use Cards or List UI for showing listings
 
     const [filterApartments, setFilterApartments] = useState(
@@ -594,6 +628,27 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             query: { ...allParams },
         });
         setUseCards(useCards);
+    }
+
+    async function handleSortChange(newSort: string) {
+        let allParams = params ? { ...params } : {};
+        const [sortField, sortDirection] = newSort.split("-");
+
+        allParams.sortBy = sortField;
+        allParams.sortDirection = sortDirection;
+
+        await router.push(
+            {
+                pathname: "/listings",
+                query: { ...allParams },
+            },
+            undefined,
+            {
+                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
+                shallow: true,
+            }
+        );
+        router.reload();
     }
 
     return (
@@ -735,8 +790,23 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <Icon name="list" />
                                 </Button.Transparent>
                             </div>
-                            <div className="bg-white p-2 rounded-md shadow-sm">
-                                Sortiraj: Najniza cijenaaaa
+                            <div className="flex flex-row items-center ml-4">
+                                <label htmlFor="sort">
+                                    <Typography>{t("sort")}:</Typography>
+                                </label>
+                                <select
+                                    onChange={(e) => {
+                                        handleSortChange(e.target.value);
+                                    }}
+                                    id="sort"
+                                    className={`ml-1 bg-white p-1.5 !pr-1 rounded-sm shadow-sm ${space_grotesk.className}`}
+                                    defaultValue={selectedSort}
+                                >
+                                    <option value="createdAt-asc">{t("newest-first")}</option>
+                                    <option value="createdAt-desc">{t("oldest-first")}</option>
+                                    <option value="price-asc">{t("cheapest-first")}</option>
+                                    <option value="price-desc">{t("expensive-first")}</option>
+                                </select>
                             </div>
                         </div>
                     </div>

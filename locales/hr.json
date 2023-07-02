@@ -129,6 +129,11 @@
         "to": "do",
         "search": "Traži",
         "listings": "oglasa",
-        "posted": "Objavljeno"
+        "posted": "Objavljeno",
+        "sort": "Sortiraj",
+        "newest-first": "Noviji prvo",
+        "oldest-first": "Stariji prvo",
+        "cheapest-first": "Jeftiniji prvo",
+        "expensive-first": "Skuplji prvo"
     }
 }

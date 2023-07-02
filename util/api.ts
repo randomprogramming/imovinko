@@ -242,7 +242,9 @@ export async function findListingsByQuery(
     offeringType: OfferingType[],
     page?: number | string,
     priceFrom?: number | string,
-    priceTo?: number | string
+    priceTo?: number | string,
+    sortBy?: string,
+    sortDirection?: "asc" | "desc"
 ) {
     return await client<PaginatedListingBasic>({
         url: "/listing/",
@@ -253,6 +255,8 @@ export async function findListingsByQuery(
             page,
             priceFrom,
             priceTo,
+            sortBy,
+            sortDirection,
         },
     });
 }
