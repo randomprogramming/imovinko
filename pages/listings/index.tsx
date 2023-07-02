@@ -19,6 +19,7 @@ import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { space_grotesk } from "@/util/fonts";
+import Icon from "@/components/Icon";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -179,6 +180,30 @@ function ListingCard({ listing }: UIBlockProps) {
         }
     }
 
+    function getPropertyTypeAndOfferingTypeString(p: ListingBasic) {
+        let s: string = "";
+
+        if (p.apartment) {
+            s += t("apartment");
+        } else if (p.house) {
+            s += t("house");
+        } else {
+            s += t("land");
+        }
+
+        s += " • ";
+
+        if (
+            p.offeringType === OfferingType.shortTermRent ||
+            p.offeringType === OfferingType.longTermRent
+        ) {
+            s += t("rent");
+        } else {
+            s += t("sale");
+        }
+        return s;
+    }
+
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
@@ -211,6 +236,15 @@ function ListingCard({ listing }: UIBlockProps) {
             </div>
             <div className="flex flex-col w-full h-full">
                 <div className="p-2">
+                    <div
+                        style={{
+                            fontSize: "11px",
+                        }}
+                    >
+                        <Typography className="tracking-widest text-zinc-500" uppercase>
+                            {getPropertyTypeAndOfferingTypeString(listing)}
+                        </Typography>
+                    </div>
                     <div
                         style={{
                             minHeight: "3.5em",
@@ -327,6 +361,30 @@ function ListingListItem({ listing }: UIBlockProps) {
         }
     }
 
+    function getPropertyTypeAndOfferingTypeString(p: ListingBasic) {
+        let s: string = "";
+
+        if (p.apartment) {
+            s += t("apartment");
+        } else if (p.house) {
+            s += t("house");
+        } else {
+            s += t("land");
+        }
+
+        s += " • ";
+
+        if (
+            p.offeringType === OfferingType.shortTermRent ||
+            p.offeringType === OfferingType.longTermRent
+        ) {
+            s += t("rent");
+        } else {
+            s += t("sale");
+        }
+        return s;
+    }
+
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
@@ -353,6 +411,15 @@ function ListingListItem({ listing }: UIBlockProps) {
                 )}
             </div>
             <div className="p-4 flex flex-col w-full h-full">
+                <div
+                    style={{
+                        fontSize: "11px",
+                    }}
+                >
+                    <Typography className="tracking-widest text-zinc-500" uppercase>
+                        {getPropertyTypeAndOfferingTypeString(listing)}
+                    </Typography>
+                </div>
                 <div
                     style={{
                         minHeight: "4em",
@@ -411,7 +478,7 @@ interface ListingsPageProps {
 export default function ListingsPage({ listings, params }: ListingsPageProps) {
     const t = useTranslations("ListingsPage");
 
-    const [useCards, setUseCards] = useState(true); // Use Cards or List UI for showing listings
+    const [useCards, setUseCards] = useState(params?.useList !== "true"); // Use Cards or List UI for showing listings
 
     const [filterApartments, setFilterApartments] = useState(
         !!params?.propertyTypes?.includes(PropertyType.apartment)
@@ -450,7 +517,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
     async function handlePageChange(newPage: number) {
         const oldParams = params ? { ...params } : {};
-        await router.replace(
+        await router.push(
             {
                 pathname: "/listings",
                 query: { ...oldParams, page: newPage },
@@ -499,10 +566,12 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             delete allParams.priceTo;
         }
 
-        await router.replace(
+        // Restart to first page when filter changes
+        delete allParams.page;
+        await router.push(
             {
                 pathname: "/listings",
-                query: { ...allParams, propertyTypes, offeringTypes, page: 1 },
+                query: { ...allParams, propertyTypes, offeringTypes },
             },
             undefined,
             {
@@ -511,6 +580,20 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             }
         );
         router.reload();
+    }
+
+    async function handleUseCardsChange(useCards: boolean) {
+        let allParams = params ? { ...params } : {};
+        if (useCards) {
+            delete allParams.useList;
+        } else {
+            allParams.useList = "true";
+        }
+        await router.replace({
+            pathname: "/listings",
+            query: { ...allParams },
+        });
+        setUseCards(useCards);
     }
 
     return (
@@ -583,8 +666,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
                     <div className="mt-8">
                         <Typography bold>{t("price")}</Typography>
-                        <div className="flex flex-row items-center ml-2 mt-2">
-                            <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                        <div className="flex flex-row flex-wrap items-center ml-2">
+                            <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                 <input
                                     id="priceFrom"
                                     name="priceFrom"
@@ -598,8 +681,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <Typography>€</Typography>
                                 </label>
                             </div>
-                            <Typography className="mx-2">{t("to")}</Typography>
-                            <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                            <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                            <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                 <input
                                     id="priceTo"
                                     name="priceTo"
@@ -626,8 +709,32 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                             {listings.count} {t("listings")}
                         </Typography>
 
-                        <div className="flex flex-row">
-                            <div>Prikaz KArtica/Prikaz Listeeee</div>
+                        <div className="flex flex-row justify-center items-center">
+                            <div className="flex flex-row bg-zinc-50 mr-2 rounded-md relative shadow-sm">
+                                <div
+                                    className={`absolute h-full w-1/2 p-1 transition-all ${
+                                        useCards ? "" : "translate-x-full"
+                                    }`}
+                                >
+                                    <div className="h-full w-full bg-zinc-300 rounded-md"></div>
+                                </div>
+                                <Button.Transparent
+                                    className="z-30 hover:bg-transparent"
+                                    onClick={() => {
+                                        handleUseCardsChange(true);
+                                    }}
+                                >
+                                    <Icon name="cards" />
+                                </Button.Transparent>
+                                <Button.Transparent
+                                    className="ml-1 z-30 hover:bg-transparent"
+                                    onClick={() => {
+                                        handleUseCardsChange(false);
+                                    }}
+                                >
+                                    <Icon name="list" />
+                                </Button.Transparent>
+                            </div>
                             <div className="bg-white p-2 rounded-md shadow-sm">
                                 Sortiraj: Najniza cijenaaaa
                             </div>

@@ -22,7 +22,9 @@ export type IconName =
     | "bed"
     | "bath"
     | "car"
-    | "show-more";
+    | "show-more"
+    | "list"
+    | "cards";
 
 interface IconProps {
     name: IconName;
@@ -885,6 +887,81 @@ export default function Icon({ name, height, width, className }: IconProps) {
                             d="M16 6.00501C16 7.10777 16.9 8 18 8C19.1 8 20 7.10777 20 6.00501C20 4.90226 19.1 4 18 4C16.9 4 16 4.90226 16 6.00501Z"
                             fill="#000000"
                         ></path>
+                    </g>
+                </svg>
+            );
+        case "list":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <g>
+                            <path
+                                d="M9 17H19M9 12H19M9 7H19M5.00195 17V17.002L5 17.002V17H5.00195ZM5.00195 12V12.002L5 12.002V12H5.00195ZM5.00195 7V7.002L5 7.00195V7H5.00195Z"
+                                stroke="#000000"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></path>
+                        </g>
+                    </g>
+                </svg>
+            );
+        case "cards":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <rect
+                            x="3"
+                            y="3"
+                            width="7"
+                            height="7"
+                            rx="1"
+                            stroke="#222222"
+                            strokeLinecap="round"
+                        ></rect>
+                        <rect
+                            x="3"
+                            y="14"
+                            width="7"
+                            height="7"
+                            rx="1"
+                            stroke="#222222"
+                            strokeLinecap="round"
+                        ></rect>
+                        <rect
+                            x="14"
+                            y="3"
+                            width="7"
+                            height="7"
+                            rx="1"
+                            stroke="#222222"
+                            strokeLinecap="round"
+                        ></rect>
+                        <rect
+                            x="14"
+                            y="14"
+                            width="7"
+                            height="7"
+                            rx="1"
+                            stroke="#222222"
+                            strokeLinecap="round"
+                        ></rect>
                     </g>
                 </svg>
             );
