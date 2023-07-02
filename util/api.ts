@@ -211,31 +211,44 @@ export interface ListingBasic {
     land: BasicProperty | null;
     offeringType: OfferingType;
 }
+export interface PaginatedListingBasic {
+    data: ListingBasic[];
+    page: number;
+    totalPages: number;
+    pageSize: number;
+    count: number;
+}
 export async function findListingsByBoundingBox(
     boundingBox: BoundingBox,
     propertyType: PropertyType[],
     offeringType: OfferingType[]
 ) {
-    return await client<ListingBasic[]>({
-        url: "/listing/",
-        method: "GET",
-        params: {
-            ...boundingBox,
-            propertyType: propertyType.join(","),
-            offeringType: offeringType.join(","),
-        },
-    });
+    return (
+        await client<PaginatedListingBasic[]>({
+            url: "/listing/",
+            method: "GET",
+            params: {
+                ...boundingBox,
+                propertyType: propertyType.join(","),
+                offeringType: offeringType.join(","),
+                pageSize: 100, // Since no pagination is neccessary here, just request the maximum number of listings
+            },
+        })
+    ).data;
 }
 export async function findListingsByQuery(
     propertyType: PropertyType[],
-    offeringType: OfferingType[]
+    offeringType: OfferingType[],
+    page?: number | string
 ) {
-    return await client<ListingBasic[]>({
+    return await client<PaginatedListingBasic>({
         url: "/listing/",
         method: "GET",
         params: {
             propertyType: propertyType.join(","),
             offeringType: offeringType.join(","),
+            pageSize: 2, // TODO: remove this
+            page,
         },
     });
 }

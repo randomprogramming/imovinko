@@ -1,25 +1,91 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { ListingBasic, OfferingType, PropertyType, findListingsByQuery } from "@/util/api";
+import {
+    ListingBasic,
+    OfferingType,
+    PaginatedListingBasic,
+    PropertyType,
+    findListingsByQuery,
+} from "@/util/api";
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 import Image from "next/image";
 import IconRow from "@/components/listing/IconRow";
 import Link from "@/components/Link";
 import { useTranslations } from "next-intl";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import Pagination from "@/components/Pagination";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
-    const { data } = await findListingsByQuery(
-        [PropertyType.apartment, PropertyType.house, PropertyType.land],
-        [OfferingType.longTermRent, OfferingType.sale, OfferingType.shortTermRent]
-    );
-    console.log("listings");
-    console.log(data);
+export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
+    let page = query.page;
+    if (Array.isArray(page)) {
+        page = page.at(0);
+    }
+
+    let propertyTypes: PropertyType[] = [];
+    if (Array.isArray(query.propertyTypes)) {
+        query.propertyTypes.forEach((pt) => {
+            if (
+                pt === PropertyType.apartment ||
+                pt === PropertyType.house ||
+                PropertyType.land == pt
+            ) {
+                propertyTypes.push(pt as PropertyType);
+            }
+        });
+    } else if (typeof query.propertyTypes === "string") {
+        const pt = query.propertyTypes;
+        if (pt === PropertyType.apartment) {
+            propertyTypes = [PropertyType.apartment];
+        }
+        if (pt === PropertyType.house) {
+            propertyTypes = [PropertyType.house];
+        }
+        if (pt === PropertyType.land) {
+            propertyTypes = [PropertyType.land];
+        }
+    }
+    if (propertyTypes.length === 0) {
+        propertyTypes = [PropertyType.apartment, PropertyType.house, PropertyType.land];
+    }
+
+    let offeringTypes: OfferingType[] = [];
+    if (Array.isArray(query.offeringTypes)) {
+        query.offeringTypes.forEach((ot) => {
+            if (
+                ot === OfferingType.sale ||
+                ot === OfferingType.shortTermRent ||
+                ot === OfferingType.longTermRent
+            ) {
+                offeringTypes.push(ot as OfferingType);
+            }
+        });
+    } else if (typeof query.offeringTypes === "string") {
+        const ot = query.offeringTypes;
+        if (ot === OfferingType.sale) {
+            offeringTypes.push(ot as OfferingType);
+        }
+        if (ot === OfferingType.shortTermRent) {
+            offeringTypes.push(ot as OfferingType);
+        }
+        if (ot === OfferingType.longTermRent) {
+            offeringTypes.push(ot as OfferingType);
+        }
+    }
+    if (offeringTypes.length === 0) {
+        offeringTypes = [OfferingType.sale, OfferingType.longTermRent, OfferingType.shortTermRent];
+    }
+
+    const { data } = await findListingsByQuery(propertyTypes, offeringTypes, page);
 
     return {
         props: {
             messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
             listings: data,
+            params: query || {},
         },
     };
 };
@@ -277,21 +343,189 @@ function ListingListItem({ listing }: UIBlockProps) {
 }
 
 interface ListingsPageProps {
-    listings: ListingBasic[];
+    listings: PaginatedListingBasic;
+    params: ParsedUrlQuery | undefined;
 }
-export default function ListingsPage({ listings }: ListingsPageProps) {
-    const [useCards, setUseCards] = useState(true); // Use Cards or List UI for showing listings
+export default function ListingsPage({ listings, params }: ListingsPageProps) {
+    const [useCards, setUseCards] = useState(false); // Use Cards or List UI for showing listings
+
+    const [filterApartments, setFilterApartments] = useState(
+        !!params?.propertyTypes?.includes(PropertyType.apartment)
+    );
+    const [filterHouses, setFilterHouses] = useState(
+        !!params?.propertyTypes?.includes(PropertyType.house)
+    );
+    const [filterLand, setFilterLand] = useState(
+        !!params?.propertyTypes?.includes(PropertyType.land)
+    );
+    const [filterSale, setFilterSale] = useState(
+        !!params?.offeringTypes?.includes(OfferingType.sale)
+    );
+    const [filterLongTermRent, setFilterLongTermRent] = useState(
+        !!params?.offeringTypes?.includes(OfferingType.longTermRent)
+    );
+    const [filterShortTermRent, setFilterShortTermRent] = useState(
+        !!params?.offeringTypes?.includes(OfferingType.shortTermRent)
+    );
+
+    const router = useRouter();
+
+    async function handlePageChange(newPage: number) {
+        const oldParams = params ? { ...params } : {};
+        await router.replace(
+            {
+                pathname: "/listings",
+                query: { ...oldParams, page: newPage },
+            },
+            undefined,
+            {
+                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
+                shallow: true,
+            }
+        );
+        router.reload();
+    }
+
+    async function handleFilterChange() {
+        let oldParams = params ? { ...params } : {};
+
+        const propertyTypes = [];
+        if (filterApartments) {
+            propertyTypes.push(PropertyType.apartment);
+        }
+        if (filterHouses) {
+            propertyTypes.push(PropertyType.house);
+        }
+        if (filterLand) {
+            propertyTypes.push(PropertyType.land);
+        }
+        const offeringTypes: OfferingType[] = [];
+        if (filterSale) {
+            offeringTypes.push(OfferingType.sale);
+        }
+        if (filterLongTermRent) {
+            offeringTypes.push(OfferingType.longTermRent);
+        }
+        if (filterShortTermRent) {
+            offeringTypes.push(OfferingType.shortTermRent);
+        }
+
+        await router.replace(
+            {
+                pathname: "/listings",
+                query: { ...oldParams, propertyTypes, offeringTypes, page: 1 },
+            },
+            undefined,
+            {
+                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
+                shallow: true,
+            }
+        );
+        router.reload();
+    }
 
     return (
         <>
             <header className="z-30">
                 <Navbar />
             </header>
-            <main className="flex-1 flex flex-col md:flex-row">
-                <div className="md:w-1/4">Filter</div>
-                <div className="flex-1 container mx-auto max-w-4xl">
+            <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
+                <div
+                    className="md:w-1/4 min-h-full border-r border-zinc-300 px-2 pt-4 flex flex-col"
+                    style={{
+                        maxWidth: "420px",
+                    }}
+                >
+                    <Typography variant="h2">Filterrrr</Typography>
+
+                    <div className="w-full mt-8">
+                        <Typography bold>Tip Nekretnineeee</Typography>
+                        <div className="w-full">
+                            <Input
+                                name={"Apartman"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterApartments}
+                                onCheckedChange={setFilterApartments}
+                            />
+                            <Input
+                                name={"Kuca"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterHouses}
+                                onCheckedChange={setFilterHouses}
+                            />
+                            <Input
+                                name={"Zemljiste"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterLand}
+                                onCheckedChange={setFilterLand}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="w-full mt-8">
+                        <Typography bold>Tip Ponudeee</Typography>
+                        <div className="w-full">
+                            <Input
+                                name={"Prodaja"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterSale}
+                                onCheckedChange={setFilterSale}
+                            />
+                            <Input
+                                name={"Dugorocni najam"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterLongTermRent}
+                                onCheckedChange={setFilterLongTermRent}
+                            />
+                            <Input
+                                name={"Kratkotrajan najam"}
+                                type="checkbox"
+                                className="ml-2"
+                                checked={filterShortTermRent}
+                                onCheckedChange={setFilterShortTermRent}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <Typography bold>Cijena</Typography>
+                        <div className="flex flex-row items-center ml-2 mt-2">
+                            <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                <input
+                                    id="priceFrom"
+                                    name="priceFrom"
+                                    className="bg-transparent outline-none border-none w-24"
+                                />
+                                <label htmlFor="priceFrom">
+                                    <Typography>€</Typography>
+                                </label>
+                            </div>
+                            <Typography className="mx-2">do</Typography>
+                            <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                <input
+                                    id="priceTo"
+                                    name="priceTo"
+                                    className="bg-transparent outline-none border-none w-24"
+                                />
+                                <label htmlFor="priceTo">
+                                    <Typography>€</Typography>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <Button.Primary label="Trazi" onClick={handleFilterChange} />
+                    </div>
+                </div>
+                <div className="flex-1 container mx-auto px-2">
                     <div className="flex flex-row justify-between items-center mt-4">
-                        <Typography>492 oglasa</Typography>
+                        <Typography>{listings.count} oglasa</Typography>
 
                         <div className="flex flex-row">
                             <div>Prikaz KArtica/Prikaz Liste</div>
@@ -304,10 +538,10 @@ export default function ListingsPage({ listings }: ListingsPageProps) {
                         className={`${
                             useCards
                                 ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-6"
-                                : "space-y-6 mt-2"
-                        }`}
+                                : "space-y-6 max-w-3xl 2xl:max-w-5xl mx-auto"
+                        } mt-2`}
                     >
-                        {listings.map((listing) => {
+                        {listings.data.map((listing) => {
                             if (useCards) {
                                 return (
                                     <Link
@@ -333,6 +567,15 @@ export default function ListingsPage({ listings }: ListingsPageProps) {
                             }
                         })}
                     </div>
+                    {listings.totalPages > 1 && (
+                        <div className="my-4 flex justify-center items-center">
+                            <Pagination
+                                currentPage={listings.page}
+                                maxPage={listings.totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    )}
                 </div>
             </main>
         </>
