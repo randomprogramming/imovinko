@@ -239,7 +239,9 @@ export async function findListingsByBoundingBox(
 export async function findListingsByQuery(
     propertyType: PropertyType[],
     offeringType: OfferingType[],
-    page?: number | string
+    page?: number | string,
+    priceFrom?: number | string,
+    priceTo?: number | string
 ) {
     return await client<PaginatedListingBasic>({
         url: "/listing/",
@@ -247,8 +249,9 @@ export async function findListingsByQuery(
         params: {
             propertyType: propertyType.join(","),
             offeringType: offeringType.join(","),
-            pageSize: 2, // TODO: remove this
             page,
+            priceFrom,
+            priceTo,
         },
     });
 }

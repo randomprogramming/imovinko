@@ -114,6 +114,19 @@
     },
     "ListingsPage": {
         "per-night": "noćenje",
-        "per-month": "mjesečno"
+        "per-month": "mjesečno",
+        "filter": "Filter",
+        "property-type": "Tip nekretnine",
+        "house": "Kuća",
+        "apartment": "Stan",
+        "land": "Zemljište",
+        "offering-type": "Tip ponude",
+        "sale": "Prodaja",
+        "short-term-rent": "Kratkotrajan najam",
+        "long-term-rent": "Dugoročan najam",
+        "price": "Cijena",
+        "to": "do",
+        "search": "Traži",
+        "listings": "oglasa"
     }
 }

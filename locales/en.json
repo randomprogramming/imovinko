@@ -114,6 +114,19 @@
     },
     "ListingsPage": {
         "per-night": "per night",
-        "per-month": "per month"
+        "per-month": "per month",
+        "filter": "Filter",
+        "property-type": "Property Type",
+        "house": "House",
+        "apartment": "Apartment",
+        "land": "Land",
+        "offering-type": "Offering Type",
+        "sale": "Sale",
+        "short-term-rent": "Short Term Rent",
+        "long-term-rent": "Long Term Rent",
+        "price": "Price",
+        "to": "to",
+        "search": "Search",
+        "listings": "listings"
     }
 }

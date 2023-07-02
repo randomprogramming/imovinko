@@ -18,11 +18,29 @@ import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import { space_grotesk } from "@/util/fonts";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
     if (Array.isArray(page)) {
         page = page.at(0);
+    }
+    let priceFrom = query.priceFrom;
+    if (Array.isArray(priceFrom)) {
+        priceFrom = priceFrom.at(0);
+    }
+    if (isNaN(priceFrom as any)) {
+        priceFrom = undefined;
+        delete query.priceFrom;
+    }
+
+    let priceTo = query.priceTo;
+    if (Array.isArray(priceTo)) {
+        priceTo = priceTo.at(0);
+    }
+    if (isNaN(priceTo as any)) {
+        priceTo = undefined;
+        delete query.priceTo;
     }
 
     let propertyTypes: PropertyType[] = [];
@@ -79,7 +97,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         offeringTypes = [OfferingType.sale, OfferingType.longTermRent, OfferingType.shortTermRent];
     }
 
-    const { data } = await findListingsByQuery(propertyTypes, offeringTypes, page);
+    const { data } = await findListingsByQuery(
+        propertyTypes,
+        offeringTypes,
+        page,
+        priceFrom,
+        priceTo
+    );
 
     return {
         props: {
@@ -347,6 +371,8 @@ interface ListingsPageProps {
     params: ParsedUrlQuery | undefined;
 }
 export default function ListingsPage({ listings, params }: ListingsPageProps) {
+    const t = useTranslations("ListingsPage");
+
     const [useCards, setUseCards] = useState(false); // Use Cards or List UI for showing listings
 
     const [filterApartments, setFilterApartments] = useState(
@@ -366,6 +392,20 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
     );
     const [filterShortTermRent, setFilterShortTermRent] = useState(
         !!params?.offeringTypes?.includes(OfferingType.shortTermRent)
+    );
+    const [priceFrom, setPriceFrom] = useState<string | undefined>(
+        isNaN(params?.priceFrom as any)
+            ? undefined
+            : Array.isArray(params?.priceFrom)
+            ? undefined
+            : params?.priceFrom
+    );
+    const [priceTo, setPriceTo] = useState<string | undefined>(
+        isNaN(params?.priceTo as any)
+            ? undefined
+            : Array.isArray(params?.priceTo)
+            ? undefined
+            : params?.priceTo
     );
 
     const router = useRouter();
@@ -387,7 +427,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
     }
 
     async function handleFilterChange() {
-        let oldParams = params ? { ...params } : {};
+        let allParams = params ? { ...params } : {};
 
         const propertyTypes = [];
         if (filterApartments) {
@@ -410,10 +450,21 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             offeringTypes.push(OfferingType.shortTermRent);
         }
 
+        if (priceFrom && priceFrom.length > 0 && !isNaN(priceFrom as any)) {
+            allParams.priceFrom = priceFrom;
+        } else {
+            delete allParams.priceFrom;
+        }
+        if (priceTo && priceTo.length > 0 && !isNaN(priceTo as any)) {
+            allParams.priceTo = priceTo;
+        } else {
+            delete allParams.priceTo;
+        }
+
         await router.replace(
             {
                 pathname: "/listings",
-                query: { ...oldParams, propertyTypes, offeringTypes, page: 1 },
+                query: { ...allParams, propertyTypes, offeringTypes, page: 1 },
             },
             undefined,
             {
@@ -436,27 +487,27 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         maxWidth: "420px",
                     }}
                 >
-                    <Typography variant="h2">Filterrrr</Typography>
+                    <Typography variant="h2">{t("filter")}</Typography>
 
                     <div className="w-full mt-8">
-                        <Typography bold>Tip Nekretnineeee</Typography>
+                        <Typography bold>{t("property-type")}</Typography>
                         <div className="w-full">
                             <Input
-                                name={"Apartman"}
+                                name={t("apartment")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterApartments}
                                 onCheckedChange={setFilterApartments}
                             />
                             <Input
-                                name={"Kuca"}
+                                name={t("house")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterHouses}
                                 onCheckedChange={setFilterHouses}
                             />
                             <Input
-                                name={"Zemljiste"}
+                                name={t("land")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterLand}
@@ -466,24 +517,24 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
 
                     <div className="w-full mt-8">
-                        <Typography bold>Tip Ponudeee</Typography>
+                        <Typography bold>{t("offering-type")}</Typography>
                         <div className="w-full">
                             <Input
-                                name={"Prodaja"}
+                                name={t("sale")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterSale}
                                 onCheckedChange={setFilterSale}
                             />
                             <Input
-                                name={"Dugorocni najam"}
+                                name={t("long-term-rent")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterLongTermRent}
                                 onCheckedChange={setFilterLongTermRent}
                             />
                             <Input
-                                name={"Kratkotrajan najam"}
+                                name={t("short-term-rent")}
                                 type="checkbox"
                                 className="ml-2"
                                 checked={filterShortTermRent}
@@ -493,24 +544,32 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
 
                     <div className="mt-8">
-                        <Typography bold>Cijena</Typography>
+                        <Typography bold>{t("price")}</Typography>
                         <div className="flex flex-row items-center ml-2 mt-2">
                             <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                 <input
                                     id="priceFrom"
                                     name="priceFrom"
-                                    className="bg-transparent outline-none border-none w-24"
+                                    className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                    value={priceFrom}
+                                    onChange={(e) => {
+                                        setPriceFrom(e.target.value);
+                                    }}
                                 />
                                 <label htmlFor="priceFrom">
                                     <Typography>€</Typography>
                                 </label>
                             </div>
-                            <Typography className="mx-2">do</Typography>
+                            <Typography className="mx-2">{t("to")}</Typography>
                             <div className="border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                 <input
                                     id="priceTo"
                                     name="priceTo"
-                                    className="bg-transparent outline-none border-none w-24"
+                                    className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                    value={priceTo}
+                                    onChange={(e) => {
+                                        setPriceTo(e.target.value);
+                                    }}
                                 />
                                 <label htmlFor="priceTo">
                                     <Typography>€</Typography>
@@ -520,17 +579,19 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
 
                     <div className="mt-8">
-                        <Button.Primary label="Trazi" onClick={handleFilterChange} />
+                        <Button.Primary label={t("search")} onClick={handleFilterChange} />
                     </div>
                 </div>
-                <div className="flex-1 container mx-auto px-2">
+                <div className="flex-1 container mx-auto px-2 pb-8">
                     <div className="flex flex-row justify-between items-center mt-4">
-                        <Typography>{listings.count} oglasa</Typography>
+                        <Typography>
+                            {listings.count} {t("listings")}
+                        </Typography>
 
                         <div className="flex flex-row">
-                            <div>Prikaz KArtica/Prikaz Liste</div>
+                            <div>Prikaz KArtica/Prikaz Listeeee</div>
                             <div className="bg-white p-2 rounded-md shadow-sm">
-                                Sortiraj: Najniza cijena
+                                Sortiraj: Najniza cijenaaaa
                             </div>
                         </div>
                     </div>
@@ -568,7 +629,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         })}
                     </div>
                     {listings.totalPages > 1 && (
-                        <div className="my-4 flex justify-center items-center">
+                        <div className="mb-4 flex justify-center items-center">
                             <Pagination
                                 currentPage={listings.page}
                                 maxPage={listings.totalPages}
