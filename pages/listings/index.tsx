@@ -225,7 +225,7 @@ function ListingCard({ listing }: UIBlockProps) {
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
-        <div className="bg-zinc-50 border border-zinc-300 w-full rounded-lg shadow-sm overflow-hidden">
+        <div className="bg-zinc-50 border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden">
             <div
                 className="w-full relative"
                 style={{
@@ -761,7 +761,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                 <div className="flex-1 container mx-auto px-2 pb-8">
                     <div className="flex flex-row justify-between items-center mt-4">
                         <Typography>
-                            {listings.count} {t("listings")}
+                            {listings.count} {listings.count === 1 ? t("listing") : t("listings")}
                         </Typography>
 
                         <div className="flex flex-row justify-center items-center">
