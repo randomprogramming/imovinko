@@ -24,7 +24,10 @@ export type IconName =
     | "car"
     | "show-more"
     | "list"
-    | "cards";
+    | "cards"
+    | "office"
+    | "account-settings"
+    | "property";
 
 interface IconProps {
     name: IconName;
@@ -35,7 +38,6 @@ interface IconProps {
 
 const DEFAULT_W = "24";
 const DEFAULT_H = "24";
-// TODO: Add a default color for these
 export default function Icon({ name, height, width, className }: IconProps) {
     switch (name) {
         case "search":
@@ -962,6 +964,112 @@ export default function Icon({ name, height, width, className }: IconProps) {
                             stroke="#222222"
                             strokeLinecap="round"
                         ></rect>
+                    </g>
+                </svg>
+            );
+        case "office":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={className}
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path
+                            className={className}
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H12H13C13.5523 20 14 19.5523 14 19V5C14 4.44772 13.5523 4 13 4H5ZM5 22H12H13H19C20.6569 22 22 20.6569 22 19V9C22 7.34315 20.6569 6 19 6H16V5C16 3.34315 14.6569 2 13 2H5C3.34315 2 2 3.34315 2 5V19C2 20.6569 3.34315 22 5 22ZM19 20H15.8293C15.9398 19.6872 16 19.3506 16 19V8H19C19.5523 8 20 8.44772 20 9V19C20 19.5523 19.5523 20 19 20ZM7 14H5V16H7V14ZM8 14H10V16H8V14ZM13 14H11V16H13V14ZM17 14H19V16H17V14ZM19 10H17V12H19V10ZM5 10H7V12H5V10ZM10 10H8V12H10V10ZM11 10H13V12H11V10ZM7 6H5V8H7V6ZM8 6H10V8H8V6ZM13 6H11V8H13V6Z"
+                            fill="#ffffff"
+                        ></path>
+                    </g>
+                </svg>
+            );
+        case "account-settings":
+            return (
+                <svg
+                    fill="#000000"
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={className}
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <path
+                            className={className}
+                            d="M9.6,3.32a3.86,3.86,0,1,0,3.86,3.85A3.85,3.85,0,0,0,9.6,3.32M16.35,11a.26.26,0,0,0-.25.21l-.18,1.27a4.63,4.63,0,0,0-.82.45l-1.2-.48a.3.3,0,0,0-.3.13l-1,1.66a.24.24,0,0,0,.06.31l1,.79a3.94,3.94,0,0,0,0,1l-1,.79a.23.23,0,0,0-.06.3l1,1.67c.06.13.19.13.3.13l1.2-.49a3.85,3.85,0,0,0,.82.46l.18,1.27a.24.24,0,0,0,.25.2h1.93a.24.24,0,0,0,.23-.2l.18-1.27a5,5,0,0,0,.81-.46l1.19.49c.12,0,.25,0,.32-.13l1-1.67a.23.23,0,0,0-.06-.3l-1-.79a4,4,0,0,0,0-.49,2.67,2.67,0,0,0,0-.48l1-.79a.25.25,0,0,0,.06-.31l-1-1.66c-.06-.13-.19-.13-.31-.13L19.5,13a4.07,4.07,0,0,0-.82-.45l-.18-1.27a.23.23,0,0,0-.22-.21H16.46M9.71,13C5.45,13,2,14.7,2,16.83v1.92h9.33a6.65,6.65,0,0,1,0-5.69A13.56,13.56,0,0,0,9.71,13m7.6,1.43a1.45,1.45,0,1,1,0,2.89,1.45,1.45,0,0,1,0-2.89Z"
+                        ></path>
+                    </g>
+                </svg>
+            );
+        case "property":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g>
+                        <path
+                            d="M22 22L2 22"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M2 11L6.06296 7.74968M22 11L13.8741 4.49931C12.7784 3.62279 11.2216 3.62279 10.1259 4.49931L9.34398 5.12486"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M4 22V9.5"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M20 9.5V13.5M20 22V17.5"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393M9 22V17"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={className}
+                        ></path>
+                        <path
+                            d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z"
+                            stroke="#1C274C"
+                            strokeWidth="1.5"
+                            className={className}
+                        ></path>
                     </g>
                 </svg>
             );

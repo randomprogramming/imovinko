@@ -32,7 +32,8 @@
         "submit-ad": "Predaj oglas",
         "logout": "Odjavi se",
         "sign-up": "Registriraj se",
-        "sign-in": "Prijavi se"
+        "sign-in": "Prijavi se",
+        "my-account": "Moj račun"
     },
     "List": {
         "title": "Odaberite tip nekretnine",
@@ -136,5 +137,21 @@
         "oldest-first": "Stariji prvo",
         "cheapest-first": "Jeftiniji prvo",
         "expensive-first": "Skuplji prvo"
+    },
+    "AccountPage": {
+        "my-account": "Moj račun",
+        "joined": "Pridružio se",
+        "first-name": "Ime",
+        "last-name": "Prezime",
+        "username": "Korisničko ime",
+        "email": "E-Mail",
+        "password": "Lozinka",
+        "confirm-password": "Potvrdi lozinku",
+        "save": "Spremi"
+    },
+    "Navigation": {
+        "my-account": "Moj račun",
+        "my-company": "Moja tvrtka",
+        "my-properties": "Moje nekretnine"
     }
 }

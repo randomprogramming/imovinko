@@ -43,6 +43,8 @@ interface InputProps extends CheckBoxInputProps {
     small?: boolean;
     hasError?: boolean;
     errorMsg?: string;
+    hollow?: boolean;
+    disabled?: boolean;
 }
 export default function Input({
     name,
@@ -56,6 +58,8 @@ export default function Input({
     small,
     hasError,
     errorMsg,
+    hollow,
+    disabled,
 }: InputProps) {
     if (type === "checkbox") {
         return (
@@ -94,6 +98,7 @@ export default function Input({
         <div className="relative">
             <input
                 id={name}
+                disabled={disabled}
                 type={type}
                 name={name}
                 value={value}
@@ -105,9 +110,9 @@ export default function Input({
                 }}
                 className={`relative z-30 ${space_grotesk.className} ${
                     small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
-                } bg-white border-2 ${
+                } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
                     hasError ? "border-rose-700" : "border-transparent"
-                } outline-none shadow-sm ${className}`}
+                } outline-none shadow-sm ${className} disabled:bg-zinc-300`}
             />
             {hasError && errorMsg && (
                 <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">

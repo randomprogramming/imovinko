@@ -32,7 +32,8 @@
         "submit-ad": "Submit Ad",
         "logout": "Logout",
         "sign-up": "Sign Up",
-        "sign-in": "Sign In"
+        "sign-in": "Sign In",
+        "my-account": "My Account"
     },
     "List": {
         "title": "Choose property type",
@@ -136,5 +137,21 @@
         "oldest-first": "Oldest first",
         "cheapest-first": "Cheapest first",
         "expensive-first": "Expensive first"
+    },
+    "AccountPage": {
+        "my-account": "My Account",
+        "joined": "Joined",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "username": "Username",
+        "email": "E-Mail",
+        "password": "Password",
+        "confirm-password": "Confirm Password",
+        "save": "Save"
+    },
+    "Navigation": {
+        "my-account": "My Account",
+        "my-company": "My Company",
+        "my-properties": "My Properties"
     }
 }

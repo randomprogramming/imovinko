@@ -225,7 +225,7 @@ export async function findListingsByBoundingBox(
     offeringType: OfferingType[]
 ) {
     return (
-        await client<PaginatedListingBasic[]>({
+        await client<PaginatedListingBasic>({
             url: "/listing/",
             method: "GET",
             params: {
@@ -337,5 +337,48 @@ export async function findListing(id: string) {
     return await client<Listing>({
         url: `/listing/${id}`,
         method: "GET",
+    });
+}
+
+export interface MyAccount {
+    id: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    username: string | null;
+    createdAt: Date | string;
+}
+export async function getMyAccount(jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+    return await client<MyAccount>({
+        url: "/account/",
+        method: "GET",
+        headers: {
+            ...headers,
+        },
+    });
+}
+
+export interface PatchMyAccountBody {
+    username?: string;
+    password?: string;
+    confirmPassword?: string;
+    firstName?: string;
+    lastName?: string;
+}
+export async function patchMyAccount(data: PatchMyAccountBody) {
+    return client({
+        method: "PATCH",
+        url: "/account/",
+        data: {
+            ...data,
+            username: data.username && data.username.length > 0 ? data.username : undefined,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
     });
 }
