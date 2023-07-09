@@ -153,5 +153,27 @@
         "my-account": "My Account",
         "my-company": "My Company",
         "my-properties": "My Properties"
+    },
+    "CompanyPage": {
+        "not-found": "We couldn't find your company.",
+        "click-here": "Click here to create a new company.",
+        "created": "Company Registered",
+        "name": "Company Name",
+        "pin": "PIN",
+        "web-page": "Wensite",
+        "store-name": "Store Name",
+        "save": "Save"
+    },
+    "CreateCompanyPage": {
+        "title": "Company Information",
+        "name-title": "Name",
+        "name-description": "Company name. Please note that this value can not be changed later.",
+        "pin-title": "PIN",
+        "pin-description": "Company Personal Identification Number. Please note that this value can not be changed later.",
+        "web-page-title": "Web Page",
+        "web-page-description": "If the company has its own website, please fill in the full link to the website here.",
+        "store-name-title": "Store Name",
+        "store-name-description": "Name of the store which will be shown on company listings. If this field is left empty, the name of the company will be shown instead",
+        "create": "Register Company"
     }
 }

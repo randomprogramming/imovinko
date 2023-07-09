@@ -382,3 +382,54 @@ export async function patchMyAccount(data: PatchMyAccountBody) {
         },
     });
 }
+
+export enum CompanyRole {
+    admin = "admin",
+}
+export interface Company {
+    role: CompanyRole | null;
+    id: string;
+    name: string;
+    PIN: string;
+    website?: string | null;
+    storeName?: string | null;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+}
+export async function getMyCompany(jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+    return await client<Company>({
+        url: "/account/company",
+        method: "GET",
+        headers: {
+            ...headers,
+        },
+    });
+}
+
+export async function createCompany(
+    data: Omit<Company, "role" | "id" | "createdAt" | "updatedAt">
+) {
+    return await client({
+        method: "POST",
+        url: "/account/company",
+        data,
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export async function patchCompany(data: { website?: string | null; storeName?: string | null }) {
+    return await client({
+        method: "PATCH",
+        url: "/account/company",
+        data,
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}

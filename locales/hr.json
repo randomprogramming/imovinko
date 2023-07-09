@@ -153,5 +153,27 @@
         "my-account": "Moj račun",
         "my-company": "Moja tvrtka",
         "my-properties": "Moje nekretnine"
+    },
+    "CompanyPage": {
+        "not-found": "Nismo pronašli tvoju tvrtku.",
+        "click-here": "Kliknite ovdje da kreirate novu tvrtku.",
+        "created": "Tvrtka registrirana",
+        "name": "Ime tvrtke",
+        "pin": "OIB",
+        "web-page": "Web stranica",
+        "store-name": "Ime trgovine",
+        "save": "Spremi"
+    },
+    "CreateCompanyPage": {
+        "title": "Informacije o tvrtci",
+        "name-title": "Ime",
+        "name-description": "Ime tvrtke. Napomena da se ime tvrtke kasnije ne može mijenjati.",
+        "pin-title": "OIB",
+        "pin-description": "OIB tvrtke. Napomena da se OIB tvrtke kasnije ne može mijenjati.",
+        "web-page-title": "Web stranica",
+        "web-page-description": "Ukoliko tvrtka ima svoju stranicu, unesite puni link na stranicu ovdje.",
+        "store-name-title": "Ime trgovine",
+        "store-name-description": "Ime trgovine koje će se prikazivati na oglasima ove tvrtke. Ukoliko se polje ne unese, prikazat će se ime tvrtke.",
+        "create": "Registriraj tvrtku"
     }
 }
