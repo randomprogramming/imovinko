@@ -162,7 +162,8 @@
         "pin": "PIN",
         "web-page": "Wensite",
         "store-name": "Store Name",
-        "save": "Save"
+        "save": "Save",
+        "description": "Description"
     },
     "CreateCompanyPage": {
         "title": "Company Information",
@@ -174,6 +175,8 @@
         "web-page-description": "If the company has its own website, please fill in the full link to the website here.",
         "store-name-title": "Store Name",
         "store-name-description": "Name of the store which will be shown on company listings. If this field is left empty, the name of the company will be shown instead",
-        "create": "Register Company"
+        "create": "Register Company",
+        "description-title": "Description",
+        "description-description": "Short company description."
     }
 }

@@ -393,6 +393,7 @@ export interface Company {
     PIN: string;
     website?: string | null;
     storeName?: string | null;
+    description?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
 }
@@ -423,7 +424,11 @@ export async function createCompany(
     });
 }
 
-export async function patchCompany(data: { website?: string | null; storeName?: string | null }) {
+export async function patchCompany(data: {
+    website?: string | null;
+    storeName?: string | null;
+    description?: string | null;
+}) {
     return await client({
         method: "PATCH",
         url: "/account/company",

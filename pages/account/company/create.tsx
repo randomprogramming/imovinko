@@ -60,6 +60,7 @@ export default function CreateCompanyPage() {
     const [PIN, setPIN] = useState("");
     const [website, setWebsite] = useState("");
     const [storeName, setStoreName] = useState("");
+    const [description, setDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     async function handleCreateCompany() {
@@ -70,6 +71,7 @@ export default function CreateCompanyPage() {
                 PIN,
                 website,
                 storeName,
+                description,
             });
             await router.push("/account/company");
         } catch (e) {
@@ -129,6 +131,19 @@ export default function CreateCompanyPage() {
                                     placeholder={"Company Store"}
                                     value={storeName}
                                     onChange={setStoreName}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("description-title")}>
+                                {t("description-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    type="textarea"
+                                    value={description}
+                                    onChange={setDescription}
                                 />
                             </RowItem>
                         </FlexRow>

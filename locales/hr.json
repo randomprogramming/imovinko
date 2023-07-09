@@ -162,7 +162,8 @@
         "pin": "OIB",
         "web-page": "Web stranica",
         "store-name": "Ime trgovine",
-        "save": "Spremi"
+        "save": "Spremi",
+        "description": "Opis"
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",
@@ -174,6 +175,8 @@
         "web-page-description": "Ukoliko tvrtka ima svoju stranicu, unesite puni link na stranicu ovdje.",
         "store-name-title": "Ime trgovine",
         "store-name-description": "Ime trgovine koje će se prikazivati na oglasima ove tvrtke. Ukoliko se polje ne unese, prikazat će se ime tvrtke.",
-        "create": "Registriraj tvrtku"
+        "create": "Registriraj tvrtku",
+        "description-title": "Opis",
+        "description-description": "Kratak opis tvrtke."
     }
 }

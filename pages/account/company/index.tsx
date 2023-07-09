@@ -46,6 +46,7 @@ export default function CompanyPage({ company }: CompanyPageProps) {
 
     const [website, setWebsite] = useState(company?.website || "");
     const [storeName, setStoreName] = useState(company?.storeName || "");
+    const [description, setDescription] = useState(company?.description || "");
     const [isLoading, setIsLoading] = useState(false);
 
     async function handleCompanyPatch() {
@@ -54,6 +55,7 @@ export default function CompanyPage({ company }: CompanyPageProps) {
             await patchCompany({
                 website,
                 storeName,
+                description,
             });
         } catch (e) {
             console.error(e);
@@ -143,6 +145,18 @@ export default function CompanyPage({ company }: CompanyPageProps) {
                                             className="!p-2"
                                             value={storeName}
                                             onChange={setStoreName}
+                                        />
+                                    </div>
+
+                                    <div className="col-span-1 md:col-span-2">
+                                        <label htmlFor="description">
+                                            <Typography>{t("description")}</Typography>
+                                        </label>
+                                        <Input
+                                            type="textarea"
+                                            name="description"
+                                            value={description}
+                                            onChange={setDescription}
                                         />
                                     </div>
                                 </div>
