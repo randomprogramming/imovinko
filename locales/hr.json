@@ -90,7 +90,8 @@
         "property": "Nekretnina",
         "type": "Tip ponude",
         "select": "Odaberi",
-        "no-option": "Nema opcija"
+        "no-option": "Nema opcija",
+        "show-list": "Prikaži listu"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

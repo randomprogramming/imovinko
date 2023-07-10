@@ -90,7 +90,8 @@
         "property": "Property",
         "type": "Offering Type",
         "select": "Select",
-        "no-option": "No option"
+        "no-option": "No option",
+        "show-list": "Show map"
     },
     "ErrorCodes": {
         "too_small": "Too short",

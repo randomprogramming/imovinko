@@ -900,6 +900,7 @@ export default function Icon({ name, height, width, className }: IconProps) {
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className={className}
                 >
                     <g strokeWidth="0"></g>
                     <g strokeLinecap="round" strokeLinejoin="round"></g>
@@ -911,6 +912,7 @@ export default function Icon({ name, height, width, className }: IconProps) {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
+                                className={className}
                             ></path>
                         </g>
                     </g>

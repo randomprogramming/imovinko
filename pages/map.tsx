@@ -496,6 +496,18 @@ export default function MapScreen({ query }: MapScreenProps) {
                         </div>
                     </Map>
                 </div>
+
+                <div className="absolute bottom-20 left-1/2 z-50 -translate-x-1/2">
+                    <Link
+                        to="/listings"
+                        query={query}
+                        className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-5 py-3"
+                        disableAnimatedHover
+                    >
+                        <Icon name="list" className="stroke-zinc-50" />
+                        <Typography className="text-zinc-50">{t("show-list")}</Typography>
+                    </Link>
+                </div>
             </main>
         </>
     );

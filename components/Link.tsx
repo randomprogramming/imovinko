@@ -1,6 +1,7 @@
 import React from "react";
 import NextLink from "next/link";
 import Typography from "./Typography";
+import { ParsedUrlQueryInput } from "querystring";
 
 interface LinkProps {
     onClick?(): void;
@@ -9,6 +10,7 @@ interface LinkProps {
     className?: string;
     disableAnimatedHover?: boolean;
     underlineClassName?: string;
+    query?: string | ParsedUrlQueryInput | null | undefined;
 }
 
 export default function Link({
@@ -18,10 +20,17 @@ export default function Link({
     className,
     disableAnimatedHover,
     underlineClassName,
+    query,
 }: LinkProps) {
     if (to) {
         return (
-            <NextLink href={to} className={`${className} group relative`}>
+            <NextLink
+                href={{
+                    pathname: to,
+                    query,
+                }}
+                className={`${className} group relative`}
+            >
                 {children}
                 {!disableAnimatedHover && (
                     <span
