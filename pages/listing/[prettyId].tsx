@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { Account, FullAccount, Listing, Media, OfferingType, findListing } from "@/util/api";
+import { FullAccount, Listing, Media, OfferingType, findListing } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
@@ -11,6 +11,7 @@ import { Marker } from "react-map-gl";
 import Carousel from "re-carousel";
 import Button from "@/components/Button";
 import IconRow from "@/components/listing/IconRow";
+import Link from "@/components/Link";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
     let listing = null;
@@ -68,7 +69,7 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
         return (
             <div className="flex flex-col w-full space-y-4">
                 {media.map((m) => {
-                    return <ClickableImage url={m.url} />;
+                    return <ClickableImage url={m.url} key={m.url} />;
                 })}
             </div>
         );
@@ -137,8 +138,8 @@ export default function ListingPage({ listing }: ListingPageProps) {
         }
     }
 
-    function getAccountHandle(p: Listing) {
-        let account: Omit<Account, "email"> | null = null;
+    function getAccountHref(p: Listing) {
+        let account: Omit<FullAccount, "email"> | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
         }
@@ -151,6 +152,42 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
         if (!account) {
             return "";
+        }
+
+        if (account.companies.length > 0) {
+            const { company } = account.companies[0];
+
+            return `/company/${company.prettyId}`;
+        }
+
+        if (account.username) {
+            return `/account/${account.username}`;
+        }
+    }
+
+    function getAccountHandle(p: Listing) {
+        let account: Omit<FullAccount, "email"> | null = null;
+        if (p.apartment) {
+            account = p.apartment.owner;
+        }
+        if (p.house) {
+            account = p.house.owner;
+        }
+        if (p.land) {
+            account = p.land.owner;
+        }
+
+        if (!account) {
+            return "";
+        }
+
+        if (account.companies.length > 0) {
+            const { company } = account.companies[0];
+
+            if (company.storeName) {
+                return company.storeName;
+            }
+            return company.name;
         }
 
         if (account.username) {
@@ -361,7 +398,10 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     ]}
                                     frames={getPropertyMedia(listing).map((m) => {
                                         return (
-                                            <div className="flex items-center justify-center w-full h-full">
+                                            <div
+                                                key={m.url}
+                                                className="flex items-center justify-center w-full h-full"
+                                            >
                                                 {/* NextJS's images are literal hell to work with */}
                                                 <img
                                                     className="select-none max-h-full w-auto"
@@ -415,9 +455,15 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 {/* TODO: Add users contact info here */}
                                 <Typography className="text-lg">
                                     {t("listing-by")}:{" "}
-                                    <Typography variant="span" bold>
-                                        {getAccountHandle(listing)}
-                                    </Typography>
+                                    <Link
+                                        to={getAccountHref(listing)}
+                                        className="text-blue-700"
+                                        underlineClassName="bg-blue-700"
+                                    >
+                                        <Typography variant="span" bold>
+                                            {getAccountHandle(listing)}
+                                        </Typography>
+                                    </Link>
                                 </Typography>
                                 <Typography>
                                     {t("lister-joined")}:{" "}

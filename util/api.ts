@@ -260,6 +260,11 @@ export async function findListingsByQuery(
         },
     });
 }
+export interface BasicCompany {
+    prettyId: string;
+    name: string;
+    storeName?: string | null;
+}
 export interface PropertyLocation {
     country: string | null;
     region: string | null; // županija
@@ -270,6 +275,9 @@ export interface PropertyLocation {
 }
 export interface FullAccount extends Account {
     createdAt: string | Date;
+    companies: {
+        company: BasicCompany;
+    }[];
 }
 export interface Media {
     url: string;

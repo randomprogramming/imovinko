@@ -8,6 +8,7 @@ interface LinkProps {
     children: React.ReactNode;
     className?: string;
     disableAnimatedHover?: boolean;
+    underlineClassName?: string;
 }
 
 export default function Link({
@@ -16,13 +17,16 @@ export default function Link({
     children,
     className,
     disableAnimatedHover,
+    underlineClassName,
 }: LinkProps) {
     if (to) {
         return (
             <NextLink href={to} className={`${className} group relative`}>
                 {children}
                 {!disableAnimatedHover && (
-                    <span className="absolute w-0 group-hover:w-full transition-all duration-200 h-0.5 bg-zinc-800 -bottom-0.5 left-0" />
+                    <span
+                        className={`absolute w-0 group-hover:w-full transition-all duration-200 h-0.5 bg-zinc-800 -bottom-0.5 left-0 ${underlineClassName}`}
+                    />
                 )}
             </NextLink>
         );
