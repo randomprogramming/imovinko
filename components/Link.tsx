@@ -11,6 +11,7 @@ interface LinkProps {
     disableAnimatedHover?: boolean;
     underlineClassName?: string;
     query?: string | ParsedUrlQueryInput | null | undefined;
+    newTab?: boolean;
 }
 
 export default function Link({
@@ -21,10 +22,12 @@ export default function Link({
     disableAnimatedHover,
     underlineClassName,
     query,
+    newTab,
 }: LinkProps) {
     if (to) {
         return (
             <NextLink
+                target={newTab ? "_blank" : undefined}
                 href={{
                     pathname: to,
                     query,

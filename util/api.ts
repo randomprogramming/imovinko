@@ -446,3 +446,19 @@ export async function patchCompany(data: {
         },
     });
 }
+
+export interface CompanyWithListings {
+    prettyId: string;
+    name: string;
+    website: string | null;
+    storeName: string | null;
+    description: string | null;
+    createdAt: string | Date;
+    listings: PaginatedListingBasic;
+}
+export async function getCompanyByPrettyId(prettyId: string) {
+    return await client<CompanyWithListings>({
+        method: "GET",
+        url: `/account/company/${prettyId}`,
+    });
+}

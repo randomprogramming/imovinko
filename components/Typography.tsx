@@ -8,6 +8,7 @@ interface TypographyProps {
     bold?: boolean;
     font?: "space_grotesk" | "work_sans";
     className?: string;
+    sm?: boolean;
 }
 
 export default function Typography({
@@ -17,6 +18,7 @@ export default function Typography({
     bold,
     font,
     className,
+    sm,
 }: TypographyProps) {
     let sharedClass = "";
     if (uppercase) {
@@ -29,6 +31,9 @@ export default function Typography({
         sharedClass += work_sans.className + " ";
     } else {
         sharedClass += space_grotesk.className + " ";
+    }
+    if (sm) {
+        sharedClass += "text-sm";
     }
 
     if (variant === "h1") {

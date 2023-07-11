@@ -179,5 +179,10 @@
         "create": "Registriraj tvrtku",
         "description-title": "Opis",
         "description-description": "Kratak opis tvrtke."
+    },
+    "CompanyByPrettyIdPage": {
+        "joined": "Registracija",
+        "listings": "Broj oglasa",
+        "company-listings": "Oglasi tvrtke"
     }
 }

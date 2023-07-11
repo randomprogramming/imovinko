@@ -451,14 +451,13 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </div>
                             <div className="-mt-6 px-12">
                                 {/* TODO: Show users avatar here */}
-                                {/* TODO: Add link to users other listings here */}
                                 {/* TODO: Add users contact info here */}
                                 <Typography className="text-lg">
                                     {t("listing-by")}:{" "}
                                     <Link
                                         to={getAccountHref(listing)}
                                         className="text-blue-700"
-                                        underlineClassName="bg-blue-700"
+                                        underlineClassName="!bg-blue-700"
                                     >
                                         <Typography variant="span" bold>
                                             {getAccountHandle(listing)}

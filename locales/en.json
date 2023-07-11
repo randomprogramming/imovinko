@@ -179,5 +179,10 @@
         "create": "Register Company",
         "description-title": "Description",
         "description-description": "Short company description."
+    },
+    "CompanyByPrettyIdPage": {
+        "joined": "Joined",
+        "listings": "Total Listings",
+        "company-listings": "Company Listings"
     }
 }
