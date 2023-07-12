@@ -164,7 +164,11 @@
         "web-page": "Web stranica",
         "store-name": "Ime trgovine",
         "save": "Spremi",
-        "description": "Opis"
+        "description": "Opis",
+        "member": "Član",
+        "members": "Članovi",
+        "members-description": "Članovi tvrtke. Svi članovi se mogu navesti kao kontakt osobe prilikom predavanja oglasa. Članovi koji su se registrirali mogu i predavati nove oglase.",
+        "username": "Korisničko Ime"
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",

@@ -27,7 +27,8 @@ export type IconName =
     | "cards"
     | "office"
     | "account-settings"
-    | "property";
+    | "property"
+    | "account-plus";
 
 interface IconProps {
     name: IconName;
@@ -1072,6 +1073,72 @@ export default function Icon({ name, height, width, className }: IconProps) {
                             strokeWidth="1.5"
                             className={className}
                         ></path>
+                    </g>
+                </svg>
+            );
+        case "account-plus":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#000000"
+                >
+                    <g strokeWidth="0"></g>
+                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                    <g>
+                        <g>
+                            <g>
+                                <g>
+                                    <path
+                                        d="M17,21V19a4,4,0,0,0-4-4H5a4,4,0,0,0-4,4v2"
+                                        fill="none"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        className={className}
+                                    ></path>
+                                    <circle
+                                        cx="9"
+                                        cy="7"
+                                        fill="none"
+                                        r="4"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        className={className}
+                                    ></circle>
+                                    <line
+                                        fill="none"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        x1="17"
+                                        x2="23"
+                                        y1="11"
+                                        y2="11"
+                                        className={className}
+                                    ></line>
+                                    <line
+                                        fill="none"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        x1="20"
+                                        x2="20"
+                                        y1="8"
+                                        y2="14"
+                                        className={className}
+                                    ></line>
+                                </g>
+                            </g>
+                        </g>
                     </g>
                 </svg>
             );

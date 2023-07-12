@@ -404,6 +404,7 @@ export interface Company {
     description?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
+    accounts: FullAccount[];
 }
 export async function getMyCompany(jwt?: string) {
     const headers = getAuthHeaders();

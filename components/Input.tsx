@@ -85,7 +85,7 @@ export default function Input({
                         onChange(e.currentTarget.value);
                     }
                 }}
-                className={`relative z-30 ${space_grotesk.className} ${
+                className={`${space_grotesk.className} ${
                     small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
                 } bg-white border-2 ${
                     hasError ? "border-rose-700" : "border-transparent"
@@ -108,7 +108,7 @@ export default function Input({
                         onChange(e.currentTarget.value);
                     }
                 }}
-                className={`relative z-30 ${space_grotesk.className} ${
+                className={`${space_grotesk.className} ${
                     small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
                 } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
                     hasError ? "border-rose-700" : "border-transparent"

@@ -161,10 +161,14 @@
         "created": "Company Registered",
         "name": "Company Name",
         "pin": "PIN",
-        "web-page": "Wensite",
+        "web-page": "Website",
         "store-name": "Store Name",
         "save": "Save",
-        "description": "Description"
+        "description": "Description",
+        "member": "Member",
+        "members": "Members",
+        "members-description": "Company members. All members can be listed as contacts when creating a new listing. Registered members can also submit new listings.",
+        "username": "Username"
     },
     "CreateCompanyPage": {
         "title": "Company Information",

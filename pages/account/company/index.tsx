@@ -10,6 +10,7 @@ import Typography from "@/components/Typography";
 import Icon from "@/components/Icon";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -48,6 +49,7 @@ export default function CompanyPage({ company }: CompanyPageProps) {
     const [storeName, setStoreName] = useState(company?.storeName || "");
     const [description, setDescription] = useState(company?.description || "");
     const [isLoading, setIsLoading] = useState(false);
+    const [showAddAccountModal, setShowAddAccountModal] = useState(false);
 
     async function handleCompanyPatch() {
         setIsLoading(true);
@@ -64,11 +66,45 @@ export default function CompanyPage({ company }: CompanyPageProps) {
         }
     }
 
+    function renderUsernameTitle() {
+        const username = t("username");
+
+        const splitU = username.split(" ");
+        if (splitU.length === 1) {
+            return (
+                <Typography className="text-zinc-600 !font-semibold break-keep min-w-fit">
+                    {t("username")}
+                </Typography>
+            );
+        } else if (splitU.length === 2) {
+            return (
+                <>
+                    <Typography className="text-zinc-600 !font-semibold break-keep min-w-fit">
+                        {splitU[0]}
+                    </Typography>
+                    <Typography>&nbsp;</Typography>
+                    <Typography className="text-zinc-600 !font-semibold break-keep min-w-fit">
+                        {splitU[1]}
+                    </Typography>
+                </>
+            );
+        }
+        return <div />;
+    }
+
     return (
         <>
             <header>
                 <Navbar />
             </header>
+            <Modal
+                show={showAddAccountModal}
+                onClose={() => {
+                    setShowAddAccountModal(false);
+                }}
+            >
+                <div>TODO: Finish me!!!</div>
+            </Modal>
             <main className="container mx-auto flex-1">
                 <div className="flex flex-col lg:flex-row mt-12">
                     <Navigation />
@@ -167,6 +203,116 @@ export default function CompanyPage({ company }: CompanyPageProps) {
                                         loading={isLoading}
                                         onClick={handleCompanyPatch}
                                     />
+                                </div>
+
+                                {/* Divider */}
+                                <div
+                                    className="col-span-1 md:col-span-2 bg-zinc-300 rounded-full my-12 shadow-sm"
+                                    style={{
+                                        height: "3px",
+                                    }}
+                                ></div>
+
+                                <div className="col-span-1 md:col-span-2">
+                                    {/* TODO: Show if member is registered or is just a manually input agent */}
+                                    <Typography variant="h2">{t("members")}</Typography>
+                                    <Typography>{t("members-description")}</Typography>
+                                    <div className="max-w-full overflow-x-auto mt-4">
+                                        <table className="border-separate border-spacing-0 ">
+                                            <thead>
+                                                <tr className="border-2 rounded-lg border-zinc-300">
+                                                    <th className="border-t-2 border-b-2 border-l-2 border-zinc-300 rounded-tl-md">
+                                                        {/* Image */}
+                                                    </th>
+                                                    <th className="border-t-2 border-b-2 border-zinc-300">
+                                                        <div className="text-left py-2">
+                                                            <Typography className="text-zinc-600 !font-semibold">
+                                                                {t("member")}
+                                                            </Typography>
+                                                        </div>
+                                                    </th>
+                                                    <th className="border-t-2 border-b-2 border-zinc-300 border-r-2 rounded-tr-md pr-4 text-left">
+                                                        <div className="flex flex-row break-keep min-w-fit">
+                                                            {renderUsernameTitle()}
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="last:border-l-2 last:border-zinc-300">
+                                                <tr>
+                                                    <td
+                                                        colSpan={100}
+                                                        className="border-l-2 border-b-2 border-zinc-300 border-r-2 p-1"
+                                                    >
+                                                        <div
+                                                            className="flex items-center justify-center w-full hover:bg-zinc-300 cursor-pointer py-2 rounded-lg transition-all"
+                                                            onClick={() => {
+                                                                setShowAddAccountModal(true);
+                                                            }}
+                                                        >
+                                                            <Icon
+                                                                name="account-plus"
+                                                                height={48}
+                                                                width={48}
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {company.accounts.map((ca, i) => {
+                                                    return (
+                                                        <tr key={ca.email}>
+                                                            <td
+                                                                className={`border-l-2 border-zinc-300 border-b-2 ${
+                                                                    i ===
+                                                                        company.accounts.length -
+                                                                            1 && "rounded-bl-md"
+                                                                }`}
+                                                            >
+                                                                <div className="px-2 py-4">
+                                                                    <Icon
+                                                                        name="account"
+                                                                        height={32}
+                                                                        width={32}
+                                                                    />
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                className={`border-zinc-300 border-b-2 w-full`}
+                                                            >
+                                                                <div className="flex flex-row items-center">
+                                                                    <Typography>
+                                                                        {ca.firstName} {ca.lastName}
+                                                                    </Typography>
+                                                                </div>
+                                                                <Typography
+                                                                    sm
+                                                                    className="text-zinc-500"
+                                                                >
+                                                                    {ca.email}
+                                                                </Typography>
+                                                            </td>
+                                                            {/* <td
+                                                                className={`border-zinc-300 border-b-2`}
+                                                            ></td> */}
+                                                            <td
+                                                                className={`border-zinc-300 border-b-2 border-r-2 ${
+                                                                    i ===
+                                                                        company.accounts.length -
+                                                                            1 && "rounded-br-md"
+                                                                }`}
+                                                            >
+                                                                <div className="px-2 py-1">
+                                                                    <Typography>
+                                                                        {ca.username || "-"}
+                                                                    </Typography>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         ) : (
