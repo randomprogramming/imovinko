@@ -412,7 +412,7 @@ export async function getMyCompany(jwt?: string) {
         headers.Authorization = `Bearer ${jwt}`;
     }
     return await client<Company>({
-        url: "/account/company",
+        url: "/company",
         method: "GET",
         headers: {
             ...headers,
@@ -425,7 +425,7 @@ export async function createCompany(
 ) {
     return await client({
         method: "POST",
-        url: "/account/company",
+        url: "/company",
         data,
         headers: {
             ...getAuthHeaders(),
@@ -440,7 +440,7 @@ export async function patchCompany(data: {
 }) {
     return await client({
         method: "PATCH",
-        url: "/account/company",
+        url: "/company",
         data,
         headers: {
             ...getAuthHeaders(),
@@ -460,6 +460,6 @@ export interface CompanyWithListings {
 export async function getCompanyByPrettyId(prettyId: string) {
     return await client<CompanyWithListings>({
         method: "GET",
-        url: `/account/company/${prettyId}`,
+        url: `/company/${prettyId}`,
     });
 }

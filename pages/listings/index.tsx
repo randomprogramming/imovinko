@@ -274,8 +274,14 @@ function ListingCard({ listing }: UIBlockProps) {
                             {listing.title}
                         </Typography>
                     </div>
-                    <div>
-                        <Typography variant="secondary" uppercase>
+                    <div
+                        style={{
+                            minHeight: "2em",
+                            height: "2em",
+                            maxHeight: "2em",
+                        }}
+                    >
+                        <Typography variant="secondary" uppercase className="line-clamp-2">
                             {getPropertyLocationString(listing)}
                         </Typography>
                     </div>
