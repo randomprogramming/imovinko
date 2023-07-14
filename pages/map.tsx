@@ -12,10 +12,13 @@ import React, { useState } from "react";
 import { Marker, Popup } from "react-map-gl";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
-import Select, { components } from "react-select";
 import { ParsedUrlQuery } from "querystring";
+import { space_grotesk } from "@/util/fonts";
+import Input from "@/components/Input";
+import { useRouter } from "next/router";
+import { DebounceInput } from "react-debounce-input";
 
-export const getServerSideProps: GetServerSideProps = async ({ locale, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
         props: {
             messages: (await import(`../locales/${locale || "hr"}.json`)).default,
@@ -32,27 +35,47 @@ export default function MapScreen({ query }: MapScreenProps) {
     const queryLon = typeof query.lon === "string" ? parseFloat(query.lon) : null;
     const t = useTranslations("Map");
 
-    const offeringTypeDropdownValues = [
-        { value: OfferingType.sale, label: t("for-sale") },
-        { value: OfferingType.longTermRent, label: t("long-term-rent") },
-        { value: OfferingType.shortTermRent, label: t("short-term-rent") },
-    ];
-    const propertyValueDropdownValues = [
-        { value: PropertyType.house, label: t("house") },
-        { value: PropertyType.apartment, label: t("apartment") },
-        { value: PropertyType.land, label: t("land") },
-    ];
+    const router = useRouter();
 
     const [properties, setProperties] = useState<ListingBasic[]>([]);
     const [hoveredProperty, setHoveredProperty] = useState<null | string>(null);
     const [openProperty, setOpenProperty] = useState<ListingBasic | null>(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-    const [propertyTypeDropdownSelectedValues, setPropertyTypeDropdownSelectedValues] = useState(
-        propertyValueDropdownValues
+    const [filterApartments, setFilterApartments] = useState(
+        !!query?.propertyTypes?.includes(PropertyType.apartment)
     );
-    const [offeringTypeDropdownSelectedValues, setOfferingTypeDropdownSelectedValues] = useState(
-        offeringTypeDropdownValues
+    const [filterHouses, setFilterHouses] = useState(
+        !!query?.propertyTypes?.includes(PropertyType.house)
     );
+    const [filterLand, setFilterLand] = useState(
+        !!query?.propertyTypes?.includes(PropertyType.land)
+    );
+    const [filterSale, setFilterSale] = useState(
+        !!query?.offeringTypes?.includes(OfferingType.sale)
+    );
+    const [filterLongTermRent, setFilterLongTermRent] = useState(
+        !!query?.offeringTypes?.includes(OfferingType.longTermRent)
+    );
+    const [filterShortTermRent, setFilterShortTermRent] = useState(
+        !!query?.offeringTypes?.includes(OfferingType.shortTermRent)
+    );
+
+    const [priceFrom, setPriceFrom] = useState<string | undefined>(
+        isNaN(query?.priceFrom as any)
+            ? undefined
+            : Array.isArray(query?.priceFrom)
+            ? undefined
+            : query?.priceFrom
+    );
+    const [priceTo, setPriceTo] = useState<string | undefined>(
+        isNaN(query?.priceTo as any)
+            ? undefined
+            : Array.isArray(query?.priceTo)
+            ? undefined
+            : query?.priceTo
+    );
+
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
     const [isSearchInProgress, setIsSearchInProgress] = useState(false);
 
@@ -62,6 +85,50 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
         setIsSearchInProgress(true);
         try {
+            let allParams = query ? { ...query } : {};
+
+            let propertyTypes = [];
+            if (filterApartments) {
+                propertyTypes.push(PropertyType.apartment);
+            }
+            if (filterHouses) {
+                propertyTypes.push(PropertyType.house);
+            }
+            if (filterLand) {
+                propertyTypes.push(PropertyType.land);
+            }
+            let offeringTypes: OfferingType[] = [];
+            if (filterSale) {
+                offeringTypes.push(OfferingType.sale);
+            }
+            if (filterLongTermRent) {
+                offeringTypes.push(OfferingType.longTermRent);
+            }
+            if (filterShortTermRent) {
+                offeringTypes.push(OfferingType.shortTermRent);
+            }
+
+            if (priceFrom && priceFrom.length > 0 && !isNaN(priceFrom as any)) {
+                allParams.priceFrom = priceFrom;
+            } else {
+                delete allParams.priceFrom;
+            }
+            if (priceTo && priceTo.length > 0 && !isNaN(priceTo as any)) {
+                allParams.priceTo = priceTo;
+            } else {
+                delete allParams.priceTo;
+            }
+
+            if (propertyTypes.length === 0) {
+                propertyTypes = [PropertyType.apartment, PropertyType.house, PropertyType.land];
+            }
+            if (offeringTypes.length === 0) {
+                offeringTypes = [
+                    OfferingType.sale,
+                    OfferingType.longTermRent,
+                    OfferingType.shortTermRent,
+                ];
+            }
             const { data } = await findListingsByBoundingBox(
                 {
                     nwlng: mapBounds.getNorthWest().lng,
@@ -69,9 +136,18 @@ export default function MapScreen({ query }: MapScreenProps) {
                     selng: mapBounds.getSouthEast().lng,
                     selat: mapBounds.getSouthEast().lat,
                 },
-                propertyTypeDropdownSelectedValues.map((p) => p.value),
-                offeringTypeDropdownSelectedValues.map((p) => p.value)
+                propertyTypes,
+                offeringTypes,
+                priceFrom,
+                priceTo
             );
+
+            // Restart to first page when filter changes
+            delete allParams.page;
+            await router.push({
+                pathname: "/map",
+                query: { ...allParams, propertyTypes, offeringTypes },
+            });
 
             // VERY IMPORTANT!!!
             // This forces the properties with smaller price tags to be rendered in front of the properties with larger tags
@@ -186,7 +262,17 @@ export default function MapScreen({ query }: MapScreenProps) {
         if (!isSearchInProgress) {
             searchProperties();
         }
-    }, [propertyTypeDropdownSelectedValues, offeringTypeDropdownSelectedValues, mapBounds]);
+    }, [
+        filterApartments,
+        filterHouses,
+        filterLand,
+        filterSale,
+        filterLongTermRent,
+        filterShortTermRent,
+        mapBounds,
+        priceFrom,
+        priceTo,
+    ]);
 
     return (
         <>
@@ -194,128 +280,6 @@ export default function MapScreen({ query }: MapScreenProps) {
                 <Navbar lighterSearchbar />
             </header>
             <main>
-                <div className="relative z-30">
-                    <div className="container mx-auto flex flex-row flex-wrap">
-                        <div className="mx-4 mt-2">
-                            <Select
-                                onChange={(val) => {
-                                    setPropertyTypeDropdownSelectedValues([...val]);
-                                }}
-                                isMulti
-                                isSearchable={false}
-                                closeMenuOnSelect={false}
-                                components={{
-                                    Placeholder: ({ children, ...props }) => {
-                                        return (
-                                            <components.Placeholder {...props}>
-                                                <Typography>
-                                                    {t("property") + ": " + t("select") + "..."}
-                                                </Typography>
-                                            </components.Placeholder>
-                                        );
-                                    },
-                                    ValueContainer: ({ children, ...props }) => {
-                                        return (
-                                            <components.ValueContainer {...props}>
-                                                {props.hasValue && (
-                                                    <Typography className="mr-1">
-                                                        {t("property") + ": "}
-                                                    </Typography>
-                                                )}
-                                                {children}
-                                            </components.ValueContainer>
-                                        );
-                                    },
-                                    MultiValue: ({ children, ...props }) => {
-                                        return (
-                                            <components.MultiValue
-                                                {...props}
-                                                className="flex items-center justify-center"
-                                            >
-                                                <Typography>{children}</Typography>
-                                            </components.MultiValue>
-                                        );
-                                    },
-                                }}
-                                noOptionsMessage={() => {
-                                    return <Typography>{t("no-option")}</Typography>;
-                                }}
-                                classNames={{
-                                    control() {
-                                        return "!rounded-xl bg-zinc-50 p-2 shadow-md";
-                                    },
-                                    multiValueRemove() {
-                                        return "!p-2";
-                                    },
-                                    multiValue() {
-                                        return "!rounded-lg";
-                                    },
-                                }}
-                                defaultValue={propertyTypeDropdownSelectedValues}
-                                options={propertyValueDropdownValues}
-                            />
-                        </div>
-                        <div className="mx-4 mt-2">
-                            <Select
-                                isMulti
-                                isSearchable={false}
-                                closeMenuOnSelect={false}
-                                noOptionsMessage={() => {
-                                    return <Typography>{t("no-option")}</Typography>;
-                                }}
-                                components={{
-                                    Placeholder: ({ children, ...props }) => {
-                                        return (
-                                            <components.Placeholder {...props}>
-                                                <Typography className="mr-1">
-                                                    {t("type") + ": " + t("select") + "..."}
-                                                </Typography>
-                                            </components.Placeholder>
-                                        );
-                                    },
-                                    ValueContainer: ({ children, ...props }) => {
-                                        return (
-                                            <components.ValueContainer {...props}>
-                                                {props.hasValue && (
-                                                    <Typography className="mr-1">
-                                                        {t("type") + ": "}
-                                                    </Typography>
-                                                )}
-                                                {children}
-                                            </components.ValueContainer>
-                                        );
-                                    },
-                                    MultiValue: ({ children, ...props }) => {
-                                        return (
-                                            <components.MultiValue
-                                                {...props}
-                                                className="flex items-center justify-center"
-                                            >
-                                                <Typography>{children}</Typography>
-                                            </components.MultiValue>
-                                        );
-                                    },
-                                }}
-                                onChange={(newval) => {
-                                    setOfferingTypeDropdownSelectedValues([...newval]);
-                                }}
-                                classNames={{
-                                    control() {
-                                        return "!rounded-xl bg-zinc-50 p-2 shadow-md";
-                                    },
-                                    multiValueRemove() {
-                                        return "!p-2";
-                                    },
-                                    multiValue() {
-                                        return "!rounded-lg";
-                                    },
-                                }}
-                                defaultValue={offeringTypeDropdownSelectedValues}
-                                options={offeringTypeDropdownValues}
-                            />
-                        </div>
-                    </div>
-                </div>
                 <div className="fixed top-0 left-0 w-screen h-screen flex">
                     <Map
                         className="flex-1"
@@ -497,16 +461,185 @@ export default function MapScreen({ query }: MapScreenProps) {
                     </Map>
                 </div>
 
-                <div className="absolute bottom-20 left-1/2 z-50 -translate-x-1/2">
+                <div className="absolute bottom-20 left-1/2 z-40 -translate-x-1/2">
                     <Link
                         to="/listings"
                         query={query}
-                        className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-5 py-3"
+                        className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-5 py-3 hover:px-6 hover:py-4 transition-all"
                         disableAnimatedHover
                     >
                         <Icon name="list" className="stroke-zinc-50" />
                         <Typography className="text-zinc-50">{t("show-list")}</Typography>
                     </Link>
+                </div>
+
+                <div
+                    className={`absolute top-32 bottom-0 md:bottom-32 left-0 transition-all rounded-t-xl md:rounded-b-xl overflow-hidden shadow-lg z-50 ${
+                        isFilterOpen
+                            ? "left-0 md:left-20 right-0 md:right-auto"
+                            : "opacity-0 invisible top-64 md:top-32 right-0 md:right-auto"
+                    }`}
+                >
+                    <div className="bg-zinc-100 w-full h-full flex flex-col px-2 overflow-y-auto">
+                        <div className="px-4 py-4">
+                            <div className="flex flex-row justify-between items-center">
+                                <Typography variant="h2">{t("filter")}</Typography>
+                                <Button.Transparent
+                                    onClick={() => {
+                                        setIsFilterOpen(false);
+                                    }}
+                                >
+                                    <Icon name="close" />
+                                </Button.Transparent>
+                            </div>
+
+                            <div className="w-full mt-8">
+                                <Typography bold>{t("property-type")}</Typography>
+                                <div className="w-full">
+                                    <Input
+                                        name={t("apartment")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterApartments}
+                                        onCheckedChange={setFilterApartments}
+                                    />
+                                    <Input
+                                        name={t("house")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterHouses}
+                                        onCheckedChange={setFilterHouses}
+                                    />
+                                    <Input
+                                        name={t("land")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterLand}
+                                        onCheckedChange={setFilterLand}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="w-full mt-8">
+                                <Typography bold>{t("offering-type")}</Typography>
+                                <div className="w-full">
+                                    <Input
+                                        name={t("sale")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterSale}
+                                        onCheckedChange={setFilterSale}
+                                    />
+                                    <Input
+                                        name={t("long-term-rent")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterLongTermRent}
+                                        onCheckedChange={setFilterLongTermRent}
+                                    />
+                                    <Input
+                                        name={t("short-term-rent")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={filterShortTermRent}
+                                        onCheckedChange={setFilterShortTermRent}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("price")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center ml-2">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="priceFrom"
+                                            name="priceFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            // value={priceFrom}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setPriceFrom(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="priceFrom">
+                                            <Typography>€</Typography>
+                                        </label>
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="priceTo"
+                                            name="priceTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            // value={priceTo}
+                                            onChange={(e) => {
+                                                setPriceTo(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="priceTo">
+                                            <Typography>€</Typography>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 md:hidden">
+                                <Button.Primary
+                                    label={t("search")}
+                                    onClick={() => {
+                                        setIsFilterOpen(false);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    className={`absolute ${
+                        isSearchInProgress ? " top-20" : "top-0 -translate-y-full"
+                    } left-1/2 translate-x-1/2 z-50 transition-all`}
+                >
+                    <div className="bg-zinc-50 rounded-2xl shadow-md p-3 flex flex-row space-x-2">
+                        {/* <div
+                            className="bg-zinc-900 p-1.5 w-2 h-2 shadow rounded-full animate-bounce blue-circle"
+                            style={{
+                                animationDelay: "0.1s",
+                            }}
+                        ></div>
+                        <div
+                            className="bg-zinc-900 p-1.5 w-2 h-2 shadow rounded-full animate-bounce green-circle"
+                            style={{
+                                animationDelay: "0.3s",
+                            }}
+                        ></div>
+                        <div
+                            className="bg-zinc-900 p-1.5 w-2 h-2 shadow rounded-full animate-bounce red-circle"
+                            style={{
+                                animationDelay: "0.5s",
+                            }}
+                        ></div> */}
+                        <Icon name="loading" height={32} width={32} />
+                    </div>
+                </div>
+
+                <div
+                    className={`absolute top-32 left-0 z-50 transition-all ${
+                        isFilterOpen && "opacity-0 invisible"
+                    }`}
+                >
+                    <button
+                        onClick={() => {
+                            setIsFilterOpen(!isFilterOpen);
+                        }}
+                        className={`bg-zinc-900 transition-all rounded-r-xl shadow-2xl flex flex-row space-x-1 px-5 py-3 hover:px-6 hover:py-4`}
+                    >
+                        <Icon name="filter" className="fill-zinc-50" />
+                        <Typography className="text-zinc-50 hidden md:block">
+                            {t("show-filter")}
+                        </Typography>
+                    </button>
                 </div>
             </main>
         </>

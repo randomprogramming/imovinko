@@ -91,7 +91,14 @@
         "type": "Tip ponude",
         "select": "Odaberi",
         "no-option": "Nema opcija",
-        "show-list": "Prikaži listu"
+        "show-list": "Prikaži listu",
+        "price": "Cijena",
+        "to": "do",
+        "offering-type": "Tip ponude",
+        "filter": "Filter",
+        "property-type": "Tip nekretnine",
+        "sale": "Prodaja",
+        "show-filter": "Prikaži filter"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

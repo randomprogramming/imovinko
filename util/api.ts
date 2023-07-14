@@ -222,7 +222,9 @@ export interface PaginatedListingBasic {
 export async function findListingsByBoundingBox(
     boundingBox: BoundingBox,
     propertyType: PropertyType[],
-    offeringType: OfferingType[]
+    offeringType: OfferingType[],
+    priceFrom?: number | string,
+    priceTo?: number | string
 ) {
     return (
         await client<PaginatedListingBasic>({
@@ -233,6 +235,8 @@ export async function findListingsByBoundingBox(
                 propertyType: propertyType.join(","),
                 offeringType: offeringType.join(","),
                 pageSize: 100, // Since no pagination is neccessary here, just request the maximum number of listings
+                priceFrom: priceFrom || undefined,
+                priceTo: priceTo || undefined,
             },
         })
     ).data;

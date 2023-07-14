@@ -91,7 +91,14 @@
         "type": "Offering Type",
         "select": "Select",
         "no-option": "No option",
-        "show-list": "Show map"
+        "show-list": "Show list",
+        "price": "Price",
+        "to": "to",
+        "offering-type": "Offering Type",
+        "filter": "Filter",
+        "property-type": "Property Type",
+        "sale": "Sale",
+        "show-filter": "Show filter"
     },
     "ErrorCodes": {
         "too_small": "Too short",
