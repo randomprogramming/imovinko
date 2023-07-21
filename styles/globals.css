@@ -22,3 +22,20 @@ body,
     border-radius: 0.5rem !important;
     overflow: hidden;
 }
+
+.mortgage-calculator-track {
+    top: 8px;
+    height: 4px;
+    border-radius: 50%;
+}
+
+.mortgage-calculator-track-0 {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+}
+
+.mortgage-calculator-track-1 {
+    background-color: #b5b3b3 !important;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+}
