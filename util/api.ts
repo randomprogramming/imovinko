@@ -409,6 +409,7 @@ export interface Company {
     createdAt: Date | string;
     updatedAt: Date | string;
     accounts: FullAccount[];
+    manualAccounts: ManualAccount[];
 }
 export async function getMyCompany(jwt?: string) {
     const headers = getAuthHeaders();
@@ -465,5 +466,70 @@ export async function getCompanyByPrettyId(prettyId: string) {
     return await client<CompanyWithListings>({
         method: "GET",
         url: `/company/${prettyId}`,
+    });
+}
+
+export interface ManulAccountEntryData {
+    firstName: string | null;
+    lastName: string | null;
+    phone: string | null;
+    email: string | null;
+}
+export interface ManualAccount extends ManulAccountEntryData {
+    id: string;
+}
+export async function createManualAccount(data: ManulAccountEntryData) {
+    return await client({
+        method: "POST",
+        url: "/company/account/manual",
+        data,
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export interface CompanyInvitation {
+    id: string;
+    company: {
+        name: string;
+        prettyId: string;
+    };
+    createdAt: string | Date;
+}
+export async function getNotifications() {
+    return await client<CompanyInvitation[]>({
+        method: "GET",
+        url: "/account/notifications",
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export async function inviteMember(handle: string) {
+    return await client({
+        method: "POST",
+        url: "/company/account/invite",
+        data: {
+            handle,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export async function answerInvitation(id: string, accepted: boolean) {
+    return await client({
+        method: "POST",
+        url: "/company/account/invite/answer",
+        data: {
+            id,
+            accepted,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
     });
 }

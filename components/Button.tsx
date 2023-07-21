@@ -7,6 +7,7 @@ interface IButtonProps {
     children?: React.ReactNode;
     label?: string;
     className?: string;
+    disabled?: boolean;
 }
 
 function Transparent({ onClick, children, className }: IButtonProps) {
@@ -60,4 +61,30 @@ function Primary({
     );
 }
 
-export default { Transparent, Primary };
+function Accept({ className, onClick, disabled, loading }: IButtonProps & { loading?: boolean }) {
+    return (
+        <Primary
+            className={`!bg-emerald-400 hover:!bg-emerald-300 disabled:!bg-zinc-500 ${className}`}
+            onClick={onClick}
+            disabled={disabled}
+            loading={loading}
+        >
+            {loading ? <Icon name="loading" /> : <Icon name="checkmark" />}
+        </Primary>
+    );
+}
+
+function Decline({ className, onClick, disabled, loading }: IButtonProps & { loading?: boolean }) {
+    return (
+        <Primary
+            className={`!bg-rose-500 hover:!bg-rose-400 disabled:!bg-zinc-500 ${className}`}
+            onClick={onClick}
+            disabled={disabled}
+            loading={loading}
+        >
+            {loading ? <Icon name="loading" /> : <Icon name="close" />}
+        </Primary>
+    );
+}
+
+export default { Transparent, Primary, Accept, Decline };

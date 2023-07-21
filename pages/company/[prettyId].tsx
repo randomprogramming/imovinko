@@ -224,7 +224,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto max-w-3xl mt-8">
+            <main className="container mx-auto mt-8">
                 {company ? (
                     <div>
                         <div className="flex flex-col sm:flex-row">
@@ -297,7 +297,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                             </div>
                         </div>
                         {/* TODO: Info about company agents somewhere here */}
-                        <div className="w-full mt-8">
+                        <div className="w-full mt-8 max-w-3xl mx-auto">
                             <Typography variant="h2">Oglasi Tvrdke</Typography>
                             <div className="mt-6 space-y-8">
                                 {company.listings.data.map((l) => {

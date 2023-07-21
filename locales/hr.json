@@ -74,7 +74,12 @@
         "bathroom-count": "Broj kupaonica",
         "bathroom-count-description": "Ukupan broj kupaonica u stanu",
         "parking-count": "Broj parkirnih mjesta",
-        "parking-count-description": "Broj parkirnih mjesta koja pripadaju stanu"
+        "parking-count-description": "Broj parkirnih mjesta koja pripadaju stanu",
+        "choose-contact": "Odaberi kontakte...",
+        "contact": "Kontakt osobe",
+        "contact-description": "Odaberite osobe iz tvrtke koje će biti navedene kao kontakt u oglasu.",
+        "no-options": "Nema opcija.",
+        "add-new-here": "Dodajte nove članove ovdje."
     },
     "Map": {
         "search": "Traži",
@@ -175,7 +180,23 @@
         "member": "Član",
         "members": "Članovi",
         "members-description": "Članovi tvrtke. Svi članovi se mogu navesti kao kontakt osobe prilikom predavanja oglasa. Članovi koji su se registrirali mogu i predavati nove oglase.",
-        "username": "Korisničko Ime"
+        "username": "Korisničko Ime",
+        "invite-member": "Pozovi člana",
+        "invite-member-description": "Ukoliko član ima Imovinko korisnički računa, unesite njihovu e-mail adresu ili korisničko ime kako bi ih pozvali kao člana tvrtke.",
+        "manual-member": "Unesi člana ručno",
+        "manual-member-description": "Ručno unesite informacije o članu. Kreirani član će se moći koristiti kao kontakt osoba prilikom predaje oglasa.",
+        "first-name": "Ime",
+        "last-name": "Prezime",
+        "email": "E-Mail",
+        "phone": "Broj telefona",
+        "registered-users-1": "Korisnici sa",
+        "registered-users-2": "znakom pored imena su registrirani korisnici.",
+        "invite": "Pozovi",
+        "create-manual": "Unesi člana",
+        "success": "Pozivnica poslana",
+        "success-message": "Korisnik će zaprimiti notifikaciju za poziv u tvrtku.",
+        "manual-succes": "Član dodan",
+        "manual-message": "Član je uspješno kreiran"
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",
@@ -195,5 +216,11 @@
         "joined": "Registracija",
         "listings": "Broj oglasa",
         "company-listings": "Oglasi tvrtke"
+    },
+    "Notifications": {
+        "notification": "Notifikacija",
+        "notifications": "Notifikacija",
+        "none": "Nema niti jedne notifikacije",
+        "invited-you": "vas poziva da se pridružite tvrtci kao član"
     }
 }

@@ -74,7 +74,12 @@
         "bathroom-count": "Number of bathrooms",
         "bathroom-count-description": "Total number of bathrooms in the apartment",
         "parking-count": "Number of parking spaces",
-        "parking-count-description": "Number of parking spaces which belong to the apartment"
+        "parking-count-description": "Number of parking spaces which belong to the apartment",
+        "choose-contact": "Choose contacts...",
+        "contact": "Contacts",
+        "contact-description": "Choose members from your company which will be listed as contacts for this listing.",
+        "no-options": "No options.",
+        "add-new-here": "Add new members here."
     },
     "Map": {
         "search": "Search",
@@ -175,7 +180,23 @@
         "member": "Member",
         "members": "Members",
         "members-description": "Company members. All members can be listed as contacts when creating a new listing. Registered members can also submit new listings.",
-        "username": "Username"
+        "username": "Username",
+        "invite-member": "Invite member",
+        "invite-member-description": "If the member has an open Imovinko account, enter their e-mail or username to invite them into the company.",
+        "manual-member": "Enter member manually",
+        "manual-member-description": "Manually enter information about a member. This member can then be listed as a contact when submitting a new ad.",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "email": "E-Mail",
+        "phone": "Phone number",
+        "registered-users-1": "Users with the",
+        "registered-users-2": "icon next to their names are registered members.",
+        "invite": "Invite",
+        "create-manual": "Add member",
+        "success": "Invitation sent",
+        "success-message": "User will recieve notification about the company invite.",
+        "manual-succes": "Member added",
+        "manual-message": "Member was successfully created"
     },
     "CreateCompanyPage": {
         "title": "Company Information",
@@ -195,5 +216,11 @@
         "joined": "Joined",
         "listings": "Total Listings",
         "company-listings": "Company Listings"
+    },
+    "Notifications": {
+        "notification": "Notification",
+        "notifications": "Notifications",
+        "none": "You have no notifications",
+        "invited-you": "has invited you to join the company as a member"
     }
 }

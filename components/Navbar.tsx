@@ -6,6 +6,7 @@ import useAuthentication from "@/hooks/useAuthentication";
 import React, { useState } from "react";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
+import Notifications from "./Notifications";
 
 function AuthDropdown() {
     const t = useTranslations("Navbar");
@@ -133,7 +134,8 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
 
             {/* Profile section */}
             {/* Mobile View */}
-            <div className="lg:hidden">
+            <div className="lg:hidden flex flex-row items-center">
+                {auth.account && <Notifications />}
                 <Button.Transparent
                     onClick={() => {
                         console.log("clickyy");
@@ -143,9 +145,12 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
                 </Button.Transparent>
             </div>
             {/* Desktop View */}
-            <div className="hidden lg:flex flex-row">
+            <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
-                    <AuthDropdown />
+                    <>
+                        <Notifications />
+                        <AuthDropdown />
+                    </>
                 ) : (
                     <div className="flex flex-row space-x-4">
                         <Link to="/register">{t("sign-up")}</Link>

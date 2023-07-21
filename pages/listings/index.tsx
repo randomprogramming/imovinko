@@ -780,7 +780,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <div className="h-full w-full bg-zinc-300 rounded-md"></div>
                                 </div>
                                 <Button.Transparent
-                                    className="z-30 hover:bg-transparent"
+                                    className="z-20 hover:bg-transparent"
                                     onClick={() => {
                                         handleUseCardsChange(true);
                                     }}
@@ -788,7 +788,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <Icon name="cards" />
                                 </Button.Transparent>
                                 <Button.Transparent
-                                    className="ml-1 z-30 hover:bg-transparent"
+                                    className="ml-1 z-20 hover:bg-transparent"
                                     onClick={() => {
                                         handleUseCardsChange(false);
                                     }}

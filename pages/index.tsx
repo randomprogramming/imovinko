@@ -1,3 +1,4 @@
+import MortgageCalculator from "@/components/MortgageCalculator";
 import Navbar from "@/components/Navbar";
 import { NextPageContext } from "next";
 import Image from "next/image";
@@ -31,6 +32,7 @@ export default function Home() {
                         }}
                     />
                 </div>
+                <MortgageCalculator />
             </main>
         </>
     );
