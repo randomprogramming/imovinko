@@ -222,5 +222,12 @@
         "notifications": "Notifications",
         "none": "You have no notifications",
         "invited-you": "has invited you to join the company as a member"
+    },
+    "Calculator": {
+        "loan-amount": "Loan amount",
+        "interest-paid": "Interest amount",
+        "loan-length": "Loan length",
+        "interest-rate": "Interest rate",
+        "total-to-pay": "Total to be paid"
     }
 }

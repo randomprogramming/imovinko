@@ -222,5 +222,12 @@
         "notifications": "Notifikacija",
         "none": "Nema niti jedne notifikacije",
         "invited-you": "vas poziva da se pridružite tvrtci kao član"
+    },
+    "Calculator": {
+        "loan-amount": "Iznos kredita",
+        "interest-paid": "Iznos kamate",
+        "loan-length": "Rok otplate",
+        "interest-rate": "Kamatna stopa",
+        "total-to-pay": "Ukupni iznos otplate"
     }
 }

@@ -1,7 +1,10 @@
-import MortgageCalculator from "@/components/MortgageCalculator";
 import Navbar from "@/components/Navbar";
 import { NextPageContext } from "next";
 import React from "react";
+
+import dynamic from "next/dynamic";
+
+const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
 export async function getStaticProps(context: NextPageContext) {
     return {

@@ -3,6 +3,12 @@ import CurrencyInput from "react-currency-input-field";
 import Typography from "./Typography";
 import { space_grotesk } from "@/util/fonts";
 import Slider from "react-slider";
+import { ResponsivePie } from "@nivo/pie";
+import { useTranslations } from "next-intl";
+
+// This component has to be imported as such for some reason, nivo doesn't play nice with nextjs, idk:
+// import dynamic from "next/dynamic";
+// const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
 const MIN_LOAN_AMOUNT = 10_000;
 const MAX_LOAN_AMOUNT = 1_000_000;
@@ -10,6 +16,19 @@ const MIN_LOAN_LENGTH_MONTHS = 36;
 const MAX_LOAN_LENGTH_MONTHS = 360;
 const MIN_LOAN_INTEREST_RATE = 1;
 const MAX_LOAN_INTEREST_RATE = 10;
+
+export function toTwoDecimals(num: string) {
+    if (!num.includes(".")) {
+        return `${num}.00`;
+    }
+    const numSplit = num.split(".");
+    numSplit[1] = numSplit[1].padEnd(2, "0");
+    return numSplit.join(".");
+}
+
+export function round(num: number) {
+    return Math.round(num * 100) / 100;
+}
 
 export function calculateMonthlyPayment(
     loan: number,
@@ -46,6 +65,8 @@ interface MortgageCalculatorProps {
     initialLoanValue?: number;
 }
 export default function MortgageCalculator({ initialLoanValue }: MortgageCalculatorProps) {
+    const t = useTranslations("Calculator");
+
     const [totalLoanAmount, setTotalLoanAmount] = useState(initialLoanValue || 150000);
     const [interestRate, setInterestRate] = useState(3.75);
     const [loanLengthMonths, setLoanLengthMonths] = useState(240);
@@ -123,11 +144,8 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
         if (!strInterestRate.includes(".")) {
             strInterestRate += ".";
         }
-        if (newVal > 0 && newVal < 10) {
-            strInterestRate = strInterestRate.padEnd(4, "0");
-        } else if (newVal >= 10) {
-            strInterestRate = strInterestRate.padEnd(5, "0");
-        }
+
+        strInterestRate = toTwoDecimals(strInterestRate);
         setInterestRateInputValue(strInterestRate);
         if (newVal >= MIN_LOAN_INTEREST_RATE && newVal <= MAX_LOAN_INTEREST_RATE) {
             setInterestRate(newVal);
@@ -145,10 +163,15 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
     }, [totalLoanAmount, monthlyPayment, loanLengthMonths]);
 
     return (
-        <div className="w-full flex flex-col lg:flex-row justify-center">
-            <div>
+        <div
+            className="w-full flex flex-col lg:flex-row justify-center"
+            style={{
+                minHeight: "333px",
+            }}
+        >
+            <div className="lg:w-1/3">
                 <div>
-                    <Typography>Loan amount</Typography>
+                    <Typography>{t("loan-amount")}</Typography>
                     <CurrencyInput
                         className={`${space_grotesk.className} text-blue-500 bg-transparent py-1 rounded-md font-bold`}
                         value={totalLoanAmountInputValue}
@@ -178,8 +201,8 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     />
                 </div>
 
-                <div>
-                    <Typography>Loan length</Typography>
+                <div className="mt-12">
+                    <Typography>{t("loan-length")}</Typography>
                     <input
                         className={`${space_grotesk.className} text-blue-500 bg-transparent py-1 rounded-md font-bold`}
                         value={loanLengthMonthsInputValue}
@@ -207,8 +230,8 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     />
                 </div>
 
-                <div>
-                    <Typography>Interestus ratus</Typography>
+                <div className="mt-12">
+                    <Typography>{t("interest-rate")}</Typography>
                     <input
                         className={`${space_grotesk.className} text-blue-500 bg-transparent py-1 rounded-md font-bold`}
                         value={interestRateInputValue}
@@ -236,8 +259,88 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     />
                 </div>
             </div>
-            <div></div>
-            <div></div>
+
+            <div className="lg:w-1/3">
+                <Typography className="text-center">Mjesecna rata</Typography>
+                <Typography className="text-blue-500 text-2xl text-center" bold>
+                    {toTwoDecimals(round(monthlyPayment).toLocaleString())} €
+                </Typography>
+            </div>
+            <div className="lg:w-1/3">
+                <div className="w-full h-full relative">
+                    <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+                        <div>
+                            <Typography bold className="text-center">
+                                {round(totalInterestPaid + totalLoanAmount).toLocaleString()} €
+                            </Typography>
+                            <Typography sm className="text-center">
+                                {t("total-to-pay")}
+                            </Typography>
+                        </div>
+                    </div>
+                    <ResponsivePie
+                        data={[
+                            {
+                                id: t("interest-paid"),
+                                label: t("interest-paid"),
+                                value: totalInterestPaid.toFixed(2),
+                            },
+                            {
+                                id: t("loan-amount"),
+                                label: t("loan-amount"),
+                                value: totalLoanAmount.toFixed(2),
+                            },
+                        ]}
+                        margin={{ bottom: 25 }}
+                        innerRadius={0.6}
+                        padAngle={0.7}
+                        cornerRadius={5}
+                        enableArcLabels={false}
+                        enableArcLinkLabels={false}
+                        colors={["rgb(225 29 72)", "rgb(59 130 246)"]}
+                        legends={[
+                            {
+                                anchor: "bottom",
+                                direction: "row",
+                                itemHeight: 20,
+                                itemWidth: 100,
+                                translateY: 22,
+                                symbolShape: ({ x, y, size, fill }) => {
+                                    return (
+                                        <rect
+                                            x={x}
+                                            y={y}
+                                            width={size}
+                                            height={size}
+                                            rx="5"
+                                            ry="5"
+                                            fill={fill}
+                                        />
+                                    );
+                                },
+                                symbolSpacing: 2,
+                            },
+                        ]}
+                        tooltip={({ datum }) => {
+                            const val = Number(datum.value);
+                            return (
+                                <div className="bg-zinc-50 rounded shadow p-1">
+                                    <Typography>
+                                        {datum.label}
+                                        {": "}
+                                        <Typography variant="span" bold>
+                                            {val.toLocaleString()} €
+                                        </Typography>
+                                    </Typography>
+                                </div>
+                            );
+                        }}
+                        theme={{
+                            fontFamily: space_grotesk.style.fontFamily,
+                        }}
+                    />
+                </div>
+            </div>
         </div>
     );
 }
