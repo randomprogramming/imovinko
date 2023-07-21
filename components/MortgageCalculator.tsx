@@ -26,6 +26,10 @@ export function toTwoDecimals(num: string) {
     return numSplit.join(".");
 }
 
+export function toEurPriceTag(amount: number) {
+    return toTwoDecimals(round(amount).toLocaleString()) + " €";
+}
+
 export function round(num: number) {
     return Math.round(num * 100) / 100;
 }
@@ -298,18 +302,32 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                 </div>
             </div>
 
-            <div className="lg:w-1/3">
-                <Typography className="text-center">Mjesecna rata</Typography>
-                <Typography className="text-blue-500 text-2xl text-center" bold>
-                    {toTwoDecimals(round(monthlyPayment).toLocaleString())} €
+            <div className="lg:w-1/3 px-2 pt-4">
+                <Typography className="text-center">{t("monthly-payment")}:</Typography>
+                <Typography className="text-blue-500 text-4xl text-center" bold>
+                    {toEurPriceTag(monthlyPayment)}
                 </Typography>
+                <div className="grid grid-cols-2 mt-7 gap-y-2">
+                    <Typography>{t("loan-amount")}:</Typography>
+                    <Typography bold className="text-right">
+                        {toEurPriceTag(totalLoanAmount)}
+                    </Typography>
+                    <Typography>{t("interest-paid")}:</Typography>
+                    <Typography bold className="text-right">
+                        {toEurPriceTag(totalInterestPaid)}
+                    </Typography>
+                    <Typography>{t("total-to-pay")}:</Typography>
+                    <Typography bold className="text-right">
+                        {toEurPriceTag(totalLoanAmount + totalInterestPaid)}
+                    </Typography>
+                </div>
             </div>
             <div className="lg:w-1/3">
                 <div className="w-full h-full relative">
                     <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center">
                         <div>
                             <Typography bold className="text-center">
-                                {round(totalInterestPaid + totalLoanAmount).toLocaleString()} €
+                                {toEurPriceTag(totalInterestPaid + totalLoanAmount)}
                             </Typography>
                             <Typography sm className="text-center">
                                 {t("total-to-pay")}
@@ -367,7 +385,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                                         {datum.label}
                                         {": "}
                                         <Typography variant="span" bold>
-                                            {val.toLocaleString()} €
+                                            {toEurPriceTag(val)}
                                         </Typography>
                                     </Typography>
                                 </div>

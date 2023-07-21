@@ -229,6 +229,7 @@
         "loan-length": "Rok otplate",
         "interest-rate": "Kamatna stopa",
         "total-to-pay": "Ukupni iznos otplate",
-        "months": "mjeseci"
+        "months": "mjeseci",
+        "monthly-payment": "Mjesečna rata"
     }
 }
