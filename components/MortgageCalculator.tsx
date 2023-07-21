@@ -194,12 +194,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
 
     return (
         <div
-            className="w-full flex flex-col lg:flex-row justify-center"
+            className="w-full max-w-7xl flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-center"
             style={{
-                minHeight: "333px",
+                minHeight: "375px",
             }}
         >
-            <div className="lg:w-1/3">
+            <div className="lg:w-1/3 lg:pr-2">
                 <div>
                     <Typography>{t("loan-amount")}</Typography>
                     <CurrencyInput
@@ -213,14 +213,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         onValueChange={(value) => handleTotalLoanAmountInputChange(value)}
                     />
                     <Slider
-                        className="mb-4"
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div
-                                {...props}
-                                className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm"
-                            >
-                                <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                            <div {...props} className="py-1 pr-1 outline-none">
+                                <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
+                                    <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                                </div>
                             </div>
                         )}
                         min={MIN_LOAN_AMOUNT}
@@ -247,14 +245,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         }}
                     />
                     <Slider
-                        className="mb-4"
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div
-                                {...props}
-                                className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm"
-                            >
-                                <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                            <div {...props} className="py-1 pr-1 outline-none">
+                                <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
+                                    <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                                </div>
                             </div>
                         )}
                         min={MIN_LOAN_LENGTH_MONTHS}
@@ -282,14 +278,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         }}
                     />
                     <Slider
-                        className="mb-4"
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div
-                                {...props}
-                                className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm"
-                            >
-                                <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                            <div {...props} className="py-1 pr-1 outline-none">
+                                <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
+                                    <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
+                                </div>
                             </div>
                         )}
                         min={MIN_LOAN_INTEREST_RATE}
@@ -322,7 +316,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     </Typography>
                 </div>
             </div>
-            <div className="lg:w-1/3">
+            <div
+                className="lg:w-1/3"
+                style={{
+                    height: "375px",
+                }}
+            >
                 <div className="w-full h-full relative">
                     <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center">
                         <div>

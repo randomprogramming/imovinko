@@ -22,7 +22,9 @@ export default function CalculatorPage() {
                     <Navbar />
                 </header>
                 <main className="container mx-auto">
-                    <MortgageCalculator />
+                    <div className="w-full flex items-center justify-center">
+                        <MortgageCalculator />
+                    </div>
                 </main>
             </>
         </div>
