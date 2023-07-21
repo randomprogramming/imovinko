@@ -228,6 +228,7 @@
         "interest-paid": "Interest amount",
         "loan-length": "Loan length",
         "interest-rate": "Interest rate",
-        "total-to-pay": "Total to be paid"
+        "total-to-pay": "Total to be paid",
+        "months": "months"
     }
 }

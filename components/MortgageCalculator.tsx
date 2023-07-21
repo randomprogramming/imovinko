@@ -66,6 +66,8 @@ interface MortgageCalculatorProps {
 }
 export default function MortgageCalculator({ initialLoanValue }: MortgageCalculatorProps) {
     const t = useTranslations("Calculator");
+    const LOAN_LENGTH_MONTHS_SUFFIX = " " + t("months");
+    const INTEREST_RATE_SUFFIX = " " + "%";
 
     const [totalLoanAmount, setTotalLoanAmount] = useState(initialLoanValue || 150000);
     const [interestRate, setInterestRate] = useState(3.75);
@@ -82,10 +84,10 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
         String(totalLoanAmount)
     );
     const [loanLengthMonthsInputValue, setLoanLengthMonthsInputValue] = useState<string>(
-        String(loanLengthMonths)
+        String(loanLengthMonths) + LOAN_LENGTH_MONTHS_SUFFIX
     );
     const [interestRateInputValue, setInterestRateInputValue] = useState<string>(
-        String(interestRate)
+        String(interestRate) + INTEREST_RATE_SUFFIX
     );
 
     function handleTotalLoanAmountInputChange(newVal: string | undefined) {
@@ -107,6 +109,19 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
         }
     }
 
+    function setLoanLengthMonthsInputValueWithSuffix(newVal: string) {
+        if (!newVal.includes(LOAN_LENGTH_MONTHS_SUFFIX)) {
+            newVal = newVal + LOAN_LENGTH_MONTHS_SUFFIX;
+        }
+        setLoanLengthMonthsInputValue(newVal);
+    }
+
+    function loanLengthMonthsInputValueRemoveSuffix() {
+        setLoanLengthMonthsInputValue(
+            loanLengthMonthsInputValue.replaceAll(LOAN_LENGTH_MONTHS_SUFFIX, "")
+        );
+    }
+
     function handleLoanLengthMonthsInputChange(newVal: string) {
         setLoanLengthMonthsInputValue(newVal);
 
@@ -120,10 +135,21 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
     }
 
     function handleLoanLengthMonthsSliderChange(newVal: number) {
-        setLoanLengthMonthsInputValue(String(newVal));
+        setLoanLengthMonthsInputValueWithSuffix(String(newVal));
         if (newVal >= MIN_LOAN_LENGTH_MONTHS && newVal <= MAX_LOAN_LENGTH_MONTHS) {
             setLoanLengthMonths(newVal);
         }
+    }
+
+    function setInterestRateInputValueWithSuffix(newVal: string) {
+        if (!newVal.includes(INTEREST_RATE_SUFFIX)) {
+            newVal = newVal + INTEREST_RATE_SUFFIX;
+        }
+        setInterestRateInputValue(newVal);
+    }
+
+    function interestRateInputValueRemoveSuffix() {
+        setInterestRateInputValue(interestRateInputValue.replaceAll(INTEREST_RATE_SUFFIX, ""));
     }
 
     function handleInterestRateInputChange(newVal: string) {
@@ -146,7 +172,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
         }
 
         strInterestRate = toTwoDecimals(strInterestRate);
-        setInterestRateInputValue(strInterestRate);
+        setInterestRateInputValueWithSuffix(strInterestRate);
         if (newVal >= MIN_LOAN_INTEREST_RATE && newVal <= MAX_LOAN_INTEREST_RATE) {
             setInterestRate(newVal);
         }
@@ -209,6 +235,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         onChange={(e) => {
                             handleLoanLengthMonthsInputChange(e.target.value);
                         }}
+                        onBlur={() => {
+                            setLoanLengthMonthsInputValueWithSuffix(loanLengthMonthsInputValue);
+                        }}
+                        onFocus={() => {
+                            loanLengthMonthsInputValueRemoveSuffix();
+                        }}
                     />
                     <Slider
                         className="mb-4"
@@ -237,6 +269,12 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         value={interestRateInputValue}
                         onChange={(e) => {
                             handleInterestRateInputChange(e.target.value);
+                        }}
+                        onBlur={() => {
+                            setInterestRateInputValueWithSuffix(interestRateInputValue);
+                        }}
+                        onFocus={() => {
+                            interestRateInputValueRemoveSuffix();
                         }}
                     />
                     <Slider
