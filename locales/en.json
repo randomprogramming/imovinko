@@ -124,7 +124,9 @@
         "show-more-images": "Show more images",
         "lister-joined": "Lister joined",
         "listing-posted": "Listing posted",
-        "view-count": "Listing views"
+        "view-count": "Listing views",
+        "calculator": "Mortgage calculator",
+        "calculator-description": "Using this calculator you may calculate your monthly payment if you decide to buy this property. Please note that this calculation is purely informational and may not be used in any other way. Please contact your bank for more information."
     },
     "ListingsPage": {
         "per-night": "per night",
@@ -231,5 +233,9 @@
         "total-to-pay": "Total to be paid",
         "months": "months",
         "monthly-payment": "Monthly payment"
+    },
+    "CalculatorPage": {
+        "calculator": "Mortgage calculator",
+        "calculator-description": "Using this calculator you may calculate your monthly payment based on some input parameters. Please note that this calculation is purely informational and may not be used in any other way. Please contact your bank for more information."
     }
 }

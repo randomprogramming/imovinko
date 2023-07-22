@@ -124,7 +124,9 @@
         "show-more-images": "Prikaži još slika",
         "lister-joined": "Oglasivač se pridružio",
         "listing-posted": "Oglas objavljen",
-        "view-count": "Broj prikaza oglasa"
+        "view-count": "Broj prikaza oglasa",
+        "calculator": "Kalkulator stambenog kredita",
+        "calculator-description": "Pomoću ovog kalkulatora možete izračunati mjesečnu ratu kredita ukoliko se odlučite za ovu nekretninu. Napominjemo da je ovaj izračun samo informativnog karaktera te se ne može koristiti u druge svrhe. Kontaktirajte svoju banku za više informacija."
     },
     "ListingsPage": {
         "per-night": "noćenje",
@@ -231,5 +233,9 @@
         "total-to-pay": "Ukupni iznos otplate",
         "months": "mjeseci",
         "monthly-payment": "Mjesečna rata"
+    },
+    "CalculatorPage": {
+        "calculator": "Kalkulator stambenog kredita",
+        "calculator-description": "Pomoću ovog kalkulatora možete izračunati mjesečnu ratu kredita ovisno o ulaznim parametrima. Napominjemo da je ovaj izračun samo informativnog karaktera te se ne može koristiti u druge svrhe. Kontaktirajte svoju banku za više informacija."
     }
 }

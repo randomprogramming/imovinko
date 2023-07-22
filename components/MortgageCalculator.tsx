@@ -215,7 +215,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     <Slider
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div {...props} className="py-1 pr-1 outline-none">
+                            <div {...props} className="py-1 outline-none">
                                 <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
                                     <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
                                 </div>
@@ -247,7 +247,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     <Slider
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div {...props} className="py-1 pr-1 outline-none">
+                            <div {...props} className="py-1 outline-none">
                                 <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
                                     <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
                                 </div>
@@ -280,7 +280,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                     <Slider
                         trackClassName="bg-blue-500 mortgage-calculator-track"
                         renderThumb={(props) => (
-                            <div {...props} className="py-1 pr-1 outline-none">
+                            <div {...props} className="py-1 outline-none">
                                 <div className="w-5 h-5 rounded-full bg-blue-500 outline-none border-none flex items-center justify-center shadow-sm">
                                     <div className="w-2 h-2 rounded-full bg-zinc-50"></div>
                                 </div>
