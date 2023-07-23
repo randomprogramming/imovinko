@@ -3,10 +3,11 @@ import Searchbar from "./Searchbar";
 import Button from "./Button";
 import Link from "./Link";
 import useAuthentication from "@/hooks/useAuthentication";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
 import Notifications from "./Notifications";
+import { CompanyInvitation, getNotifications } from "@/util/api";
 
 function AuthDropdown() {
     const t = useTranslations("Navbar");
@@ -117,6 +118,23 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
 
     const auth = useAuthentication();
 
+    const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[] | null>(null);
+
+    useEffect(() => {
+        (async function () {
+            if (companyInvitations || !auth.account) {
+                return;
+            }
+
+            try {
+                const notifications = await getNotifications();
+                setCompanyInvitations(notifications.data);
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }, [auth.account]);
+
     return (
         <div className="container mx-auto flex flex-row items-center my-4">
             <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
@@ -135,7 +153,9 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
             {/* Profile section */}
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center">
-                {auth.account && <Notifications />}
+                {auth.account && companyInvitations && (
+                    <Notifications notifications={companyInvitations} />
+                )}
                 <Button.Transparent
                     onClick={() => {
                         console.log("clickyy");
@@ -148,7 +168,7 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        <Notifications />
+                        {companyInvitations && <Notifications notifications={companyInvitations} />}
                         <AuthDropdown />
                     </>
                 ) : (

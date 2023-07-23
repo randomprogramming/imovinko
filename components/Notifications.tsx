@@ -8,8 +8,12 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import Link from "./Link";
 
-export default function Notifications() {
-    const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[]>([]);
+interface NotificationsProps {
+    notifications: CompanyInvitation[];
+}
+export default function Notifications({ notifications }: NotificationsProps) {
+    const [companyInvitations, setCompanyInvitations] =
+        useState<CompanyInvitation[]>(notifications);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [answeringInviteId, setAnsweringInviteId] = useState<{
         id: string;
@@ -68,17 +72,6 @@ export default function Notifications() {
             }
         }, 125); // Wait for the animation to finish before removing stuff from the data
     }, [isMenuOpen]);
-
-    useEffect(() => {
-        (async function () {
-            try {
-                const notifications = await getNotifications();
-                setCompanyInvitations(notifications.data);
-            } catch (err) {
-                console.error(err);
-            }
-        })();
-    }, []);
 
     return (
         <div className="md:relative">

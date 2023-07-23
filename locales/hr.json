@@ -1,4 +1,21 @@
 {
+    "Home": {
+        "per-night": "noćenje",
+        "per-month": "mjesečno",
+        "header": "pronađi mjesto koje možeš zvati dom",
+        "buying": "kupujem",
+        "renting-long": "mjesecni najam",
+        "renting-short": "dnevni najam",
+        "have-a-property-to": "imaš nekretninu za",
+        "list": "oglasiti?",
+        "newest-ads": "Najnoviji oglasi",
+        "for-sale": "prodaja",
+        "short-term-rent": "kratkotrajno iznajmljivanje",
+        "long-term-rent": "dugoročno iznajmljivanje",
+        "apartments": "stanova",
+        "houses": "kuća",
+        "land": "zemljišta"
+    },
     "SearchBar": {
         "placeholder": "Zagreb",
         "Close": "Zatvori"

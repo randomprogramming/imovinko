@@ -12,6 +12,7 @@ interface LinkProps {
     underlineClassName?: string;
     query?: string | ParsedUrlQueryInput | null | undefined;
     newTab?: boolean;
+    draggable?: boolean;
 }
 
 export default function Link({
@@ -23,10 +24,12 @@ export default function Link({
     underlineClassName,
     query,
     newTab,
+    draggable,
 }: LinkProps) {
     if (to) {
         return (
             <NextLink
+                draggable={draggable}
                 target={newTab ? "_blank" : undefined}
                 href={{
                     pathname: to,

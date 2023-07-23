@@ -248,7 +248,8 @@ export async function findListingsByQuery(
     priceFrom?: number | string,
     priceTo?: number | string,
     sortBy?: string,
-    sortDirection?: "asc" | "desc"
+    sortDirection?: "asc" | "desc",
+    pageSize?: number
 ) {
     return await client<PaginatedListingBasic>({
         url: "/listing/",
@@ -261,6 +262,7 @@ export async function findListingsByQuery(
             priceTo,
             sortBy,
             sortDirection,
+            pageSize,
         },
     });
 }
@@ -531,5 +533,17 @@ export async function answerInvitation(id: string, accepted: boolean) {
         headers: {
             ...getAuthHeaders(),
         },
+    });
+}
+
+export interface PropertyCount {
+    apartment: number;
+    house: number;
+    land: number;
+}
+export async function getPropertyCount() {
+    return await client<PropertyCount>({
+        method: "GET",
+        url: "/stats/property-count",
     });
 }

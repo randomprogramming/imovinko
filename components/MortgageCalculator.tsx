@@ -16,7 +16,7 @@ const MIN_LOAN_LENGTH_MONTHS = 36;
 const MAX_LOAN_LENGTH_MONTHS = 360;
 const MIN_LOAN_INTEREST_RATE = 1;
 const MAX_LOAN_INTEREST_RATE = 10;
-
+// TODO: Add some more graphs to this component, also add repayment plan
 export function toTwoDecimals(num: string) {
     if (!num.includes(".")) {
         return `${num}.00`;
