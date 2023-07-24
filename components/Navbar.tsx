@@ -9,7 +9,10 @@ import { useTranslations } from "next-intl";
 import Notifications from "./Notifications";
 import { CompanyInvitation, getNotifications } from "@/util/api";
 
-function AuthDropdown() {
+interface AuthDropdownProps {
+    useLighterColorsOnSmallDevice?: boolean;
+}
+function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
     const t = useTranslations("Navbar");
 
     const { account, logout } = useAuthentication();
@@ -46,10 +49,16 @@ function AuthDropdown() {
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
+                className="hover:bg-zinc-700"
             >
                 <div className="flex flex-row space-x-2">
-                    <Typography>{getAccountHandle()}</Typography>
-                    <Icon name="account" />
+                    <Typography className={`${useLighterColorsOnSmallDevice && "text-zinc-50"}`}>
+                        {getAccountHandle()}
+                    </Typography>
+                    <Icon
+                        className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
+                        name="account"
+                    />
                 </div>
             </Button.Transparent>
             <div
@@ -163,7 +172,10 @@ export default function Navbar({
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center pr-1">
                 {auth.account && companyInvitations && (
-                    <Notifications notifications={companyInvitations} />
+                    <Notifications
+                        lightIcon={useLighterColorsOnSmallDevice}
+                        notifications={companyInvitations}
+                    />
                 )}
                 <Button.Transparent
                     className="hover:!bg-zinc-800"
@@ -178,8 +190,15 @@ export default function Navbar({
             <div className="hidden lg:flex flex-row items-center pr-1">
                 {auth.account ? (
                     <>
-                        {companyInvitations && <Notifications notifications={companyInvitations} />}
-                        <AuthDropdown />
+                        {companyInvitations && (
+                            <Notifications
+                                lightIcon={useLighterColorsOnSmallDevice}
+                                notifications={companyInvitations}
+                            />
+                        )}
+                        <AuthDropdown
+                            useLighterColorsOnSmallDevice={useLighterColorsOnSmallDevice}
+                        />
                     </>
                 ) : (
                     <div
