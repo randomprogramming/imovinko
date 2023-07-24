@@ -72,9 +72,11 @@ export default function Icon({ name, height, width, className }: IconProps) {
                     xmlns="http://www.w3.org/2000/svg"
                     width={width || DEFAULT_W}
                     height={height || DEFAULT_H}
+                    className={className}
                     viewBox="0 0 24 24"
                 >
                     <path
+                        className={className}
                         fill="currentColor"
                         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20z"
                     />
@@ -636,11 +638,13 @@ export default function Icon({ name, height, width, className }: IconProps) {
             return (
                 <svg
                     height={height || DEFAULT_H}
+                    className={className}
                     viewBox="0 0 99 88"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <path
+                        className={className}
                         d="M97.63 32.46L71.88 10.2C70.61 9.1 68.72 9.1 67.45 10.2L47.98 27.03C47.24 27.67 46.81 28.61 46.81 29.6V53.46H22.89C21.02 53.46 19.5 54.98 19.5 56.85V82.09H6.30002V36.01L39.84 7.01L49.75 16.07L54.28 12.16L42.06 1.59999C40.79 0.499994 38.9 0.499994 37.63 1.59999L1.94002 32.46C1.20002 33.1 0.77002 34.04 0.77002 35.03V84.25C0.77002 86.12 2.29002 87.64 4.16002 87.64H95.42C97.29 87.64 98.81 86.12 98.81 84.25V35.03C98.8 34.04 98.37 33.11 97.63 32.46ZM75.35 82.1H25.03V59H75.35V82.1ZM93.26 82.1H80.89V56.86C80.89 54.99 79.37 53.47 77.5 53.47H52.34V30.6L69.66 15.63L93.26 36.03V82.1Z"
                         fill="black"
                     />

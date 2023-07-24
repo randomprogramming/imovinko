@@ -74,13 +74,13 @@ export default function Home({ newestListings, counts }: HomeProps) {
     return (
         <>
             <header className="absolute top-0 container mx-auto left-0 right-0 z-20">
-                <Navbar />
+                <Navbar useLighterColorsOnSmallDevice />
             </header>
             <main>
                 <section className="container mx-auto">
                     <div className="w-full">
-                        <div className="flex flex-row">
-                            <div className="flex-1 flex flex-col items-center justify-center pt-24">
+                        <div className="flex flex-col-reverse md:flex-row">
+                            <div className="flex-1 flex flex-col items-center justify-center bg-[#ececec] rounded-xl -mt-32 md:bg-transparent md:rounded-none md:mt-0 z-30 md:pt-24">
                                 <Typography variant="h1" className="text-7xl text-center max-w-lg">
                                     {t("header")}
                                 </Typography>
@@ -159,9 +159,9 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 </div>
                             </div>
                             <div
-                                className="flex-1 relative rounded-b-3xl overflow-hidden shadow-2xl md:ml-4"
+                                className="w-30 md:flex-1 relative md:rounded-b-3xl overflow-hidden shadow-2xl md:ml-4"
                                 style={{
-                                    height: "650px",
+                                    minHeight: "600px",
                                 }}
                             >
                                 <Image

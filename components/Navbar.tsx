@@ -112,8 +112,13 @@ function AuthDropdown() {
 interface NavbarProps {
     hideSearchBar?: boolean;
     lighterSearchbar?: boolean;
+    useLighterColorsOnSmallDevice?: boolean;
 }
-export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps) {
+export default function Navbar({
+    hideSearchBar,
+    lighterSearchbar,
+    useLighterColorsOnSmallDevice,
+}: NavbarProps) {
     const t = useTranslations("Navbar");
 
     const auth = useAuthentication();
@@ -136,12 +141,16 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
     }, [auth.account]);
 
     return (
-        <div className="container mx-auto flex flex-row items-center my-4">
+        <div className="container mx-auto flex flex-row items-center my-4 pl-1">
             <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
                 <Icon name="logo-text" height="36" />
             </Link>
             <Link to="/" className="md:hidden" disableAnimatedHover>
-                <Icon name="logo" height="36" />
+                <Icon
+                    name="logo"
+                    className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
+                    height="36"
+                />
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
@@ -152,29 +161,44 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
 
             {/* Profile section */}
             {/* Mobile View */}
-            <div className="lg:hidden flex flex-row items-center">
+            <div className="lg:hidden flex flex-row items-center pr-1">
                 {auth.account && companyInvitations && (
                     <Notifications notifications={companyInvitations} />
                 )}
                 <Button.Transparent
+                    className="hover:!bg-zinc-800"
                     onClick={() => {
                         console.log("clickyy");
                     }}
                 >
-                    <Icon name="account" height="26" width="26" />
+                    <Icon name="account" className="fill-zinc-50" height="26" width="26" />
                 </Button.Transparent>
             </div>
             {/* Desktop View */}
-            <div className="hidden lg:flex flex-row items-center">
+            <div className="hidden lg:flex flex-row items-center pr-1">
                 {auth.account ? (
                     <>
                         {companyInvitations && <Notifications notifications={companyInvitations} />}
                         <AuthDropdown />
                     </>
                 ) : (
-                    <div className="flex flex-row space-x-4">
-                        <Link to="/register">{t("sign-up")}</Link>
-                        <Link to="/login">{t("sign-in")}</Link>
+                    <div
+                        className={`flex flex-row space-x-4 ${
+                            useLighterColorsOnSmallDevice && "text-zinc-50"
+                        }`}
+                    >
+                        <Link
+                            underlineClassName={`${useLighterColorsOnSmallDevice && "!bg-zinc-50"}`}
+                            to="/register"
+                        >
+                            {t("sign-up")}
+                        </Link>
+                        <Link
+                            underlineClassName={`${useLighterColorsOnSmallDevice && "!bg-zinc-50"}`}
+                            to="/login"
+                        >
+                            {t("sign-in")}
+                        </Link>
                     </div>
                 )}
             </div>
