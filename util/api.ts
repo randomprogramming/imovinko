@@ -91,16 +91,22 @@ interface CreateListingData {
     saleListingTitle?: string;
     saleListingPrice?: number;
     saleListingDescription?: string;
+    saleContacts?: string[];
+    saleManualAccountContacts?: string[];
 
     isForShortTermRent?: boolean;
     shortTermListingTitle?: string;
     shortTermListingPrice?: number;
     shortTermListingDescription?: string;
+    shortTermContacts?: string[];
+    shortTermManualAccountContacts?: string[];
 
     isForLongTermRent?: boolean;
     longTermListingTitle?: string;
     longTermListingPrice?: number;
     longTermListingDescription?: string;
+    longTermContacts?: string[];
+    longTermManualAccountContacts?: string[];
 
     lat: number;
     lon: number;
@@ -285,6 +291,12 @@ export interface FullAccount extends Account {
         company: BasicCompany;
     }[];
 }
+export interface FullAccountSingleCompany extends Account {
+    createdAt: string | Date;
+    company: BasicCompany & {
+        createdAt: Date | string;
+    };
+}
 export interface Media {
     url: string;
 }
@@ -342,10 +354,34 @@ export interface Listing {
     landId: string | null;
     createdAt: string | Date;
     updatedAt: string | Date;
-    apartment: Apartment | null;
-    house: House | null;
-    land: Land | null;
+    apartment:
+        | (Apartment & {
+              owner: FullAccountSingleCompany;
+          })
+        | null;
+    house:
+        | (House & {
+              owner: FullAccountSingleCompany;
+          })
+        | null;
+    land:
+        | (Land & {
+              owner: FullAccountSingleCompany;
+          })
+        | null;
     viewCount: number;
+    contacts: {
+        username: string | null;
+        email: string;
+        firstName: string | null;
+        lastName: string | null;
+    }[];
+    manualAccountContacts: {
+        username: null;
+        email: string | null;
+        firstName: string | null;
+        lastName: string | null;
+    }[];
 }
 export async function findListing(id: string) {
     return await client<Listing>({
@@ -464,10 +500,13 @@ export interface CompanyWithListings {
     createdAt: string | Date;
     listings: PaginatedListingBasic;
 }
-export async function getCompanyByPrettyId(prettyId: string) {
+export async function getCompanyByPrettyId(prettyId: string, page: number) {
     return await client<CompanyWithListings>({
         method: "GET",
         url: `/company/${prettyId}`,
+        params: {
+            page,
+        },
     });
 }
 

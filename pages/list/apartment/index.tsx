@@ -103,10 +103,18 @@ export default function ListApartment({ company }: ListApartmentProps) {
     const [shortTermListingTitle, setShortTermListingTitle] = useState("");
     const [shortTermListingPrice, setShortTermListingPrice] = useState<number>();
     const [shortTermListingDescription, setShortTermListingDescription] = useState<string>("");
+    const [shortTermContacts, setShortTermContacts] = useState<string[]>([]);
+    const [shortTermManualAccountContacts, setShortTermManualAccountContacts] = useState<string[]>(
+        []
+    );
     const [isForLongTermRent, setIsForLongTermRent] = useState(false);
     const [longTermListingTitle, setLongTermListingTitle] = useState("");
     const [longTermListingPrice, setLongTermListingPrice] = useState<number>();
     const [longTermListingDescription, setLongTermListingDescription] = useState<string>("");
+    const [longTermContacts, setLongTermContacts] = useState<string[]>([]);
+    const [longTermManualAccountContacts, setLongTermManualAccountContacts] = useState<string[]>(
+        []
+    );
     const [location, setLocation] = useState({
         lat: 0,
         lon: 0,
@@ -159,6 +167,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     saleListingPrice,
                     saleListingTitle,
                     saleListingDescription,
+                    saleContacts,
+                    saleManualAccountContacts,
                 };
             }
             if (isForShortTermRent) {
@@ -167,6 +177,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     shortTermListingPrice,
                     shortTermListingTitle,
                     shortTermListingDescription,
+                    shortTermContacts,
+                    shortTermManualAccountContacts,
                 };
             }
             if (isForLongTermRent) {
@@ -175,6 +187,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     longTermListingPrice,
                     longTermListingTitle,
                     longTermListingDescription,
+                    longTermContacts,
+                    longTermManualAccountContacts,
                 };
             }
             const resp = await createListing({
@@ -191,11 +205,13 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 ...listingData,
             });
 
-            const imageUrls = await uploadMedia(images);
-            await patchPropertyMedia({
-                ...resp.data,
-                media: imageUrls,
-            });
+            if (images.length > 0) {
+                const imageUrls = await uploadMedia(images);
+                await patchPropertyMedia({
+                    ...resp.data,
+                    media: imageUrls,
+                });
+            }
             // TODO: Route to the page where all user listings are once that page exists
         } catch (e) {
         } finally {
@@ -317,10 +333,13 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     />
                                 </RowItem>
                             </FlexRow>
-                            <FlexRow hideBottomBorder>
-                                <TitleCol title={t("contact")}>{t("contact-description")}</TitleCol>
-                                <RowItem>
-                                    {company && (
+                            {company && (
+                                <FlexRow hideBottomBorder>
+                                    <TitleCol title={t("contact")}>
+                                        {t("contact-description")}
+                                    </TitleCol>
+
+                                    <RowItem>
                                         <Select
                                             isMulti
                                             isSearchable
@@ -423,9 +442,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 },
                                             }}
                                         />
-                                    )}
-                                </RowItem>
-                            </FlexRow>
+                                    </RowItem>
+                                </FlexRow>
+                            )}
                         </FlexRow>
 
                         {/* SALE SECTION END */}
@@ -479,6 +498,118 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     />
                                 </RowItem>
                             </FlexRow>
+                            {company && (
+                                <FlexRow hideBottomBorder>
+                                    <TitleCol title={t("contact")}>
+                                        {t("contact-description")}
+                                    </TitleCol>
+
+                                    <RowItem>
+                                        <Select
+                                            isMulti
+                                            isSearchable
+                                            closeMenuOnSelect={false}
+                                            noOptionsMessage={() => {
+                                                return (
+                                                    <div className="w-full flex items-center justify-center">
+                                                        <div className="flex flex-row py-2">
+                                                            <Typography className="text-zinc-400">
+                                                                {t("no-options")}
+                                                            </Typography>
+                                                            <Typography>&nbsp;</Typography>
+                                                            <Typography className="text-zinc-400">
+                                                                <Link
+                                                                    to="/account/company"
+                                                                    underlineClassName="bg-zinc-400"
+                                                                >
+                                                                    {t("add-new-here")}
+                                                                </Link>
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }}
+                                            options={allCompanyAccounts}
+                                            hideSelectedOptions={false}
+                                            onChange={(val) => {
+                                                const contacts = val.filter((c) => !c.manual);
+                                                const manualContacts = val.filter((c) => c.manual);
+
+                                                setShortTermContacts(contacts.map((c) => c.id));
+                                                setShortTermManualAccountContacts(
+                                                    manualContacts.map((c) => c.id)
+                                                );
+                                            }}
+                                            classNames={{
+                                                menu() {
+                                                    return "!rounded-lg !bg-zinc-50";
+                                                },
+                                                control() {
+                                                    return "!rounded-lg !bg-zinc-50 !py-2 !px-1 !border-none !shadow-sm";
+                                                },
+                                            }}
+                                            placeholder={
+                                                <Typography className="text-zinc-400 !font-normal">
+                                                    {t("choose-contact")}
+                                                </Typography>
+                                            }
+                                            components={{
+                                                MultiValue: ({
+                                                    components,
+                                                    data,
+                                                    ...innerProps
+                                                }) => {
+                                                    return (
+                                                        <components.Label
+                                                            {...innerProps}
+                                                            data={data}
+                                                        >
+                                                            <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
+                                                                <Icon name="account" />
+                                                                <Typography className="ml-1">
+                                                                    {`${data.firstName}${
+                                                                        data.firstName && " "
+                                                                    }${data.lastName}`}
+                                                                </Typography>
+                                                            </div>
+                                                        </components.Label>
+                                                    );
+                                                },
+                                                Option: ({
+                                                    innerProps,
+                                                    isDisabled,
+                                                    children,
+                                                    data,
+                                                    isSelected,
+                                                }) => {
+                                                    return !isDisabled ? (
+                                                        <div {...innerProps}>
+                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 transition-all cursor-pointer">
+                                                                <Icon
+                                                                    name="account"
+                                                                    height={32}
+                                                                    width={32}
+                                                                />
+                                                                <Typography className="ml-2 flex-1">
+                                                                    {children}{" "}
+                                                                    {data.email &&
+                                                                        `(${data.email})`}
+                                                                </Typography>
+                                                                <div
+                                                                    className={`w-4 h-4 rounded-sm border border-zinc-400 ${
+                                                                        isSelected &&
+                                                                        "bg-indigo-600"
+                                                                    } transition-all`}
+                                                                ></div>
+                                                            </div>
+                                                        </div>
+                                                    ) : null;
+                                                },
+                                            }}
+                                        />
+                                    </RowItem>
+                                </FlexRow>
+                            )}
                         </FlexRow>
                         {/* SHORT TERM RENT SECTION END */}
 
@@ -531,6 +662,118 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     />
                                 </RowItem>
                             </FlexRow>
+                            {company && (
+                                <FlexRow hideBottomBorder>
+                                    <TitleCol title={t("contact")}>
+                                        {t("contact-description")}
+                                    </TitleCol>
+
+                                    <RowItem>
+                                        <Select
+                                            isMulti
+                                            isSearchable
+                                            closeMenuOnSelect={false}
+                                            noOptionsMessage={() => {
+                                                return (
+                                                    <div className="w-full flex items-center justify-center">
+                                                        <div className="flex flex-row py-2">
+                                                            <Typography className="text-zinc-400">
+                                                                {t("no-options")}
+                                                            </Typography>
+                                                            <Typography>&nbsp;</Typography>
+                                                            <Typography className="text-zinc-400">
+                                                                <Link
+                                                                    to="/account/company"
+                                                                    underlineClassName="bg-zinc-400"
+                                                                >
+                                                                    {t("add-new-here")}
+                                                                </Link>
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }}
+                                            options={allCompanyAccounts}
+                                            hideSelectedOptions={false}
+                                            onChange={(val) => {
+                                                const contacts = val.filter((c) => !c.manual);
+                                                const manualContacts = val.filter((c) => c.manual);
+
+                                                setLongTermContacts(contacts.map((c) => c.id));
+                                                setLongTermManualAccountContacts(
+                                                    manualContacts.map((c) => c.id)
+                                                );
+                                            }}
+                                            classNames={{
+                                                menu() {
+                                                    return "!rounded-lg !bg-zinc-50";
+                                                },
+                                                control() {
+                                                    return "!rounded-lg !bg-zinc-50 !py-2 !px-1 !border-none !shadow-sm";
+                                                },
+                                            }}
+                                            placeholder={
+                                                <Typography className="text-zinc-400 !font-normal">
+                                                    {t("choose-contact")}
+                                                </Typography>
+                                            }
+                                            components={{
+                                                MultiValue: ({
+                                                    components,
+                                                    data,
+                                                    ...innerProps
+                                                }) => {
+                                                    return (
+                                                        <components.Label
+                                                            {...innerProps}
+                                                            data={data}
+                                                        >
+                                                            <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
+                                                                <Icon name="account" />
+                                                                <Typography className="ml-1">
+                                                                    {`${data.firstName}${
+                                                                        data.firstName && " "
+                                                                    }${data.lastName}`}
+                                                                </Typography>
+                                                            </div>
+                                                        </components.Label>
+                                                    );
+                                                },
+                                                Option: ({
+                                                    innerProps,
+                                                    isDisabled,
+                                                    children,
+                                                    data,
+                                                    isSelected,
+                                                }) => {
+                                                    return !isDisabled ? (
+                                                        <div {...innerProps}>
+                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 transition-all cursor-pointer">
+                                                                <Icon
+                                                                    name="account"
+                                                                    height={32}
+                                                                    width={32}
+                                                                />
+                                                                <Typography className="ml-2 flex-1">
+                                                                    {children}{" "}
+                                                                    {data.email &&
+                                                                        `(${data.email})`}
+                                                                </Typography>
+                                                                <div
+                                                                    className={`w-4 h-4 rounded-sm border border-zinc-400 ${
+                                                                        isSelected &&
+                                                                        "bg-indigo-600"
+                                                                    } transition-all`}
+                                                                ></div>
+                                                            </div>
+                                                        </div>
+                                                    ) : null;
+                                                },
+                                            }}
+                                        />
+                                    </RowItem>
+                                </FlexRow>
+                            )}
                         </FlexRow>
                         {/* LONG TERM RENT SECTION END */}
 

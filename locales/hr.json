@@ -143,7 +143,8 @@
         "listing-posted": "Oglas objavljen",
         "view-count": "Broj prikaza oglasa",
         "calculator": "Kalkulator stambenog kredita",
-        "calculator-description": "Pomoću ovog kalkulatora možete izračunati mjesečnu ratu kredita ukoliko se odlučite za ovu nekretninu. Napominjemo da je ovaj izračun samo informativnog karaktera te se ne može koristiti u druge svrhe. Kontaktirajte svoju banku za više informacija."
+        "calculator-description": "Pomoću ovog kalkulatora možete izračunati mjesečnu ratu kredita ukoliko se odlučite za ovu nekretninu. Napominjemo da je ovaj izračun samo informativnog karaktera te se ne može koristiti u druge svrhe. Kontaktirajte svoju banku za više informacija.",
+        "your-contact": "Vaš Kontakt"
     },
     "ListingsPage": {
         "per-night": "noćenje",

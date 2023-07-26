@@ -49,7 +49,7 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
-                className="hover:bg-zinc-700"
+                className={useLighterColorsOnSmallDevice ? "hover:bg-zinc-700" : ""}
             >
                 <div className="flex flex-row space-x-2">
                     <Typography className={`${useLighterColorsOnSmallDevice && "text-zinc-50"}`}>

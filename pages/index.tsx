@@ -80,7 +80,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                 <section className="container mx-auto">
                     <div className="w-full">
                         <div className="flex flex-col-reverse md:flex-row">
-                            <div className="flex-1 flex flex-col items-center justify-center bg-[#ececec] rounded-xl -mt-32 md:bg-transparent md:rounded-none md:mt-0 z-30 md:pt-24">
+                            <div className="z-10 flex-1 flex flex-col items-center justify-center bg-[#ececec] rounded-xl -mt-32 md:bg-transparent md:rounded-none md:mt-0 md:pt-24">
                                 <Typography variant="h1" className="text-7xl text-center max-w-lg">
                                     {t("header")}
                                 </Typography>
@@ -186,6 +186,10 @@ export default function Home({ newestListings, counts }: HomeProps) {
                             const landMedia = l.land?.media;
 
                             const media = apartmentMedia || houseMedia || landMedia;
+                            let url;
+                            if (media && media.length > 0) {
+                                url = media[0].url;
+                            }
 
                             return (
                                 <Link
@@ -193,11 +197,14 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                     to={`/listing/${l.prettyId}`}
                                     className="bg-zinc-200 shadow-sm hover:shadow-md rounded-lg hover:rounded-xl transition-all overflow-hidden"
                                 >
-                                    {media && (
+                                    {url ? (
                                         <img
                                             className="h-64 w-full object-cover rounded-b-lg"
-                                            src={`${media[0].url}`}
+                                            src={`${url}`}
                                         />
+                                    ) : (
+                                        // TODO: Find something better than this
+                                        <div className="h-64 w-full rounded-b-lg">No image</div>
                                     )}
                                     <div className="relative">
                                         <div className="absolute bg-emerald-700 text-zinc-50 left-4 -translate-y-1/2 px-2 py-0.5 rounded">

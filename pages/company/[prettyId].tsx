@@ -9,8 +9,10 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import Image from "next/image";
 import Pagination from "@/components/Pagination";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
     if (!params?.prettyId || Array.isArray(params.prettyId)) {
         return {
@@ -20,8 +22,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
             },
         };
     }
+    let page: number | null = null;
     try {
-        company = (await getCompanyByPrettyId(params.prettyId)).data;
+        if (typeof query.page === "string") {
+            page = parseInt(query.page);
+        }
+    } catch (_e) {}
+
+    try {
+        company = (await getCompanyByPrettyId(params.prettyId, page || 1)).data;
     } catch (e) {
         console.error("Failed to fetch company");
     }
@@ -30,6 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
         props: {
             messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
             company,
+            query,
         },
     };
 };
@@ -208,15 +218,37 @@ function ListingListItem({ listing }: { listing: ListingBasic }) {
 
 interface CompanyByPrettyIdPageProps {
     company: CompanyWithListings;
+    query: ParsedUrlQuery;
 }
-export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPageProps) {
+export default function CompanyByPrettyIdPage({ company, query }: CompanyByPrettyIdPageProps) {
     const t = useTranslations("CompanyByPrettyIdPage");
+
+    const router = useRouter();
 
     function hideHttps(link: string) {
         if (link.startsWith("https://www.")) {
             return link.split("https://www.")[1];
         }
+        if (link.startsWith("www.")) {
+            return link.split("www.")[1];
+        }
         return link;
+    }
+
+    async function handlePageChange(newPage: number) {
+        const oldParams = query ? { ...query } : {};
+        await router.push(
+            {
+                pathname: `/company/${company.prettyId}`,
+                query: { ...oldParams, page: newPage },
+            },
+            undefined,
+            {
+                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
+                shallow: true,
+            }
+        );
+        router.reload();
     }
 
     return (
@@ -318,6 +350,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                     <Pagination
                                         currentPage={company.listings.page}
                                         maxPage={company.listings.totalPages}
+                                        onPageChange={handlePageChange}
                                     />
                                 )}
                             </div>

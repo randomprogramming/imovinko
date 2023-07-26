@@ -850,7 +850,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         })}
                     </div>
                     {listings.totalPages > 1 && (
-                        <div className="mb-4 flex justify-center items-center">
+                        <div className="mb-4 mt-8 flex justify-center items-center">
                             <Pagination
                                 currentPage={listings.page}
                                 maxPage={listings.totalPages}

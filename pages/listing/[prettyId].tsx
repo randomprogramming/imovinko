@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { FullAccount, Listing, Media, OfferingType, findListing } from "@/util/api";
+import { FullAccountSingleCompany, Listing, Media, OfferingType, findListing } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
@@ -21,6 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
     if (typeof params?.prettyId === "string") {
         listing = (await findListing(params.prettyId)).data;
     }
+
     return {
         props: {
             messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
@@ -28,6 +29,77 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
         },
     };
 };
+
+interface ContactCardProps {
+    firstName?: string | null;
+    lastName?: string | null;
+    username?: string | null;
+    contacts: {
+        type: "email" | "phone";
+        contact: string;
+    }[];
+}
+function ContactCard({ firstName, lastName, username, contacts }: ContactCardProps) {
+    function NameDiv() {
+        return (
+            <Typography bold variant="span">{`${firstName ? firstName : ""}${firstName ? " " : ""}${
+                lastName ? lastName : ""
+            }`}</Typography>
+        );
+    }
+    return (
+        <div className="flex flex-row">
+            <div>
+                <Link to={`/account/${username}`} disableAnimatedHover>
+                    <Icon name="account" height={64} width={64} />
+                </Link>
+            </div>
+            <div className="flex-1 w-full ml-3">
+                <div className="w-full">
+                    {username ? (
+                        <div>
+                            <Link
+                                className="text-blue-700"
+                                underlineClassName="!bg-blue-700"
+                                to={`/account/${username}`}
+                            >
+                                <NameDiv />
+                            </Link>
+                        </div>
+                    ) : (
+                        <NameDiv />
+                    )}
+                </div>
+
+                {contacts.map((c, i) => {
+                    return (
+                        <div
+                            key={JSON.stringify(contacts) + "-" + i}
+                            className="flex-flex-row mt-2 w-full"
+                        >
+                            {c.type === "email" && (
+                                <a
+                                    href={`mailto:${c.contact}`}
+                                    className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                >
+                                    <Typography>{c.contact}</Typography>
+                                </a>
+                            )}
+                            {c.type === "phone" && (
+                                <a
+                                    className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                    href={`tel:${c.contact}`}
+                                >
+                                    <Typography>{c.contact}</Typography>
+                                </a>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
 
 interface ClickableImageProps {
     url: string;
@@ -142,7 +214,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getAccountHref(p: Listing) {
-        let account: Omit<FullAccount, "email"> | null = null;
+        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
         }
@@ -157,10 +229,8 @@ export default function ListingPage({ listing }: ListingPageProps) {
             return "";
         }
 
-        if (account.companies.length > 0) {
-            const { company } = account.companies[0];
-
-            return `/company/${company.prettyId}`;
+        if (account.company) {
+            return `/company/${account.company.prettyId}`;
         }
 
         if (account.username) {
@@ -169,7 +239,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getAccountHandle(p: Listing) {
-        let account: Omit<FullAccount, "email"> | null = null;
+        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
         }
@@ -184,13 +254,11 @@ export default function ListingPage({ listing }: ListingPageProps) {
             return "";
         }
 
-        if (account.companies.length > 0) {
-            const { company } = account.companies[0];
-
-            if (company.storeName) {
-                return company.storeName;
+        if (account.company) {
+            if (account.company.storeName) {
+                return account.company.storeName;
             }
-            return company.name;
+            return account.company.name;
         }
 
         if (account.username) {
@@ -213,7 +281,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getAccountJoinDate(p: Listing) {
-        let account: Omit<FullAccount, "email"> | null = null;
+        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
         }
@@ -226,6 +294,16 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
         if (!account) {
             return "";
+        }
+
+        if (account.company) {
+            return new Date(account.company.createdAt)
+                .toLocaleDateString(undefined, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                })
+                .replaceAll("/", ".");
         }
 
         return new Date(account.createdAt)
@@ -445,7 +523,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </div>
                         </div>
 
-                        <div className="w-fit bg-white rounded-md shadow-sm mt-10">
+                        <div className="w-fit mt-10 bg-zinc-50 rounded shadow-sm">
                             <div>
                                 <div className="-translate-y-1/2 pl-10">
                                     <Icon name="account" height={64} width={64} />
@@ -513,6 +591,54 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 setIsMediaPopupOpen(true);
                             }}
                         />
+                        {(listing.contacts.length > 0 ||
+                            listing.manualAccountContacts.length > 0) && (
+                            <div className="mt-12 bg-zinc-50 rounded shadow-sm p-3 space-y-3">
+                                <Typography
+                                    sm
+                                    uppercase
+                                    className="text-zinc-600 tracking-wider pl-3"
+                                >
+                                    {t("your-contact")}
+                                </Typography>
+                                {listing.contacts.map((mac) => {
+                                    return (
+                                        <ContactCard
+                                            key={JSON.stringify(mac)}
+                                            firstName={mac.firstName}
+                                            lastName={mac.lastName}
+                                            username={mac.username}
+                                            contacts={[
+                                                {
+                                                    type: "email",
+                                                    contact: mac.email,
+                                                },
+                                            ]}
+                                        />
+                                    );
+                                })}
+                                {listing.manualAccountContacts.map((mac) => {
+                                    return (
+                                        <ContactCard
+                                            key={JSON.stringify(mac)}
+                                            firstName={mac.firstName}
+                                            lastName={mac.lastName}
+                                            username={mac.username}
+                                            contacts={
+                                                mac.email
+                                                    ? [
+                                                          {
+                                                              type: "email",
+                                                              contact: mac.email,
+                                                          },
+                                                      ]
+                                                    : []
+                                            }
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
                 </section>
 
