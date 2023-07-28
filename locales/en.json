@@ -255,5 +255,11 @@
     "CalculatorPage": {
         "calculator": "Mortgage calculator",
         "calculator-description": "Using this calculator you may calculate your monthly payment based on some input parameters. Please note that this calculation is purely informational and may not be used in any other way. Please contact your bank for more information."
+    },
+    "AccountByUsernamePage": {
+        "joined": "Joined",
+        "listings": "Total Listings",
+        "account-listings": "Account Listings",
+        "user-is-in-company": "User is a member of company"
     }
 }

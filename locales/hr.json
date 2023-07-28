@@ -255,5 +255,11 @@
     "CalculatorPage": {
         "calculator": "Kalkulator stambenog kredita",
         "calculator-description": "Pomoću ovog kalkulatora možete izračunati mjesečnu ratu kredita ovisno o ulaznim parametrima. Napominjemo da je ovaj izračun samo informativnog karaktera te se ne može koristiti u druge svrhe. Kontaktirajte svoju banku za više informacija."
+    },
+    "AccountByUsernamePage": {
+        "joined": "Registracija",
+        "listings": "Broj oglasa",
+        "account-listings": "Oglasi korisnika",
+        "user-is-in-company": "Korisnik je član tvrtke"
     }
 }

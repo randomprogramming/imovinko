@@ -541,7 +541,7 @@ export interface CompanyInvitation {
 export async function getNotifications() {
     return await client<CompanyInvitation[]>({
         method: "GET",
-        url: "/account/notifications",
+        url: "/account/notifications/",
         headers: {
             ...getAuthHeaders(),
         },
@@ -584,5 +584,23 @@ export async function getPropertyCount() {
     return await client<PropertyCount>({
         method: "GET",
         url: "/stats/property-count",
+    });
+}
+
+export interface FullPublicAccount {
+    username: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    company: BasicCompany | null;
+    listings: PaginatedListingBasic;
+    createdAt: string | Date;
+}
+export async function getAccountByUsername(username: string, listingsPage?: number) {
+    return await client<FullPublicAccount>({
+        method: "GET",
+        url: `/account/${username}`,
+        params: {
+            page: listingsPage,
+        },
     });
 }

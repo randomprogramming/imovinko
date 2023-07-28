@@ -187,7 +187,7 @@ function ListingListItem({ listing }: { listing: ListingBasic }) {
                 {/* Push the price element to the end */}
                 <div className="flex-1" />
                 <div className="flex flex-row w-full items-center">
-                    <div>
+                    <div className="mt-2">
                         <Typography className="text-sm">
                             {t("posted")}:{" "}
                             <Typography variant="span" className="text-sm font-normal">
@@ -237,6 +237,7 @@ export default function CompanyByPrettyIdPage({ company, query }: CompanyByPrett
 
     async function handlePageChange(newPage: number) {
         const oldParams = query ? { ...query } : {};
+        delete oldParams.prettyId;
         await router.push(
             {
                 pathname: `/company/${company.prettyId}`,
