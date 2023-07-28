@@ -3,7 +3,7 @@ import Typography from "@/components/Typography";
 import { FullAccountSingleCompany, Listing, Media, OfferingType, findListing } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Map from "@/components/Map";
@@ -442,6 +442,47 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                         return null;
                                     },
                                     (props) => {
+                                        useEffect(() => {
+                                            let shouldHandleKeyDown = true;
+                                            function keydownHandler(e: KeyboardEvent) {
+                                                if (!shouldHandleKeyDown) return;
+                                                shouldHandleKeyDown = false;
+                                                // HANDLE KEY DOWN HERE
+                                                console.log(e);
+                                                if (e.key === "ArrowRight" || e.keyCode === 39) {
+                                                    props.nextHandler();
+                                                } else if (
+                                                    e.key === "ArrowLeft" ||
+                                                    e.keyCode === 37
+                                                ) {
+                                                    props.prevHandler();
+                                                }
+                                            }
+                                            function keyupHandler() {
+                                                shouldHandleKeyDown = true;
+                                            }
+                                            if (isMediaPopupOpen) {
+                                                document.removeEventListener(
+                                                    "keydown",
+                                                    keydownHandler
+                                                );
+                                                document.removeEventListener("keyup", keyupHandler);
+                                                document.addEventListener(
+                                                    "keydown",
+                                                    keydownHandler
+                                                );
+                                                document.addEventListener("keyup", keyupHandler);
+                                            }
+
+                                            return () => {
+                                                document.removeEventListener(
+                                                    "keydown",
+                                                    keydownHandler
+                                                );
+                                                document.removeEventListener("keyup", keyupHandler);
+                                            };
+                                        }, []);
+
                                         return (
                                             <div className="text-white absolute w-full bottom-0 top-0 z-[100]">
                                                 <div className="absolute left-6 top-1/2">
