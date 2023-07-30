@@ -49,7 +49,7 @@ export default function Notifications({ notifications, lightIcon }: Notification
             await answerInvitation(id, accepted);
             if (accepted) {
                 await router.push({
-                    pathname: "/account/company",
+                    pathname: "/settings/company",
                 });
             } else {
                 setDeclinedInvitations([...declinedInvitations, id]);

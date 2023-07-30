@@ -125,7 +125,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
             });
             await router.push(
                 {
-                    pathname: "/account/company",
+                    pathname: "/settings/company",
                     query: {
                         manualEntry: true,
                     },
@@ -150,7 +150,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
             await inviteMember(handle);
             await router.push(
                 {
-                    pathname: "/account/company",
+                    pathname: "/settings/company",
                     query: {
                         invited: true,
                     },
@@ -589,7 +589,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                 <div>
                                     <Typography>{t("not-found")}</Typography>
                                 </div>
-                                <Link to="/account/company/create" className="font-semibold">
+                                <Link to="/settings/company/create" className="font-semibold">
                                     <Typography>{t("click-here")}</Typography>
                                 </Link>
                             </div>

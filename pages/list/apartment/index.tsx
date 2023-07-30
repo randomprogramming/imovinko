@@ -354,7 +354,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <Typography>&nbsp;</Typography>
                                                             <Typography className="text-zinc-400">
                                                                 <Link
-                                                                    to="/account/company"
+                                                                    to="/settings/company"
                                                                     underlineClassName="bg-zinc-400"
                                                                 >
                                                                     {t("add-new-here")}
@@ -519,7 +519,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <Typography>&nbsp;</Typography>
                                                             <Typography className="text-zinc-400">
                                                                 <Link
-                                                                    to="/account/company"
+                                                                    to="/settings/company"
                                                                     underlineClassName="bg-zinc-400"
                                                                 >
                                                                     {t("add-new-here")}
@@ -683,7 +683,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <Typography>&nbsp;</Typography>
                                                             <Typography className="text-zinc-400">
                                                                 <Link
-                                                                    to="/account/company"
+                                                                    to="/settings/company"
                                                                     underlineClassName="bg-zinc-400"
                                                                 >
                                                                     {t("add-new-here")}

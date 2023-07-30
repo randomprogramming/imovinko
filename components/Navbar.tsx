@@ -86,7 +86,7 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
                             </Link>
 
                             <Link
-                                to="/account"
+                                to="/settings"
                                 className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
                             >
                                 <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">

@@ -82,7 +82,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                 <Navbar />
             </header>
             <main className="container mx-auto flex-1">
-                <div className="flex flex-col lg:flex-row mt-12">
+                <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
                         <div className="flex flex-row items-center space-x-2">

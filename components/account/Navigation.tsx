@@ -38,7 +38,7 @@ export default function Navigation() {
 
     return (
         <div
-            className="p-2 border-2 border-zinc-300 rounded-xl flex flex-col space-y-1"
+            className="p-2 border-2 border-zinc-300 rounded-xl flex flex-col space-y-1 h-fit"
             style={{
                 minWidth: "260px",
                 minHeight: "420px",
@@ -46,20 +46,20 @@ export default function Navigation() {
         >
             <NavigationLink
                 title={t("my-account")}
-                to="/account"
-                active={"/account" === router.pathname}
+                to="/settings"
+                active={"/settings" === router.pathname}
                 iconName="account-settings"
             />
             <NavigationLink
                 title={t("my-company")}
-                to="/account/company"
-                active={"/account/company" === router.pathname}
+                to="/settings/company"
+                active={"/settings/company" === router.pathname}
                 iconName="office"
             />
             <NavigationLink
                 title={t("my-properties")}
-                to="/account/properties"
-                active={"/account/properties" === router.pathname}
+                to="/settings/properties"
+                active={"/settings/properties" === router.pathname}
                 iconName="property"
             />
         </div>
