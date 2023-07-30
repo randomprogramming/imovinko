@@ -385,7 +385,7 @@ export interface Listing {
 }
 export async function findListing(id: string) {
     return await client<Listing>({
-        url: `/listing/${id}`,
+        url: `/listing/pretty-id/${id}`,
         method: "GET",
     });
 }
@@ -598,9 +598,25 @@ export interface FullPublicAccount {
 export async function getAccountByUsername(username: string, listingsPage?: number) {
     return await client<FullPublicAccount>({
         method: "GET",
-        url: `/account/${username}`,
+        url: `/account/username/${username}`,
         params: {
             page: listingsPage,
         },
+    });
+}
+
+export async function getMyListings(jwt?: string, page?: number) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    return await client<PaginatedListingBasic>({
+        url: "/listing/mine/",
+        method: "GET",
+        params: {
+            page,
+        },
+        headers,
     });
 }

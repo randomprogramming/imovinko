@@ -185,7 +185,7 @@
     "Navigation": {
         "my-account": "My Account",
         "my-company": "My Company",
-        "my-properties": "My Properties"
+        "my-properties": "My Listings"
     },
     "CompanyPage": {
         "not-found": "We couldn't find your company.",
@@ -261,5 +261,18 @@
         "listings": "Total Listings",
         "account-listings": "Account Listings",
         "user-is-in-company": "User is a member of company"
+    },
+    "ListingListItem": {
+        "per-night": "per night",
+        "per-month": "per month",
+        "house": "House",
+        "apartment": "Apartment",
+        "land": "Land",
+        "offering-type": "Offering Type",
+        "sale": "Sale",
+        "rent": "Rent",
+        "short-term-rent": "Short Term Rent",
+        "long-term-rent": "Long Term Rent",
+        "posted": "Posted"
     }
 }

@@ -185,7 +185,7 @@
     "Navigation": {
         "my-account": "Moj račun",
         "my-company": "Moja tvrtka",
-        "my-properties": "Moje nekretnine"
+        "my-properties": "Moji oglasi"
     },
     "CompanyPage": {
         "not-found": "Nismo pronašli tvoju tvrtku.",
@@ -261,5 +261,18 @@
         "listings": "Broj oglasa",
         "account-listings": "Oglasi korisnika",
         "user-is-in-company": "Korisnik je član tvrtke"
+    },
+    "ListingListItem": {
+        "per-night": "noćenje",
+        "per-month": "mjesečno",
+        "offering-type": "Tip ponude",
+        "sale": "Prodaja",
+        "rent": "Najam",
+        "short-term-rent": "Kratkotrajan najam",
+        "long-term-rent": "Dugoročan najam",
+        "house": "Kuća",
+        "apartment": "Stan",
+        "land": "Zemljište",
+        "posted": "Objavljeno"
     }
 }
