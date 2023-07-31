@@ -150,7 +150,7 @@ export default function Navbar({
     }, [auth.account]);
 
     return (
-        <div className="container mx-auto flex flex-row items-center my-4 pl-1">
+        <div className="container mx-auto flex flex-row items-center my-4 px-1">
             <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
                 <Icon name="logo-text" height="36" />
             </Link>
@@ -165,12 +165,12 @@ export default function Navbar({
                 // h-12 is the same height as the searchbar
                 <div className="flex-1 h-12" />
             ) : (
-                <Searchbar className="flex-1 mx-4" light={lighterSearchbar} />
+                <Searchbar className="flex-1 ml-2 md:mr-4" light={lighterSearchbar} />
             )}
 
             {/* Profile section */}
             {/* Mobile View */}
-            <div className="lg:hidden flex flex-row items-center pr-1">
+            <div className="lg:hidden flex flex-row items-center">
                 {auth.account && companyInvitations && (
                     <Notifications
                         lightIcon={useLighterColorsOnSmallDevice}
@@ -187,7 +187,7 @@ export default function Navbar({
                 </Button.Transparent>
             </div>
             {/* Desktop View */}
-            <div className="hidden lg:flex flex-row items-center pr-1">
+            <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
                         {companyInvitations && (

@@ -85,36 +85,38 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                     {t("header")}
                                 </Typography>
 
-                                <div className="mt-6 text-zinc-50 flex flex-row justify-evenly rounded-md shadow overflow-hidden text-lg">
-                                    <Link
-                                        to="/listings"
-                                        query={{
-                                            offeringTypes: OfferingType.sale,
-                                        }}
-                                        className="flex items-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all"
-                                    >
-                                        <Typography bold>{t("buying")}</Typography>
-                                    </Link>
-                                    <Link
-                                        to="/listings"
-                                        query={{
-                                            offeringTypes: OfferingType.longTermRent,
-                                        }}
-                                        className="flex items-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
-                                    >
-                                        <Typography bold>{t("renting-long")}</Typography>
-                                    </Link>
-                                    <Link
-                                        to="/listings"
-                                        query={{
-                                            offeringTypes: OfferingType.shortTermRent,
-                                        }}
-                                        className="flex items-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
-                                    >
-                                        <Typography bold>{t("renting-short")}</Typography>
-                                    </Link>
+                                <div className="px-1">
+                                    <div className="mt-6 text-zinc-50 flex flex-row justify-evenly rounded-md shadow overflow-hidden text-lg">
+                                        <Link
+                                            to="/listings"
+                                            query={{
+                                                offeringTypes: OfferingType.sale,
+                                            }}
+                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all"
+                                        >
+                                            <Typography bold>{t("buying")}</Typography>
+                                        </Link>
+                                        <Link
+                                            to="/listings"
+                                            query={{
+                                                offeringTypes: OfferingType.longTermRent,
+                                            }}
+                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
+                                        >
+                                            <Typography bold>{t("renting-long")}</Typography>
+                                        </Link>
+                                        <Link
+                                            to="/listings"
+                                            query={{
+                                                offeringTypes: OfferingType.shortTermRent,
+                                            }}
+                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
+                                        >
+                                            <Typography bold>{t("renting-short")}</Typography>
+                                        </Link>
+                                    </div>
                                 </div>
-                                <Typography className="mt-4 text-lg">
+                                <Typography className="my-4 text-lg">
                                     {t("have-a-property-to")}{" "}
                                     <Link to="/list" underlineClassName="!bg-emerald-700">
                                         <Typography

@@ -2,15 +2,11 @@ import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import IconRow from "@/components/listing/IconRow";
-import { CompanyWithListings, ListingBasic, OfferingType, getCompanyByPrettyId } from "@/util/api";
+import { CompanyWithListings, getCompanyByPrettyId } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React from "react";
-import Image from "next/image";
 import Pagination from "@/components/Pagination";
-import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
 import ListingListItem from "@/components/listing/ListingListItem";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
@@ -40,19 +36,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
         props: {
             messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
             company,
-            query,
         },
     };
 };
 
 interface CompanyByPrettyIdPageProps {
     company: CompanyWithListings;
-    query: ParsedUrlQuery;
 }
-export default function CompanyByPrettyIdPage({ company, query }: CompanyByPrettyIdPageProps) {
+export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPageProps) {
     const t = useTranslations("CompanyByPrettyIdPage");
-
-    const router = useRouter();
 
     function hideHttps(link: string) {
         if (link.startsWith("https://www.")) {
@@ -62,23 +54,6 @@ export default function CompanyByPrettyIdPage({ company, query }: CompanyByPrett
             return link.split("www.")[1];
         }
         return link;
-    }
-
-    async function handlePageChange(newPage: number) {
-        const oldParams = query ? { ...query } : {};
-        delete oldParams.prettyId;
-        await router.push(
-            {
-                pathname: `/company/${company.prettyId}`,
-                query: { ...oldParams, page: newPage },
-            },
-            undefined,
-            {
-                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
-                shallow: true,
-            }
-        );
-        router.reload();
     }
 
     return (
@@ -180,7 +155,6 @@ export default function CompanyByPrettyIdPage({ company, query }: CompanyByPrett
                                     <Pagination
                                         currentPage={company.listings.page}
                                         maxPage={company.listings.totalPages}
-                                        onPageChange={handlePageChange}
                                     />
                                 )}
                             </div>

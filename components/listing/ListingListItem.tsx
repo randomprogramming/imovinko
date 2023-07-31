@@ -97,8 +97,8 @@ export default function ListingListItem({ listing }: Props) {
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
-        <div className="flex flex-row bg-zinc-50 rounded-md shadow hover:shadow-sm transition-all w-full overflow-hidden">
-            <div className="w-96 h-full">
+        <div className="flex lg:flex-row flex-col bg-zinc-50 rounded-md shadow hover:shadow-sm transition-all w-full overflow-hidden">
+            <div className="h-64 lg:w-96 lg:h-full">
                 {firstImage ? (
                     <div className="select-none relative w-full h-full">
                         <Image
@@ -119,7 +119,7 @@ export default function ListingListItem({ listing }: Props) {
                     <div>No image</div>
                 )}
             </div>
-            <div className="p-4 flex flex-col w-full h-full">
+            <div className="p-4 flex flex-col w-full h-fit md:h-full">
                 <div
                     style={{
                         fontSize: "11px",
@@ -149,9 +149,9 @@ export default function ListingListItem({ listing }: Props) {
                     <IconRow listing={listing} />
                 </div>
                 {/* Push the price element to the end */}
-                <div className="flex-1" />
+                <div className="flex-1 mt-2" />
                 <div className="flex flex-row w-full items-center">
-                    <div>
+                    <div className="mt-auto">
                         <Typography className="text-sm">
                             {t("posted")}:{" "}
                             <Typography variant="span" className="text-sm font-normal">

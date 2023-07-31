@@ -274,5 +274,8 @@
         "short-term-rent": "Short Term Rent",
         "long-term-rent": "Long Term Rent",
         "posted": "Posted"
+    },
+    "MyPropertiesPage": {
+        "my-listings": "My Listings"
     }
 }

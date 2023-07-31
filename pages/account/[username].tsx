@@ -2,15 +2,11 @@ import Icon from "@/components/Icon";
 import Navbar from "@/components/Navbar";
 import Pagination from "@/components/Pagination";
 import Typography from "@/components/Typography";
-import { FullPublicAccount, ListingBasic, OfferingType, getAccountByUsername } from "@/util/api";
+import { FullPublicAccount, getAccountByUsername } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React from "react";
-import Image from "next/image";
-import IconRow from "@/components/listing/IconRow";
 import Link from "@/components/Link";
-import { ParsedUrlQuery } from "querystring";
-import { useRouter } from "next/router";
 import ListingListItem from "@/components/listing/ListingListItem";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
@@ -36,30 +32,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query, lo
 
 interface AccountByUsernamePageProps {
     account: FullPublicAccount | null;
-    query: ParsedUrlQuery;
 }
-export default function AccountByUsernamePage({ account, query }: AccountByUsernamePageProps) {
+export default function AccountByUsernamePage({ account }: AccountByUsernamePageProps) {
     const t = useTranslations("AccountByUsernamePage");
-
-    const router = useRouter();
-
-    async function handlePageChange(newPage: number) {
-        if (account) {
-            const oldParams = query ? { ...query } : {};
-            await router.push(
-                {
-                    pathname: `/account/${account.username}`,
-                    query: { ...oldParams, page: newPage },
-                },
-                undefined,
-                {
-                    // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
-                    shallow: true,
-                }
-            );
-            router.reload();
-        }
-    }
 
     return (
         <>
@@ -164,7 +139,6 @@ export default function AccountByUsernamePage({ account, query }: AccountByUsern
                                     <Pagination
                                         currentPage={account.listings.page}
                                         maxPage={account.listings.totalPages}
-                                        onPageChange={handlePageChange}
                                     />
                                 )}
                             </div>

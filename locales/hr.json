@@ -274,5 +274,8 @@
         "apartment": "Stan",
         "land": "Zemljište",
         "posted": "Objavljeno"
+    },
+    "MyPropertiesPage": {
+        "my-listings": "Moji oglasi"
     }
 }

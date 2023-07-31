@@ -8,6 +8,7 @@ import Typography from "@/components/Typography";
 import Link from "@/components/Link";
 import ListingListItem from "@/components/listing/ListingListItem";
 import Pagination from "@/components/Pagination";
+import { useTranslations } from "next-intl";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -15,7 +16,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req, quer
         return {
             props: {
                 messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
-                query,
             },
         };
     }
@@ -38,7 +38,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req, quer
         props: {
             messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
             listings: myListings,
-            query,
         },
     };
 };
@@ -47,6 +46,8 @@ interface MyPropertiesPageProps {
     listings: PaginatedListingBasic;
 }
 export default function MyProperties({ listings }: MyPropertiesPageProps) {
+    const t = useTranslations("MyPropertiesPage");
+
     return (
         <>
             <header>
@@ -57,7 +58,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
-                        <Typography variant="h2">Moje listinge</Typography>
+                        <Typography variant="h2">{t("my-listings")}</Typography>
                         <div className="mt-6 space-y-8">
                             {listings.data.map((l) => {
                                 return (
@@ -77,7 +78,6 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                 <Pagination
                                     currentPage={listings.page}
                                     maxPage={listings.totalPages}
-                                    // onPageChange={handlePageChange}
                                 />
                             )}
                         </div>

@@ -384,22 +384,6 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
     const router = useRouter();
 
-    async function handlePageChange(newPage: number) {
-        const oldParams = params ? { ...params } : {};
-        await router.push(
-            {
-                pathname: "/listings",
-                query: { ...oldParams, page: newPage },
-            },
-            undefined,
-            {
-                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
-                shallow: true,
-            }
-        );
-        router.reload();
-    }
-
     async function handleFilterChange() {
         let allParams = params ? { ...params } : {};
 
@@ -493,9 +477,10 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             </header>
             <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
                 <div
-                    className="md:w-1/4 min-h-full border-r border-zinc-300 px-2 pt-4 flex flex-col"
+                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-4 flex flex-col"
                     style={{
                         maxWidth: "420px",
+                        minWidth: "210px",
                     }}
                 >
                     <Typography variant="h2">{t("filter")}</Typography>
@@ -594,12 +579,12 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
                 </div>
                 <div className="flex-1 container mx-auto px-2 pb-8">
-                    <div className="flex flex-row justify-between items-center mt-4">
-                        <Typography>
+                    <div className="flex md:flex-row flex-col-reverse justify-between items-center mt-4">
+                        <Typography className="whitespace-nowrap mr-auto mt-1 md:mt-0" bold>
                             {listings.count} {listings.count === 1 ? t("listing") : t("listings")}
                         </Typography>
 
-                        <div className="flex flex-row justify-center items-center">
+                        <div className="flex flex-row justify-end items-center w-full">
                             <div className="flex flex-row bg-zinc-50 mr-2 rounded-md relative shadow-sm">
                                 <div
                                     className={`absolute h-full w-1/2 p-1 transition-all ${
@@ -625,6 +610,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <Icon name="list" />
                                 </Button.Transparent>
                             </div>
+                            <div className="flex-1 md:flex-none" />
                             <div className="flex flex-row items-center ml-4">
                                 <label htmlFor="sort">
                                     <Typography>{t("sort")}:</Typography>
@@ -634,7 +620,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         handleSortChange(e.target.value);
                                     }}
                                     id="sort"
-                                    className={`ml-1 bg-white p-1.5 !pr-1 rounded-sm shadow-sm ${space_grotesk.className}`}
+                                    className={`ml-1 bg-white p-2 !pr-1 rounded shadow-sm ${space_grotesk.className}`}
                                     defaultValue={selectedSort}
                                 >
                                     <option value="createdAt-asc">{t("newest-first")}</option>
@@ -680,11 +666,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
                     {listings.totalPages > 1 && (
                         <div className="mb-4 mt-8 flex justify-center items-center">
-                            <Pagination
-                                currentPage={listings.page}
-                                maxPage={listings.totalPages}
-                                onPageChange={handlePageChange}
-                            />
+                            <Pagination currentPage={listings.page} maxPage={listings.totalPages} />
                         </div>
                     )}
                 </div>

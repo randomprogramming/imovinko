@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Typography from "./Typography";
+import { useRouter } from "next/router";
 
 interface PaginationProps {
     currentPage: number;
     maxPage: number;
-    onPageChange?(newPage: number): void;
 }
-export default function Pagination({ currentPage, maxPage, onPageChange }: PaginationProps) {
+export default function Pagination({ currentPage, maxPage }: PaginationProps) {
     const [indexes, setIndexes] = useState<number[]>([]);
+
+    const router = useRouter();
 
     // inclusive
     function positiveRange(start: number, end: number) {
@@ -18,6 +20,27 @@ export default function Pagination({ currentPage, maxPage, onPageChange }: Pagin
             }
         }
         return foo;
+    }
+
+    async function onPageChange(newPage: number) {
+        const currentQ = router.query;
+        const currentPath = router.pathname;
+
+        currentQ.page = String(newPage);
+
+        await router.push(
+            {
+                pathname: currentPath,
+                query: currentQ,
+            },
+            undefined,
+            {
+                // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
+                shallow: true,
+                scroll: true,
+            }
+        );
+        router.reload();
     }
 
     React.useEffect(() => {
@@ -44,11 +67,11 @@ export default function Pagination({ currentPage, maxPage, onPageChange }: Pagin
                     <button
                         key={i}
                         disabled={currentPage === i}
-                        className={`outline-none border-none w-10 h-10 flex items-center justify-center rounded-md ${
-                            currentPage === i && "bg-zinc-900 text-zinc-50"
+                        className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md ${
+                            currentPage === i ? "bg-zinc-900 text-zinc-50" : "hover:bg-zinc-300"
                         }`}
                         onClick={() => {
-                            onPageChange && onPageChange(i);
+                            onPageChange(i);
                         }}
                     >
                         <Typography>{i}</Typography>
