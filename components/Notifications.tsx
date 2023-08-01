@@ -77,7 +77,7 @@ export default function Notifications({ notifications, lightIcon }: Notification
     return (
         <div className="md:relative">
             <Button.Transparent
-                className={`!p-1 mr-1 relative ${lightIcon && "hover:bg-zinc-700"}`}
+                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative ${lightIcon && "hover:bg-zinc-700"}`}
                 onClick={() => {
                     setIsMenuOpen(!isMenuOpen);
                 }}

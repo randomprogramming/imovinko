@@ -118,6 +118,115 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
     );
 }
 
+function MobileAuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
+    const { account, logout } = useAuthentication();
+
+    const [dropdown, setDropdown] = useState(false);
+
+    function AuthedContent() {
+        const t = useTranslations("Navbar");
+
+        return (
+            <div className="space-y-2">
+                <Link
+                    to="/list"
+                    className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
+                >
+                    <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
+                        {t("submit-ad")}
+                    </Typography>
+                    <Icon
+                        name="house-plus"
+                        className="stroke-zinc-200 group-hover:stroke-zinc-800 transition-all"
+                    />
+                </Link>
+
+                <Link
+                    to="/settings"
+                    className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
+                >
+                    <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
+                        {t("my-account")}
+                    </Typography>
+                    <Icon
+                        name="account-settings"
+                        className="fill-zinc-200 group-hover:fill-zinc-800 transition-all"
+                    />
+                </Link>
+
+                <button
+                    onClick={logout}
+                    className="w-full flex flex-row items-center justify-end space-x-2 group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
+                >
+                    <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
+                        {t("logout")}
+                    </Typography>
+                    <Icon
+                        name="logout"
+                        className="stroke-zinc-200 group-hover:stroke-zinc-800 transition-all"
+                    />
+                </button>
+            </div>
+        );
+    }
+
+    function UnauthedContent() {
+        const t = useTranslations("Navbar");
+
+        return (
+            <div className="">
+                <Link
+                    to="/login"
+                    className="w-full flex group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
+                >
+                    <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
+                        {t("sign-in")}
+                    </Typography>
+                </Link>
+
+                <Link
+                    to="/register"
+                    className="w-full flex group hover:bg-zinc-200 transition-all duration-100 p-2 rounded-lg cursor-pointer"
+                >
+                    <Typography className="text-zinc-200 group-hover:text-zinc-800 transition-all select-none">
+                        {t("sign-up")}
+                    </Typography>
+                </Link>
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative">
+            <Button.Transparent
+                className="hover:!bg-zinc-800 !px-1 md:!p-1"
+                onClick={() => {
+                    setDropdown(!dropdown);
+                }}
+            >
+                <Icon
+                    name="account"
+                    className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
+                    height="26"
+                    width="26"
+                />
+            </Button.Transparent>
+            <div
+                className={`absolute right-0 w-full z-30 mt-3 transition-all duration-75 rounded-lg shadow-lg ${
+                    dropdown ? "visible bg-zinc-800 top-8" : "invisible bg-transparent top-4"
+                }`}
+                style={{
+                    minWidth: "175px",
+                }}
+            >
+                <div className="p-2">
+                    {dropdown && (account ? <AuthedContent /> : <UnauthedContent />)}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 interface NavbarProps {
     hideSearchBar?: boolean;
     lighterSearchbar?: boolean;
@@ -158,14 +267,14 @@ export default function Navbar({
                 <Icon
                     name="logo"
                     className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
-                    height="36"
+                    height="32"
                 />
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
                 <div className="flex-1 h-12" />
             ) : (
-                <Searchbar className="flex-1 ml-2 md:mr-4" light={lighterSearchbar} />
+                <Searchbar className="flex-1 ml-0.5 md:ml-2 md:mr-4" light={lighterSearchbar} />
             )}
 
             {/* Profile section */}
@@ -177,14 +286,8 @@ export default function Navbar({
                         notifications={companyInvitations}
                     />
                 )}
-                <Button.Transparent
-                    className="hover:!bg-zinc-800"
-                    onClick={() => {
-                        console.log("clickyy");
-                    }}
-                >
-                    <Icon name="account" className="fill-zinc-50" height="26" width="26" />
-                </Button.Transparent>
+
+                <MobileAuthDropdown useLighterColorsOnSmallDevice={useLighterColorsOnSmallDevice} />
             </div>
             {/* Desktop View */}
             <div className="hidden lg:flex flex-row items-center">

@@ -37,31 +37,64 @@ export default function Navigation() {
     const router = useRouter();
 
     return (
-        <div
-            className="p-2 border-2 border-zinc-300 rounded-xl flex flex-col space-y-1 h-fit"
-            style={{
-                minWidth: "260px",
-                minHeight: "420px",
-            }}
-        >
-            <NavigationLink
-                title={t("my-account")}
-                to="/settings"
-                active={"/settings" === router.pathname}
-                iconName="account-settings"
-            />
-            <NavigationLink
-                title={t("my-company")}
-                to="/settings/company"
-                active={"/settings/company" === router.pathname}
-                iconName="office"
-            />
-            <NavigationLink
-                title={t("my-properties")}
-                to="/settings/properties"
-                active={"/settings/properties" === router.pathname}
-                iconName="property"
-            />
-        </div>
+        <>
+            <div
+                className="hidden md:flex p-2 border-2 border-zinc-300 rounded-xl flex-col space-y-1 !h-fit"
+                style={{
+                    minWidth: "260px",
+                    minHeight: "420px",
+                }}
+            >
+                <Typography variant="h2" className="mb-2 text-center">
+                    {t("navigation")}
+                </Typography>
+                <NavigationLink
+                    title={t("my-account")}
+                    to="/settings"
+                    active={"/settings" === router.pathname}
+                    iconName="account-settings"
+                />
+                <NavigationLink
+                    title={t("my-company")}
+                    to="/settings/company"
+                    active={"/settings/company" === router.pathname}
+                    iconName="office"
+                />
+                <NavigationLink
+                    title={t("my-properties")}
+                    to="/settings/properties"
+                    active={"/settings/properties" === router.pathname}
+                    iconName="property"
+                />
+            </div>
+            <div
+                className="md:hidden flex p-2 border-2 border-zinc-300 rounded-xl flex-col space-y-1 !h-fit mb-4"
+                style={{
+                    minWidth: "260px",
+                }}
+            >
+                <Typography variant="h2" className="mb-2 text-center">
+                    {t("navigation")}
+                </Typography>
+                <NavigationLink
+                    title={t("my-account")}
+                    to="/settings"
+                    active={"/settings" === router.pathname}
+                    iconName="account-settings"
+                />
+                <NavigationLink
+                    title={t("my-company")}
+                    to="/settings/company"
+                    active={"/settings/company" === router.pathname}
+                    iconName="office"
+                />
+                <NavigationLink
+                    title={t("my-properties")}
+                    to="/settings/properties"
+                    active={"/settings/properties" === router.pathname}
+                    iconName="property"
+                />
+            </div>
+        </>
     );
 }

@@ -185,7 +185,8 @@
     "Navigation": {
         "my-account": "My Account",
         "my-company": "My Company",
-        "my-properties": "My Listings"
+        "my-properties": "My Listings",
+        "navigation": "Navigation"
     },
     "CompanyPage": {
         "not-found": "We couldn't find your company.",
@@ -216,7 +217,8 @@
         "success": "Invitation sent",
         "success-message": "User will recieve notification about the company invite.",
         "manual-succes": "Member added",
-        "manual-message": "Member was successfully created"
+        "manual-message": "Member was successfully created",
+        "username-or-email": "Username or e-mail of the member"
     },
     "CreateCompanyPage": {
         "title": "Company Information",

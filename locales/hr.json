@@ -185,7 +185,8 @@
     "Navigation": {
         "my-account": "Moj račun",
         "my-company": "Moja tvrtka",
-        "my-properties": "Moji oglasi"
+        "my-properties": "Moji oglasi",
+        "navigation": "Navigacija"
     },
     "CompanyPage": {
         "not-found": "Nismo pronašli tvoju tvrtku.",
@@ -216,7 +217,8 @@
         "success": "Pozivnica poslana",
         "success-message": "Korisnik će zaprimiti notifikaciju za poziv u tvrtku.",
         "manual-succes": "Član dodan",
-        "manual-message": "Član je uspješno kreiran"
+        "manual-message": "Član je uspješno kreiran",
+        "username-or-email": "Korisničko ime ili e-mail člana"
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",

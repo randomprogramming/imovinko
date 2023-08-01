@@ -198,7 +198,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                             <div>
                                 <div className="mt-4">
                                     <label htmlFor="name">
-                                        <Typography>TODO: FINISH ME</Typography>
+                                        <Typography>{t("username-or-email")}</Typography>
                                     </label>
                                     <Input
                                         name="name"
@@ -311,7 +311,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                 )}
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
-                    <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
+                    <div className="flex flex-col flex-1 max-w-2xl mx-auto">
                         {company ? (
                             <div>
                                 <div className="flex flex-row items-center space-x-2">
@@ -474,7 +474,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                 </tr>
                                                 {company.manualAccounts.map((ma) => {
                                                     return (
-                                                        <tr key={ma.email}>
+                                                        <tr key={ma.id}>
                                                             <td
                                                                 className={`border-l-2 border-zinc-300 border-b-2 `}
                                                             >
