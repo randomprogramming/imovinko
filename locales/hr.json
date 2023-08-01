@@ -252,7 +252,7 @@
         "interest-rate": "Kamatna stopa",
         "total-to-pay": "Ukupni iznos otplate",
         "months": "mjeseci",
-        "monthly-payment": "Mjesečna rata"
+        "monthly-payment": "Procijenjena mjesečna rata"
     },
     "CalculatorPage": {
         "calculator": "Kalkulator stambenog kredita",

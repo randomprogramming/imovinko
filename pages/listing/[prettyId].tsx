@@ -51,9 +51,15 @@ function ContactCard({ firstName, lastName, username, contacts }: ContactCardPro
     return (
         <div className="flex flex-row">
             <div>
-                <Link to={`/account/${username}`} disableAnimatedHover>
-                    <Icon name="account" height={64} width={64} />
-                </Link>
+                {username ? (
+                    <Link to={`/account/${username}`} disableAnimatedHover>
+                        <Icon name="account" height={64} width={64} />
+                    </Link>
+                ) : (
+                    <div>
+                        <Icon name="account" height={64} width={64} />
+                    </div>
+                )}
             </div>
             <div className="flex-1 w-full ml-3">
                 <div className="w-full">

@@ -42,7 +42,7 @@ export default function Searchbar({ className, light }: SearchbarProps) {
             <div
                 className={`flex-1 flex flex-row ${
                     light ? "bg-zinc-100" : "bg-zinc-300"
-                } rounded-lg h-12 shadow-sm relative z-30 items-center justify-center pr-2`}
+                } rounded-lg h-12 shadow-sm relative z-30 items-center justify-center pr-0.5`}
             >
                 <div onClick={onSearch} className="cursor-pointer p-2">
                     <Icon name="search" />

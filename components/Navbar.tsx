@@ -274,7 +274,7 @@ export default function Navbar({
                 // h-12 is the same height as the searchbar
                 <div className="flex-1 h-12" />
             ) : (
-                <Searchbar className="flex-1 ml-0.5 md:ml-2 md:mr-4" light={lighterSearchbar} />
+                <Searchbar className="flex-1 ml-0.5 md:ml-2 md:mr-2" light={lighterSearchbar} />
             )}
 
             {/* Profile section */}

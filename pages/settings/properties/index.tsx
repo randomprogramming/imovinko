@@ -58,7 +58,10 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
-                        <Typography variant="h2">{t("my-listings")}</Typography>
+                        <Typography variant="h2">
+                            {t("my-listings")}
+                            {` (${listings.count})`}
+                        </Typography>
                         <div className="mt-6 space-y-8">
                             {listings.data.map((l) => {
                                 return (

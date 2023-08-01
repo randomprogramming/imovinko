@@ -19,6 +19,7 @@ import Select from "react-select";
 import cookie from "cookie";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -90,6 +91,8 @@ interface ListApartmentProps {
 }
 export default function ListApartment({ company }: ListApartmentProps) {
     const t = useTranslations("ListApartment");
+
+    const router = useRouter();
 
     const imageUploadRef = useRef<HTMLInputElement>(null);
     const [isSubmittingAd, setIsSubmittingAd] = useState(false);
@@ -212,7 +215,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     media: imageUrls,
                 });
             }
-            // TODO: Route to the page where all user listings are once that page exists
+            await router.push({
+                pathname: "/settings/properties",
+                query: {
+                    listingCreated: true,
+                },
+            });
         } catch (e) {
         } finally {
             setIsSubmittingAd(false);
