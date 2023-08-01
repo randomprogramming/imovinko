@@ -13,6 +13,7 @@ import Button from "@/components/Button";
 import IconRow from "@/components/listing/IconRow";
 import Link from "@/components/Link";
 import dynamic from "next/dynamic";
+import NoImage from "@/components/NoImage";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -140,6 +141,13 @@ interface MediaComponentProps {
     onImageClick?(): void;
 }
 function MediaComponent({ media, onImageClick }: MediaComponentProps) {
+    if (media.length === 0) {
+        return (
+            <div className="h-64 w-full shadow overflow-hidden rounded-lg">
+                <NoImage />
+            </div>
+        );
+    }
     if (media.length <= 2) {
         return (
             <div className="flex flex-col w-full space-y-4">

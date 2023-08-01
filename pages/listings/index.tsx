@@ -21,6 +21,7 @@ import { ParsedUrlQuery } from "querystring";
 import { space_grotesk } from "@/util/fonts";
 import Icon from "@/components/Icon";
 import ListingListItem from "@/components/listing/ListingListItem";
+import NoImage from "@/components/NoImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -228,7 +229,7 @@ function ListingCard({ listing }: UIBlockProps) {
     return (
         <div className="bg-zinc-50 border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden">
             <div
-                className="w-full relative"
+                className="w-full relative flex flex-col"
                 style={{
                     minHeight: "200px",
                 }}
@@ -247,9 +248,8 @@ function ListingCard({ listing }: UIBlockProps) {
                         quality={50}
                     />
                 ) : (
-                    <div>
-                        {/* TODO: Find something better than this */}
-                        No Image
+                    <div className="absolute left-0 right-0 top-0 bottom-0">
+                        <NoImage />
                     </div>
                 )}
             </div>

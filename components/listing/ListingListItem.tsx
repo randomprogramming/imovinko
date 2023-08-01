@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
+import NoImage from "../NoImage";
 
 interface Props {
     listing: ListingBasic;
@@ -115,8 +116,7 @@ export default function ListingListItem({ listing }: Props) {
                         />
                     </div>
                 ) : (
-                    // TODO: Find something better than this
-                    <div>No image</div>
+                    <NoImage />
                 )}
             </div>
             <div className="p-4 flex flex-col w-full h-fit md:h-full">

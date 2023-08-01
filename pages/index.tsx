@@ -13,6 +13,7 @@ import {
     getPropertyCount,
 } from "@/util/api";
 import { useTranslations } from "next-intl";
+import NoImage from "@/components/NoImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery(
@@ -205,8 +206,9 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                             src={`${url}`}
                                         />
                                     ) : (
-                                        // TODO: Find something better than this
-                                        <div className="h-64 w-full rounded-b-lg">No image</div>
+                                        <div className="h-64 w-full rounded-b-lg overflow-hidden">
+                                            <NoImage className="bg-zinc-300" />
+                                        </div>
                                     )}
                                     <div className="relative">
                                         <div className="absolute bg-emerald-700 text-zinc-50 left-4 -translate-y-1/2 px-2 py-0.5 rounded">
