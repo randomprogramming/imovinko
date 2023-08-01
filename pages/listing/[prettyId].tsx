@@ -150,14 +150,18 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
         );
     }
     return (
-        <div className="flex flex-col w-full space-y-4">
+        <div className="flex flex-col w-full space-y-4 px-1 lg:px-0">
             <ClickableImage url={media[0].url} onClick={onImageClick} />
-            <div className="flex flex-row space-x-4">
+            <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
                 <ClickableImage url={media[1].url} onClick={onImageClick} />
                 <ClickableImage url={media[2].url} onClick={onImageClick} />
             </div>
-            {media.length > 4 && (
-                <ClickableImage url={media[3].url} onClick={onImageClick} showBanner />
+            {media.length >= 4 && (
+                <ClickableImage
+                    url={media[3].url}
+                    onClick={onImageClick}
+                    showBanner={media.length > 4}
+                />
             )}
         </div>
     );
@@ -379,7 +383,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 <Navbar />
             </header>
             <main
-                className={`flex-1 space-y-8 ${
+                className={`flex-1 ${
                     isMediaPopupOpen ? "overflow-y-hidden" : "overflow-auto pb-12"
                 }`}
             >
@@ -538,15 +542,13 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     </div>
                 </div>
 
-                <section className="flex flex-col lg:flex-row container mx-auto mt-8">
-                    <div className="flex-1 flex flex-col w-1/2 pr-6">
-                        <div>
+                <section className="flex flex-col-reverse lg:flex-row container mx-auto lg:mt-8">
+                    <div className="flex-1 flex flex-col lg:w-1/2 lg:pr-6">
+                        <div className="hidden lg:block">
                             <Typography variant="h1">{listing.title}</Typography>
                             <Typography variant="secondary" uppercase>
                                 {getPropertyLocationString(listing)}
                             </Typography>
-                        </div>
-                        <div className="mt-1">
                             <Typography variant="h2" className="mt-2">
                                 {listing.price.toLocaleString()} €{" "}
                                 <span className="text-sm font-normal">
@@ -554,7 +556,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 </span>
                             </Typography>
                         </div>
-                        <div className="my-4">
+                        <div className="my-4 text-center">
                             <IconRow listing={listing} />
                         </div>
 
@@ -625,7 +627,20 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-1 flex flex-col w-1/2">
+                    <div className="flex-1 flex flex-col lg:w-1/2">
+                        <div className="lg:hidden block">
+                            <Typography variant="h1">{listing.title}</Typography>
+                            <Typography variant="secondary" uppercase className="my-1">
+                                {getPropertyLocationString(listing)}
+                            </Typography>
+                            <Typography variant="h2" className="mt-2 text-right">
+                                {listing.price.toLocaleString()} €{" "}
+                                <span className="text-sm font-normal">
+                                    {getPriceString(listing)}
+                                </span>
+                            </Typography>
+                        </div>
+
                         <MediaComponent
                             media={getPropertyMedia(listing)}
                             onImageClick={() => {
@@ -683,7 +698,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     </div>
                 </section>
 
-                <section className="container mx-auto">
+                <section className="container mx-auto mt-8">
                     <Typography variant="h2" className="mb-4">
                         {t("location")}
                     </Typography>
@@ -718,7 +733,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 </section>
 
                 {listing.offeringType === OfferingType.sale && (
-                    <section className="container mx-auto">
+                    <section className="container mx-auto mt-8">
                         <Typography variant="h2" className="mb-4">
                             {t("calculator")}
                         </Typography>

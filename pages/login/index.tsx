@@ -56,8 +56,11 @@ export default function Login() {
                     />
                 </div>
             </div>
-            <div className="bg-zinc-100 rounded-3xl -ml-10 z-50" style={{ flex: 2 }}>
-                <div className="px-10 py-6">
+            <div
+                className="bg-zinc-100 rounded-3xl md:-ml-10 z-50 px-2 md:px-0"
+                style={{ flex: 2 }}
+            >
+                <div className="md:px-10 py-6">
                     <Typography variant="h1">{t("welcome")}</Typography>
 
                     <div className="mt-8">

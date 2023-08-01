@@ -100,7 +100,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                     </table>
                                 </div>
                             </div>
-                            <div className="sm:ml-4">
+                            <div className="sm:ml-4 mt-4 sm:mt-0">
                                 <Typography variant="h1">{account.username}</Typography>
                                 {account.company && (
                                     <Typography>

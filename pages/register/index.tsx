@@ -94,7 +94,7 @@ export default function Register() {
                 </div>
             </div>
             <div className="flex-1 flex flex-col justify-between items-center">
-                <div className="px-10 py-6 w-full">
+                <div className="px-2 md:px-10 py-6 w-full">
                     <Typography variant="h1">{t("sign-up")}</Typography>
                     <div className="mt-8">
                         <Button.Primary

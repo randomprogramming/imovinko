@@ -128,7 +128,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                     </table>
                                 </div>
                             </div>
-                            <div className="sm:ml-4">
+                            <div className="sm:ml-4 mt-4 sm:mt-0">
                                 <Typography variant="h1">{company.name}</Typography>
                                 <Typography>{company.description}</Typography>
                             </div>
