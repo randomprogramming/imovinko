@@ -10,6 +10,7 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -79,6 +80,9 @@ export default function AccountPage({ account }: AccountPageProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Moj Račun</title>
+            </Head>
             <header>
                 <Navbar />
             </header>

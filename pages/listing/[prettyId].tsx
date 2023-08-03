@@ -27,6 +27,7 @@ import Dropdown from "@/components/Dropdown";
 import { space_grotesk } from "@/util/fonts";
 import { useRouter } from "next/router";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -492,6 +493,17 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
     return (
         <>
+            <Head>
+                <title>{listing.title}</title>
+                <meta
+                    name="description"
+                    content="Imovinko - oglasnik za nekretnine. Pronađite svoj dom."
+                />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam"
+                />
+            </Head>
             <header>
                 <Navbar />
             </header>

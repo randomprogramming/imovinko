@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
+import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 
@@ -40,6 +41,9 @@ export default function List() {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Predaj oglas</title>
+            </Head>
             <header>
                 <Navbar hideSearchBar />
             </header>

@@ -9,6 +9,7 @@ import React from "react";
 import Pagination from "@/components/Pagination";
 import ListingListItem from "@/components/listing/ListingListItem";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -42,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
 };
 
 interface CompanyByPrettyIdPageProps {
-    company: CompanyWithListings;
+    company: CompanyWithListings | null;
 }
 export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPageProps) {
     const t = useTranslations("CompanyByPrettyIdPage");
@@ -59,6 +60,17 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
 
     return (
         <>
+            <Head>
+                <title>{company ? company.name : "Imovinko tvrtka"}</title>
+                <meta
+                    name="description"
+                    content={`Imovinko - stranica tvrtke ili agencije ${company?.name}.`}
+                />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, tvrtka, agencija"
+                />
+            </Head>
             <header>
                 <Navbar />
             </header>

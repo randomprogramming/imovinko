@@ -20,6 +20,7 @@ import cookie from "cookie";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -229,6 +230,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Stan</title>
+            </Head>
             <header>
                 <Navbar hideSearchBar />
             </header>

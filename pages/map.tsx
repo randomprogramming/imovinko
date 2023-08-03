@@ -17,6 +17,7 @@ import { space_grotesk } from "@/util/fonts";
 import Input from "@/components/Input";
 import { useRouter } from "next/router";
 import { DebounceInput } from "react-debounce-input";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -276,6 +277,14 @@ export default function MapScreen({ query }: MapScreenProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Karta</title>
+                <meta name="description" content="Imovinko - oglasi na karti." />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, karta"
+                />
+            </Head>
             <header className="z-30">
                 <Navbar lighterSearchbar />
             </header>

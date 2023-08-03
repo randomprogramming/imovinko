@@ -10,6 +10,7 @@ import ListingListItem from "@/components/listing/ListingListItem";
 import Pagination from "@/components/Pagination";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -51,6 +52,9 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Moji oglasi</title>
+            </Head>
             <header>
                 <Navbar />
             </header>

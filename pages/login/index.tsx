@@ -10,6 +10,7 @@ import Input from "@/components/Input";
 import { setJWTCookie } from "@/util/cookie";
 import Link from "@/components/Link";
 import Icon from "@/components/Icon";
+import Head from "next/head";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -41,6 +42,14 @@ export default function Login() {
 
     return (
         <div className="flex-1 flex flex-row">
+            <Head>
+                <title>Imovinko - Prijavi se</title>
+                <meta name="description" content="Imovinko - prijavi se." />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, prijava, račun"
+                />
+            </Head>
             <div className="hidden lg:flex" style={{ flex: 3 }}>
                 <div className="relative w-full flex-1 overflow-hidden">
                     <Link to="/" className="absolute z-30 top-10 left-12 p-1" disableAnimatedHover>

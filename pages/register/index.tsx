@@ -10,6 +10,7 @@ import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Link from "@/components/Link";
 import Icon from "@/components/Icon";
+import Head from "next/head";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -77,6 +78,14 @@ export default function Register() {
 
     return (
         <div className="flex-1 flex flex-row">
+            <Head>
+                <title>Imovinko - Registriraj se</title>
+                <meta name="description" content="Imovinko - napravite svoj korisnički račun." />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, račun, registracija"
+                />
+            </Head>
             <div className="flex-1 hidden lg:flex">
                 <div className="relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden shadow-lg">
                     {/* TODO: Put logo in top left of the image, also potentially put some text */}

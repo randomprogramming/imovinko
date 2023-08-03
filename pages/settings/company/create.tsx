@@ -5,6 +5,7 @@ import Typography from "@/components/Typography";
 import { createCompany } from "@/util/api";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -83,6 +84,9 @@ export default function CreateCompanyPage() {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Moja tvrtka</title>
+            </Head>
             <header>
                 <Navbar hideSearchBar />
             </header>

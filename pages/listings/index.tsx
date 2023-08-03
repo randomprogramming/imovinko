@@ -23,6 +23,7 @@ import Icon from "@/components/Icon";
 import ListingListItem from "@/components/listing/ListingListItem";
 import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -474,6 +475,14 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko - Oglasi</title>
+                <meta name="description" content="Imovinko - prolistaj oglase za nekretnine." />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, oglasi, lista"
+                />
+            </Head>
             <header className="z-30">
                 <Navbar />
             </header>

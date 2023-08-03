@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Typography from "@/components/Typography";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -22,6 +23,14 @@ export default function CalculatorPage() {
 
     return (
         <div className="flex flex-col flex-1">
+            <Head>
+                <title>Imovinko - Kalkulator kredita</title>
+                <meta name="description" content="Imovinko - kalkulator stambenog kredita." />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, kalkulator, kredit, stambeni kredit"
+                />
+            </Head>
             <header>
                 <Navbar />
             </header>
