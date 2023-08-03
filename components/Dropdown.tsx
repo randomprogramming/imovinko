@@ -60,7 +60,7 @@ export default function Dropdown({ options, className, onOptionChange }: Dropdow
                 </div>
             </div>
             <div
-                className={`absolute left-0 -bottom-2 translate-y-full shadow-md rounded-md bg-zinc-50 transition-all ${
+                className={`absolute left-0 z-20 -bottom-2 translate-y-full shadow-md rounded-md bg-zinc-50 transition-all ${
                     isDropdownOpen ? "h-fit overflow-y-auto" : "h-0 invisible hidden top-0"
                 }`}
             >

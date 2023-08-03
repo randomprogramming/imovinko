@@ -13,7 +13,7 @@ interface FooterLinkProps {
 function FooterLink({ to, title }: FooterLinkProps) {
     return (
         <Link to={to} className="text-left w-fit" underlineClassName="!bg-zinc-50">
-            <Typography variant="span" uppercase>
+            <Typography variant="span" uppercase font="work_sans">
                 {title}
             </Typography>
         </Link>
@@ -51,7 +51,7 @@ export default function Footer({ className }: FooterProps) {
                         <FooterLink to="/calculator" title={t("mortgage-calculator")} />
                     </div>
                     <div className="flex flex-col">
-                        <Typography variant="span" uppercase>
+                        <Typography variant="span" uppercase font="work_sans">
                             Jezik/Language
                         </Typography>
                         <Link
@@ -60,7 +60,9 @@ export default function Footer({ className }: FooterProps) {
                             className="text-left w-fit"
                             underlineClassName="!bg-zinc-50"
                         >
-                            <Typography variant="span">🇭🇷 Hrvatski</Typography>
+                            <Typography variant="span" font="work_sans">
+                                🇭🇷 Hrvatski
+                            </Typography>
                         </Link>
                         <Link
                             to={router.pathname}
@@ -68,7 +70,9 @@ export default function Footer({ className }: FooterProps) {
                             className="text-left w-fit"
                             underlineClassName="!bg-zinc-50"
                         >
-                            <Typography variant="span">🇬🇧 English</Typography>
+                            <Typography variant="span" font="work_sans">
+                                🇬🇧 English
+                            </Typography>
                         </Link>
                     </div>
                 </div>
