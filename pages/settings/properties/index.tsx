@@ -9,6 +9,7 @@ import Link from "@/components/Link";
 import ListingListItem from "@/components/listing/ListingListItem";
 import Pagination from "@/components/Pagination";
 import { useTranslations } from "next-intl";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -87,6 +88,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 }

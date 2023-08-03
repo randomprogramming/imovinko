@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import Link from "@/components/Link";
 import ListingListItem from "@/components/listing/ListingListItem";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
     let account: FullPublicAccount | null = null;
@@ -149,6 +150,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                     <div>Username not found</div>
                 )}
             </main>
+            <Footer />
         </>
     );
 }

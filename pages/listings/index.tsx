@@ -22,6 +22,7 @@ import { space_grotesk } from "@/util/fonts";
 import Icon from "@/components/Icon";
 import ListingListItem from "@/components/listing/ListingListItem";
 import NoImage from "@/components/NoImage";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -455,6 +456,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
         allParams.sortBy = sortField;
         allParams.sortDirection = sortDirection;
+        allParams.page = "1";
 
         await router.push(
             {
@@ -671,6 +673,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     )}
                 </div>
             </main>
+            <Footer className="!mt-0" />
         </>
     );
 }

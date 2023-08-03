@@ -20,7 +20,10 @@ function FooterLink({ to, title }: FooterLinkProps) {
     );
 }
 
-export default function Footer() {
+interface FooterProps {
+    className?: string;
+}
+export default function Footer({ className }: FooterProps) {
     const { account } = useAuthentication();
 
     const t = useTranslations("Footer");
@@ -28,7 +31,7 @@ export default function Footer() {
     const router = useRouter();
 
     return (
-        <footer className="bg-zinc-900 text-zinc-50 mt-12">
+        <footer className={`bg-zinc-900 text-zinc-50 mt-12 ${className}`}>
             <div className="container mx-auto py-16">
                 <div className="flex flex-row w-full justify-between">
                     <div className="flex flex-col">

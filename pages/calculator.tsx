@@ -5,6 +5,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Typography from "@/components/Typography";
 import { useTranslations } from "next-intl";
+import Footer from "@/components/Footer";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -20,23 +21,20 @@ export default function CalculatorPage() {
     const t = useTranslations("CalculatorPage");
 
     return (
-        <div>
-            <>
-                <header>
-                    <Navbar />
-                </header>
-                <main className="container mx-auto">
-                    <div className="w-full flex flex-col items-center justify-center mt-12 space-y-12 lg:space-y-20">
-                        <div className="self-start">
-                            <Typography variant="h1">{t("calculator")}</Typography>
-                            <Typography className="lg:w-2/3">
-                                {t("calculator-description")}
-                            </Typography>
-                        </div>
-                        <MortgageCalculator />
+        <div className="flex flex-col flex-1">
+            <header>
+                <Navbar />
+            </header>
+            <main className="container mx-auto flex-1">
+                <div className="w-full flex flex-col items-center justify-center mt-12 space-y-12 lg:space-y-20">
+                    <div className="self-start">
+                        <Typography variant="h1">{t("calculator")}</Typography>
+                        <Typography className="lg:w-2/3">{t("calculator-description")}</Typography>
                     </div>
-                </main>
-            </>
+                    <MortgageCalculator />
+                </div>
+            </main>
+            <Footer />
         </div>
     );
 }

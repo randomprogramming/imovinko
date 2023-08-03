@@ -14,6 +14,7 @@ import Modal from "@/components/Modal";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import Dialog from "@/components/Dialog";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -597,6 +598,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 }

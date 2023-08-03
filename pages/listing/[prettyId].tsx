@@ -26,6 +26,7 @@ import { DebounceInput } from "react-debounce-input";
 import Dropdown from "@/components/Dropdown";
 import { space_grotesk } from "@/util/fonts";
 import { useRouter } from "next/router";
+import Footer from "@/components/Footer";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -928,6 +929,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     </section>
                 )}
             </main>
+            <Footer />
         </>
     );
 }

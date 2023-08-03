@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import Pagination from "@/components/Pagination";
 import ListingListItem from "@/components/listing/ListingListItem";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -165,6 +166,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                     <div>No company found</div>
                 )}
             </main>
+            <Footer />
         </>
     );
 }

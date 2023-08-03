@@ -9,6 +9,7 @@ import Icon from "@/components/Icon";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { useTranslations } from "next-intl";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -170,6 +171,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 }
