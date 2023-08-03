@@ -33,6 +33,8 @@ interface MapProps {
     directionsPlaceMapboxId?: string; // mapbox_id of the place to which the map should show directions
     directionsPlaceName?: string;
     travelingMethod?: TravelingMethods;
+    scrollZoom?: boolean;
+    navigationControlStyle?: React.CSSProperties;
 }
 export default function Map({
     className,
@@ -49,6 +51,8 @@ export default function Map({
     directionsPlaceMapboxId,
     directionsPlaceName,
     travelingMethod,
+    navigationControlStyle,
+    scrollZoom = false,
 }: MapProps) {
     const t = useTranslations("Map");
 
@@ -269,9 +273,9 @@ export default function Map({
                 mapboxAccessToken={process.env["NEXT_PUBLIC_MAPBOX_API_KEY"]}
                 mapStyle="mapbox://styles/randomprogramming/climaebcr00ky01pg146a2z67"
                 onMoveEnd={onMoveEnd}
-                scrollZoom={false}
+                scrollZoom={scrollZoom}
             >
-                <NavigationControl />
+                <NavigationControl style={navigationControlStyle} />
                 {directionsPlaceMapboxId && (
                     <div
                         className="absolute top-2 left-2 bg-zinc-50 rounded shadow p-2 text-base"

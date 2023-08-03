@@ -295,6 +295,10 @@ export default function MapScreen({ query }: MapScreenProps) {
                         onBoundsChange={setMapBounds}
                         centerLat={queryLat || undefined}
                         centerLon={queryLon || undefined}
+                        scrollZoom={true}
+                        navigationControlStyle={{
+                            marginTop: "6rem",
+                        }}
                     >
                         {openProperty && (
                             <Popup
