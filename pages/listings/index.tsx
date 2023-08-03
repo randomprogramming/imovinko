@@ -488,15 +488,27 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             </header>
             <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
                 <div
-                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-4 flex flex-col"
+                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col"
                     style={{
                         maxWidth: "420px",
                         minWidth: "210px",
                     }}
                 >
+                    <div className={`flex items-center justify-center w-full`}>
+                        <Link
+                            to="/map"
+                            disableAnimatedHover
+                            className="border-2 border-transparent hover:border-zinc-900 transition-all rounded-md px-2 py-1"
+                        >
+                            <div className="flex flex-row space-x-1 items-center">
+                                <Icon name="location" height={20} width={20} />
+                                <Typography variant="span">Prikaži kartu</Typography>
+                            </div>
+                        </Link>
+                    </div>
                     <Typography variant="h2">{t("filter")}</Typography>
 
-                    <div className="w-full mt-8">
+                    <div className="w-full mt-4">
                         <Typography bold>{t("property-type")}</Typography>
                         <div className="w-full">
                             <Input

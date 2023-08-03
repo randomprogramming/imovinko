@@ -71,6 +71,8 @@ export default function Searchbar({ className, light }: SearchbarProps) {
                     </div>
                 )}
             </div>
+            {/* TODO: The plan was to add this dropdown which would appear when tou start
+            searching, and it would allow you to basically filter out properties. Dribbble has soemthing like this on their site*/}
             {/* <div
                 className={`${
                     isDropdownOpen ? "opacity-100 p-6" : "opacity-0 invisible p-0"
