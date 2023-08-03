@@ -1,6 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { FullAccountSingleCompany, Listing, Media, OfferingType, findListing } from "@/util/api";
+import {
+    FullAccountSingleCompany,
+    Listing,
+    Media,
+    OfferingType,
+    TravelingMethods,
+    findListing,
+    suggestLocations,
+} from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
@@ -14,6 +22,10 @@ import IconRow from "@/components/listing/IconRow";
 import Link from "@/components/Link";
 import dynamic from "next/dynamic";
 import NoImage from "@/components/NoImage";
+import { DebounceInput } from "react-debounce-input";
+import Dropdown from "@/components/Dropdown";
+import { space_grotesk } from "@/util/fonts";
+import { useRouter } from "next/router";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -187,10 +199,22 @@ interface ListingPageProps {
 export default function ListingPage({ listing }: ListingPageProps) {
     const MARKER_SIZE = 48;
     const t = useTranslations("ListingPage");
+
+    const router = useRouter();
+
     const [isMediaPopupOpen, setIsMediaPopupOpen] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     // remember where the user was when they open the media popup and scroll to that place when they close the popup
     const [scrollWhenOpeningImage, setScrollWhenOpeningImage] = useState(0);
+
+    const [travelingMethod, setTravelingMethod] = useState<TravelingMethods>();
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [directions, setDirections] = useState<{
+        placeMapboxId: string;
+        placeName: string;
+    } | null>(null);
+    const [suggestionDropdownShouldBeOpen, setSuggestionDropdownShouldBeOpen] = useState(false);
+
     const totalSlides = getPropertyMedia(listing).length;
 
     function getPriceString(p: Listing) {
@@ -333,6 +357,80 @@ export default function ListingPage({ listing }: ListingPageProps) {
             .replaceAll("/", ".");
     }
 
+    function getSuggestionFullLocation(suggestion: any) {
+        const context = suggestion.context;
+        const full_address = suggestion.full_address;
+        const place = context.place?.name;
+        const street = context.street?.name;
+        const country = context.country?.name;
+
+        if (typeof full_address === "string" && full_address.length > 0) {
+            return full_address;
+        }
+
+        if (!place && !street && !country) {
+            return "";
+        }
+        let fullLocation = "";
+        if (place) {
+            fullLocation += place;
+        }
+        if (street) {
+            if (fullLocation.length > 0) {
+                fullLocation += `, ${street}`;
+            } else {
+                fullLocation += street;
+            }
+        }
+        if (country) {
+            if (fullLocation.length > 0) {
+                fullLocation += `, ${country}`;
+            } else {
+                fullLocation += country;
+            }
+        }
+        return fullLocation;
+    }
+
+    function handleSuggestionClick(suggestion: any) {
+        const id = suggestion.mapbox_id;
+        const name = suggestion.name;
+
+        if (typeof id !== "string" || typeof name !== "string") {
+            return;
+        }
+        setSuggestionDropdownShouldBeOpen(false);
+        setDirections({
+            placeMapboxId: id,
+            placeName: name,
+        });
+        const locationSection = document.querySelector("#location");
+        if (locationSection) {
+            locationSection.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
+    }
+
+    async function handleSuggestionInputChange(newVal: string) {
+        try {
+            const resp = await suggestLocations(newVal, router.locale, {
+                lat: getPropertyLat(listing),
+                lon: getPropertyLng(listing),
+            });
+            const suggestions = resp.data.suggestions;
+            const hrSuggestions = suggestions.filter((s: any) => {
+                if (s.context && s.context.country && s.context.country.country_code) {
+                    return s.context.country.country_code.toLowerCase() === "hr";
+                }
+                return false;
+            });
+            setSuggestions(hrSuggestions);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     function getPropertyLocationString(p: Listing) {
         let region: string | null = null;
         let city: string | null = null;
@@ -396,11 +494,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             <header>
                 <Navbar />
             </header>
-            <main
-                className={`flex-1 ${
-                    isMediaPopupOpen ? "overflow-y-hidden" : "overflow-auto pb-12"
-                }`}
-            >
+            <main className={`flex-1 ${isMediaPopupOpen ? "overflow-y-hidden" : "pb-12"}`}>
                 <div
                     className={`${
                         isMediaPopupOpen ? "opacity-100" : "opacity-0 invisible"
@@ -563,7 +657,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <Typography variant="secondary" uppercase>
                                 {getPropertyLocationString(listing)}
                             </Typography>
-                            <Typography variant="h2" className="mt-2">
+                            <Typography variant="h2" className="mt-2 text-right">
                                 {listing.price.toLocaleString()} €{" "}
                                 <span className="text-sm font-normal">
                                     {getPriceString(listing)}
@@ -712,7 +806,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     </div>
                 </section>
 
-                <section className="container mx-auto mt-8">
+                <section id="location" className="container mx-auto mt-8">
                     <Typography variant="h2" className="mb-4">
                         {t("location")}
                     </Typography>
@@ -724,6 +818,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         centerLat={getPropertyLat(listing)}
                         centerLon={getPropertyLng(listing)}
                         zoom={16}
+                        directionsPlaceMapboxId={directions?.placeMapboxId}
+                        directionsPlaceName={directions?.placeName}
+                        travelingMethod={travelingMethod}
                     >
                         <Marker
                             latitude={getPropertyLat(listing)}
@@ -744,6 +841,79 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </div>
                         </Marker>
                     </Map>
+
+                    <div className="mt-2">
+                        <Typography bold>{t("travel-time")}</Typography>
+                        <Typography>{t("travel-time-description")}</Typography>
+                        <div className="inline-flex flex-row bg-zinc-50 items-center p-1 !pr-0 rounded shadow w-full max-w-sm mt-2">
+                            <Dropdown
+                                className="border-r-2 border-zinc-200"
+                                options={[
+                                    {
+                                        value: TravelingMethods.driving,
+                                        iconName: "car",
+                                    },
+                                    {
+                                        value: TravelingMethods.traffic,
+                                        iconName: "traffic",
+                                    },
+                                    {
+                                        value: TravelingMethods.walking,
+                                        iconName: "walking",
+                                    },
+                                    {
+                                        value: TravelingMethods.cycling,
+                                        iconName: "cycling",
+                                    },
+                                ]}
+                                onOptionChange={(opt) => {
+                                    setTravelingMethod(opt.value as TravelingMethods);
+                                }}
+                            />
+                            <div className="relative flex-1">
+                                <DebounceInput
+                                    onFocus={() => {
+                                        setSuggestionDropdownShouldBeOpen(true);
+                                    }}
+                                    debounceTimeout={1000}
+                                    placeholder={t("enter-address")}
+                                    onChange={(e) => {
+                                        const newVal = e.target.value;
+                                        if (newVal.length <= 2) {
+                                            return;
+                                        }
+                                        handleSuggestionInputChange(newVal);
+                                    }}
+                                    className={`w-full px-2 outline-none border-none h-full bg-transparent ${space_grotesk.className}`}
+                                />
+                                {suggestionDropdownShouldBeOpen && suggestions.length > 0 && (
+                                    <div className="mt-2 absolute left-0 w-full -bottom-4 translate-y-full bg-zinc-50 rounded-md shadow-md flex flex-col max-w-sm z-30">
+                                        {suggestions.map((s, i) => {
+                                            return (
+                                                <div
+                                                    className="hover:bg-zinc-200 cursor-pointer flex flex-row items-center p-2"
+                                                    key={s.name + "-" + i}
+                                                    onClick={() => {
+                                                        handleSuggestionClick(s);
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <Icon name="location" />
+                                                    </div>
+                                                    <div className="ml-2">
+                                                        <Typography bold>{s.name}</Typography>
+                                                        <Typography sm>
+                                                            {getSuggestionFullLocation(s)}
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 {listing.offeringType === OfferingType.sale && (

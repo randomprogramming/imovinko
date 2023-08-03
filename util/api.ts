@@ -1,8 +1,15 @@
 import axios from "axios";
-import { getJWTCookie } from "./cookie";
+import { getJWTCookie, getMapboxSessionCookie } from "./cookie";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 export const GOOGLE_REGISTER_URL = baseURL + "/auth/google";
+
+export enum TravelingMethods {
+    traffic = "mapbox/driving-traffic",
+    driving = "mapbox/driving",
+    walking = "mapbox/walking",
+    cycling = "mapbox/cycling",
+}
 
 // We can't use this in axios.create because it sometimes doesn't register the cookie changes after login, so you get 401 responses until you refresh the page
 function getAuthHeaders() {
@@ -618,5 +625,49 @@ export async function getMyListings(jwt?: string, page?: number) {
             page,
         },
         headers,
+    });
+}
+
+export async function suggestLocations(q: string, language?: string, proximity?: Coordinates) {
+    return await client({
+        method: "GET",
+        url: `https://api.mapbox.com/search/searchbox/v1/suggest`,
+        params: {
+            q,
+            access_token: process.env["NEXT_PUBLIC_MAPBOX_API_KEY"],
+            session_token: getMapboxSessionCookie(),
+            country: "HR",
+            limit: 4,
+            proximity: `${proximity?.lon},${proximity?.lat}`,
+            origin: `${proximity?.lon},${proximity?.lat}`,
+            language,
+        },
+    });
+}
+
+export async function retrieveSuggestedFeature(id: string) {
+    return await client({
+        method: "GET",
+        url: `https://api.mapbox.com/search/searchbox/v1/retrieve/${id}`,
+        params: {
+            access_token: process.env["NEXT_PUBLIC_MAPBOX_API_KEY"],
+            session_token: getMapboxSessionCookie(),
+        },
+    });
+}
+
+export async function getDirectionsForCoordinates(
+    c1: Coordinates,
+    c2: Coordinates,
+    method: TravelingMethods
+) {
+    return await axios({
+        method: "GET",
+        url: `https://api.mapbox.com/directions/v5/${method}/${c1.lon},${c1.lat};${c2.lon},${c2.lat}`,
+        params: {
+            access_token: process.env["NEXT_PUBLIC_MAPBOX_API_KEY"],
+            geometries: "geojson",
+            overview: "full",
+        },
     });
 }

@@ -1,3 +1,7 @@
+import { v4 } from "uuid";
+
+export const MAPBOX_SESSION_COOKIE_NAME = "mapbox-imovinko-session";
+
 function getCookie(cookiename: string) {
     if (typeof document === "undefined") return;
 
@@ -31,4 +35,20 @@ export function setJWTCookie(value: string) {
         (value || "") +
         expires +
         "; path=/";
+}
+
+export function setMapboxCookie(value: string) {
+    let date = new Date();
+    date.setTime(date.getTime() + 31 * 24 * 60 * 60 * 1000);
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = MAPBOX_SESSION_COOKIE_NAME + "=" + (value || "") + expires + "; path=/";
+}
+
+export function getMapboxSessionCookie() {
+    let mapboxSession = getCookie(MAPBOX_SESSION_COOKIE_NAME);
+    if (!mapboxSession) {
+        mapboxSession = v4();
+        setMapboxCookie(mapboxSession);
+    }
+    return mapboxSession;
 }
