@@ -15,6 +15,7 @@ import {
 import { useTranslations } from "next-intl";
 import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery(
@@ -75,6 +76,17 @@ export default function Home({ newestListings, counts }: HomeProps) {
 
     return (
         <>
+            <Head>
+                <title>Imovinko</title>
+                <meta
+                    name="description"
+                    content="Imovinko - oglasnik za nekretnine. Pronađite svoj dom."
+                />
+                <meta
+                    name="keywords"
+                    content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam"
+                />
+            </Head>
             <header className="absolute top-0 container mx-auto left-0 right-0 z-20">
                 <Navbar useLighterColorsOnSmallDevice />
             </header>
