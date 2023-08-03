@@ -13,6 +13,7 @@ interface LinkProps {
     query?: string | ParsedUrlQueryInput | null | undefined;
     newTab?: boolean;
     draggable?: boolean;
+    locale?: string;
 }
 
 export default function Link({
@@ -25,10 +26,12 @@ export default function Link({
     query,
     newTab,
     draggable,
+    locale,
 }: LinkProps) {
     if (to) {
         return (
             <NextLink
+                locale={locale}
                 draggable={draggable}
                 target={newTab ? "_blank" : undefined}
                 href={{

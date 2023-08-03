@@ -14,6 +14,7 @@ import {
 } from "@/util/api";
 import { useTranslations } from "next-intl";
 import NoImage from "@/components/NoImage";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery(
@@ -247,6 +248,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                     </div>
                 </section>
             </main>
+            <Footer />
         </>
     );
 }

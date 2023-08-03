@@ -284,5 +284,12 @@
     },
     "MyPropertiesPage": {
         "my-listings": "My Listings"
+    },
+    "Footer": {
+        "sign-in": "Sign In",
+        "sign-up": "Sign Up",
+        "browse": "Browse Listings",
+        "open-map": "Open Map",
+        "mortgage-calculator": "Mortgage Calculator"
     }
 }

@@ -284,5 +284,12 @@
     },
     "MyPropertiesPage": {
         "my-listings": "Moji oglasi"
+    },
+    "Footer": {
+        "sign-in": "Prijavi se",
+        "sign-up": "Registriraj se",
+        "browse": "Pretraži oglase",
+        "open-map": "Otvori kartu",
+        "mortgage-calculator": "Kalkulator kredita"
     }
 }
