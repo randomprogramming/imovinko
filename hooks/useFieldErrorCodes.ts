@@ -39,6 +39,9 @@ export default function () {
         if (code === "too_small") {
             return t("too_small");
         }
+        if (code === "too_big") {
+            return t("too-big");
+        }
         if (code === "not_matching") {
             return t("not_matching");
         }

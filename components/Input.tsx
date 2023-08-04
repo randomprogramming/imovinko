@@ -74,23 +74,30 @@ export default function Input({
 
     if (type === "textarea") {
         return (
-            <textarea
-                id={name}
-                name={name}
-                value={value}
-                rows={4}
-                placeholder={placeholder}
-                onChange={(e) => {
-                    if (onChange) {
-                        onChange(e.currentTarget.value);
-                    }
-                }}
-                className={`${space_grotesk.className} ${
-                    small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
-                } bg-white border-2 ${
-                    hasError ? "border-rose-700" : "border-transparent"
-                } outline-none shadow-sm ${className}`}
-            ></textarea>
+            <div className="relative">
+                <textarea
+                    id={name}
+                    name={name}
+                    value={value}
+                    rows={4}
+                    placeholder={placeholder}
+                    onChange={(e) => {
+                        if (onChange) {
+                            onChange(e.currentTarget.value);
+                        }
+                    }}
+                    className={`${space_grotesk.className} ${
+                        small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
+                    } bg-zinc-50 border-2 ${
+                        hasError ? "border-rose-700" : "border-transparent"
+                    } outline-none shadow-sm relative z-[15] ${className}`}
+                ></textarea>
+                {hasError && errorMsg && (
+                    <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">
+                        <Typography className="text-sm">{errorMsg}</Typography>
+                    </div>
+                )}
+            </div>
         );
     }
 
@@ -112,7 +119,7 @@ export default function Input({
                     small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
                 } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
                     hasError ? "border-rose-700" : "border-transparent"
-                } outline-none shadow-sm ${className} disabled:bg-zinc-300`}
+                } outline-none shadow-sm relative z-[15] disabled:bg-zinc-300 ${className}`}
             />
             {hasError && errorMsg && (
                 <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">

@@ -14,7 +14,9 @@ export default function Dialog({ title, message, type, className }: DialogProps)
             className={`w-full bg-emerald-200 border-green-600 border-2 rounded-xl p-4 shadow ${className}`}
         >
             <div className="flex flex-row items-center">
-                <Icon name="success" height={"40"} width={"40"} />
+                <div>
+                    <Icon name="success" height={32} width={32} />
+                </div>
                 <div className="ml-2">
                     {title && <Typography bold>{title}</Typography>}
                     {message && <Typography>{message}</Typography>}

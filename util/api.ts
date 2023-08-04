@@ -712,3 +712,15 @@ export async function getDirectionsForCoordinates(
         },
     });
 }
+
+interface ContactMessageData {
+    email: string;
+    message: string;
+}
+export async function createContactMessage(data: ContactMessageData) {
+    return await client({
+        url: "/contact/",
+        method: "POST",
+        data,
+    });
+}

@@ -40,17 +40,18 @@ export default function Footer({ className }: FooterProps) {
                         </Link>
                     </div>
                     {!account && (
-                        <div className="flex flex-col !text-left">
+                        <div className="flex flex-col !text-left space-y-1">
                             <FooterLink to="/register" title={t("sign-up")} />
                             <FooterLink to="/login" title={t("sign-in")} />
                         </div>
                     )}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col space-y-1">
                         <FooterLink to="/listings" title={t("browse")} />
                         <FooterLink to="/map" title={t("open-map")} />
                         <FooterLink to="/calculator" title={t("mortgage-calculator")} />
+                        <FooterLink to="/contact" title={t("contact")} />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col space-y-1">
                         <Typography variant="span" uppercase font="work_sans">
                             Jezik/Language
                         </Typography>

@@ -128,7 +128,8 @@
         "too_small": "Nedovoljan broj znakova",
         "not_matching": "Lozinke se ne podudaraju",
         "invalid_email": "Neispravan e-mail",
-        "unknown": "Nepoznata greška"
+        "unknown": "Nepoznata greška",
+        "too-big": "Pre veliki broj znakova"
     },
     "ListingPage": {
         "per-night": "noćenje",
@@ -291,6 +292,16 @@
         "sign-up": "Registriraj se",
         "browse": "Pretraži oglase",
         "open-map": "Otvori kartu",
-        "mortgage-calculator": "Kalkulator kredita"
+        "mortgage-calculator": "Kalkulator kredita",
+        "contact": "Kontakt"
+    },
+    "Contact": {
+        "contact-us": "Kontaktirajte nas",
+        "contact-us-description": "Imate pitanja, ideje ili trebate pomoć sa nečime? Slobodno nas kontaktirajte pomoću ovog obrasca!",
+        "your-email": "Vaša e-mail adresa",
+        "your-message": "Vaša poruka",
+        "send": "Pošalji",
+        "sent": "Poruka poslana",
+        "sent-description": "Zaprimili smo vašu poruku te ćemo vas kontaktirati što je prije moguće!"
     }
 }

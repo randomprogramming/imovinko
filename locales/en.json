@@ -128,7 +128,8 @@
         "too_small": "Too short",
         "not_matching": "Passwords do not match",
         "invalid_email": "Invalid e-mail",
-        "unknown": "Unknown error"
+        "unknown": "Unknown error",
+        "too-big": "Too long"
     },
     "ListingPage": {
         "per-night": "per night",
@@ -291,6 +292,16 @@
         "sign-up": "Sign Up",
         "browse": "Browse Listings",
         "open-map": "Open Map",
-        "mortgage-calculator": "Mortgage Calculator"
+        "mortgage-calculator": "Mortgage Calculator",
+        "contact": "Contact"
+    },
+    "Contact": {
+        "contact-us": "Contact Us",
+        "contact-us-description": "Do you have any questions, ideas or need help with something? Feel free to contact us through the form below!",
+        "your-email": "Your email",
+        "your-message": "Your message",
+        "send": "Send",
+        "sent": "Message sent",
+        "sent-description": "We have recieved your message and will contact you back as soon as possible!"
     }
 }
