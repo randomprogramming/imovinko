@@ -128,10 +128,51 @@ interface CreateListingResponse {
     listingFor: ListingFor;
 }
 export async function createListing(data: CreateListingData) {
+    const createListingData: any = {};
+    if (data.isForSale) {
+        createListingData.sale = {
+            title: data.saleListingTitle,
+            price: data.saleListingPrice,
+            description: data.saleListingDescription,
+            contactIds: data.saleContacts,
+            manualAccountContactIds: data.saleManualAccountContacts,
+        };
+    }
+    if (data.isForShortTermRent) {
+        createListingData.shortTermRent = {
+            title: data.shortTermListingTitle,
+            price: data.shortTermListingPrice,
+            description: data.shortTermListingDescription,
+            contactIds: data.shortTermContacts,
+            manualAccountContactIds: data.shortTermManualAccountContacts,
+        };
+    }
+    if (data.isForLongTermRent) {
+        createListingData.longTermRent = {
+            title: data.longTermListingTitle,
+            price: data.longTermListingPrice,
+            description: data.longTermListingDescription,
+            contactIds: data.longTermContacts,
+            manualAccountContactIds: data.longTermManualAccountContacts,
+        };
+    }
+    if (data.listingFor === ListingFor.apartment) {
+        createListingData.apartment = {
+            latitude: data.lat,
+            longitude: data.lon,
+            surfaceArea: data.area,
+            bedroomCount: data.bedroomCount,
+            bathroomCount: data.bathroomCount,
+            parkingSpaceCount: data.parkingSpaceCount,
+        };
+    }
+
     return await client<CreateListingResponse>({
         url: "/listing/submit",
         method: "POST",
-        data,
+        data: {
+            ...createListingData,
+        },
         headers: {
             ...getAuthHeaders(),
         },

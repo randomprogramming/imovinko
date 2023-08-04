@@ -681,10 +681,8 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <IconRow listing={listing} />
                         </div>
 
-                        <div className="mt-4 whitespace-pre-line">
-                            <div className="">
-                                <Typography>{listing.description}</Typography>
-                            </div>
+                        <div className="mt-4 whitespace-pre-line break-all">
+                            <Typography>{listing.description}</Typography>
                         </div>
 
                         <div className="w-fit mt-10 bg-zinc-50 rounded shadow-sm">
