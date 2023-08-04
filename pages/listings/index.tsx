@@ -502,7 +502,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         >
                             <div className="flex flex-row space-x-1 items-center">
                                 <Icon name="location" height={20} width={20} />
-                                <Typography variant="span">Prikaži kartu</Typography>
+                                <Typography variant="span">{t("show-map")}</Typography>
                             </div>
                         </Link>
                     </div>

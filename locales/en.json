@@ -174,7 +174,8 @@
         "newest-first": "Newest first",
         "oldest-first": "Oldest first",
         "cheapest-first": "Cheapest first",
-        "expensive-first": "Expensive first"
+        "expensive-first": "Expensive first",
+        "show-map": "Show map"
     },
     "AccountPage": {
         "my-account": "My Account",
