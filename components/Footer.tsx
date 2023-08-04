@@ -33,9 +33,9 @@ export default function Footer({ className }: FooterProps) {
     return (
         <footer className={`bg-zinc-900 text-zinc-50 mt-12 ${className}`}>
             <div className="container mx-auto py-16">
-                <div className="flex flex-row w-full justify-between">
+                <div className="flex flex-col space-y-6 md:space-y-0 px-16 md:px-0 md:flex-row w-full justify-between">
                     <div className="flex flex-col">
-                        <Link to="/">
+                        <Link to="/" disableAnimatedHover>
                             <Icon className="fill-zinc-50" name="logo-text" height={40} />
                         </Link>
                     </div>
@@ -45,7 +45,7 @@ export default function Footer({ className }: FooterProps) {
                             <FooterLink to="/login" title={t("sign-in")} />
                         </div>
                     )}
-                    <div className="flex flex-col flex-wrap">
+                    <div className="flex flex-col">
                         <FooterLink to="/listings" title={t("browse")} />
                         <FooterLink to="/map" title={t("open-map")} />
                         <FooterLink to="/calculator" title={t("mortgage-calculator")} />
