@@ -18,6 +18,7 @@ import Input from "@/components/Input";
 import { useRouter } from "next/router";
 import { DebounceInput } from "react-debounce-input";
 import Head from "next/head";
+import NoImage from "@/components/NoImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -315,7 +316,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 closeOnClick={false}
                                 className={`${
                                     openProperty ? "opacity-100" : "opacity-0"
-                                } transition-all duration-300`}
+                                } transition-all duration-300 z-30`}
                             >
                                 <div className="w-full relative">
                                     <div className="absolute top-2 left-2 z-50">
@@ -337,75 +338,87 @@ export default function MapScreen({ query }: MapScreenProps) {
                                             <Icon name="close" height={20} width={20} />
                                         </Button.Transparent>
                                     </div>
-                                    <Carousel
-                                        autoPlay={false}
-                                        infiniteLoop={true}
-                                        showThumbs={false}
-                                        showStatus={false}
-                                        swipeable={true}
-                                        emulateTouch={true}
-                                        className="w-full"
-                                        renderArrowPrev={(onClickHandler) => {
-                                            return (
-                                                <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
-                                                    <button
-                                                        onClick={onClickHandler}
-                                                        className="rounded-full p-1.5 group"
-                                                    >
-                                                        <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
-                                                            <Icon
-                                                                name="left"
-                                                                height={20}
-                                                                width={20}
-                                                            />
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            );
-                                        }}
-                                        renderArrowNext={(onClickHandler) => {
-                                            return (
-                                                <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
-                                                    <button
-                                                        onClick={onClickHandler}
-                                                        className="rounded-full p-1.5 group"
-                                                    >
-                                                        <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
-                                                            <Icon
-                                                                name="right"
-                                                                height={20}
-                                                                width={20}
-                                                            />
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            );
-                                        }}
-                                    >
-                                        {getPropertyMedia(openProperty).map((m) => {
-                                            return (
-                                                <div
-                                                    key={m.url}
-                                                    className="select-none relative min-w-full"
-                                                    style={{
-                                                        height: "28vh",
-                                                        maxHeight: "300px",
-                                                    }}
-                                                >
-                                                    <Image
-                                                        src={m.url}
-                                                        alt="media image"
-                                                        fill
+                                    {getPropertyMedia(openProperty).length === 0 ? (
+                                        <div
+                                            className="select-none relative min-w-full flex items-center justify-center bg-zinc-200"
+                                            style={{
+                                                height: "28vh",
+                                                maxHeight: "300px",
+                                            }}
+                                        >
+                                            <NoImage />
+                                        </div>
+                                    ) : (
+                                        <Carousel
+                                            autoPlay={false}
+                                            infiniteLoop={true}
+                                            showThumbs={false}
+                                            showStatus={false}
+                                            swipeable={true}
+                                            emulateTouch={true}
+                                            className="w-full"
+                                            renderArrowPrev={(onClickHandler) => {
+                                                return (
+                                                    <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
+                                                        <button
+                                                            onClick={onClickHandler}
+                                                            className="rounded-full p-1.5 group"
+                                                        >
+                                                            <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                                <Icon
+                                                                    name="left"
+                                                                    height={20}
+                                                                    width={20}
+                                                                />
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            }}
+                                            renderArrowNext={(onClickHandler) => {
+                                                return (
+                                                    <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
+                                                        <button
+                                                            onClick={onClickHandler}
+                                                            className="rounded-full p-1.5 group"
+                                                        >
+                                                            <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                                <Icon
+                                                                    name="right"
+                                                                    height={20}
+                                                                    width={20}
+                                                                />
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            }}
+                                        >
+                                            {getPropertyMedia(openProperty).map((m) => {
+                                                return (
+                                                    <div
+                                                        key={m.url}
+                                                        className="select-none relative min-w-full"
                                                         style={{
-                                                            objectFit: "cover",
+                                                            height: "28vh",
+                                                            maxHeight: "300px",
                                                         }}
-                                                        // Since this is just a thumbnail, we can lower the quality
-                                                        quality={30}
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    </Carousel>
+                                                    >
+                                                        <Image
+                                                            src={m.url}
+                                                            alt="media image"
+                                                            fill
+                                                            style={{
+                                                                objectFit: "cover",
+                                                            }}
+                                                            // Since this is just a thumbnail, we can lower the quality
+                                                            quality={30}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
+                                        </Carousel>
+                                    )}
                                 </div>
 
                                 <div className="pb-4 px-4">
