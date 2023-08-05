@@ -429,12 +429,14 @@ export interface Listing {
         email: string;
         firstName: string | null;
         lastName: string | null;
+        phone: string | null;
     }[];
     manualAccountContacts: {
         username: null;
         email: string | null;
         firstName: string | null;
         lastName: string | null;
+        phone: string | null;
     }[];
 }
 export async function findListing(id: string) {
@@ -451,6 +453,7 @@ export interface MyAccount {
     lastName: string | null;
     username: string | null;
     createdAt: Date | string;
+    phone: string | null;
 }
 export async function getMyAccount(jwt?: string) {
     const headers = getAuthHeaders();
@@ -472,6 +475,7 @@ export interface PatchMyAccountBody {
     confirmPassword?: string;
     firstName?: string;
     lastName?: string;
+    phone?: string;
 }
 export async function patchMyAccount(data: PatchMyAccountBody) {
     return client({

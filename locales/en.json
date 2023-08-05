@@ -188,7 +188,8 @@
         "email": "E-Mail",
         "password": "Password",
         "confirm-password": "Confirm Password",
-        "save": "Save"
+        "save": "Save",
+        "phone": "Phone"
     },
     "Navigation": {
         "my-account": "My Account",

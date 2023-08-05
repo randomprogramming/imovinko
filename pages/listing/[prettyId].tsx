@@ -51,7 +51,7 @@ interface ContactCardProps {
     username?: string | null;
     contacts: {
         type: "email" | "phone";
-        contact: string;
+        contact: string | null;
     }[];
 }
 function ContactCard({ firstName, lastName, username, contacts }: ContactCardProps) {
@@ -92,31 +92,34 @@ function ContactCard({ firstName, lastName, username, contacts }: ContactCardPro
                     )}
                 </div>
 
-                {contacts.map((c, i) => {
-                    return (
-                        <div
-                            key={JSON.stringify(contacts) + "-" + i}
-                            className="flex-flex-row mt-2 w-full"
-                        >
-                            {c.type === "email" && (
-                                <a
-                                    href={`mailto:${c.contact}`}
-                                    className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
-                                >
-                                    <Typography>{c.contact}</Typography>
-                                </a>
-                            )}
-                            {c.type === "phone" && (
-                                <a
-                                    className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
-                                    href={`tel:${c.contact}`}
-                                >
-                                    <Typography>{c.contact}</Typography>
-                                </a>
-                            )}
-                        </div>
-                    );
-                })}
+                {contacts
+                    .filter((c) => !!c.contact)
+                    .map((c, i) => {
+                        return (
+                            <div
+                                key={JSON.stringify(contacts) + "-" + i}
+                                className="flex-flex-row mt-2 w-full"
+                            >
+                                {c.type === "email" && (
+                                    <a
+                                        href={`mailto:${c.contact}`}
+                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                    >
+                                        <Typography>{c.contact}</Typography>
+                                    </a>
+                                )}
+                                {/* TODO: Maybe format phone number so that all phone numbers show on the site are of the same format? */}
+                                {c.type === "phone" && (
+                                    <a
+                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                        href={`tel:${c.contact}`}
+                                    >
+                                        <Typography>{c.contact}</Typography>
+                                    </a>
+                                )}
+                            </div>
+                        );
+                    })}
             </div>
         </div>
     );
@@ -772,21 +775,25 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 <Typography
                                     sm
                                     uppercase
-                                    className="text-zinc-600 tracking-wider pl-3"
+                                    className="text-zinc-600 tracking-wider pl-2"
                                 >
                                     {t("your-contact")}
                                 </Typography>
-                                {listing.contacts.map((mac) => {
+                                {listing.contacts.map((ac) => {
                                     return (
                                         <ContactCard
-                                            key={JSON.stringify(mac)}
-                                            firstName={mac.firstName}
-                                            lastName={mac.lastName}
-                                            username={mac.username}
+                                            key={JSON.stringify(ac)}
+                                            firstName={ac.firstName}
+                                            lastName={ac.lastName}
+                                            username={ac.username}
                                             contacts={[
                                                 {
                                                     type: "email",
-                                                    contact: mac.email,
+                                                    contact: ac.email,
+                                                },
+                                                {
+                                                    type: "phone",
+                                                    contact: ac.phone,
                                                 },
                                             ]}
                                         />
@@ -799,16 +806,16 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                             firstName={mac.firstName}
                                             lastName={mac.lastName}
                                             username={mac.username}
-                                            contacts={
-                                                mac.email
-                                                    ? [
-                                                          {
-                                                              type: "email",
-                                                              contact: mac.email,
-                                                          },
-                                                      ]
-                                                    : []
-                                            }
+                                            contacts={[
+                                                {
+                                                    type: "email",
+                                                    contact: mac.email,
+                                                },
+                                                {
+                                                    type: "phone",
+                                                    contact: mac.phone,
+                                                },
+                                            ]}
                                         />
                                     );
                                 })}

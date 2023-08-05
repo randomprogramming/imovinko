@@ -42,6 +42,7 @@ export default function AccountPage({ account }: AccountPageProps) {
     const [firstName, setFirstName] = useState(account.firstName || "");
     const [lastName, setLastName] = useState(account.lastName || "");
     const [username, setUsername] = useState(account.username || "");
+    const [phone, setPhone] = useState(account.phone || "");
     const [isLoading, setIsLoading] = useState(false);
 
     function getAccountHandle() {
@@ -71,6 +72,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                 username,
                 firstName,
                 lastName,
+                phone,
             });
         } catch (err) {
         } finally {
@@ -161,6 +163,19 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     className="!p-2"
                                     value={account.email}
                                     disabled
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="phone">
+                                    <Typography>{t("phone")}</Typography>
+                                </label>
+                                <Input
+                                    name="phone"
+                                    hollow
+                                    className="!p-2"
+                                    value={phone}
+                                    onChange={setPhone}
                                 />
                             </div>
                         </div>
