@@ -18,16 +18,14 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-    const newest = await findListingsByQuery(
-        [PropertyType.apartment, PropertyType.apartment, PropertyType.land],
-        [OfferingType.longTermRent, OfferingType.sale, OfferingType.shortTermRent],
-        1,
-        undefined,
-        undefined,
-        "createdAt",
-        "desc",
-        4
-    );
+    const newest = await findListingsByQuery({
+        propertyType: [PropertyType.apartment, PropertyType.apartment, PropertyType.land],
+        offeringType: [OfferingType.longTermRent, OfferingType.sale, OfferingType.shortTermRent],
+        page: 1,
+        sortBy: "createdAt",
+        sortDirection: "desc",
+        pageSize: 4,
+    });
     const counts = await getPropertyCount();
 
     return {

@@ -176,7 +176,8 @@
         "oldest-first": "Stariji prvo",
         "cheapest-first": "Jeftiniji prvo",
         "expensive-first": "Skuplji prvo",
-        "show-map": "Prikaži kartu"
+        "show-map": "Prikaži kartu",
+        "regions": "Županija"
     },
     "AccountPage": {
         "my-account": "Moj račun",
@@ -303,5 +304,29 @@
         "send": "Pošalji",
         "sent": "Poruka poslana",
         "sent-description": "Zaprimili smo vašu poruku te ćemo vas kontaktirati što je prije moguće!"
+    },
+    "RegionDropdown": {
+        "select": "Odaberi...",
+        "HR01": "Zagrebačka",
+        "HR02": "Krapinsko-zagorska",
+        "HR03": "Sisačko-moslavačka",
+        "HR04": "Karlovačka",
+        "HR05": "Varaždinska",
+        "HR06": "Koprivničko-križevačka",
+        "HR07": "Bjelovarsko-bilogorska",
+        "HR08": "Primorsko-goranska",
+        "HR09": "Ličko-senjska",
+        "HR10": "Virovitičko-podravska",
+        "HR11": "Požeško-slavonska",
+        "HR12": "Brodsko-posavska",
+        "HR13": "Zadarska županija",
+        "HR14": "Osječko-baranjska",
+        "HR15": "Šibensko-kninska",
+        "HR16": "Vukovarsko-srijemska",
+        "HR17": "Splitsko-dalmatinska",
+        "HR18": "Istarska",
+        "HR19": "Dubrovačko-neretvanska",
+        "HR20": "Međimurska",
+        "HR21": "Grad Zagreb"
     }
 }

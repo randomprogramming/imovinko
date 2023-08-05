@@ -176,7 +176,8 @@
         "oldest-first": "Oldest first",
         "cheapest-first": "Cheapest first",
         "expensive-first": "Expensive first",
-        "show-map": "Show map"
+        "show-map": "Show map",
+        "regions": "Region"
     },
     "AccountPage": {
         "my-account": "My Account",
@@ -303,5 +304,29 @@
         "send": "Send",
         "sent": "Message sent",
         "sent-description": "We have recieved your message and will contact you back as soon as possible!"
+    },
+    "RegionDropdown": {
+        "select": "Select...",
+        "HR01": "Zagreb Region",
+        "HR02": "Krapina-Zagorje",
+        "HR03": "Sisak-Moslavina",
+        "HR04": "Karlovac",
+        "HR05": "Varaždin",
+        "HR06": "Koprivnica-Križevci",
+        "HR07": "Bjelovar-Bilogora",
+        "HR08": "Primorje-Gorski Kotar",
+        "HR09": "Lika-Senj",
+        "HR10": "Virovitica-Podravina",
+        "HR11": "Požega-Slavonia",
+        "HR12": "Brod-Posavina",
+        "HR13": "Zadar",
+        "HR14": "Osijek-Baranja",
+        "HR15": "Šibenik-Knin",
+        "HR16": "Vukovar-Srijem",
+        "HR17": "Split-Dalmatia",
+        "HR18": "Istria",
+        "HR19": "Dubrovnik-Neretva",
+        "HR20": "Međimurje",
+        "HR21": "City of Zagreb"
     }
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getJWTCookie, getMapboxSessionCookie } from "./cookie";
+import { HRRegionShortCode } from "@/components/RegionDropdown";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 export const GOOGLE_REGISTER_URL = baseURL + "/auth/google";
@@ -295,28 +296,33 @@ export async function findListingsByBoundingBox(
         })
     ).data;
 }
-export async function findListingsByQuery(
-    propertyType: PropertyType[],
-    offeringType: OfferingType[],
-    page?: number | string,
-    priceFrom?: number | string,
-    priceTo?: number | string,
-    sortBy?: string,
-    sortDirection?: "asc" | "desc",
-    pageSize?: number
-) {
+export async function findListingsByQuery(data: {
+    propertyType: PropertyType[];
+    offeringType: OfferingType[];
+    page?: number | string;
+    priceFrom?: number | string;
+    priceTo?: number | string;
+    sortBy?: string;
+    sortDirection?: "asc" | "desc";
+    pageSize?: number;
+    region?: HRRegionShortCode[];
+}) {
+    if (data.region && data.region.length === 0) {
+        data.region = undefined;
+    }
     return await client<PaginatedListingBasic>({
         url: "/listing/",
         method: "GET",
         params: {
-            propertyType: propertyType.join(","),
-            offeringType: offeringType.join(","),
-            page,
-            priceFrom,
-            priceTo,
-            sortBy,
-            sortDirection,
-            pageSize,
+            propertyType: data.propertyType.join(","),
+            offeringType: data.offeringType.join(","),
+            page: data.page,
+            priceFrom: data.priceFrom,
+            priceTo: data.priceTo,
+            sortBy: data.sortBy,
+            sortDirection: data.sortDirection,
+            pageSize: data.pageSize,
+            region: data.region?.join(","),
         },
     });
 }

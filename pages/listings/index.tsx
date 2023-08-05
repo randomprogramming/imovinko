@@ -24,6 +24,10 @@ import ListingListItem from "@/components/listing/ListingListItem";
 import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import RegionDropdown, {
+    HRRegionShortCode,
+    parseInitialRegionParams,
+} from "@/components/RegionDropdown";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -118,15 +122,27 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         offeringTypes = [OfferingType.sale, OfferingType.longTermRent, OfferingType.shortTermRent];
     }
 
-    const { data } = await findListingsByQuery(
-        propertyTypes,
-        offeringTypes,
+    let regions: HRRegionShortCode[] | undefined = undefined;
+    if (typeof query.region === "string") {
+        query.region = [query.region];
+    }
+    if (Array.isArray(query.region)) {
+        const allShortCodes = Object.values<string>(HRRegionShortCode);
+        regions = query.region.filter((r) => {
+            return allShortCodes.includes(r);
+        }) as HRRegionShortCode[];
+    }
+
+    const { data } = await findListingsByQuery({
+        propertyType: propertyTypes,
+        offeringType: offeringTypes,
         page,
         priceFrom,
         priceTo,
         sortBy,
-        sortDirectionTyped
-    );
+        sortDirection: sortDirectionTyped,
+        region: regions,
+    });
 
     return {
         props: {
@@ -383,6 +399,12 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             ? undefined
             : params?.priceTo
     );
+    const [filterRegionShortCodes, setFilterRegionShortCodes] = useState<
+        {
+            label: string;
+            value: HRRegionShortCode;
+        }[]
+    >(parseInitialRegionParams(params?.region));
 
     const router = useRouter();
 
@@ -419,6 +441,11 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             allParams.priceTo = priceTo;
         } else {
             delete allParams.priceTo;
+        }
+        if (filterRegionShortCodes.length > 0) {
+            allParams.region = filterRegionShortCodes.map((c) => c.value);
+        } else {
+            delete allParams.region;
         }
 
         // Restart to first page when filter changes
@@ -562,6 +589,25 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
+                    <div className="w-full mt-8">
+                        <Typography bold>{t("regions")}</Typography>
+                        <div className="w-full mt-2">
+                            <RegionDropdown
+                                selected={filterRegionShortCodes}
+                                onChange={(newVal) => {
+                                    setFilterRegionShortCodes(
+                                        newVal.map((v) => {
+                                            return {
+                                                label: v.label,
+                                                value: v.value,
+                                            };
+                                        })
+                                    );
+                                }}
+                            />
+                        </div>
+                    </div>
+
                     <div className="mt-8">
                         <Typography bold>{t("price")}</Typography>
                         <div className="flex flex-row flex-wrap items-center ml-2">
@@ -597,7 +643,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="my-8">
                         <Button.Primary label={t("search")} onClick={handleFilterChange} />
                     </div>
                 </div>
