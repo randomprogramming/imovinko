@@ -28,6 +28,7 @@ import RegionDropdown, {
     HRRegionShortCode,
     parseInitialRegionParams,
 } from "@/components/RegionDropdown";
+import NoData from "@/components/NoData";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -515,9 +516,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             </header>
             <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
                 <div
-                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col"
+                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-sm"
                     style={{
-                        maxWidth: "420px",
                         minWidth: "210px",
                     }}
                 >
@@ -707,6 +707,11 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                 : "space-y-6 max-w-3xl 2xl:max-w-5xl mx-auto"
                         } mt-2`}
                     >
+                        {listings.data.length === 0 && (
+                            <div className="col-span-4 py-8">
+                                <NoData title={t("none-found")} />
+                            </div>
+                        )}
                         {listings.data.map((listing) => {
                             if (useCards) {
                                 return (

@@ -177,7 +177,8 @@
         "cheapest-first": "Jeftiniji prvo",
         "expensive-first": "Skuplji prvo",
         "show-map": "Prikaži kartu",
-        "regions": "Županija"
+        "regions": "Županija",
+        "none-found": "Nismo pronašli niti jedan oglas koji odgovara vašem filteru!"
     },
     "AccountPage": {
         "my-account": "Moj račun",

@@ -177,7 +177,8 @@
         "cheapest-first": "Cheapest first",
         "expensive-first": "Expensive first",
         "show-map": "Show map",
-        "regions": "Region"
+        "regions": "Region",
+        "none-found": "We couldn't find any listings that match your filter!"
     },
     "AccountPage": {
         "my-account": "My Account",
