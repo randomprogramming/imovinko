@@ -88,7 +88,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
             <header className="absolute top-0 container mx-auto left-0 right-0 z-20">
                 <Navbar useLighterColorsOnSmallDevice />
             </header>
-            <main>
+            <main className="flex-1">
                 <section className="container mx-auto">
                     <div className="w-full">
                         <div className="flex flex-col-reverse md:flex-row">
