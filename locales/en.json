@@ -290,7 +290,9 @@
         "posted": "Posted"
     },
     "MyPropertiesPage": {
-        "my-listings": "My Listings"
+        "my-listings": "My Listings",
+        "no-data-message": "You have no listings, ",
+        "add-new": "create a new listing here!"
     },
     "Footer": {
         "sign-in": "Sign In",

@@ -11,6 +11,7 @@ import Pagination from "@/components/Pagination";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import NoData from "@/components/NoData";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -68,6 +69,18 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                             {` (${listings.count})`}
                         </Typography>
                         <div className="mt-6 space-y-8">
+                            {listings.data.length === 0 && (
+                                <NoData>
+                                    <Typography>
+                                        {t("no-data-message")}{" "}
+                                        <Link to="/list">
+                                            <Typography bold variant="span">
+                                                {t("add-new")}
+                                            </Typography>
+                                        </Link>
+                                    </Typography>
+                                </NoData>
+                            )}
                             {listings.data.map((l) => {
                                 return (
                                     <Link

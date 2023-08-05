@@ -290,7 +290,9 @@
         "posted": "Objavljeno"
     },
     "MyPropertiesPage": {
-        "my-listings": "Moji oglasi"
+        "my-listings": "Moji oglasi",
+        "no-data-message": "Nemate niti jedan oglas, ",
+        "add-new": "predajte novi oglas ovdje!"
     },
     "Footer": {
         "sign-in": "Prijavi se",
