@@ -52,6 +52,14 @@ export default function Register() {
         }
     }
 
+    function listenToEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            if (!isSendingRegisterReq) {
+                onRegister();
+            }
+        }
+    }
+
     async function onRegister() {
         try {
             fieldErrorCodesParser.empty();
@@ -140,6 +148,7 @@ export default function Register() {
                                 placeholder={t("first-name-placeholder")}
                                 hasError={fieldErrorCodesParser.has("firstName")}
                                 errorMsg={fieldErrorCodesParser.getTranslated("firstName")}
+                                onKeyDown={listenToEnter}
                             />
                         </div>
 
@@ -159,6 +168,7 @@ export default function Register() {
                                 placeholder={t("last-name-placeholder")}
                                 hasError={fieldErrorCodesParser.has("lastName")}
                                 errorMsg={fieldErrorCodesParser.getTranslated("lastName")}
+                                onKeyDown={listenToEnter}
                             />
                         </div>
                     </div>
@@ -177,6 +187,7 @@ export default function Register() {
                             errorMsg={fieldErrorCodesParser.getTranslated("username")}
                             onChange={setUsername}
                             placeholder="username300"
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 
@@ -194,6 +205,7 @@ export default function Register() {
                             placeholder="my.mail@gmail.com"
                             hasError={fieldErrorCodesParser.has("email")}
                             errorMsg={fieldErrorCodesParser.getTranslated("email")}
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 
@@ -211,6 +223,7 @@ export default function Register() {
                             placeholder={t("password")}
                             hasError={fieldErrorCodesParser.has("password")}
                             errorMsg={fieldErrorCodesParser.getTranslated("password")}
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 
@@ -228,6 +241,7 @@ export default function Register() {
                             placeholder={t("confirm-password")}
                             hasError={fieldErrorCodesParser.has("confirmPassword")}
                             errorMsg={fieldErrorCodesParser.getTranslated("confirmPassword")}
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 

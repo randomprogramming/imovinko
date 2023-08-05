@@ -45,6 +45,8 @@ interface InputProps extends CheckBoxInputProps {
     errorMsg?: string;
     hollow?: boolean;
     disabled?: boolean;
+    onKeyDown?(e: React.KeyboardEvent<HTMLInputElement>): void;
+    onKeyDownTextArea?(e: React.KeyboardEvent<HTMLTextAreaElement>): void;
 }
 export default function Input({
     name,
@@ -60,6 +62,8 @@ export default function Input({
     errorMsg,
     hollow,
     disabled,
+    onKeyDown,
+    onKeyDownTextArea,
 }: InputProps) {
     if (type === "checkbox") {
         return (
@@ -81,6 +85,7 @@ export default function Input({
                     value={value}
                     rows={4}
                     placeholder={placeholder}
+                    onKeyDown={onKeyDownTextArea}
                     onChange={(e) => {
                         if (onChange) {
                             onChange(e.currentTarget.value);
@@ -110,6 +115,7 @@ export default function Input({
                 name={name}
                 value={value}
                 placeholder={placeholder}
+                onKeyDown={onKeyDown}
                 onChange={(e) => {
                     if (onChange) {
                         onChange(e.currentTarget.value);

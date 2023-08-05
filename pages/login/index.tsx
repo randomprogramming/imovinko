@@ -40,6 +40,14 @@ export default function Login() {
         }
     }
 
+    function listenToEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            if (!isSendingLoginReq) {
+                onLogin();
+            }
+        }
+    }
+
     return (
         <div className="flex-1 flex flex-row">
             <Head>
@@ -104,6 +112,7 @@ export default function Login() {
                             className="mt-1"
                             onChange={setHandle}
                             placeholder="username300"
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 
@@ -119,6 +128,7 @@ export default function Login() {
                             onChange={setPassword}
                             placeholder={t("password")}
                             type="password"
+                            onKeyDown={listenToEnter}
                         />
                     </div>
 
