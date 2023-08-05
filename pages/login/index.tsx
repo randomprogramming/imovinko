@@ -61,7 +61,7 @@ export default function Login() {
             <div className="hidden lg:flex" style={{ flex: 3 }}>
                 <div className="relative w-full flex-1 overflow-hidden">
                     <Link to="/" className="absolute z-30 top-10 left-12 p-1" disableAnimatedHover>
-                        <Icon name="logo-text" height={48} />
+                        <Icon name="logo-text" height={48} className="fill-zinc-50" />
                     </Link>
                     <Image
                         src="/images/login-cover.jpg"
