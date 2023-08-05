@@ -43,7 +43,9 @@
         "password": "Password",
         "sign-in": "Sign In",
         "no-account": "Don't have an account?",
-        "register-here": "Create one here!"
+        "register-here": "Create one here!",
+        "registration-success-title": "Registration successful!",
+        "registration-success-message": "Registration successful, please log in through the form below."
     },
     "Navbar": {
         "submit-ad": "Submit Ad",

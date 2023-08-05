@@ -11,6 +11,7 @@ import { setJWTCookie } from "@/util/cookie";
 import Link from "@/components/Link";
 import Icon from "@/components/Icon";
 import Head from "next/head";
+import Dialog from "@/components/Dialog";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -79,7 +80,6 @@ export default function Login() {
             >
                 <div className="md:px-10 py-6">
                     <Typography variant="h1">{t("welcome")}</Typography>
-
                     <div className="mt-8">
                         <Button.Primary
                             icon="google"
@@ -90,7 +90,6 @@ export default function Login() {
                             }}
                         />
                     </div>
-
                     <div className="flex flex-row items-center my-8">
                         <div className="flex-1 ml-20 h-0.5 bg-zinc-600" />
                         <div className="px-6 select-none">
@@ -100,7 +99,13 @@ export default function Login() {
                         </div>
                         <div className="flex-1 mr-20 h-0.5 bg-zinc-600" />
                     </div>
-
+                    {router.query.registrationSuccess === "true" && (
+                        <Dialog
+                            type="success"
+                            title={t("registration-success-title")}
+                            message={t("registration-success-message")}
+                        />
+                    )}
                     <div className="mt-4">
                         <label htmlFor="handle">
                             <Typography variant="secondary" uppercase>
@@ -115,7 +120,6 @@ export default function Login() {
                             onKeyDown={listenToEnter}
                         />
                     </div>
-
                     <div className="mt-4">
                         <label htmlFor="password">
                             <Typography variant="secondary" uppercase>
@@ -131,7 +135,6 @@ export default function Login() {
                             onKeyDown={listenToEnter}
                         />
                     </div>
-
                     <div className="mt-6">
                         <Button.Primary
                             label={t("sign-in")}
@@ -139,7 +142,6 @@ export default function Login() {
                             loading={isSendingLoginReq}
                         />
                     </div>
-
                     <div className="mt-6">
                         <Typography>
                             {t("no-account")}{" "}

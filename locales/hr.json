@@ -43,7 +43,9 @@
         "password": "Lozinka",
         "sign-in": "Prijavi se",
         "no-account": "Još nemate račun?",
-        "register-here": "Napravite ga ovdje."
+        "register-here": "Napravite ga ovdje.",
+        "registration-success-title": "Uspješna registracija!",
+        "registration-success-message": "Registracija uspješna, molimo da se prijavite sa svojim podacima."
     },
     "Navbar": {
         "submit-ad": "Predaj oglas",

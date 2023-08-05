@@ -72,7 +72,12 @@ export default function Register() {
                 password,
                 confirmPassword,
             });
-            console.log(resp);
+            await router.push({
+                pathname: "/login",
+                query: {
+                    registrationSuccess: true,
+                },
+            });
         } catch (e: any) {
             if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
                 fieldErrorCodesParser.parseErrorCodes(e.response.data);
