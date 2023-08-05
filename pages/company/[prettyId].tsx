@@ -10,6 +10,7 @@ import Pagination from "@/components/Pagination";
 import ListingListItem from "@/components/listing/ListingListItem";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import NoData from "@/components/NoData";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -74,7 +75,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto mt-8">
+            <main className="container mx-auto mt-8 flex-1">
                 {company ? (
                     <div>
                         <div className="flex flex-col sm:flex-row">
@@ -148,8 +149,13 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                         </div>
                         {/* TODO: Info about company agents somewhere here */}
                         <div className="w-full mt-8 max-w-3xl mx-auto">
-                            <Typography variant="h2">{t("company-listings")}</Typography>
+                            <Typography variant="h2">
+                                {t("company-listings")} ({company.listings.count})
+                            </Typography>
                             <div className="mt-6 space-y-8">
+                                {company.listings.data.length === 0 && (
+                                    <NoData title={t("no-data-message")} />
+                                )}
                                 {company.listings.data.map((l) => {
                                     return (
                                         <Link

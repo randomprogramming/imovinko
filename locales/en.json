@@ -247,7 +247,8 @@
     "CompanyByPrettyIdPage": {
         "joined": "Joined",
         "listings": "Total Listings",
-        "company-listings": "Company Listings"
+        "company-listings": "Company Listings",
+        "no-data-message": "This company currently has no active listings."
     },
     "Notifications": {
         "notification": "Notification",

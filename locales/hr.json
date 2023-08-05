@@ -247,7 +247,8 @@
     "CompanyByPrettyIdPage": {
         "joined": "Registracija",
         "listings": "Broj oglasa",
-        "company-listings": "Oglasi tvrtke"
+        "company-listings": "Oglasi tvrtke",
+        "no-data-message": "Tvrtka trenutno nema aktivnih oglasa."
     },
     "Notifications": {
         "notification": "Notifikacija",
