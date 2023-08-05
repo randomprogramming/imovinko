@@ -272,7 +272,8 @@
         "joined": "Registracija",
         "listings": "Broj oglasa",
         "account-listings": "Oglasi korisnika",
-        "user-is-in-company": "Korisnik je član tvrtke"
+        "user-is-in-company": "Korisnik je član tvrtke",
+        "no-data-message": "Korisnik trenutno nema aktivnih oglasa!"
     },
     "ListingListItem": {
         "per-night": "noćenje",

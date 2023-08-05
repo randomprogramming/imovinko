@@ -10,6 +10,7 @@ import Link from "@/components/Link";
 import ListingListItem from "@/components/listing/ListingListItem";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import NoData from "@/components/NoData";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
     let account: FullPublicAccount | null = null;
@@ -54,7 +55,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto mt-8">
+            <main className="container mx-auto mt-8 flex-1">
                 {account ? (
                     <div>
                         <div className="flex flex-col sm:flex-row w-full max-w-3xl mx-auto">
@@ -132,8 +133,15 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                             </div>
                         </div>
                         <div className="w-full mt-8 max-w-3xl mx-auto">
-                            <Typography variant="h2">{t("account-listings")}</Typography>
+                            <Typography variant="h2">
+                                {t("account-listings")} ({account.listings.count})
+                            </Typography>
                             <div className="mt-6 space-y-8">
+                                {account.listings.data.length === 0 && (
+                                    <div>
+                                        <NoData title={t("no-data-message")} />
+                                    </div>
+                                )}
                                 {account.listings.data.map((l) => {
                                     return (
                                         <Link

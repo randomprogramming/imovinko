@@ -272,7 +272,8 @@
         "joined": "Joined",
         "listings": "Total Listings",
         "account-listings": "Account Listings",
-        "user-is-in-company": "User is a member of company"
+        "user-is-in-company": "User is a member of company",
+        "no-data-message": "User has no currently active listings!"
     },
     "ListingListItem": {
         "per-night": "per night",
