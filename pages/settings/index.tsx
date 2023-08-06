@@ -11,6 +11,9 @@ import Button from "@/components/Button";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import Dialog from "@/components/Dialog";
+import { setJWTCookie } from "@/util/cookie";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -45,6 +48,8 @@ export default function AccountPage({ account }: AccountPageProps) {
     const [phone, setPhone] = useState(account.phone || "");
     const [isLoading, setIsLoading] = useState(false);
 
+    const router = useRouter();
+
     function getAccountHandle() {
         if (account.username) {
             return account.username;
@@ -68,12 +73,16 @@ export default function AccountPage({ account }: AccountPageProps) {
     async function handleAccountPatch() {
         setIsLoading(true);
         try {
-            await patchMyAccount({
+            const { data } = await patchMyAccount({
                 username,
                 firstName,
                 lastName,
                 phone,
             });
+            if (typeof data.accessToken === "string" && data.accessToken.length > 0) {
+                setJWTCookie(data.accessToken);
+                router.reload();
+            }
         } catch (err) {
         } finally {
             setIsLoading(false);
@@ -92,6 +101,14 @@ export default function AccountPage({ account }: AccountPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
+                        {!account.username && (
+                            <Dialog
+                                type="warning"
+                                title={t("enter-username")}
+                                message={t("enter-username-message")}
+                                className="mb-3"
+                            />
+                        )}
                         <div className="flex flex-row items-center space-x-2">
                             <Icon name="account" height={64} width={64} />
 

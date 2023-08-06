@@ -4,6 +4,8 @@ import Link from "../Link";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import Icon, { IconName } from "../Icon";
+import useAuthentication from "@/hooks/useAuthentication";
+import Dialog from "../Dialog";
 
 interface NavigationLinkProps {
     title: string;
@@ -36,65 +38,52 @@ export default function Navigation() {
 
     const router = useRouter();
 
+    const { account } = useAuthentication();
+
     return (
-        <>
-            <div
-                className="hidden md:flex p-2 border-2 border-zinc-300 rounded-xl flex-col space-y-1 !h-fit"
-                style={{
-                    minWidth: "260px",
-                    minHeight: "420px",
-                }}
-            >
-                <Typography variant="h2" className="mb-2 text-center">
-                    {t("navigation")}
-                </Typography>
-                <NavigationLink
-                    title={t("my-account")}
-                    to="/settings"
-                    active={"/settings" === router.pathname}
-                    iconName="account-settings"
-                />
-                <NavigationLink
-                    title={t("my-company")}
-                    to="/settings/company"
-                    active={"/settings/company" === router.pathname}
-                    iconName="office"
-                />
-                <NavigationLink
-                    title={t("my-properties")}
-                    to="/settings/properties"
-                    active={"/settings/properties" === router.pathname}
-                    iconName="property"
-                />
-            </div>
-            <div
-                className="md:hidden flex p-2 border-2 border-zinc-300 rounded-xl flex-col space-y-1 !h-fit mb-4"
-                style={{
-                    minWidth: "260px",
-                }}
-            >
-                <Typography variant="h2" className="mb-2 text-center">
-                    {t("navigation")}
-                </Typography>
-                <NavigationLink
-                    title={t("my-account")}
-                    to="/settings"
-                    active={"/settings" === router.pathname}
-                    iconName="account-settings"
-                />
-                <NavigationLink
-                    title={t("my-company")}
-                    to="/settings/company"
-                    active={"/settings/company" === router.pathname}
-                    iconName="office"
-                />
-                <NavigationLink
-                    title={t("my-properties")}
-                    to="/settings/properties"
-                    active={"/settings/properties" === router.pathname}
-                    iconName="property"
-                />
-            </div>
-        </>
+        <div
+            className="lg:min-h-[420px] lg:max-w-xs flex p-2 border-2 border-zinc-300 rounded-xl flex-col space-y-1 !h-fit mb-4"
+            style={{
+                minWidth: "260px",
+            }}
+        >
+            <Typography variant="h2" className="mb-2 text-center">
+                {t("navigation")}
+            </Typography>
+            <NavigationLink
+                title={t("my-account")}
+                to="/settings"
+                active={"/settings" === router.pathname}
+                iconName="account-settings"
+            />
+            <NavigationLink
+                title={t("my-company")}
+                to="/settings/company"
+                active={"/settings/company" === router.pathname}
+                iconName="office"
+            />
+            <NavigationLink
+                title={t("my-properties")}
+                to="/settings/properties"
+                active={"/settings/properties" === router.pathname}
+                iconName="property"
+            />
+            <div className="flex-1" />
+            {account && !account.username && (
+                <div className="mt-4">
+                    <Dialog type="warning" title={t("add-username")}>
+                        <Typography className="leading-5">
+                            {t("add-username-message-click")}{" "}
+                            <Link to="/settings">
+                                <Typography variant="span" bold>
+                                    {t("add-username-message-here")}
+                                </Typography>
+                            </Link>{" "}
+                            {t("add-username-message-rest")}
+                        </Typography>
+                    </Dialog>
+                </div>
+            )}
+        </div>
     );
 }

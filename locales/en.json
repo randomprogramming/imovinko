@@ -58,7 +58,11 @@
         "title": "Choose property type",
         "house": "House",
         "apartment": "Apartment",
-        "land": "Land"
+        "land": "Land",
+        "missing-username": "You will need to add a username",
+        "missing-username-message": "Before creating a listing, you will need to add a username. Please click",
+        "missing-username-here": "here",
+        "missing-username-rest": "to add a username."
     },
     "ListApartment": {
         "title": "Apartment Information",
@@ -194,13 +198,19 @@
         "password": "Password",
         "confirm-password": "Confirm Password",
         "save": "Save",
-        "phone": "Phone"
+        "phone": "Phone",
+        "enter-username": "Enter username",
+        "enter-username-message": "Please enter your username below so that you can may start submitting listings!"
     },
     "Navigation": {
         "my-account": "My Account",
         "my-company": "My Company",
         "my-properties": "My Listings",
-        "navigation": "Navigation"
+        "navigation": "Navigation",
+        "add-username": "Add username",
+        "add-username-message-click": "Click",
+        "add-username-message-here": "here",
+        "add-username-message-rest": "to add a username"
     },
     "CompanyPage": {
         "not-found": "We couldn't find your company.",

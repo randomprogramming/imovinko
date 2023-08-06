@@ -58,7 +58,11 @@
         "title": "Odaberite tip nekretnine",
         "house": "Kuća",
         "apartment": "Stan",
-        "land": "Zemljište"
+        "land": "Zemljište",
+        "missing-username": "Dodajte korisničko ime",
+        "missing-username-message": "Prije predavanja oglasa, trebat ćete dodati korisničko ime. Kliknite",
+        "missing-username-here": "ovdje",
+        "missing-username-rest": "kako bi dodali korisničko ime."
     },
     "ListApartment": {
         "title": "Informacije o stanu",
@@ -194,13 +198,19 @@
         "password": "Lozinka",
         "confirm-password": "Potvrdi lozinku",
         "save": "Spremi",
-        "phone": "Broj telefona"
+        "phone": "Broj telefona",
+        "enter-username": "Unesite korisničko ime",
+        "enter-username-message": "Molimo da unesete korisničko ime kako bi mogli početi predavati oglase!"
     },
     "Navigation": {
         "my-account": "Moj račun",
         "my-company": "Moja tvrtka",
         "my-properties": "Moji oglasi",
-        "navigation": "Navigacija"
+        "navigation": "Navigacija",
+        "add-username": "Dodaj korisničko ime",
+        "add-username-message-click": "Klikni",
+        "add-username-message-here": "ovdje",
+        "add-username-message-rest": "kako bi dodao korisničko ime"
     },
     "CompanyPage": {
         "not-found": "Nismo pronašli tvoju tvrtku.",

@@ -477,8 +477,11 @@ export interface PatchMyAccountBody {
     lastName?: string;
     phone?: string;
 }
+interface PatchMyAccountResponse {
+    accessToken?: string;
+}
 export async function patchMyAccount(data: PatchMyAccountBody) {
-    return client({
+    return client<PatchMyAccountResponse>({
         method: "PATCH",
         url: "/account/",
         data: {
