@@ -21,6 +21,7 @@ import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { space_grotesk } from "@/util/fonts";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -131,30 +132,38 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
     const allCompanyAccounts = company
         ? [
-              ...company.accounts.map((ac) => {
-                  return {
-                      id: ac.id,
-                      email: ac.email,
-                      firstName: ac.firstName,
-                      lastName: ac.lastName,
-                      username: ac.username,
-                      manual: false,
-                      value: ac.id,
-                      label: `${ac.firstName}${ac.firstName && " "}${ac.lastName}`,
-                  };
-              }),
-              ...company.manualAccounts.map((mac) => {
-                  return {
-                      id: mac.id,
-                      email: mac.email,
-                      firstName: mac.firstName,
-                      lastName: mac.lastName,
-                      username: null,
-                      manual: true,
-                      value: mac.id,
-                      label: `${mac.firstName}${mac.firstName && " "}${mac.lastName}`,
-                  };
-              }),
+              {
+                  label: t("company-account"),
+                  manual: false,
+                  options: company.accounts.map((ac) => {
+                      return {
+                          id: ac.id,
+                          email: ac.email,
+                          firstName: ac.firstName,
+                          lastName: ac.lastName,
+                          username: ac.username,
+                          manual: false,
+                          value: ac.id,
+                          label: `${ac.firstName}${ac.firstName && " "}${ac.lastName}`,
+                      };
+                  }),
+              },
+              {
+                  label: t("manual-account"),
+                  manual: true,
+                  options: company.manualAccounts.map((mac) => {
+                      return {
+                          id: mac.id,
+                          email: mac.email,
+                          firstName: mac.firstName,
+                          lastName: mac.lastName,
+                          username: null,
+                          manual: true,
+                          value: mac.id,
+                          label: `${mac.firstName}${mac.firstName && " "}${mac.lastName}`,
+                      };
+                  }),
+              },
           ]
         : [];
 
@@ -354,6 +363,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     <RowItem>
                                         <Select
                                             isMulti
+                                            className={`z-30 ${space_grotesk.className}`}
                                             isSearchable
                                             closeMenuOnSelect={false}
                                             noOptionsMessage={() => {
@@ -382,8 +392,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
+                                                // @ts-ignore - something is messed up with the types here
                                                 setSaleContacts(contacts.map((c) => c.id));
                                                 setSaleManualAccountContacts(
+                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -414,8 +426,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 <Icon name="account" />
                                                                 <Typography className="ml-1">
+                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
+                                                                        // @ts-ignore
                                                                         data.firstName && " "
+                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -431,21 +446,23 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 }) => {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
-                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 transition-all cursor-pointer">
+                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
                                                                 <Icon
                                                                     name="account"
                                                                     height={32}
                                                                     width={32}
                                                                 />
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children}{" "}
+                                                                    {children} {/* @ts-ignore */}
                                                                     {data.email &&
+                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
                                                                     className={`w-4 h-4 rounded-sm border border-zinc-400 ${
-                                                                        isSelected &&
-                                                                        "bg-indigo-600"
+                                                                        isSelected
+                                                                            ? "bg-indigo-600"
+                                                                            : "bg-transparent"
                                                                     } transition-all`}
                                                                 ></div>
                                                             </div>
@@ -518,6 +535,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
                                     <RowItem>
                                         <Select
+                                            className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
@@ -547,8 +565,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
+                                                // @ts-ignore
                                                 setShortTermContacts(contacts.map((c) => c.id));
                                                 setShortTermManualAccountContacts(
+                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -579,8 +599,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 <Icon name="account" />
                                                                 <Typography className="ml-1">
+                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
+                                                                        // @ts-ignore
                                                                         data.firstName && " "
+                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -603,8 +626,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     width={32}
                                                                 />
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children}{" "}
+                                                                    {children} {/* @ts-ignore */}
                                                                     {data.email &&
+                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
@@ -682,6 +706,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
                                     <RowItem>
                                         <Select
+                                            className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
@@ -711,8 +736,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
+                                                // @ts-ignore
                                                 setLongTermContacts(contacts.map((c) => c.id));
                                                 setLongTermManualAccountContacts(
+                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -743,8 +770,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 <Icon name="account" />
                                                                 <Typography className="ml-1">
+                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
+                                                                        // @ts-ignore
                                                                         data.firstName && " "
+                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -767,8 +797,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     width={32}
                                                                 />
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children}{" "}
+                                                                    {children} {/* @ts-ignore */}
                                                                     {data.email &&
+                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div

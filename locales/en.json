@@ -76,7 +76,7 @@
         "area-desc": "Apartment area expressed in square meter (m²).",
         "submit": "Submit Ad",
         "images": "Apartment images",
-        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 10MB.",
+        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 8MB.",
         "sale-information": "Sale information",
         "short-term-rent-information": "Short Term Rent information",
         "long-term-rent-information": "Long Term Rent information",
@@ -98,7 +98,9 @@
         "contact": "Contacts",
         "contact-description": "Choose members from your company which will be listed as contacts for this listing.",
         "no-options": "No options.",
-        "add-new-here": "Add new members here."
+        "add-new-here": "Add new members here.",
+        "company-account": "Company member",
+        "manual-account": "Manually entered member"
     },
     "Map": {
         "search": "Search",

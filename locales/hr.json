@@ -76,7 +76,7 @@
         "area-desc": "Površina stana izražena u metrima kvadratnim (m²).",
         "submit": "Predaj Oglas",
         "images": "Slike apartmana",
-        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 10MB.",
+        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 8MB.",
         "sale-information": "Informacije za prodaju",
         "short-term-rent-information": "Informacije za kratkotrajno iznajmljivanje",
         "long-term-rent-information": "Informacije za dugoročno iznajmljivanje",
@@ -98,7 +98,9 @@
         "contact": "Kontakt osobe",
         "contact-description": "Odaberite osobe iz tvrtke koje će biti navedene kao kontakt u oglasu.",
         "no-options": "Nema opcija.",
-        "add-new-here": "Dodajte nove članove ovdje."
+        "add-new-here": "Dodajte nove članove ovdje.",
+        "company-account": "Član tvrtke",
+        "manual-account": "Ručno uneseni član"
     },
     "Map": {
         "search": "Traži",
