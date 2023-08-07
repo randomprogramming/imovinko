@@ -381,12 +381,14 @@ export interface PropertyLocation {
 }
 export interface FullAccount extends Account {
     createdAt: string | Date;
+    avatarUrl: string | null;
     companies: {
         company: BasicCompany;
     }[];
 }
 export interface FullAccountSingleCompany extends Account {
     createdAt: string | Date;
+    avatarUrl: string | null;
     company: BasicCompany & {
         createdAt: Date | string;
     };
@@ -470,6 +472,7 @@ export interface Listing {
         firstName: string | null;
         lastName: string | null;
         phone: string | null;
+        avatarUrl: string | null;
     }[];
     manualAccountContacts: {
         username: null;
@@ -477,6 +480,7 @@ export interface Listing {
         firstName: string | null;
         lastName: string | null;
         phone: string | null;
+        avatarUrl: string | null;
     }[];
 }
 export async function findListing(id: string) {
@@ -494,6 +498,7 @@ export interface MyAccount {
     username: string | null;
     createdAt: Date | string;
     phone: string | null;
+    avatarUrl: string | null;
 }
 export async function getMyAccount(jwt?: string) {
     const headers = getAuthHeaders();
@@ -619,6 +624,7 @@ export interface ManulAccountEntryData {
 }
 export interface ManualAccount extends ManulAccountEntryData {
     id: string;
+    avatarUrl: string | null;
 }
 export async function createManualAccount(data: ManulAccountEntryData) {
     return await client({
@@ -695,6 +701,7 @@ export interface FullPublicAccount {
     company: BasicCompany | null;
     listings: PaginatedListingBasic;
     createdAt: string | Date;
+    avatarUrl: string | null;
 }
 export async function getAccountByUsername(username: string, listingsPage?: number) {
     return await client<FullPublicAccount>({

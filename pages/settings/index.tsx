@@ -21,6 +21,7 @@ import Dialog from "@/components/Dialog";
 import { setJWTCookie } from "@/util/cookie";
 import { useRouter } from "next/router";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -168,7 +169,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                         />
                         <div className="flex flex-row items-center space-x-2">
                             <div
-                                className="rounded-full cursor-pointer relative group"
+                                className="rounded-full cursor-pointer relative group h-16 w-16 overflow-hidden"
                                 onClick={() => {
                                     if (isUploadingImage) {
                                         return;
@@ -184,7 +185,16 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     </div>
                                 </div>
 
-                                <Icon name="account" height={64} width={64} />
+                                {account.avatarUrl ? (
+                                    <Image
+                                        src={account.avatarUrl}
+                                        alt="account avatar"
+                                        className="object-cover"
+                                        fill
+                                    />
+                                ) : (
+                                    <Icon name="account" height={64} width={64} />
+                                )}
                             </div>
 
                             <div>

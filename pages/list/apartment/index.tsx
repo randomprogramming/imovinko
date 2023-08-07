@@ -22,6 +22,7 @@ import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { space_grotesk } from "@/util/fonts";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -144,6 +145,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                           username: ac.username,
                           manual: false,
                           value: ac.id,
+                          avatarUrl: ac.avatarUrl,
                           label: `${ac.firstName}${ac.firstName && " "}${ac.lastName}`,
                       };
                   }),
@@ -160,6 +162,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                           username: null,
                           manual: true,
                           value: mac.id,
+                          avatarUrl: mac.avatarUrl,
                           label: `${mac.firstName}${mac.firstName && " "}${mac.lastName}`,
                       };
                   }),
@@ -423,8 +426,21 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             {...innerProps}
                                                             data={data}
                                                         >
-                                                            <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                <Icon name="account" />
+                                                            <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-6 h-6 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon name="account" />
+                                                                )}
                                                                 <Typography className="ml-1">
                                                                     {/* @ts-ignore */}
                                                                     {`${data.firstName}${
@@ -447,11 +463,24 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
-                                                                <Icon
-                                                                    name="account"
-                                                                    height={32}
-                                                                    width={32}
-                                                                />
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-8 h-8 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon
+                                                                        name="account"
+                                                                        height={32}
+                                                                        width={32}
+                                                                    />
+                                                                )}
                                                                 <Typography className="ml-2 flex-1">
                                                                     {children} {/* @ts-ignore */}
                                                                     {data.email &&
@@ -596,8 +625,21 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             {...innerProps}
                                                             data={data}
                                                         >
-                                                            <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                <Icon name="account" />
+                                                            <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-6 h-6 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon name="account" />
+                                                                )}
                                                                 <Typography className="ml-1">
                                                                     {/* @ts-ignore */}
                                                                     {`${data.firstName}${
@@ -619,12 +661,25 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 }) => {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
-                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 transition-all cursor-pointer">
-                                                                <Icon
-                                                                    name="account"
-                                                                    height={32}
-                                                                    width={32}
-                                                                />
+                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-8 h-8 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon
+                                                                        name="account"
+                                                                        height={32}
+                                                                        width={32}
+                                                                    />
+                                                                )}
                                                                 <Typography className="ml-2 flex-1">
                                                                     {children} {/* @ts-ignore */}
                                                                     {data.email &&
@@ -633,8 +688,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                 </Typography>
                                                                 <div
                                                                     className={`w-4 h-4 rounded-sm border border-zinc-400 ${
-                                                                        isSelected &&
-                                                                        "bg-indigo-600"
+                                                                        isSelected
+                                                                            ? "bg-indigo-600"
+                                                                            : "bg-transparent"
                                                                     } transition-all`}
                                                                 ></div>
                                                             </div>
@@ -767,8 +823,21 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             {...innerProps}
                                                             data={data}
                                                         >
-                                                            <div className="flex flex-row border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                <Icon name="account" />
+                                                            <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-6 h-6 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon name="account" />
+                                                                )}
                                                                 <Typography className="ml-1">
                                                                     {/* @ts-ignore */}
                                                                     {`${data.firstName}${
@@ -790,12 +859,25 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 }) => {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
-                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 transition-all cursor-pointer">
-                                                                <Icon
-                                                                    name="account"
-                                                                    height={32}
-                                                                    width={32}
-                                                                />
+                                                            <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
+                                                                {/* @ts-ignore */}
+                                                                {data.avatarUrl ? (
+                                                                    <div className="w-8 h-8 rounded-full overflow-hidden relative">
+                                                                        <Image
+                                                                            // @ts-ignore
+                                                                            src={data.avatarUrl}
+                                                                            alt="avatar"
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <Icon
+                                                                        name="account"
+                                                                        height={32}
+                                                                        width={32}
+                                                                    />
+                                                                )}
                                                                 <Typography className="ml-2 flex-1">
                                                                     {children} {/* @ts-ignore */}
                                                                     {data.email &&
@@ -804,8 +886,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                 </Typography>
                                                                 <div
                                                                     className={`w-4 h-4 rounded-sm border border-zinc-400 ${
-                                                                        isSelected &&
-                                                                        "bg-indigo-600"
+                                                                        isSelected
+                                                                            ? "bg-indigo-600"
+                                                                            : "bg-transparent"
                                                                     } transition-all`}
                                                                 ></div>
                                                             </div>

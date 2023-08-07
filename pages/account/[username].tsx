@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
     let account: FullPublicAccount | null = null;
@@ -23,7 +24,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query, lo
             }
             const { data } = await getAccountByUsername(params.username, pageNum);
             account = data;
-        } catch (e) {}
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return {
@@ -68,8 +71,18 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                 }}
                             >
                                 <div className="border-b-2 border-b-zinc-300 px-8 py-6 flex flex-col items-center justify-center">
-                                    {/* TODO: Use account image in the future */}
-                                    <Icon name="account" height={64} width={64} />
+                                    {account.avatarUrl ? (
+                                        <div className="relative h-32 w-32 rounded-full overflow-hidden shadow">
+                                            <Image
+                                                src={account.avatarUrl}
+                                                alt="account avatar"
+                                                className="object-cover"
+                                                fill
+                                            />
+                                        </div>
+                                    ) : (
+                                        <Icon name="account" height={64} width={64} />
+                                    )}
                                     <Typography bold>
                                         {account.firstName}
                                         {account.firstName && " "}

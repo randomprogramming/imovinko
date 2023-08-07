@@ -16,6 +16,7 @@ import { ParsedUrlQuery } from "querystring";
 import Dialog from "@/components/Dialog";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -484,11 +485,22 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                 className={`border-l-2 border-zinc-300 border-b-2 `}
                                                             >
                                                                 <div className="px-2 py-4">
-                                                                    <Icon
-                                                                        name="account"
-                                                                        height={32}
-                                                                        width={32}
-                                                                    />
+                                                                    <div className="relative rounded-full overflow-hidden w-8 h-8">
+                                                                        {ma.avatarUrl ? (
+                                                                            <Image
+                                                                                src={ma.avatarUrl}
+                                                                                alt="account avatar"
+                                                                                className="object-cover"
+                                                                                fill
+                                                                            />
+                                                                        ) : (
+                                                                            <Icon
+                                                                                name="account"
+                                                                                height={32}
+                                                                                width={32}
+                                                                            />
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                             <td
@@ -528,11 +540,22 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                 }`}
                                                             >
                                                                 <div className="px-2 py-4">
-                                                                    <Icon
-                                                                        name="account"
-                                                                        height={32}
-                                                                        width={32}
-                                                                    />
+                                                                    <div className="relative rounded-full overflow-hidden w-8 h-8">
+                                                                        {ca.avatarUrl ? (
+                                                                            <Image
+                                                                                src={ca.avatarUrl}
+                                                                                alt="account avatar"
+                                                                                className="object-cover"
+                                                                                fill
+                                                                            />
+                                                                        ) : (
+                                                                            <Icon
+                                                                                name="account"
+                                                                                height={32}
+                                                                                width={32}
+                                                                            />
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                             <td
@@ -565,9 +588,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                     {ca.email}
                                                                 </Typography>
                                                             </td>
-                                                            {/* <td
-                                                                className={`border-zinc-300 border-b-2`}
-                                                            ></td> */}
+
                                                             <td
                                                                 className={`border-zinc-300 border-b-2 border-r-2 ${
                                                                     i ===
@@ -577,7 +598,17 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                             >
                                                                 <div className="px-2 py-1">
                                                                     <Typography>
-                                                                        {ca.username || "-"}
+                                                                        {ca.username ? (
+                                                                            <Link
+                                                                                className="text-blue-500"
+                                                                                underlineClassName="!bg-blue-500"
+                                                                                to={`/account/${ca.username}`}
+                                                                            >
+                                                                                {ca.username}
+                                                                            </Link>
+                                                                        ) : (
+                                                                            "-"
+                                                                        )}
                                                                     </Typography>
                                                                 </div>
                                                             </td>

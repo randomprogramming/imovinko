@@ -54,12 +54,13 @@ interface ContactCardProps {
     firstName?: string | null;
     lastName?: string | null;
     username?: string | null;
+    avatarUrl?: string | null;
     contacts: {
         type: "email" | "phone";
         contact: string | null;
     }[];
 }
-function ContactCard({ firstName, lastName, username, contacts }: ContactCardProps) {
+function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: ContactCardProps) {
     function NameDiv() {
         return (
             <Typography bold variant="span">{`${firstName ? firstName : ""}${firstName ? " " : ""}${
@@ -72,11 +73,23 @@ function ContactCard({ firstName, lastName, username, contacts }: ContactCardPro
             <div>
                 {username ? (
                     <Link to={`/account/${username}`} disableAnimatedHover>
-                        <Icon name="account" height={64} width={64} />
+                        {avatarUrl ? (
+                            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                                <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
+                            </div>
+                        ) : (
+                            <Icon name="account" height={64} width={64} />
+                        )}
                     </Link>
                 ) : (
                     <div>
-                        <Icon name="account" height={64} width={64} />
+                        {avatarUrl ? (
+                            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                                <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
+                            </div>
+                        ) : (
+                            <Icon name="account" height={64} width={64} />
+                        )}
                     </div>
                 )}
             </div>
@@ -269,16 +282,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getAccountHref(p: Listing) {
-        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
-        if (p.apartment) {
-            account = p.apartment.owner;
-        }
-        if (p.house) {
-            account = p.house.owner;
-        }
-        if (p.land) {
-            account = p.land.owner;
-        }
+        const account = getListingAccount(p);
 
         if (!account) {
             return "";
@@ -294,16 +298,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getAccountHandle(p: Listing) {
-        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
-        if (p.apartment) {
-            account = p.apartment.owner;
-        }
-        if (p.house) {
-            account = p.house.owner;
-        }
-        if (p.land) {
-            account = p.land.owner;
-        }
+        const account = getListingAccount(p);
 
         if (!account) {
             return "";
@@ -335,7 +330,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return "";
     }
 
-    function getAccountJoinDate(p: Listing) {
+    function getListingAccount(p: Listing) {
         let account: Omit<FullAccountSingleCompany, "email"> | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
@@ -346,6 +341,21 @@ export default function ListingPage({ listing }: ListingPageProps) {
         if (p.land) {
             account = p.land.owner;
         }
+        return account;
+    }
+
+    function getListingAvatarUrl(p: Listing) {
+        let account = getListingAccount(p);
+
+        if (!account) {
+            return null;
+        }
+
+        return account.avatarUrl;
+    }
+
+    function getAccountJoinDate(p: Listing) {
+        let account = getListingAccount(p);
 
         if (!account) {
             return "";
@@ -718,12 +728,21 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 <div className="w-fit mt-10 bg-zinc-50 rounded shadow-sm">
                                     <div>
                                         <div className="-translate-y-1/2 pl-10">
-                                            <Icon name="account" height={64} width={64} />
+                                            {getListingAvatarUrl(listing) ? (
+                                                <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                                                    <Image
+                                                        src={getListingAvatarUrl(listing)!}
+                                                        alt="avatar"
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <Icon name="account" height={64} width={64} />
+                                            )}
                                         </div>
                                     </div>
                                     <div className="-mt-6 px-12">
-                                        {/* TODO: Show users avatar here */}
-                                        {/* TODO: Add users contact info here */}
                                         <Typography className="text-lg">
                                             {t("listing-by")}:{" "}
                                             <Link
@@ -813,6 +832,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                     firstName={ac.firstName}
                                                     lastName={ac.lastName}
                                                     username={ac.username}
+                                                    avatarUrl={ac.avatarUrl}
                                                     contacts={[
                                                         {
                                                             type: "email",
@@ -833,6 +853,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                     firstName={mac.firstName}
                                                     lastName={mac.lastName}
                                                     username={mac.username}
+                                                    avatarUrl={mac.avatarUrl}
                                                     contacts={[
                                                         {
                                                             type: "email",
