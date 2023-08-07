@@ -288,7 +288,8 @@
         "listings": "Total Listings",
         "account-listings": "Account Listings",
         "user-is-in-company": "User is a member of company",
-        "no-data-message": "User has no currently active listings!"
+        "no-data-message": "User has no currently active listings!",
+        "not-found": "That user was not found."
     },
     "ListingListItem": {
         "per-night": "per night",

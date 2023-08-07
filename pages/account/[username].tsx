@@ -11,6 +11,7 @@ import ListingListItem from "@/components/listing/ListingListItem";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
+import NotFound from "@/components/404";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
     let account: FullPublicAccount | null = null;
@@ -20,9 +21,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query, lo
             if (typeof query.page === "string") {
                 pageNum = parseInt(query.page);
             }
+            const { data } = await getAccountByUsername(params.username, pageNum);
+            account = data;
         } catch (e) {}
-        const { data } = await getAccountByUsername(params.username, pageNum);
-        account = data;
     }
 
     return {
@@ -166,8 +167,9 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                         </div>
                     </div>
                 ) : (
-                    // TODO: Create a 404 page
-                    <div>Username not found</div>
+                    <NotFound>
+                        <Typography className="text-lg">{t("not-found")}</Typography>
+                    </NotFound>
                 )}
             </main>
             <Footer />
