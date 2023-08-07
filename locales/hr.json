@@ -205,7 +205,8 @@
         "enter-username": "Unesite korisničko ime",
         "enter-username-message": "Molimo da unesete korisničko ime kako bi mogli početi predavati oglase!",
         "updated-title": "Račun ažuriran",
-        "updated-message": "Račun uspješno ažuriran i spremljen"
+        "updated-message": "Račun uspješno ažuriran i spremljen",
+        "uploading-image": "Učitavanje slike..."
     },
     "Navigation": {
         "my-account": "Moj račun",

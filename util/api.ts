@@ -186,10 +186,13 @@ interface CloudinaryAuthData {
     cloudname: string;
     api_key: string;
 }
-export async function getCloudinaryAuth() {
+export async function getCloudinaryAuth(isAvatar?: boolean) {
     return await client<CloudinaryAuthData>({
         url: "/auth/cloudinary",
-        method: "GET",
+        method: "POST",
+        data: {
+            uploadType: isAvatar ? "avatar" : "",
+        },
         headers: {
             ...getAuthHeaders(),
         },
@@ -221,6 +224,43 @@ export async function uploadMedia(images: File[]): Promise<string[]> {
         }
     }
     return imageUrls;
+}
+
+export async function uploadAvatar(image: File): Promise<string | null> {
+    let imageUrl: string | null = null;
+    const aut = await getCloudinaryAuth(true);
+
+    const url = "https://api.cloudinary.com/v1_1/" + aut.data.cloudname + "/auto/upload";
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("api_key", aut.data.api_key);
+    formData.append("timestamp", aut.data.timestamp + "");
+    formData.append("signature", aut.data.signature);
+    formData.append("folder", "avatar");
+    formData.append("format", "webp");
+    formData.append("eager", "w_500,h_500,c_fit");
+    const resp = await axios.post(url, formData);
+    if (Array.isArray(resp.data?.eager) && resp.data.eager.length > 0) {
+        const eager = resp.data.eager[0];
+        if (typeof eager.url === "string" && eager.url.length > 0) {
+            imageUrl = eager.url;
+        }
+    }
+
+    return imageUrl;
+}
+
+export async function patchAccountAvatarUrl(avatarUrl?: string | null) {
+    return client({
+        method: "PATCH",
+        url: "/account/media",
+        data: {
+            avatarUrl,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
 }
 
 interface PatchPropertyMediaData {

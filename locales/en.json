@@ -205,7 +205,8 @@
         "enter-username": "Enter username",
         "enter-username-message": "Please enter your username below so that you can may start submitting listings!",
         "updated-title": "Account updated",
-        "updated-message": "Account successfully updated and saved."
+        "updated-message": "Account successfully updated and saved.",
+        "uploading-image": "Uploading image..."
     },
     "Navigation": {
         "my-account": "My Account",

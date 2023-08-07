@@ -1,9 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import Navigation from "@/components/account/Navigation";
-import { MyAccount, getMyAccount, patchMyAccount } from "@/util/api";
+import {
+    MyAccount,
+    getMyAccount,
+    patchAccountAvatarUrl,
+    patchMyAccount,
+    uploadAvatar,
+} from "@/util/api";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import cookie from "cookie";
 import Icon from "@/components/Icon";
 import Input from "@/components/Input";
@@ -43,12 +49,15 @@ interface AccountPageProps {
 export default function AccountPage({ account }: AccountPageProps) {
     const t = useTranslations("AccountPage");
 
+    const avatarUploadRef = useRef<HTMLInputElement>(null);
+
     const [firstName, setFirstName] = useState(account.firstName || "");
     const [lastName, setLastName] = useState(account.lastName || "");
     const [username, setUsername] = useState(account.username || "");
     const [phone, setPhone] = useState(account.phone || "");
     const [isLoading, setIsLoading] = useState(false);
     const [isRedirecting, setIsRedirecting] = useState(false);
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
 
     const fieldErrorCodesParser = useFieldErrorCodes();
 
@@ -108,6 +117,21 @@ export default function AccountPage({ account }: AccountPageProps) {
         }
     }
 
+    async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+        setIsUploadingImage(true);
+        try {
+            const files = e.target.files;
+            if (files?.length && files.length > 0) {
+                const response = await uploadAvatar(files[0]);
+                await patchAccountAvatarUrl(response);
+                router.reload();
+            }
+        } catch (e) {
+            console.error(e);
+            setIsUploadingImage(false);
+        }
+    }
+
     return (
         <>
             <Head>
@@ -136,8 +160,32 @@ export default function AccountPage({ account }: AccountPageProps) {
                                 className="mb-3"
                             />
                         )}
+                        <input
+                            ref={avatarUploadRef}
+                            type="file"
+                            className="hidden"
+                            onChange={handleImageUpload}
+                        />
                         <div className="flex flex-row items-center space-x-2">
-                            <Icon name="account" height={64} width={64} />
+                            <div
+                                className="rounded-full cursor-pointer relative group"
+                                onClick={() => {
+                                    if (isUploadingImage) {
+                                        return;
+                                    }
+                                    if (avatarUploadRef) {
+                                        avatarUploadRef.current?.click();
+                                    }
+                                }}
+                            >
+                                <div className="flex z-30 items-center justify-center transition-all group-hover:bg-opacity-60 absolute top-0 left-0 right-0 bottom-0 rounded-full bg-zinc-200 bg-opacity-0">
+                                    <div className="group-hover:block hidden">
+                                        <Icon name="image-edit" />
+                                    </div>
+                                </div>
+
+                                <Icon name="account" height={64} width={64} />
+                            </div>
 
                             <div>
                                 <Typography variant="h2" className="text-2xl">
@@ -155,6 +203,14 @@ export default function AccountPage({ account }: AccountPageProps) {
                                 </Typography>
                             </div>
                         </div>
+                        {isUploadingImage && (
+                            <div className="flex flex-row ml-3">
+                                <div>
+                                    <Icon name="loading" />
+                                </div>
+                                <Typography className="ml-2">{t("uploading-image")}</Typography>
+                            </div>
+                        )}
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
                             <div>
