@@ -124,14 +124,20 @@ export default function Input({
                 className={`${space_grotesk.className} ${
                     small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
                 } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
-                    hasError ? "border-rose-700" : "border-transparent"
+                    hasError ? "!border-rose-700" : "border-transparent"
                 } outline-none shadow-sm relative z-[15] disabled:bg-zinc-300 ${className}`}
             />
-            {hasError && errorMsg && (
-                <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">
-                    <Typography className="text-sm">{errorMsg}</Typography>
-                </div>
-            )}
+            {hasError &&
+                errorMsg &&
+                (hollow ? (
+                    <div className="z-10 bg-rose-700 text-white absolute -bottom-[2px] translate-y-full left-0 px-2 py-1 rounded-md shadow-sm">
+                        <Typography className="text-sm">{errorMsg}</Typography>
+                    </div>
+                ) : (
+                    <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">
+                        <Typography className="text-sm">{errorMsg}</Typography>
+                    </div>
+                ))}
         </div>
     );
 }

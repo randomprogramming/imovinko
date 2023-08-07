@@ -203,7 +203,9 @@
         "save": "Spremi",
         "phone": "Broj telefona",
         "enter-username": "Unesite korisničko ime",
-        "enter-username-message": "Molimo da unesete korisničko ime kako bi mogli početi predavati oglase!"
+        "enter-username-message": "Molimo da unesete korisničko ime kako bi mogli početi predavati oglase!",
+        "updated-title": "Račun ažuriran",
+        "updated-message": "Račun uspješno ažuriran i spremljen"
     },
     "Navigation": {
         "my-account": "Moj račun",

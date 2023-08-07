@@ -14,6 +14,7 @@ import Head from "next/head";
 import Dialog from "@/components/Dialog";
 import { setJWTCookie } from "@/util/cookie";
 import { useRouter } from "next/router";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -47,6 +48,9 @@ export default function AccountPage({ account }: AccountPageProps) {
     const [username, setUsername] = useState(account.username || "");
     const [phone, setPhone] = useState(account.phone || "");
     const [isLoading, setIsLoading] = useState(false);
+    const [isRedirecting, setIsRedirecting] = useState(false);
+
+    const fieldErrorCodesParser = useFieldErrorCodes();
 
     const router = useRouter();
 
@@ -81,9 +85,24 @@ export default function AccountPage({ account }: AccountPageProps) {
             });
             if (typeof data.accessToken === "string" && data.accessToken.length > 0) {
                 setJWTCookie(data.accessToken);
+                setIsRedirecting(true);
+                await router.push({
+                    pathname: router.pathname,
+                    query: {
+                        updated: true,
+                    },
+                });
                 router.reload();
             }
-        } catch (err) {
+        } catch (e: any) {
+            setIsRedirecting(false);
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -101,6 +120,14 @@ export default function AccountPage({ account }: AccountPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
+                        {router.query.updated === "true" && !isRedirecting && (
+                            <Dialog
+                                type="success"
+                                title={t("updated-title")}
+                                message={t("updated-message")}
+                                className="mb-3"
+                            />
+                        )}
                         {!account.username && (
                             <Dialog
                                 type="warning"
@@ -140,6 +167,8 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     className="!p-2"
                                     value={firstName}
                                     onChange={setFirstName}
+                                    hasError={fieldErrorCodesParser.has("firstName")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("firstName")}
                                 />
                             </div>
 
@@ -153,29 +182,33 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     className="!p-2"
                                     value={lastName}
                                     onChange={setLastName}
+                                    hasError={fieldErrorCodesParser.has("lastName")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("lastName")}
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="lastName">
+                                <label htmlFor="username">
                                     <Typography>{t("username")}</Typography>
                                 </label>
                                 <Input
-                                    name="lastName"
+                                    name="username"
                                     hollow
                                     className="!p-2"
                                     value={username}
                                     onChange={setUsername}
                                     disabled={!!(account.username && account.username.length > 0)}
+                                    hasError={fieldErrorCodesParser.has("username")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("username")}
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="lastName">
+                                <label htmlFor="email">
                                     <Typography>{t("email")}</Typography>
                                 </label>
                                 <Input
-                                    name="lastName"
+                                    name="email"
                                     hollow
                                     className="!p-2"
                                     value={account.email}
@@ -193,6 +226,8 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     className="!p-2"
                                     value={phone}
                                     onChange={setPhone}
+                                    hasError={fieldErrorCodesParser.has("phone")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("phone")}
                                 />
                             </div>
                         </div>
@@ -200,7 +235,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                         <div className="mt-8">
                             <Button.Primary
                                 label={t("save")}
-                                loading={isLoading}
+                                loading={isLoading || isRedirecting}
                                 onClick={handleAccountPatch}
                             />
                         </div>

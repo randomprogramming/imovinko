@@ -203,7 +203,9 @@
         "save": "Save",
         "phone": "Phone",
         "enter-username": "Enter username",
-        "enter-username-message": "Please enter your username below so that you can may start submitting listings!"
+        "enter-username-message": "Please enter your username below so that you can may start submitting listings!",
+        "updated-title": "Account updated",
+        "updated-message": "Account successfully updated and saved."
     },
     "Navigation": {
         "my-account": "My Account",
