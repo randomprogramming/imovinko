@@ -12,6 +12,7 @@ import Link from "@/components/Link";
 import Icon from "@/components/Icon";
 import Head from "next/head";
 import Dialog from "@/components/Dialog";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -29,13 +30,23 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [isSendingLoginReq, setIsSendingLoginReq] = useState(false);
 
+    const fieldErrorCodesParser = useFieldErrorCodes();
+
     async function onLogin() {
         try {
+            fieldErrorCodesParser.empty();
             setIsSendingLoginReq(true);
             const response = await login({ handle, password });
             setJWTCookie(response.data.accessToken);
             router.push("/");
-        } catch (e) {
+        } catch (e: any) {
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
         } finally {
             setIsSendingLoginReq(false);
         }
@@ -118,6 +129,8 @@ export default function Login() {
                             onChange={setHandle}
                             placeholder="username300"
                             onKeyDown={listenToEnter}
+                            hasError={fieldErrorCodesParser.has("handle")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("handle")}
                         />
                     </div>
                     <div className="mt-4">
@@ -133,6 +146,8 @@ export default function Login() {
                             placeholder={t("password")}
                             type="password"
                             onKeyDown={listenToEnter}
+                            hasError={fieldErrorCodesParser.has("password")}
+                            errorMsg={fieldErrorCodesParser.getTranslated("password")}
                         />
                     </div>
                     <div className="mt-6">

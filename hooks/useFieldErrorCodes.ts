@@ -69,6 +69,9 @@ export default function () {
         if (code === "exists") {
             return t("exists");
         }
+        if (code === "account_not_found") {
+            return t("account_not_found");
+        }
 
         return undefined;
     }

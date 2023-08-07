@@ -138,7 +138,8 @@
         "invalid_email": "Invalid e-mail",
         "unknown": "Unknown error",
         "too-big": "Too long",
-        "exists": "Account already exists"
+        "exists": "Account already exists",
+        "account_not_found": "Account with that data was not found"
     },
     "ListingPage": {
         "per-night": "per night",

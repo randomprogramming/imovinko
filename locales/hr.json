@@ -138,7 +138,8 @@
         "invalid_email": "Neispravan e-mail",
         "unknown": "Nepoznata greška",
         "too-big": "Pre veliki broj znakova",
-        "exists": "Korisnički račun već postoji"
+        "exists": "Korisnički račun već postoji",
+        "account_not_found": "Račun s tim podacima nije pronađen"
     },
     "ListingPage": {
         "per-night": "noćenje",
