@@ -81,6 +81,8 @@ export default function Register() {
         } catch (e: any) {
             if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
                 fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
             } else {
                 console.error(e);
             }

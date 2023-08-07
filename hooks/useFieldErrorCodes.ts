@@ -35,6 +35,24 @@ export default function () {
         setFieldErrors(errorCodes);
     }
 
+    function parseErrorMessage(message: string) {
+        // message should be in format err::field_name::message
+        const msgSplit = message.split("::");
+        if (msgSplit.length !== 3) {
+            return;
+        }
+        const [_err, fieldName, errorMessage] = msgSplit;
+
+        const errorCodes = new Map<string, string[]>();
+        if (errorCodes.has(fieldName)) {
+            errorCodes.set(fieldName, [...errorCodes.get(fieldName)!, errorMessage]);
+        } else {
+            errorCodes.set(fieldName, [errorMessage]);
+        }
+
+        setFieldErrors(errorCodes);
+    }
+
     function translateCode(code: string) {
         if (code === "too_small") {
             return t("too_small");
@@ -47,6 +65,9 @@ export default function () {
         }
         if (code === "invalid_email") {
             return t("invalid_email");
+        }
+        if (code === "exists") {
+            return t("exists");
         }
 
         return undefined;
@@ -82,5 +103,6 @@ export default function () {
         empty,
         get,
         getTranslated,
+        parseErrorMessage,
     };
 }

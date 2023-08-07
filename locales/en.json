@@ -137,7 +137,8 @@
         "not_matching": "Passwords do not match",
         "invalid_email": "Invalid e-mail",
         "unknown": "Unknown error",
-        "too-big": "Too long"
+        "too-big": "Too long",
+        "exists": "Account already exists"
     },
     "ListingPage": {
         "per-night": "per night",
