@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import { createCompany } from "@/util/api";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
@@ -64,6 +65,8 @@ export default function CreateCompanyPage() {
     const [description, setDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const fieldErrorCodesParser = useFieldErrorCodes();
+
     async function handleCreateCompany() {
         setIsLoading(true);
         try {
@@ -74,9 +77,15 @@ export default function CreateCompanyPage() {
                 storeName,
                 description,
             });
-            await router.push("/account/company");
-        } catch (e) {
-            console.error(e);
+            await router.push("/settings/company");
+        } catch (e: any) {
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -99,9 +108,12 @@ export default function CreateCompanyPage() {
                             <TitleCol title={t("name-title")}>{t("name-description")}</TitleCol>
                             <RowItem>
                                 <Input
+                                    name="name"
                                     placeholder={"Company d.o.o"}
                                     value={name}
                                     onChange={setName}
+                                    hasError={fieldErrorCodesParser.has("name")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("name")}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -109,7 +121,14 @@ export default function CreateCompanyPage() {
                         <FlexRow>
                             <TitleCol title={t("pin-title")}>{t("pin-description")}</TitleCol>
                             <RowItem>
-                                <Input placeholder={"10405347883"} value={PIN} onChange={setPIN} />
+                                <Input
+                                    name="PIN"
+                                    placeholder={"10405347883"}
+                                    value={PIN}
+                                    onChange={setPIN}
+                                    hasError={fieldErrorCodesParser.has("PIN")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("PIN")}
+                                />
                             </RowItem>
                         </FlexRow>
 
@@ -119,9 +138,12 @@ export default function CreateCompanyPage() {
                             </TitleCol>
                             <RowItem>
                                 <Input
+                                    name="website"
                                     placeholder={"https://company.com"}
                                     value={website}
                                     onChange={setWebsite}
+                                    hasError={fieldErrorCodesParser.has("website")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("website")}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -132,9 +154,12 @@ export default function CreateCompanyPage() {
                             </TitleCol>
                             <RowItem>
                                 <Input
+                                    name="storeName"
                                     placeholder={"Company Store"}
                                     value={storeName}
                                     onChange={setStoreName}
+                                    hasError={fieldErrorCodesParser.has("storeName")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("storeName")}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -145,9 +170,12 @@ export default function CreateCompanyPage() {
                             </TitleCol>
                             <RowItem>
                                 <Input
+                                    name="description"
                                     type="textarea"
                                     value={description}
                                     onChange={setDescription}
+                                    hasError={fieldErrorCodesParser.has("description")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated("description")}
                                 />
                             </RowItem>
                         </FlexRow>
