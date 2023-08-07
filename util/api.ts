@@ -208,7 +208,7 @@ export async function uploadMedia(images: File[]): Promise<string[]> {
             formData.append("api_key", aut.data.api_key);
             formData.append("timestamp", aut.data.timestamp + "");
             formData.append("signature", aut.data.signature);
-            formData.append("format", "jpg");
+            formData.append("format", "webp");
             try {
                 const resp = await axios.post(url, formData);
                 if (resp.data.url?.length) {
