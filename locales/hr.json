@@ -158,7 +158,8 @@
         "your-contact": "Vaš Kontakt",
         "travel-time": "Vrijeme putovanja",
         "travel-time-description": "Provjerite vrijeme putovanja od ove nekretnine do vašeg posla, trgovine ili vaše najdraže plaže",
-        "enter-address": "Upišite adresu..."
+        "enter-address": "Upišite adresu...",
+        "not-found": "Oglas nije pronađen"
     },
     "ListingsPage": {
         "per-night": "noćenje",
@@ -262,7 +263,8 @@
         "joined": "Registracija",
         "listings": "Broj oglasa",
         "company-listings": "Oglasi tvrtke",
-        "no-data-message": "Tvrtka trenutno nema aktivnih oglasa."
+        "no-data-message": "Tvrtka trenutno nema aktivnih oglasa.",
+        "not-found": "Tvrtka nije pronađena."
     },
     "Notifications": {
         "notification": "Notifikacija",
@@ -349,5 +351,8 @@
         "HR19": "Dubrovačko-neretvanska",
         "HR20": "Međimurska",
         "HR21": "Grad Zagreb"
+    },
+    "404": {
+        "message": "Nismo uspjeli pronaći ovu stranicu..."
     }
 }

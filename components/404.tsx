@@ -3,10 +3,11 @@ import Typography from "./Typography";
 
 interface NotFoundProps {
     children?: React.ReactNode;
+    className?: string;
 }
-export default function NotFound({ children }: NotFoundProps) {
+export default function NotFound({ children, className }: NotFoundProps) {
     return (
-        <div className="w-full text-center">
+        <div className={`w-full text-center ${className}`}>
             <Typography className="text-rose-800 text-[112px] md:text-[178px] leading-[120px]">
                 4
                 <Typography variant="span" className="text-zinc-900 stretch">

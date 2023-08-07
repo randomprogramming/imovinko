@@ -11,6 +11,7 @@ import ListingListItem from "@/components/listing/ListingListItem";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
+import NotFound from "@/components/404";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -180,8 +181,9 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                         </div>
                     </div>
                 ) : (
-                    // TODO: Create a 404 page
-                    <div>No company found</div>
+                    <NotFound>
+                        <Typography className="text-lg">{t("not-found")}</Typography>
+                    </NotFound>
                 )}
             </main>
             <Footer />

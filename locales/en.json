@@ -158,7 +158,8 @@
         "your-contact": "Your Contact",
         "travel-time": "Travel time",
         "travel-time-description": "Check your travel time from this property to your work, store or your favourite beach",
-        "enter-address": "Enter address..."
+        "enter-address": "Enter address...",
+        "not-found": "Listing not found"
     },
     "ListingsPage": {
         "per-night": "per night",
@@ -262,7 +263,8 @@
         "joined": "Joined",
         "listings": "Total Listings",
         "company-listings": "Company Listings",
-        "no-data-message": "This company currently has no active listings."
+        "no-data-message": "This company currently has no active listings.",
+        "not-found": "Company not found."
     },
     "Notifications": {
         "notification": "Notification",
@@ -349,5 +351,8 @@
         "HR19": "Dubrovnik-Neretva",
         "HR20": "Međimurje",
         "HR21": "City of Zagreb"
+    },
+    "404": {
+        "message": "We couldn't find that page..."
     }
 }
