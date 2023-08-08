@@ -35,6 +35,10 @@ interface MapProps {
     travelingMethod?: TravelingMethods;
     scrollZoom?: boolean;
     navigationControlStyle?: React.CSSProperties;
+    onDirectionsLoad?(
+        distanceMeters: number | string | null,
+        lengthSeconds: number | string | null
+    ): void;
 }
 export default function Map({
     className,
@@ -52,6 +56,7 @@ export default function Map({
     directionsPlaceName,
     travelingMethod,
     navigationControlStyle,
+    onDirectionsLoad,
     scrollZoom = false,
 }: MapProps) {
     const t = useTranslations("Map");
@@ -232,6 +237,12 @@ export default function Map({
                             travelingMethod || TravelingMethods.driving
                         );
                         drawDirections(directionsResp.data, start, end);
+                        if (onDirectionsLoad) {
+                            const data = directionsResp.data.routes[0];
+                            const routeDuration = data.duration;
+                            const routeDistance = data.distance;
+                            onDirectionsLoad(routeDistance, routeDuration);
+                        }
                     }
                 }
             }

@@ -236,7 +236,12 @@ export default function ListingPage({ listing }: ListingPageProps) {
         placeMapboxId: string;
         placeName: string;
     } | null>(null);
+    const [directionsData, setDirectionsData] = useState<{
+        durationSeconds?: string | number | null;
+        distanceMeters?: string | number | null;
+    }>({});
     const [suggestionDropdownShouldBeOpen, setSuggestionDropdownShouldBeOpen] = useState(false);
+    const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
     const totalSlides = getPropertyMedia(listing).length;
 
@@ -438,11 +443,47 @@ export default function ListingPage({ listing }: ListingPageProps) {
         }
     }
 
+    function meterToKM(meters: number | string) {
+        if (typeof meters === "string") {
+            meters = parseFloat(meters);
+        }
+        const km = meters / 1000;
+        return km.toFixed(1);
+    }
+
+    function secondsToHours(seconds: number | string) {
+        if (typeof seconds === "string") {
+            seconds = parseFloat(seconds);
+        }
+        const totalMinutes = Math.floor(seconds / 60);
+
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        return { h: hours, m: minutes };
+    }
+
+    function getLengthStr(lengthSeconds: number | string) {
+        const dur = secondsToHours(lengthSeconds);
+
+        let str = "";
+        if (dur.h > 0) {
+            str += dur.h + " hr";
+        }
+        if (str.length > 0) {
+            str += " ";
+        }
+        str += dur.m + " min";
+        return str;
+    }
+
     async function handleSuggestionInputChange(newVal: string) {
         if (!listing) {
             return;
         }
+
         try {
+            setIsLoadingSuggestions(true);
             const resp = await suggestLocations(newVal, router.locale, {
                 lat: getPropertyLat(listing),
                 lon: getPropertyLng(listing),
@@ -457,6 +498,8 @@ export default function ListingPage({ listing }: ListingPageProps) {
             setSuggestions(hrSuggestions);
         } catch (e) {
             console.error(e);
+        } finally {
+            setIsLoadingSuggestions(false);
         }
     }
 
@@ -890,6 +933,12 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 directionsPlaceMapboxId={directions?.placeMapboxId}
                                 directionsPlaceName={directions?.placeName}
                                 travelingMethod={travelingMethod}
+                                onDirectionsLoad={(distance, duration) => {
+                                    setDirectionsData({
+                                        distanceMeters: distance,
+                                        durationSeconds: duration,
+                                    });
+                                }}
                             >
                                 <Marker
                                     latitude={getPropertyLat(listing)}
@@ -914,7 +963,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <div className="mt-2">
                                 <Typography bold>{t("travel-time")}</Typography>
                                 <Typography>{t("travel-time-description")}</Typography>
-                                <div className="inline-flex flex-row bg-zinc-50 items-center p-1 !pr-0 rounded shadow w-full max-w-sm mt-2">
+                                <div className="relative inline-flex flex-row bg-zinc-50 items-center p-1 !pr-0 rounded shadow w-full max-w-sm mt-2">
                                     <Dropdown
                                         className="border-r-2 border-zinc-200"
                                         options={[
@@ -986,6 +1035,40 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                 </div>
                                             )}
                                     </div>
+                                    <div
+                                        className={`pl-2 flex items-center justify-center absolute right-0 top-0 bottom-0 transition-all ${
+                                            isLoadingSuggestions
+                                                ? "translate-x-full visible"
+                                                : "invisible"
+                                        }`}
+                                    >
+                                        <Icon name="loading" />
+                                    </div>
+                                </div>
+                                <div>
+                                    {directions?.placeName && (
+                                        <Typography>
+                                            {t("your-destination")}: {directions?.placeName}
+                                            {directionsData.distanceMeters && (
+                                                <Typography variant="span" bold>
+                                                    {" "}
+                                                    ({meterToKM(directionsData.distanceMeters)} km)
+                                                </Typography>
+                                            )}
+                                        </Typography>
+                                    )}{" "}
+                                    {directionsData.durationSeconds && (
+                                        <Typography>
+                                            {t("trip-length")}:{" "}
+                                            <Typography
+                                                variant="span"
+                                                bold
+                                                className="text-blue-500"
+                                            >
+                                                {getLengthStr(directionsData.durationSeconds)}
+                                            </Typography>
+                                        </Typography>
+                                    )}
                                 </div>
                             </div>
                         </section>

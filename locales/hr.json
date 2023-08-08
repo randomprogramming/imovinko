@@ -161,7 +161,9 @@
         "travel-time": "Vrijeme putovanja",
         "travel-time-description": "Provjerite vrijeme putovanja od ove nekretnine do vašeg posla, trgovine ili vaše najdraže plaže",
         "enter-address": "Upišite adresu...",
-        "not-found": "Oglas nije pronađen"
+        "not-found": "Oglas nije pronađen",
+        "your-destination": "Vaša destinacija",
+        "trip-length": "Trajanje puta"
     },
     "ListingsPage": {
         "per-night": "noćenje",

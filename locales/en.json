@@ -161,7 +161,9 @@
         "travel-time": "Travel time",
         "travel-time-description": "Check your travel time from this property to your work, store or your favourite beach",
         "enter-address": "Enter address...",
-        "not-found": "Listing not found"
+        "not-found": "Listing not found",
+        "your-destination": "Your destination",
+        "trip-length": "Trip length"
     },
     "ListingsPage": {
         "per-night": "per night",
