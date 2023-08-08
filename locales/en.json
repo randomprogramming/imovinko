@@ -139,7 +139,8 @@
         "unknown": "Unknown error",
         "too-big": "Too long",
         "exists": "Account already exists",
-        "account_not_found": "Account with that data was not found"
+        "account_not_found": "Account with that data was not found",
+        "invalid_url": "Invalid URL"
     },
     "ListingPage": {
         "per-night": "per night",
@@ -250,7 +251,10 @@
         "success-message": "User will recieve notification about the company invite.",
         "manual-succes": "Member added",
         "manual-message": "Member was successfully created",
-        "username-or-email": "Username or e-mail of the member"
+        "username-or-email": "Username or e-mail of the member",
+        "updated-title": "Company updated",
+        "updated-message": "Company successfully updated and saved.",
+        "uploading-image": "Uploading image..."
     },
     "CreateCompanyPage": {
         "title": "Company Information",

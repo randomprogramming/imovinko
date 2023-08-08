@@ -86,6 +86,10 @@ export default function AccountPage({ account }: AccountPageProps) {
 
     async function handleAccountPatch() {
         setIsLoading(true);
+        await router.push({
+            pathname: router.pathname,
+            query: {},
+        });
         try {
             const { data } = await patchMyAccount({
                 username,

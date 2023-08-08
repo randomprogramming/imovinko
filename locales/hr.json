@@ -139,7 +139,8 @@
         "unknown": "Nepoznata greška",
         "too-big": "Pre veliki broj znakova",
         "exists": "Korisnički račun već postoji",
-        "account_not_found": "Račun s tim podacima nije pronađen"
+        "account_not_found": "Račun s tim podacima nije pronađen",
+        "invalid_url": "Neispravan URL"
     },
     "ListingPage": {
         "per-night": "noćenje",
@@ -250,7 +251,10 @@
         "success-message": "Korisnik će zaprimiti notifikaciju za poziv u tvrtku.",
         "manual-succes": "Član dodan",
         "manual-message": "Član je uspješno kreiran",
-        "username-or-email": "Korisničko ime ili e-mail člana"
+        "username-or-email": "Korisničko ime ili e-mail člana",
+        "updated-title": "Tvrtka ažurirana",
+        "updated-message": "Tvrtka uspješno ažurirana i spremljena",
+        "uploading-image": "Učitavanje slike..."
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",

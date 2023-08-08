@@ -86,12 +86,13 @@ export default function Input({
                     rows={4}
                     placeholder={placeholder}
                     onKeyDown={onKeyDownTextArea}
+                    disabled={disabled}
                     onChange={(e) => {
                         if (onChange) {
                             onChange(e.currentTarget.value);
                         }
                     }}
-                    className={`${space_grotesk.className} ${
+                    className={`disabled:bg-zinc-300 ${space_grotesk.className} ${
                         small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
                     } bg-zinc-50 border-2 ${
                         hasError ? "border-rose-700" : "border-transparent"

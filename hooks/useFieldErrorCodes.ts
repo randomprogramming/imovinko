@@ -21,9 +21,15 @@ export default function () {
             if (e.code === "custom") {
                 e.code = e.message; // Storing the error code in the message field if it's a custom error
             }
-            if (e.code === "invalid_string" && e.validation === "email") {
-                e.code = "invalid_email";
+            if (e.code === "invalid_string") {
+                if (e.validation === "email") {
+                    e.code = "invalid_email";
+                }
+                if (e.validation === "url") {
+                    e.code = "invalid_url";
+                }
             }
+
             for (const path of e.path) {
                 if (errorCodes.has(path)) {
                     errorCodes.set(path, [...errorCodes.get(path)!, e.code]);
@@ -71,6 +77,9 @@ export default function () {
         }
         if (code === "account_not_found") {
             return t("account_not_found");
+        }
+        if (code === "invalid_url") {
+            return t("invalid_url");
         }
 
         return undefined;

@@ -25,6 +25,7 @@ import Dialog from "@/components/Dialog";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import Image from "next/image";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -87,16 +88,39 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
     const [isInvitingMember, setIsInvitingMember] = useState(false);
     const [isUploadingImage, setIsUploadingImage] = useState(false);
 
+    const fieldErrorCodesParser = useFieldErrorCodes();
+
+    const [isRedirecting, setIsRedirecting] = useState(false);
+
     async function handleCompanyPatch() {
         setIsLoading(true);
+        await router.push({
+            pathname: router.pathname,
+            query: {},
+        });
         try {
             await patchCompany({
                 website,
                 storeName,
                 description,
             });
-        } catch (e) {
-            console.error(e);
+            setIsRedirecting(true);
+            await router.push({
+                pathname: router.pathname,
+                query: {
+                    updated: true,
+                },
+            });
+            router.reload();
+        } catch (e: any) {
+            setIsRedirecting(false);
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -344,6 +368,14 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="flex flex-col flex-1 max-w-2xl mx-auto">
+                        {router.query.updated === "true" && !isRedirecting && (
+                            <Dialog
+                                type="success"
+                                title={t("updated-title")}
+                                message={t("updated-message")}
+                                className="mb-3"
+                            />
+                        )}
                         {company ? (
                             <div>
                                 <div className="flex flex-row items-center space-x-2">
@@ -404,7 +436,16 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                         </Typography>
                                     </div>
                                 </div>
-
+                                {isUploadingImage && (
+                                    <div className="flex flex-row ml-3">
+                                        <div>
+                                            <Icon name="loading" />
+                                        </div>
+                                        <Typography className="ml-2">
+                                            {t("uploading-image")}
+                                        </Typography>
+                                    </div>
+                                )}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
                                     <div>
                                         <label htmlFor="name">
@@ -442,6 +483,11 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                             className="!p-2"
                                             value={website}
                                             onChange={setWebsite}
+                                            disabled={company.role !== "admin"}
+                                            hasError={fieldErrorCodesParser.has("website")}
+                                            errorMsg={fieldErrorCodesParser.getTranslated(
+                                                "website"
+                                            )}
                                         />
                                     </div>
 
@@ -455,6 +501,11 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                             className="!p-2"
                                             value={storeName}
                                             onChange={setStoreName}
+                                            disabled={company.role !== "admin"}
+                                            hasError={fieldErrorCodesParser.has("storeName")}
+                                            errorMsg={fieldErrorCodesParser.getTranslated(
+                                                "storeName"
+                                            )}
                                         />
                                     </div>
 
@@ -467,17 +518,24 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                             name="description"
                                             value={description}
                                             onChange={setDescription}
+                                            disabled={company.role !== "admin"}
+                                            hasError={fieldErrorCodesParser.has("description")}
+                                            errorMsg={fieldErrorCodesParser.getTranslated(
+                                                "description"
+                                            )}
                                         />
                                     </div>
                                 </div>
 
-                                <div className="mt-8">
-                                    <Button.Primary
-                                        label={t("save")}
-                                        loading={isLoading}
-                                        onClick={handleCompanyPatch}
-                                    />
-                                </div>
+                                {company.role === "admin" && (
+                                    <div className="mt-8">
+                                        <Button.Primary
+                                            label={t("save")}
+                                            loading={isLoading}
+                                            onClick={handleCompanyPatch}
+                                        />
+                                    </div>
+                                )}
 
                                 {/* Divider */}
                                 <div
@@ -524,25 +582,27 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                 </tr>
                                             </thead>
                                             <tbody className="last:border-l-2 last:border-zinc-300">
-                                                <tr>
-                                                    <td
-                                                        colSpan={100}
-                                                        className="border-l-2 border-b-2 border-zinc-300 border-r-2 p-1"
-                                                    >
-                                                        <div
-                                                            className="flex items-center justify-center w-full hover:bg-zinc-300 cursor-pointer py-2 rounded-lg transition-all"
-                                                            onClick={() => {
-                                                                setShowAddAccountModal(true);
-                                                            }}
+                                                {company.role === "admin" && (
+                                                    <tr>
+                                                        <td
+                                                            colSpan={100}
+                                                            className="border-l-2 border-b-2 border-zinc-300 border-r-2 p-1"
                                                         >
-                                                            <Icon
-                                                                name="account-plus"
-                                                                height={48}
-                                                                width={48}
-                                                            />
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                            <div
+                                                                className="flex items-center justify-center w-full hover:bg-zinc-300 cursor-pointer py-2 rounded-lg transition-all"
+                                                                onClick={() => {
+                                                                    setShowAddAccountModal(true);
+                                                                }}
+                                                            >
+                                                                <Icon
+                                                                    name="account-plus"
+                                                                    height={48}
+                                                                    width={48}
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
                                                 {company.manualAccounts.map((ma) => {
                                                     return (
                                                         <tr key={ma.id}>
