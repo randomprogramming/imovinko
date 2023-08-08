@@ -170,7 +170,8 @@
         "enter-address": "Upišite adresu...",
         "not-found": "Oglas nije pronađen",
         "your-destination": "Vaša destinacija",
-        "trip-length": "Trajanje puta"
+        "trip-length": "Trajanje puta",
+        "last-update": "Zadnja izmjena"
     },
     "ListingsPage": {
         "per-night": "noćenje",

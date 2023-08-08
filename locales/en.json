@@ -170,7 +170,8 @@
         "enter-address": "Enter address...",
         "not-found": "Listing not found",
         "your-destination": "Your destination",
-        "trip-length": "Trip length"
+        "trip-length": "Trip length",
+        "last-update": "Last update"
     },
     "ListingsPage": {
         "per-night": "per night",

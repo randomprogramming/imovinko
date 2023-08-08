@@ -199,7 +199,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
 
     return (
         <div
-            className="w-full max-w-7xl flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-center"
+            className="w-full flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-center"
             style={{
                 minHeight: "375px",
             }}

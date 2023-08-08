@@ -155,8 +155,7 @@ function ClickableImage({ url, onClick, showBanner }: ClickableImageProps) {
         <div
             className="relative w-full rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-sm hover:opacity-90 transition-all"
             style={{
-                height: "33vh",
-                maxHeight: "550px",
+                height: "400px",
             }}
             onClick={onClick}
         >
@@ -184,7 +183,7 @@ interface MediaComponentProps {
 function MediaComponent({ media, onImageClick }: MediaComponentProps) {
     if (media.length === 0) {
         return (
-            <div className="h-64 w-full shadow overflow-hidden rounded-lg">
+            <div className="h-64 w-full shadow-sm overflow-hidden rounded-lg">
                 <NoImage />
             </div>
         );
@@ -814,6 +813,26 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     <div className="mb-6 px-12">
                                         <Typography>
                                             {t("listing-posted")}:{" "}
+                                            <Typography variant="span" bold>
+                                                {new Date(listing.createdAt)
+                                                    .toLocaleDateString(undefined, {
+                                                        day: "2-digit",
+                                                        month: "2-digit",
+                                                        year: "numeric",
+                                                    })
+                                                    .replaceAll("/", ".") +
+                                                    " " +
+                                                    new Date(listing.createdAt).toLocaleTimeString(
+                                                        undefined,
+                                                        {
+                                                            hour: "2-digit",
+                                                            minute: "2-digit",
+                                                        }
+                                                    )}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography>
+                                            {t("last-update")}:{" "}
                                             <Typography variant="span" bold>
                                                 {new Date(listing.createdAt)
                                                     .toLocaleDateString(undefined, {
