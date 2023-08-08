@@ -218,7 +218,6 @@ export async function uploadMedia(images: File[]): Promise<string[]> {
                     imageUrls.push(resp.data.url);
                 }
             } catch (e) {
-                console.log("Error while uploading image:");
                 console.error(e);
             }
         }

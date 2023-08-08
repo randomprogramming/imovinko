@@ -644,7 +644,6 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                         if (!shouldHandleKeyDown) return;
                                                         shouldHandleKeyDown = false;
                                                         // HANDLE KEY DOWN HERE
-                                                        console.log(e);
                                                         if (
                                                             e.key === "ArrowRight" ||
                                                             e.keyCode === 39

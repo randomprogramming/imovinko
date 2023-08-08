@@ -33,8 +33,6 @@ export default function Notifications({ notifications, lightIcon }: Notification
 
     function getDate(date: Date | string) {
         if (router.locale) {
-            console.log(router.locale);
-
             moment.locale(router.locale);
         }
         return moment(date).format("ll");
