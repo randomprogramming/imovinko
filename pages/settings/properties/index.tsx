@@ -12,6 +12,8 @@ import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
+import Dialog from "@/components/Dialog";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -51,6 +53,8 @@ interface MyPropertiesPageProps {
 export default function MyProperties({ listings }: MyPropertiesPageProps) {
     const t = useTranslations("MyPropertiesPage");
 
+    const router = useRouter();
+
     return (
         <>
             <Head>
@@ -64,6 +68,14 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
+                        {router.query.listingCreated === "true" && (
+                            <Dialog
+                                className="mb-2"
+                                type="success"
+                                title={t("listing-added")}
+                                message={t("listing-added-messages")}
+                            />
+                        )}
                         <Typography variant="h2">
                             {t("my-listings")}
                             {` (${listings.count})`}

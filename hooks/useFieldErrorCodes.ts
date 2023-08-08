@@ -30,12 +30,11 @@ export default function () {
                 }
             }
 
-            for (const path of e.path) {
-                if (errorCodes.has(path)) {
-                    errorCodes.set(path, [...errorCodes.get(path)!, e.code]);
-                } else {
-                    errorCodes.set(path, [e.code]);
-                }
+            const valuePath = e.path.join(".");
+            if (errorCodes.has(valuePath)) {
+                errorCodes.set(valuePath, [...errorCodes.get(valuePath)!, e.code]);
+            } else {
+                errorCodes.set(valuePath, [e.code]);
             }
         }
         setFieldErrors(errorCodes);
@@ -80,6 +79,9 @@ export default function () {
         }
         if (code === "invalid_url") {
             return t("invalid_url");
+        }
+        if (code === "missing_offering_type") {
+            return t("missing_offering_type");
         }
 
         return undefined;

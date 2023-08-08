@@ -104,7 +104,12 @@
         "no-options": "Nema opcija.",
         "add-new-here": "Dodajte nove članove ovdje.",
         "company-account": "Član tvrtke",
-        "manual-account": "Ručno uneseni član"
+        "manual-account": "Ručno uneseni član",
+        "creating-listing": "Stvaranje oglasa...",
+        "uploading-media": "Slanje slika...",
+        "updating-media": "Ažuriranje slika oglasa...",
+        "listing-created": "Oglas predan!",
+        "error": "Molimo popravite greške prije predavanja oglasa."
     },
     "Map": {
         "search": "Traži",
@@ -140,7 +145,8 @@
         "too-big": "Pre veliki broj znakova",
         "exists": "Korisnički račun već postoji",
         "account_not_found": "Račun s tim podacima nije pronađen",
-        "invalid_url": "Neispravan URL"
+        "invalid_url": "Neispravan URL",
+        "missing_offering_type": "Molimo odaberite barem jedan tip ponude!"
     },
     "ListingPage": {
         "per-night": "noćenje",
@@ -320,7 +326,9 @@
     "MyPropertiesPage": {
         "my-listings": "Moji oglasi",
         "no-data-message": "Nemate niti jedan oglas, ",
-        "add-new": "predajte novi oglas ovdje!"
+        "add-new": "predajte novi oglas ovdje!",
+        "listing-added": "Oglas predan!",
+        "listing-added-messages": "Vaš oglas je uspješno predan!"
     },
     "Footer": {
         "sign-in": "Prijavi se",

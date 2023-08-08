@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { space_grotesk } from "@/util/fonts";
 import Image from "next/image";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -79,12 +80,19 @@ function RowItem({ children }: FlexRowProps) {
 interface TitleColProps {
     title: string;
     children?: React.ReactNode;
+    hasError?: boolean;
+    errorMsg?: string;
 }
-function TitleCol({ title, children }: TitleColProps) {
+function TitleCol({ title, children, errorMsg, hasError }: TitleColProps) {
     return (
-        <div className="w-full md:w-1/2">
-            <Typography bold>{title}</Typography>
+        <div className="w-full flex flex-col md:w-1/2">
+            <Typography bold className={`${hasError && "text-rose-700"}`}>
+                {title}
+            </Typography>
             <Typography className="text-zinc-500">{children}</Typography>
+            {hasError && errorMsg && (
+                <Typography className="text-rose-700 mt-auto">{errorMsg}</Typography>
+            )}
         </div>
     );
 }
@@ -131,6 +139,13 @@ export default function ListApartment({ company }: ListApartmentProps) {
     const [bathroomCount, setBathroomCount] = useState<number | null>();
     const [parkingSpaceCount, setParkingSpaceCount] = useState<number | null>();
 
+    const fieldErrorCodesParser = useFieldErrorCodes();
+    const [loadingBar, setLoadingBar] = useState<{
+        percent: number;
+        message: string;
+        isError?: boolean;
+    }>();
+
     const allCompanyAccounts = company
         ? [
               {
@@ -171,6 +186,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
         : [];
 
     async function submitAd() {
+        setLoadingBar({
+            message: t("creating-listing"),
+            percent: 10,
+        });
+        fieldErrorCodesParser.empty();
         try {
             // First create the apartment, then PATCH or PUT the images,
             // othwerise we might be uploading images for nothing when user enters some invalid apartment info
@@ -221,22 +241,53 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 ...listingData,
             });
 
+            setLoadingBar({
+                message: t("uploading-media"),
+                percent: 45,
+            });
             if (images.length > 0) {
                 const imageUrls = await uploadMedia(images);
+                setLoadingBar({
+                    message: t("updating-media"),
+                    percent: 90,
+                });
                 await patchPropertyMedia({
                     ...resp.data,
                     media: imageUrls,
                 });
             }
-            await router.push({
-                pathname: "/settings/properties",
-                query: {
-                    listingCreated: true,
-                },
+            setLoadingBar({
+                message: t("listing-created"),
+                percent: 100,
             });
-        } catch (e) {
-        } finally {
+            setTimeout(async () => {
+                await router.push({
+                    pathname: "/settings/properties",
+                    query: {
+                        listingCreated: true,
+                    },
+                });
+            }, 250);
+        } catch (e: any) {
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
+            setLoadingBar({
+                message: t("error"),
+                percent: 100,
+                isError: true,
+            });
             setIsSubmittingAd(false);
+            const mainSection = document.querySelector("#main");
+            if (mainSection) {
+                mainSection.scrollIntoView({
+                    behavior: "smooth",
+                });
+            }
         }
     }
 
@@ -248,7 +299,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
             <header>
                 <Navbar hideSearchBar />
             </header>
-            <main className="container mx-auto flex-1 flex flex-col">
+            <main className="container mx-auto flex-1 flex flex-col" id="main">
                 <Typography variant="h1">{t("title")}</Typography>
                 <div className="flex-1 mt-8 flex justify-center">
                     <div className="w-full md:max-w-4xl">
@@ -283,7 +334,15 @@ export default function ListApartment({ company }: ListApartmentProps) {
                         </FlexRow>
 
                         <FlexRow>
-                            <TitleCol title={t("offering-type")}>
+                            <TitleCol
+                                hasError={fieldErrorCodesParser.has(
+                                    "sale.shortTermRent.longTermRent"
+                                )}
+                                errorMsg={fieldErrorCodesParser.getTranslated(
+                                    "sale.shortTermRent.longTermRent"
+                                )}
+                                title={t("offering-type")}
+                            >
                                 {t("offering-type-desc")}
                             </TitleCol>
                             <RowItem>
@@ -293,6 +352,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         type="checkbox"
                                         checked={isForSale}
                                         onCheckedChange={setIsForSale}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "sale.shortTermRent.longTermRent"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "sale.shortTermRent.longTermRent"
+                                        )}
                                     />
                                     <Input
                                         name={t("short-term-rent")}
@@ -325,6 +390,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         value={saleListingTitle}
                                         onChange={setSaleListingTitle}
                                         placeholder={t("ad-title-placeholder")}
+                                        hasError={fieldErrorCodesParser.has("sale.title")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated("sale.title")}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -339,6 +406,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             setSaleListingDescription(val);
                                         }}
                                         type="textarea"
+                                        hasError={fieldErrorCodesParser.has("sale.description")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "sale.description"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -354,6 +425,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         }}
                                         type="number"
                                         placeholder={"150000"}
+                                        hasError={fieldErrorCodesParser.has("sale.price")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -524,6 +597,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         value={shortTermListingTitle}
                                         onChange={setShortTermListingTitle}
                                         placeholder={t("ad-title-placeholder")}
+                                        hasError={fieldErrorCodesParser.has("shortTermRent.title")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "shortTermRent.title"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -538,6 +615,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             setShortTermListingDescription(val);
                                         }}
                                         type="textarea"
+                                        hasError={fieldErrorCodesParser.has(
+                                            "shortTermRent.description"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "shortTermRent.description"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -553,6 +636,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         }}
                                         placeholder={"120"}
                                         type="number"
+                                        hasError={fieldErrorCodesParser.has("shortTermRent.price")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "shortTermRent.price"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -722,6 +809,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         value={longTermListingTitle}
                                         onChange={setLongTermListingTitle}
                                         placeholder={t("ad-title-placeholder")}
+                                        hasError={fieldErrorCodesParser.has("longTermRent.title")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "longTermRent.title"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -736,6 +827,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             setLongTermListingDescription(val);
                                         }}
                                         type="textarea"
+                                        hasError={fieldErrorCodesParser.has(
+                                            "longTermRent.description"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "longTermRent.description"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -751,6 +848,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         }}
                                         placeholder={"450"}
                                         type="number"
+                                        hasError={fieldErrorCodesParser.has("longTermRent.price")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "longTermRent.price"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -914,6 +1015,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         setBedroomCount(parseInt(val));
                                     }}
                                     type="number"
+                                    hasError={fieldErrorCodesParser.has("apartment.bedroomCount")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.bedroomCount"
+                                    )}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -929,6 +1034,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         setBathroomCount(parseInt(val));
                                     }}
                                     type="number"
+                                    hasError={fieldErrorCodesParser.has("apartment.bathroomCount")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.bathroomCount"
+                                    )}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -944,6 +1053,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         setParkingSpaceCount(parseInt(val));
                                     }}
                                     type="number"
+                                    hasError={fieldErrorCodesParser.has(
+                                        "apartment.parkingSpaceCount"
+                                    )}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.parkingSpaceCount"
+                                    )}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -973,11 +1088,38 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     onChange={(val) => {
                                         setArea(parseInt(val));
                                     }}
+                                    hasError={fieldErrorCodesParser.has("apartment.surfaceArea")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.surfaceArea"
+                                    )}
                                 />
                             </RowItem>
                         </FlexRow>
 
-                        <FlexRow singleCol hideBottomBorder>
+                        {loadingBar && (
+                            <FlexRow singleCol hideBottomBorder className="!m-0 !py-0">
+                                <Typography
+                                    className={`text-center ${
+                                        loadingBar.isError ? "text-rose-700" : "text-blue-500"
+                                    }`}
+                                    bold
+                                >
+                                    {loadingBar.message}
+                                </Typography>
+                                <div className="w-full h-1 bg-zinc-300 rounded-full overflow-hidden relative">
+                                    <div
+                                        className={`h-full ${
+                                            loadingBar.isError ? "bg-rose-700" : "bg-blue-500"
+                                        }`}
+                                        style={{
+                                            width: loadingBar.percent + "%",
+                                        }}
+                                    ></div>
+                                </div>
+                            </FlexRow>
+                        )}
+
+                        <FlexRow singleCol hideBottomBorder className="!mt-0">
                             <Button.Primary
                                 label={t("submit")}
                                 onClick={submitAd}
