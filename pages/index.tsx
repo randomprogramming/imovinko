@@ -173,15 +173,17 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 </div>
                             </div>
                             <div
-                                className="w-30 md:flex-1 relative md:rounded-b-3xl overflow-hidden shadow-2xl md:ml-4"
+                                className="w-30 md:flex-1 relative md:ml-4"
                                 style={{
-                                    minHeight: "600px",
+                                    minHeight: "650px",
                                 }}
                             >
+                                <div className=" blur-3xl bg-gradient-to-r from-[#847618] via-[#5a99a0] to-[#8a723b] absolute top-0 left-0 right-0 bottom-0"></div>
                                 <Image
                                     src={"/images/homepage-side-bg.jpg"}
                                     alt="house"
                                     fill
+                                    className="rounded-b-xl"
                                     style={{
                                         objectFit: "cover",
                                     }}
