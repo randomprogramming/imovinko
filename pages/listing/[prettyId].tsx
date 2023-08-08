@@ -345,7 +345,10 @@ export default function ListingPage({ listing }: ListingPageProps) {
     }
 
     function getListingAvatarUrl(p: Listing) {
-        let account = getListingAccount(p);
+        const account = getListingAccount(p);
+        if (account?.company) {
+            return account.company.avatarUrl;
+        }
 
         if (!account) {
             return null;

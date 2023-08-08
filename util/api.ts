@@ -263,6 +263,19 @@ export async function patchAccountAvatarUrl(avatarUrl?: string | null) {
     });
 }
 
+export async function patchCompanyAvatarUrl(avatarUrl?: string | null) {
+    return client({
+        method: "PATCH",
+        url: "/company/media",
+        data: {
+            avatarUrl,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
 interface PatchPropertyMediaData {
     id: string;
     listingFor: ListingFor;
@@ -370,6 +383,7 @@ export interface BasicCompany {
     prettyId: string;
     name: string;
     storeName?: string | null;
+    avatarUrl?: string | null;
 }
 export interface PropertyLocation {
     country: string | null;
@@ -382,6 +396,7 @@ export interface PropertyLocation {
 export interface FullAccount extends Account {
     createdAt: string | Date;
     avatarUrl: string | null;
+    role: string | null;
     companies: {
         company: BasicCompany;
     }[];
@@ -552,6 +567,7 @@ export interface Company {
     description?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
+    avatarUrl: string | null;
     accounts: FullAccount[];
     manualAccounts: ManualAccount[];
 }
@@ -604,6 +620,7 @@ export interface CompanyWithListings {
     storeName: string | null;
     description: string | null;
     createdAt: string | Date;
+    avatarUrl: string | null;
     listings: PaginatedListingBasic;
 }
 export async function getCompanyByPrettyId(prettyId: string, page: number) {

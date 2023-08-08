@@ -10,6 +10,9 @@ import { useTranslations } from "next-intl";
 // import dynamic from "next/dynamic";
 // const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
+const DEFAULT_TOTAL_LOAN_AMOUNT = 150000;
+const DEFAULT_INTEREST_RATE = 4.5;
+const DEFAULT_LOAN_LENGTH_MONTHS = 240;
 const MIN_LOAN_AMOUNT = 10_000;
 const MAX_LOAN_AMOUNT = 1_000_000;
 const MIN_LOAN_LENGTH_MONTHS = 36;
@@ -73,9 +76,11 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
     const LOAN_LENGTH_MONTHS_SUFFIX = " " + t("months");
     const INTEREST_RATE_SUFFIX = " " + "%";
 
-    const [totalLoanAmount, setTotalLoanAmount] = useState(initialLoanValue || 150000);
-    const [interestRate, setInterestRate] = useState(3.75);
-    const [loanLengthMonths, setLoanLengthMonths] = useState(240);
+    const [totalLoanAmount, setTotalLoanAmount] = useState(
+        initialLoanValue || DEFAULT_TOTAL_LOAN_AMOUNT
+    );
+    const [interestRate, setInterestRate] = useState(DEFAULT_INTEREST_RATE);
+    const [loanLengthMonths, setLoanLengthMonths] = useState(DEFAULT_LOAN_LENGTH_MONTHS);
 
     const [monthlyPayment, setMonthlyPayment] = useState(
         calculateMonthlyPayment(totalLoanAmount, interestRate, loanLengthMonths)

@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -88,7 +89,18 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                 }}
                             >
                                 <div className="border-b-2 border-b-zinc-300 px-8 py-6 flex flex-col items-center justify-center">
-                                    <Icon name="account" height={64} width={64} />
+                                    {company.avatarUrl ? (
+                                        <div className="relative h-32 w-32 rounded-full overflow-hidden shadow">
+                                            <Image
+                                                src={company.avatarUrl}
+                                                alt="account avatar"
+                                                className="object-cover"
+                                                fill
+                                            />
+                                        </div>
+                                    ) : (
+                                        <Icon name="account" height={64} width={64} />
+                                    )}
                                     <Typography bold>
                                         {company.storeName || company.name}
                                     </Typography>

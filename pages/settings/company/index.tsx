@@ -1,10 +1,18 @@
 import Navbar from "@/components/Navbar";
 import Navigation from "@/components/account/Navigation";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import cookie from "cookie";
 import { useTranslations } from "next-intl";
-import { Company, createManualAccount, getMyCompany, inviteMember, patchCompany } from "@/util/api";
+import {
+    Company,
+    createManualAccount,
+    getMyCompany,
+    inviteMember,
+    patchCompany,
+    patchCompanyAvatarUrl,
+    uploadAvatar,
+} from "@/util/api";
 import Link from "@/components/Link";
 import Typography from "@/components/Typography";
 import Icon from "@/components/Icon";
@@ -61,6 +69,8 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
 
     const router = useRouter();
 
+    const avatarUploadRef = useRef<HTMLInputElement>(null);
+
     const [website, setWebsite] = useState(company?.website || "");
     const [storeName, setStoreName] = useState(company?.storeName || "");
     const [description, setDescription] = useState(company?.description || "");
@@ -75,6 +85,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
 
     const [handle, setHandle] = useState("");
     const [isInvitingMember, setIsInvitingMember] = useState(false);
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
 
     async function handleCompanyPatch() {
         setIsLoading(true);
@@ -169,6 +180,21 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
             console.error(e);
         } finally {
             setIsInvitingMember(false);
+        }
+    }
+
+    async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+        setIsUploadingImage(true);
+        try {
+            const files = e.target.files;
+            if (files?.length && files.length > 0) {
+                const response = await uploadAvatar(files[0]);
+                await patchCompanyAvatarUrl(response);
+                router.reload();
+            }
+        } catch (e) {
+            console.error(e);
+            setIsUploadingImage(false);
         }
     }
 
@@ -321,7 +347,46 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         {company ? (
                             <div>
                                 <div className="flex flex-row items-center space-x-2">
-                                    <Icon name="account" height={64} width={64} />
+                                    {company.role === "admin" && (
+                                        <input
+                                            ref={avatarUploadRef}
+                                            type="file"
+                                            className="hidden"
+                                            onChange={handleImageUpload}
+                                        />
+                                    )}
+                                    <div
+                                        className={`rounded-full ${
+                                            company.role === "admin" && "cursor-pointer"
+                                        } relative group h-16 w-16 overflow-hidden`}
+                                        onClick={() => {
+                                            if (isUploadingImage || company.role !== "admin") {
+                                                return;
+                                            }
+                                            if (avatarUploadRef) {
+                                                avatarUploadRef.current?.click();
+                                            }
+                                        }}
+                                    >
+                                        {company.role === "admin" && (
+                                            <div className="flex z-30 items-center justify-center transition-all group-hover:bg-opacity-60 absolute top-0 left-0 right-0 bottom-0 rounded-full bg-zinc-200 bg-opacity-0">
+                                                <div className="group-hover:block hidden">
+                                                    <Icon name="image-edit" />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {company.avatarUrl ? (
+                                            <Image
+                                                src={company.avatarUrl}
+                                                alt="account avatar"
+                                                className="object-cover"
+                                                fill
+                                            />
+                                        ) : (
+                                            <Icon name="account" height={64} width={64} />
+                                        )}
+                                    </div>
 
                                     <div>
                                         <Typography variant="h2" className="text-2xl">
@@ -580,6 +645,16 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                             width={15}
                                                                         />
                                                                     </div>
+                                                                    {ca.role === "admin" && (
+                                                                        <div className="ml-1 bg-zinc-300 px-2 py-1 rounded-md shadow-sm">
+                                                                            <Typography
+                                                                                uppercase
+                                                                                className="text-xs tracking-wider"
+                                                                            >
+                                                                                Admin
+                                                                            </Typography>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                                 <Typography
                                                                     sm
