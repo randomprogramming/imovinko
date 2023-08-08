@@ -586,7 +586,10 @@ export async function getMyCompany(jwt?: string) {
 }
 
 export async function createCompany(
-    data: Omit<Company, "role" | "id" | "createdAt" | "updatedAt" | "accounts" | "manualAccounts">
+    data: Omit<
+        Company,
+        "avatarUrl" | "role" | "id" | "createdAt" | "updatedAt" | "accounts" | "manualAccounts"
+    >
 ) {
     return await client({
         method: "POST",

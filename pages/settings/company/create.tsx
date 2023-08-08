@@ -69,6 +69,11 @@ export default function CreateCompanyPage() {
 
     async function handleCreateCompany() {
         setIsLoading(true);
+        if (website && website.length > 0) {
+            if (!website.includes("https://")) {
+                setWebsite("https://" + website);
+            }
+        }
         try {
             await createCompany({
                 name,
@@ -139,7 +144,7 @@ export default function CreateCompanyPage() {
                             <RowItem>
                                 <Input
                                     name="website"
-                                    placeholder={"https://company.com"}
+                                    placeholder={"https://www.company.com"}
                                     value={website}
                                     onChange={setWebsite}
                                     hasError={fieldErrorCodesParser.has("website")}

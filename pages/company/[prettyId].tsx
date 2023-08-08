@@ -157,7 +157,9 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                             </div>
                             <div className="sm:ml-4 mt-4 sm:mt-0">
                                 <Typography variant="h1">{company.name}</Typography>
-                                <Typography>{company.description}</Typography>
+                                <Typography className="whitespace-pre-line break-all">
+                                    {company.description}
+                                </Typography>
                             </div>
                         </div>
                         {/* TODO: Info about company agents somewhere here */}
