@@ -191,7 +191,13 @@
         "not-found": "Listing not found",
         "your-destination": "Your destination",
         "trip-length": "Trip length",
-        "last-update": "Last update"
+        "last-update": "Last update",
+        "floor": "Floor",
+        "totalFloors": "Apartment floors",
+        "buildingFloors": "Building floors",
+        "buildYear": "Year built",
+        "renovationYear": "Year of last renovation",
+        "information": "Property information"
     },
     "ListingsPage": {
         "per-night": "per night",

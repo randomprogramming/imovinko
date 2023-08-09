@@ -549,6 +549,100 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return locationStr;
     }
 
+    interface AdditionalInfo {
+        name: string;
+        val: string | number;
+    }
+
+    function getAdditionalInfo(listing: Listing) {
+        const obj: AdditionalInfo[] = [];
+
+        if (listing.apartment) {
+            const locationString = getPropertyLocationString(listing);
+            if (locationString.length > 0) {
+                obj.push({
+                    name: t("location"),
+                    val: locationString,
+                });
+            }
+            obj.push({
+                name: t("area"),
+                val: listing.apartment.surfaceArea + " m²",
+            });
+            if (listing.apartment.floor) {
+                obj.push({
+                    name: t("floor"),
+                    val: listing.apartment.floor,
+                });
+            }
+            if (listing.apartment.totalFloors) {
+                obj.push({
+                    name: t("totalFloors"),
+                    val: listing.apartment.totalFloors,
+                });
+            }
+            if (listing.apartment.buildingFloors) {
+                obj.push({
+                    name: t("buildingFloors"),
+                    val: listing.apartment.buildingFloors,
+                });
+            }
+            if (listing.apartment.buildYear) {
+                obj.push({
+                    name: t("buildYear"),
+                    val: listing.apartment.buildYear + ".",
+                });
+            }
+            if (listing.apartment.renovationYear) {
+                obj.push({
+                    name: t("renovationYear"),
+                    val: listing.apartment.renovationYear + ".",
+                });
+            }
+        }
+        if (listing.house) {
+            const locationString = getPropertyLocationString(listing);
+            if (locationString.length > 0) {
+                obj.push({
+                    name: t("location"),
+                    val: locationString,
+                });
+            }
+            if (listing.house.totalFloors) {
+                obj.push({
+                    name: t("totalFloors"),
+                    val: listing.house.totalFloors,
+                });
+            }
+            if (listing.house.buildYear) {
+                obj.push({
+                    name: t("buildYear"),
+                    val: listing.house.buildYear + ".",
+                });
+            }
+            if (listing.house.renovationYear) {
+                obj.push({
+                    name: t("renovationYear"),
+                    val: listing.house.renovationYear + ".",
+                });
+            }
+        }
+        if (listing.land) {
+            const locationString = getPropertyLocationString(listing);
+            if (locationString.length > 0) {
+                obj.push({
+                    name: t("location"),
+                    val: locationString,
+                });
+            }
+            obj.push({
+                name: t("area"),
+                val: listing.land.surfaceArea + " m²",
+            });
+        }
+        return obj;
+    }
+
     React.useEffect(() => {
         if (isMediaPopupOpen) {
             setScrollWhenOpeningImage(document.documentElement.scrollTop);
@@ -936,8 +1030,34 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             </div>
                         </section>
 
+                        <section className="container mx-auto mt-8">
+                            <Typography variant="h1">{t("information")}</Typography>
+                            <div className="w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2">
+                                {getAdditionalInfo(listing).map((i, index) => {
+                                    return (
+                                        <>
+                                            <div
+                                                className={`py-2 px-2 ${
+                                                    index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
+                                                }`}
+                                            >
+                                                <Typography>{i.name}</Typography>
+                                            </div>
+                                            <div
+                                                className={`py-2 pl-8 pr-4 ${
+                                                    index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
+                                                }`}
+                                            >
+                                                <Typography bold>{i.val}</Typography>
+                                            </div>
+                                        </>
+                                    );
+                                })}
+                            </div>
+                        </section>
+
                         <section id="location" className="container mx-auto mt-8">
-                            <Typography variant="h2" className="mb-4">
+                            <Typography variant="h1" className="mb-4">
                                 {t("location")}
                             </Typography>
                             <Map

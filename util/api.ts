@@ -435,6 +435,11 @@ export interface Apartment extends PropertyLocation {
     bedroomCount: number | null;
     bathroomCount: number | null;
     parkingSpaceCount: number | null;
+    floor?: number | null;
+    totalFloors?: number | null;
+    buildingFloors?: number | null;
+    buildYear?: number | null;
+    renovationYear?: number | null;
 }
 export interface House extends PropertyLocation {
     id: string;
@@ -451,6 +456,9 @@ export interface House extends PropertyLocation {
     bedroomCount: number | null;
     bathroomCount: number | null;
     parkingSpaceCount: number | null;
+    totalFloors?: number | null;
+    buildYear?: number | null;
+    renovationYear?: number | null;
 }
 interface Land extends PropertyLocation {
     id: string;
