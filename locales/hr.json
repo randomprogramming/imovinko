@@ -128,7 +128,10 @@
         "build-year": "Godina izgradnje",
         "build-year-description": "Godina kada se stan izgradio.",
         "renovation-year": "Godina renovacije",
-        "renovation-year-description": "Godina zadnje renovacije stana."
+        "renovation-year-description": "Godina zadnje renovacije stana.",
+        "energy-title": "Energetski certifikat",
+        "energy-description": "Razred energetskog certifikata stana.",
+        "energy-placeholder": "Odaberite..."
     },
     "Map": {
         "search": "Traži",
@@ -197,7 +200,8 @@
         "buildingFloors": "Katova u zgradi",
         "buildYear": "Godina izgradnje",
         "renovationYear": "Godina zadnje renovacije",
-        "information": "Podaci o nekretnini"
+        "information": "Podaci o nekretnini",
+        "energy": "Energetski certifikat"
     },
     "ListingsPage": {
         "per-night": "noćenje",

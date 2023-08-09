@@ -9,6 +9,7 @@ interface TypographyProps {
     font?: "space_grotesk" | "work_sans";
     className?: string;
     sm?: boolean;
+    style?: React.CSSProperties;
 }
 
 export default function Typography({
@@ -19,6 +20,7 @@ export default function Typography({
     font,
     className,
     sm,
+    style,
 }: TypographyProps) {
     let sharedClass = "";
     if (uppercase) {
@@ -50,6 +52,7 @@ export default function Typography({
 
     return (
         <p
+            style={style}
             className={`${sharedClass} ${
                 variant === "secondary" ? "text-xs tracking-widest text-zinc-600" : ""
             } ${className}`}

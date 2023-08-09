@@ -12,6 +12,28 @@ export enum TravelingMethods {
     cycling = "mapbox/cycling",
 }
 
+export enum EnergyClass {
+    Ap = "Ap",
+    A = "A",
+    B = "B",
+    C = "C",
+    D = "D",
+    E = "E",
+    F = "F",
+    G = "G",
+}
+
+export const EnergyClassColors = {
+    [EnergyClass.Ap]: "#00a652",
+    [EnergyClass.A]: "#51b747",
+    [EnergyClass.B]: "#bdd62e",
+    [EnergyClass.C]: "#fef200",
+    [EnergyClass.D]: "#fdb814",
+    [EnergyClass.E]: "#f3701e",
+    [EnergyClass.F]: "#ed1b24",
+    [EnergyClass.G]: "#B91C1C",
+};
+
 // We can't use this in axios.create because it sometimes doesn't register the cookie changes after login, so you get 401 responses until you refresh the page
 function getAuthHeaders() {
     return {
@@ -128,6 +150,7 @@ interface CreateListingData {
     buildingFloors?: string | number | null;
     buildYear?: string | number | null;
     renovationYear?: string | number | null;
+    energyLabel?: EnergyClass | null;
 }
 interface CreateListingResponse {
     id: string;
@@ -167,14 +190,7 @@ export async function createListing(data: CreateListingData) {
             latitude: data.lat,
             longitude: data.lon,
             surfaceArea: data.area,
-            bedroomCount: data.bedroomCount,
-            bathroomCount: data.bathroomCount,
-            parkingSpaceCount: data.parkingSpaceCount,
-            floor: data.floor,
-            totalFloors: data.totalFloors,
-            buildingFloors: data.buildingFloors,
-            buildYear: data.buildYear,
-            renovationYear: data.renovationYear,
+            ...data,
         };
     }
 
@@ -440,6 +456,7 @@ export interface Apartment extends PropertyLocation {
     buildingFloors?: number | null;
     buildYear?: number | null;
     renovationYear?: number | null;
+    energyLabel?: EnergyClass | null;
 }
 export interface House extends PropertyLocation {
     id: string;
@@ -459,6 +476,7 @@ export interface House extends PropertyLocation {
     totalFloors?: number | null;
     buildYear?: number | null;
     renovationYear?: number | null;
+    energyLabel?: EnergyClass | null;
 }
 interface Land extends PropertyLocation {
     id: string;

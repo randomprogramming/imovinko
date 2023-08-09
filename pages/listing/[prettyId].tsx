@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
+    EnergyClassColors,
     FullAccountSingleCompany,
     Listing,
     Media,
@@ -552,6 +553,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
     interface AdditionalInfo {
         name: string;
         val: string | number;
+        textColor?: string;
     }
 
     function getAdditionalInfo(listing: Listing) {
@@ -597,6 +599,13 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 obj.push({
                     name: t("renovationYear"),
                     val: listing.apartment.renovationYear + ".",
+                });
+            }
+            if (listing.apartment.energyLabel) {
+                obj.push({
+                    name: t("energy"),
+                    val: listing.apartment.energyLabel,
+                    textColor: EnergyClassColors[listing.apartment.energyLabel],
                 });
             }
         }
@@ -1048,7 +1057,14 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                     index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
                                                 }`}
                                             >
-                                                <Typography bold>{i.val}</Typography>
+                                                <Typography
+                                                    bold
+                                                    style={{
+                                                        color: i.textColor,
+                                                    }}
+                                                >
+                                                    {i.val}
+                                                </Typography>
                                             </div>
                                         </>
                                     );

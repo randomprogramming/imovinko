@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
     Company,
+    EnergyClass,
     ListingFor,
     createListing,
     getMyCompany,
@@ -13,7 +14,7 @@ import {
 } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useId } from "react";
 import ImageUpload from "@/components/ImageUpload";
 import Select from "react-select";
 import cookie from "cookie";
@@ -151,6 +152,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
         message: string;
         isError?: boolean;
     }>();
+    const [energyLabel, setEnergyLabel] = useState<EnergyClass | null>(null);
 
     const allCompanyAccounts = company
         ? [
@@ -249,6 +251,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 buildingFloors,
                 buildYear,
                 renovationYear,
+                energyLabel,
                 ...listingData,
             });
 
@@ -299,6 +302,27 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     behavior: "smooth",
                 });
             }
+        }
+    }
+
+    function getEnergyBg(e: EnergyClass) {
+        switch (e) {
+            case EnergyClass.Ap:
+                return "bg-[#00a652] hover:opacity-90";
+            case EnergyClass.A:
+                return "bg-[#51b747] hover:opacity-90";
+            case EnergyClass.B:
+                return "bg-[#bdd62e] hover:opacity-90";
+            case EnergyClass.C:
+                return "bg-[#fef200] hover:opacity-90";
+            case EnergyClass.D:
+                return "bg-[#fdb814] hover:opacity-90";
+            case EnergyClass.E:
+                return "bg-[#f3701e] hover:opacity-90";
+            case EnergyClass.F:
+                return "bg-[#ed1b24] hover:opacity-90";
+            case EnergyClass.G:
+                return "bg-[#B91C1C] hover:opacity-90";
         }
     }
 
@@ -449,6 +473,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
                                     <RowItem>
                                         <Select
+                                            instanceId={useId()}
                                             isMulti
                                             className={`z-30 ${space_grotesk.className}`}
                                             isSearchable
@@ -662,6 +687,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
                                     <RowItem>
                                         <Select
+                                            instanceId={useId()}
                                             className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
@@ -874,6 +900,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
                                     <RowItem>
                                         <Select
+                                            instanceId={useId()}
                                             className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
@@ -1139,6 +1166,75 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "apartment.renovationYear"
                                     )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
+                            <RowItem>
+                                <Select
+                                    instanceId={useId()}
+                                    onChange={(newVal) => {
+                                        setEnergyLabel(newVal ? newVal.value : null);
+                                    }}
+                                    isSearchable={false}
+                                    isClearable
+                                    className={`z-30 ${space_grotesk.className}`}
+                                    classNames={{
+                                        control() {
+                                            return "!py-2 !px-2 !rounded-md !shadow-sm !border-none !bg-zinc-50";
+                                        },
+                                    }}
+                                    placeholder={t("energy-placeholder")}
+                                    components={{
+                                        Option: ({ innerProps, data }) => {
+                                            return (
+                                                <div
+                                                    {...innerProps}
+                                                    className={`${getEnergyBg(
+                                                        data.value
+                                                    )} py-1 px-2`}
+                                                >
+                                                    <Typography bold>{data.label}</Typography>
+                                                </div>
+                                            );
+                                        },
+                                    }}
+                                    options={[
+                                        {
+                                            label: "A+",
+                                            value: EnergyClass.Ap,
+                                        },
+                                        {
+                                            label: "A",
+                                            value: EnergyClass.A,
+                                        },
+                                        {
+                                            label: "B",
+                                            value: EnergyClass.B,
+                                        },
+                                        {
+                                            label: "C",
+                                            value: EnergyClass.C,
+                                        },
+                                        {
+                                            label: "D",
+                                            value: EnergyClass.D,
+                                        },
+                                        {
+                                            label: "E",
+                                            value: EnergyClass.E,
+                                        },
+                                        {
+                                            label: "F",
+                                            value: EnergyClass.F,
+                                        },
+                                        {
+                                            label: "G",
+                                            value: EnergyClass.G,
+                                        },
+                                    ]}
                                 />
                             </RowItem>
                         </FlexRow>

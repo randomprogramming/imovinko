@@ -128,7 +128,10 @@
         "build-year": "Build year",
         "build-year-description": "The year when the apartment was built.",
         "renovation-year": "Renovation year",
-        "renovation-year-description": "The year when the apartment was last renovated."
+        "renovation-year-description": "The year when the apartment was last renovated.",
+        "energy-title": "Energy Certificate",
+        "energy-description": "Select the apartment energy certificate label.",
+        "energy-placeholder": "Select..."
     },
     "Map": {
         "search": "Search",
@@ -197,7 +200,8 @@
         "buildingFloors": "Building floors",
         "buildYear": "Year built",
         "renovationYear": "Year of last renovation",
-        "information": "Property information"
+        "information": "Property information",
+        "energy": "Energy Certification"
     },
     "ListingsPage": {
         "per-night": "per night",
