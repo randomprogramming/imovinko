@@ -1068,6 +1068,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 <TitleCol title={t("location")}>{t("location-desc")}</TitleCol>
                             </div>
                             <Map
+                                scrollZoom={true}
                                 showSearchBox
                                 showCenterMarker
                                 className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
