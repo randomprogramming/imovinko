@@ -24,20 +24,19 @@ export default function Pagination({ currentPage, maxPage }: PaginationProps) {
 
     async function onPageChange(newPage: number) {
         const currentQ = router.query;
-        const currentPath = router.pathname;
 
         currentQ.page = String(newPage);
 
         await router.push(
             {
-                pathname: currentPath,
+                pathname: router.pathname,
                 query: currentQ,
             },
             undefined,
             {
                 // I'm not sure how to show a "loading" state when getServerSideProps runs, so just do this instead and manually reload the page
                 shallow: true,
-                scroll: true,
+                // scroll: true,
             }
         );
         router.reload();

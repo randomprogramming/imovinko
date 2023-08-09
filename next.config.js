@@ -9,6 +9,9 @@ const nextConfig = {
     images: {
         domains: ["res.cloudinary.com"],
     },
+    experimental: {
+        scrollRestoration: true,
+    },
 };
 
 module.exports = nextConfig;

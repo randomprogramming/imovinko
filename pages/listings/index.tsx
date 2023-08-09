@@ -473,7 +473,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             allParams.useList = "true";
         }
         await router.replace({
-            pathname: "/listings",
+            pathname: router.pathname,
             query: { ...allParams },
         });
         setUseCards(useCards);
@@ -489,7 +489,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
         await router.push(
             {
-                pathname: "/listings",
+                pathname: router.pathname,
                 query: { ...allParams },
             },
             undefined,

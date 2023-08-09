@@ -1050,7 +1050,6 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 />
                                 {(listing.contacts.length > 0 ||
                                     listing.manualAccountContacts.length > 0) && (
-                                    // TODO: Align to the right
                                     <div className="mt-12 bg-zinc-50 rounded shadow-sm p-3 space-y-3 max-w-md ml-auto">
                                         <Typography
                                             sm
