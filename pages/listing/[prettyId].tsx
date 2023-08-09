@@ -122,7 +122,7 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                                 {c.type === "email" && (
                                     <a
                                         href={`mailto:${c.contact}`}
-                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2 px-12"
                                     >
                                         <Typography>{c.contact}</Typography>
                                     </a>
@@ -130,7 +130,7 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                                 {/* TODO: Maybe format phone number so that all phone numbers show on the site are of the same format? */}
                                 {c.type === "phone" && (
                                     <a
-                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2"
+                                        className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2 px-12"
                                         href={`tel:${c.contact}`}
                                     >
                                         <Typography>{c.contact}</Typography>
@@ -1050,7 +1050,8 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 />
                                 {(listing.contacts.length > 0 ||
                                     listing.manualAccountContacts.length > 0) && (
-                                    <div className="mt-12 bg-zinc-50 rounded shadow-sm p-3 space-y-3">
+                                    // TODO: Align to the right
+                                    <div className="mt-12 bg-zinc-50 rounded shadow-sm p-3 space-y-3 max-w-md ml-auto">
                                         <Typography
                                             sm
                                             uppercase
