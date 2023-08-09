@@ -17,6 +17,7 @@ import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import Icon from "@/components/Icon";
+import { poppins } from "@/util/fonts";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery({
@@ -97,31 +98,46 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 <div className="flex flex-col h-full space-y-1">
                                     <Link
                                         to="/listings"
-                                        className="hover:scale-105 hover:z-30 transition-all bg-gradient-to-tr flex flex-col overflow-hidden shadow-sm from-[#058E3F] to-[#004346] w-full p-4 rounded-b-xl md:rounded-t-xl flex-1 relative pt-16 md:pt-4"
+                                        disableAnimatedHover
+                                        className="hover:scale-105 hover:z-30 transition-all bg-gradient-to-tr flex flex-col shadow-sm from-[#058E3F] to-[#004346] w-full rounded-b-xl md:rounded-t-xl flex-1 relative pt-16 md:pt-4"
                                     >
-                                        <Typography
-                                            variant="h1"
-                                            className="text-6xl text-zinc-50 max-w-lg"
-                                        >
-                                            {t("header")}
-                                        </Typography>
-                                        <div className="mt-auto relative z-30">
-                                            <div className="flex flex-row items-center bg-[#ececec] border-zinc-400 border rounded-lg w-fit px-4 py-1">
-                                                <Icon name="solo-arrow" width={36} height={36} />
-                                                <Typography
-                                                    bold
-                                                    uppercase
-                                                    className="tracking-wide"
-                                                >
-                                                    {t("search")}
-                                                </Typography>
-                                            </div>
+                                        <div className="hidden md:flex absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ececec] px-4 py-1 rounded-lg">
+                                            <Typography
+                                                className={`${poppins.className} text-2xl tracking-wide`}
+                                                bold
+                                            >
+                                                imovinko
+                                            </Typography>
                                         </div>
-                                        <div className="absolute -bottom-16 -right-6">
-                                            <img
-                                                src="/images/removal2.png"
-                                                className="relative h-44 sm:h-56 md:h-64 z-20"
-                                            />
+                                        <div className="relative  overflow-hidden p-4">
+                                            <Typography
+                                                variant="h1"
+                                                className="text-6xl text-zinc-50 max-w-lg"
+                                            >
+                                                {t("header")}
+                                            </Typography>
+                                            <div className="mt-auto relative z-30">
+                                                <div className="flex flex-row items-center bg-[#ececec] border-zinc-400 border rounded-lg w-fit px-4 py-1">
+                                                    <Icon
+                                                        name="solo-arrow"
+                                                        width={36}
+                                                        height={36}
+                                                    />
+                                                    <Typography
+                                                        bold
+                                                        uppercase
+                                                        className="tracking-wide"
+                                                    >
+                                                        {t("search")}
+                                                    </Typography>
+                                                </div>
+                                            </div>
+                                            <div className="absolute -bottom-16 -right-6 xl:-bottom-6 xl:-right-4">
+                                                <img
+                                                    src="/images/removal2.png"
+                                                    className="relative h-44 sm:h-56 md:h-64 z-20"
+                                                />
+                                            </div>
                                         </div>
                                     </Link>
 
@@ -248,6 +264,38 @@ export default function Home({ newestListings, counts }: HomeProps) {
                     </div>
                 </section>
 
+                <section className="flex md:hidden">
+                    <div className="flex flex-row w-full justify-evenly mt-auto z-20 relative bg-[#ececec] py-2 rounded-lg">
+                        <div className="flex flex-col items-center justify-center">
+                            <Typography className="text-2xl" bold>
+                                {convert(counts.house)}
+                                <Typography className="text-emerald-700" variant="span">
+                                    +
+                                </Typography>
+                            </Typography>
+                            <Typography>{t("houses")}</Typography>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <Typography className="text-2xl" bold>
+                                {convert(counts.apartment)}
+                                <Typography className="text-emerald-700" variant="span">
+                                    +
+                                </Typography>
+                            </Typography>
+                            <Typography>{t("apartments")}</Typography>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <Typography className="text-2xl" bold>
+                                {convert(counts.land)}
+                                <Typography className="text-emerald-700" variant="span">
+                                    +
+                                </Typography>
+                            </Typography>
+                            <Typography>{t("land")}</Typography>
+                        </div>
+                    </div>
+                </section>
+
                 <section className="container mx-auto mt-4 md:mt-16">
                     <div className="bg-zinc-900 bg-[url(/images/stars.jpg)] bg-cover rounded-xl w-full text-zinc-50 p-8">
                         <Typography variant="h1" className="text-5xl">
@@ -261,6 +309,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 <Typography className="mt-6">{t("sale-description")}</Typography>
                                 <Link
                                     to="/listings"
+                                    disableAnimatedHover
                                     query={{
                                         offeringTypes: OfferingType.sale,
                                     }}
@@ -280,6 +329,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 <Typography className="mt-6">{t("long-description")}</Typography>
                                 <Link
                                     to="/listings"
+                                    disableAnimatedHover
                                     query={{
                                         offeringTypes: OfferingType.longTermRent,
                                     }}
@@ -299,6 +349,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                 <Typography className="mt-6">{t("short-description")}</Typography>
                                 <Link
                                     to="/listings"
+                                    disableAnimatedHover
                                     query={{
                                         offeringTypes: OfferingType.shortTermRent,
                                     }}
