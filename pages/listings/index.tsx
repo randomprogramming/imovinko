@@ -453,7 +453,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         delete allParams.page;
         await router.push(
             {
-                pathname: "/listings",
+                pathname: router.pathname,
                 query: { ...allParams, propertyTypes, offeringTypes },
             },
             undefined,

@@ -15,7 +15,6 @@ import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
 import { space_grotesk } from "@/util/fonts";
 import Input from "@/components/Input";
-import { useRouter } from "next/router";
 import { DebounceInput } from "react-debounce-input";
 import Head from "next/head";
 import NoImage from "@/components/NoImage";
@@ -33,11 +32,10 @@ interface MapScreenProps {
     query: ParsedUrlQuery;
 }
 export default function MapScreen({ query }: MapScreenProps) {
-    const queryLat = typeof query.lat === "string" ? parseFloat(query.lat) : null;
-    const queryLon = typeof query.lon === "string" ? parseFloat(query.lon) : null;
+    const [queryCopy, setQueryCopy] = useState(query);
+    const queryCopyLat = typeof queryCopy.lat === "string" ? parseFloat(queryCopy.lat) : null;
+    const queryCopyLon = typeof queryCopy.lon === "string" ? parseFloat(queryCopy.lon) : null;
     const t = useTranslations("Map");
-
-    const router = useRouter();
 
     const [properties, setProperties] = useState<ListingBasic[]>([]);
     const [hoveredProperty, setHoveredProperty] = useState<null | string>(null);
@@ -45,37 +43,37 @@ export default function MapScreen({ query }: MapScreenProps) {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const [filterApartments, setFilterApartments] = useState(
-        !!query?.propertyTypes?.includes(PropertyType.apartment)
+        !!queryCopy?.propertyTypes?.includes(PropertyType.apartment)
     );
     const [filterHouses, setFilterHouses] = useState(
-        !!query?.propertyTypes?.includes(PropertyType.house)
+        !!queryCopy?.propertyTypes?.includes(PropertyType.house)
     );
     const [filterLand, setFilterLand] = useState(
-        !!query?.propertyTypes?.includes(PropertyType.land)
+        !!queryCopy?.propertyTypes?.includes(PropertyType.land)
     );
     const [filterSale, setFilterSale] = useState(
-        !!query?.offeringTypes?.includes(OfferingType.sale)
+        !!queryCopy?.offeringTypes?.includes(OfferingType.sale)
     );
     const [filterLongTermRent, setFilterLongTermRent] = useState(
-        !!query?.offeringTypes?.includes(OfferingType.longTermRent)
+        !!queryCopy?.offeringTypes?.includes(OfferingType.longTermRent)
     );
     const [filterShortTermRent, setFilterShortTermRent] = useState(
-        !!query?.offeringTypes?.includes(OfferingType.shortTermRent)
+        !!queryCopy?.offeringTypes?.includes(OfferingType.shortTermRent)
     );
 
     const [priceFrom, setPriceFrom] = useState<string | undefined>(
-        isNaN(query?.priceFrom as any)
+        isNaN(queryCopy?.priceFrom as any)
             ? undefined
-            : Array.isArray(query?.priceFrom)
+            : Array.isArray(queryCopy?.priceFrom)
             ? undefined
-            : query?.priceFrom
+            : queryCopy?.priceFrom
     );
     const [priceTo, setPriceTo] = useState<string | undefined>(
-        isNaN(query?.priceTo as any)
+        isNaN(queryCopy?.priceTo as any)
             ? undefined
-            : Array.isArray(query?.priceTo)
+            : Array.isArray(queryCopy?.priceTo)
             ? undefined
-            : query?.priceTo
+            : queryCopy?.priceTo
     );
 
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
@@ -87,7 +85,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
         setIsSearchInProgress(true);
         try {
-            let allParams = query ? { ...query } : {};
+            let allParams = queryCopy ? { ...queryCopy } : {};
 
             let propertyTypes = [];
             if (filterApartments) {
@@ -146,10 +144,7 @@ export default function MapScreen({ query }: MapScreenProps) {
 
             // Restart to first page when filter changes
             delete allParams.page;
-            await router.push({
-                pathname: "/map",
-                query: { ...allParams, propertyTypes, offeringTypes },
-            });
+            setQueryCopy({ ...allParams, propertyTypes, offeringTypes });
 
             // VERY IMPORTANT!!!
             // This forces the properties with smaller price tags to be rendered in front of the properties with larger tags
@@ -294,8 +289,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                     <Map
                         className="flex-1"
                         onBoundsChange={setMapBounds}
-                        centerLat={queryLat || undefined}
-                        centerLon={queryLon || undefined}
+                        centerLat={queryCopyLat || undefined}
+                        centerLon={queryCopyLon || undefined}
                         scrollZoom={true}
                         navigationControlStyle={{
                             marginTop: "6rem",
@@ -490,7 +485,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                 <div className="absolute bottom-20 left-1/2 z-40 -translate-x-1/2">
                     <Link
                         to="/listings"
-                        query={query}
+                        query={queryCopy}
                         className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-5 py-3 hover:px-6 hover:py-4 transition-all"
                         disableAnimatedHover
                     >

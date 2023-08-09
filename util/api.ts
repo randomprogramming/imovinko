@@ -341,7 +341,7 @@ export async function findListingsByBoundingBox(
                 ...boundingBox,
                 propertyType: propertyType.join(","),
                 offeringType: offeringType.join(","),
-                pageSize: 100, // Since no pagination is neccessary here, just request the maximum number of listings
+                pageSize: 20,
                 priceFrom: priceFrom || undefined,
                 priceTo: priceTo || undefined,
             },
