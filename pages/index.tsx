@@ -109,13 +109,14 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                                 imovinko
                                             </Typography>
                                         </div>
-                                        <div className="relative  overflow-hidden p-4">
+                                        <div className="relative overflow-hidden p-4 h-full flex flex-col">
                                             <Typography
                                                 variant="h1"
                                                 className="text-6xl text-zinc-50 max-w-lg"
                                             >
                                                 {t("header")}
                                             </Typography>
+                                            <div className="flex-1" />
                                             <div className="mt-auto relative z-30">
                                                 <div className="flex flex-row items-center bg-[#ececec] border-zinc-400 border rounded-lg w-fit px-4 py-1">
                                                     <Icon
