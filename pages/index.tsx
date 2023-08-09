@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import Icon from "@/components/Icon";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery({
@@ -89,96 +90,150 @@ export default function Home({ newestListings, counts }: HomeProps) {
                 <Navbar useLighterColorsOnSmallDevice />
             </header>
             <main className="flex-1">
-                <section className="container mx-auto">
+                <section className="">
                     <div className="w-full">
-                        <div className="flex flex-col-reverse md:flex-row">
-                            <div className="z-10 flex-1 flex flex-col items-center justify-center bg-[#ececec] rounded-xl -mt-32 md:bg-transparent md:rounded-none md:mt-0 md:pt-24">
-                                <Typography variant="h1" className="text-7xl text-center max-w-lg">
-                                    {t("header")}
-                                </Typography>
-
-                                <div className="px-1">
-                                    <div className="mt-6 text-zinc-50 flex flex-row justify-evenly rounded-md shadow overflow-hidden text-lg">
-                                        <Link
-                                            to="/listings"
-                                            query={{
-                                                offeringTypes: OfferingType.sale,
-                                            }}
-                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all"
-                                        >
-                                            <Typography bold>{t("buying")}</Typography>
-                                        </Link>
-                                        <Link
-                                            to="/listings"
-                                            query={{
-                                                offeringTypes: OfferingType.longTermRent,
-                                            }}
-                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
-                                        >
-                                            <Typography bold>{t("renting-long")}</Typography>
-                                        </Link>
-                                        <Link
-                                            to="/listings"
-                                            query={{
-                                                offeringTypes: OfferingType.shortTermRent,
-                                            }}
-                                            className="flex items-center text-center justify-center py-2 px-4 bg-emerald-700 hover:bg-emerald-800 transition-all border-l-2 border-[#ececec]"
-                                        >
-                                            <Typography bold>{t("renting-short")}</Typography>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <Typography className="my-4 text-lg">
-                                    {t("have-a-property-to")}{" "}
-                                    <Link to="/list" underlineClassName="!bg-emerald-700">
+                        <div className="flex flex-col-reverse md:flex-row container mx-auto">
+                            <div className="md:translate-y-12 z-10 flex-1 flex flex-col bg-[#ececec] rounded-xl md:bg-transparent md:rounded-none pt-0 md:pt-20">
+                                <div className="flex flex-col h-full space-y-1">
+                                    <Link
+                                        to="/listings"
+                                        className="hover:scale-105 hover:z-30 transition-all bg-gradient-to-tr flex flex-col overflow-hidden shadow-sm from-[#058E3F] to-[#004346] w-full p-4 rounded-b-xl md:rounded-t-xl flex-1 relative pt-16 md:pt-4"
+                                    >
                                         <Typography
-                                            className="text-emerald-700"
-                                            variant="span"
-                                            bold
+                                            variant="h1"
+                                            className="text-6xl text-zinc-50 max-w-lg"
                                         >
-                                            {t("list")}
+                                            {t("header")}
                                         </Typography>
+                                        <div className="mt-auto relative z-30">
+                                            <div className="flex flex-row items-center bg-[#ececec] border-zinc-400 border rounded-lg w-fit px-4 py-1">
+                                                <Icon name="solo-arrow" width={36} height={36} />
+                                                <Typography
+                                                    bold
+                                                    uppercase
+                                                    className="tracking-wide"
+                                                >
+                                                    {t("search")}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="absolute -bottom-16 -right-6">
+                                            <img
+                                                src="/images/removal2.png"
+                                                className="relative h-44 sm:h-56 md:h-64 z-20"
+                                            />
+                                        </div>
                                     </Link>
-                                </Typography>
-                                <div className="flex flex-row w-full justify-evenly mt-auto">
-                                    <div className="flex flex-col items-center justify-center">
-                                        <Typography className="text-2xl" bold>
-                                            {convert(counts.apartment)}
-                                            <Typography className="text-emerald-700" variant="span">
-                                                +
-                                            </Typography>
-                                        </Typography>
-                                        <Typography>{t("apartments")}</Typography>
-                                    </div>
-                                    <div className="h-full w-0.5 bg-zinc-300 rounded-full shadow-sm"></div>
-                                    <div className="flex flex-col items-center justify-center">
-                                        <Typography className="text-2xl" bold>
-                                            {convert(counts.house)}
-                                            <Typography className="text-emerald-700" variant="span">
-                                                +
-                                            </Typography>
-                                        </Typography>
-                                        <Typography>{t("houses")}</Typography>
-                                    </div>
-                                    <div className="h-full w-0.5 bg-zinc-300 rounded-full shadow-sm"></div>
-                                    <div className="flex flex-col items-center justify-center">
-                                        <Typography className="text-2xl" bold>
-                                            {convert(counts.land)}
-                                            <Typography className="text-emerald-700" variant="span">
-                                                +
-                                            </Typography>
-                                        </Typography>
-                                        <Typography>{t("land")}</Typography>
+
+                                    <div className="flex flex-col sm:flex-row items-center md:items-stretch sm:items-start gap-1">
+                                        <Link
+                                            to="/map"
+                                            className="flex-1 flex overflow-hidden rounded-xl relative group w-full h-full min-h-[160px]"
+                                        >
+                                            <div className="flex-1 flex absolute top-0 left-0 right-0 bottom-0 bg-[url('/images/map.jpg')] bg-cover blur-[2px] group-hover:blur-sm transition-all"></div>
+                                            <div className="flex-1 relative z-20 flex items-center justify-center text-center">
+                                                <Typography
+                                                    className="text-3xl tracking-widest"
+                                                    bold
+                                                    uppercase
+                                                >
+                                                    {t("open-map")}
+                                                </Typography>
+                                            </div>
+                                        </Link>
+
+                                        <div
+                                            className="w-full aspect-square"
+                                            style={{
+                                                maxWidth: "210px",
+                                            }}
+                                        >
+                                            <Link
+                                                disableAnimatedHover
+                                                className="hover:scale-105 z-20 transition-all flex w-full h-full bg-gradient-to-tr from-[#c1c6ef] to-[#949deb] rounded-xl relative"
+                                                to="/list"
+                                            >
+                                                <Typography
+                                                    uppercase
+                                                    bold
+                                                    className="text-lg absolute top-0 left-1/2 -translate-x-1/2 w-full tracking-widest text-center"
+                                                >
+                                                    {t("submit")}
+                                                </Typography>
+                                                <Typography
+                                                    bold
+                                                    uppercase
+                                                    className="text-lg absolute left-0 top-1/2 -translate-x-1/2 origin-top -rotate-90 tracking-widest text-center"
+                                                >
+                                                    {t("submit")}
+                                                </Typography>
+                                                <Typography
+                                                    bold
+                                                    uppercase
+                                                    className="text-lg absolute right-0 top-1/2 origin-top translate-x-1/2 rotate-90 tracking-widest text-center"
+                                                >
+                                                    {t("submit")}
+                                                </Typography>
+                                                <Typography
+                                                    bold
+                                                    uppercase
+                                                    className="text-lg absolute bottom-0 left-1/2 -translate-x-1/2 rotate-180  w-full tracking-widest text-center"
+                                                >
+                                                    {t("submit")}
+                                                </Typography>
+                                                <div className="flex items-center justify-center w-full h-full">
+                                                    <Icon
+                                                        name="solo-arrow"
+                                                        width={120}
+                                                        height={120}
+                                                    />
+                                                </div>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                className="w-30 md:flex-1 relative md:ml-4"
-                                style={{
-                                    minHeight: "650px",
-                                }}
-                            >
-                                <div className=" blur-3xl bg-gradient-to-r from-[#847618] via-[#5a99a0] to-[#8a723b] absolute top-0 left-0 right-0 bottom-0"></div>
+                            <div className="hidden md:flex w-30 md:flex-1 relative md:ml-4 min-h-[420px] md:min-h-[540px] xl:min-h-[650px]">
+                                <div className="z-20 w-1/2  absolute -bottom-8 left-1/2  -translate-x-1/2 ">
+                                    <div className="flex flex-row w-full justify-evenly mt-auto z-20 relative bg-[#ececec] py-2 rounded-lg">
+                                        <div className="flex flex-col items-center justify-center">
+                                            <Typography className="text-2xl" bold>
+                                                {convert(counts.house)}
+                                                <Typography
+                                                    className="text-emerald-700"
+                                                    variant="span"
+                                                >
+                                                    +
+                                                </Typography>
+                                            </Typography>
+                                            <Typography>{t("houses")}</Typography>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-center">
+                                            <Typography className="text-2xl" bold>
+                                                {convert(counts.apartment)}
+                                                <Typography
+                                                    className="text-emerald-700"
+                                                    variant="span"
+                                                >
+                                                    +
+                                                </Typography>
+                                            </Typography>
+                                            <Typography>{t("apartments")}</Typography>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-center">
+                                            <Typography className="text-2xl" bold>
+                                                {convert(counts.land)}
+                                                <Typography
+                                                    className="text-emerald-700"
+                                                    variant="span"
+                                                >
+                                                    +
+                                                </Typography>
+                                            </Typography>
+                                            <Typography>{t("land")}</Typography>
+                                        </div>
+                                    </div>
+                                </div>
                                 <Image
                                     src={"/images/homepage-side-bg.jpg"}
                                     alt="house"
@@ -188,6 +243,71 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                         objectFit: "cover",
                                     }}
                                 />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="container mx-auto mt-4 md:mt-16">
+                    <div className="bg-zinc-900 bg-[url(/images/stars.jpg)] bg-cover rounded-xl w-full text-zinc-50 p-8">
+                        <Typography variant="h1" className="text-5xl">
+                            {t("our-offer")}
+                        </Typography>
+                        <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 items-center md:items-stretch justify-center mt-4">
+                            <div className="flex flex-col border-2 border-zinc-800 rounded-lg p-4 w-full max-w-[300px]">
+                                <Typography variant="h2" className="flex-1">
+                                    {t("sale")}
+                                </Typography>
+                                <Typography className="mt-6">{t("sale-description")}</Typography>
+                                <Link
+                                    to="/listings"
+                                    query={{
+                                        offeringTypes: OfferingType.sale,
+                                    }}
+                                    className="mt-4 flex bg-indigo-700 hover:bg-indigo-800 transition-all items-center justify-center py-3 rounded-lg"
+                                >
+                                    <Typography bold uppercase>
+                                        {t("buying")}
+                                    </Typography>
+                                </Link>
+                            </div>
+                            <div className="flex flex-col border-2 border-zinc-800 rounded-lg p-4 w-full max-w-[300px]">
+                                <Typography variant="h2" className="flex-1">
+                                    {t("long-term")}
+                                    <br />
+                                    {t("rent")}
+                                </Typography>
+                                <Typography className="mt-6">{t("long-description")}</Typography>
+                                <Link
+                                    to="/listings"
+                                    query={{
+                                        offeringTypes: OfferingType.longTermRent,
+                                    }}
+                                    className="mt-4 flex bg-indigo-700 hover:bg-indigo-800 transition-all items-center justify-center py-3 rounded-lg"
+                                >
+                                    <Typography bold uppercase>
+                                        {t("renting-long")}
+                                    </Typography>
+                                </Link>
+                            </div>
+                            <div className="flex flex-col border-2 border-zinc-800 rounded-lg p-4 w-full max-w-[300px]">
+                                <Typography variant="h2" className="flex-1">
+                                    {t("short-term")}
+                                    <br />
+                                    {t("rent")}
+                                </Typography>
+                                <Typography className="mt-6">{t("short-description")}</Typography>
+                                <Link
+                                    to="/listings"
+                                    query={{
+                                        offeringTypes: OfferingType.shortTermRent,
+                                    }}
+                                    className="mt-4 flex bg-indigo-700 hover:bg-indigo-800 transition-all items-center justify-center py-3 rounded-lg"
+                                >
+                                    <Typography bold uppercase>
+                                        {t("renting-short")}
+                                    </Typography>
+                                </Link>
                             </div>
                         </div>
                     </div>
