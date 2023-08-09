@@ -145,6 +145,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
     const [buildingFloors, setBuildingFloors] = useState<string | null>();
     const [buildYear, setBuildYear] = useState<string | null>();
     const [renovationYear, setRenovationYear] = useState<string | null>();
+    const [customId, setCustomId] = useState<string | null>();
 
     const fieldErrorCodesParser = useFieldErrorCodes();
     const [loadingBar, setLoadingBar] = useState<{
@@ -252,6 +253,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 buildYear,
                 renovationYear,
                 energyLabel,
+                customId,
                 ...listingData,
             });
 
@@ -1268,6 +1270,21 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     hasError={fieldErrorCodesParser.has("apartment.surfaceArea")}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "apartment.surfaceArea"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("custom-id")}>{t("custom-id-description")}</TitleCol>
+                            <RowItem>
+                                <Input
+                                    placeholder="A1603"
+                                    value={customId}
+                                    onChange={setCustomId}
+                                    hasError={fieldErrorCodesParser.has("apartment.customId")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.customId"
                                     )}
                                 />
                             </RowItem>

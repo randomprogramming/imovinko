@@ -131,7 +131,9 @@
         "renovation-year-description": "The year when the apartment was last renovated.",
         "energy-title": "Energy Certificate",
         "energy-description": "Select the apartment energy certificate label.",
-        "energy-placeholder": "Select..."
+        "energy-placeholder": "Select...",
+        "custom-id": "Property code",
+        "custom-id-description": "Property code intended for your internal use."
     },
     "Map": {
         "search": "Search",
@@ -201,7 +203,8 @@
         "buildYear": "Year built",
         "renovationYear": "Year of last renovation",
         "information": "Property information",
-        "energy": "Energy Certification"
+        "energy": "Energy Certification",
+        "custom-id": "Property code"
     },
     "ListingsPage": {
         "per-night": "per night",

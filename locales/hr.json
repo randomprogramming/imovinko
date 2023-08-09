@@ -131,7 +131,9 @@
         "renovation-year-description": "Godina zadnje renovacije stana.",
         "energy-title": "Energetski certifikat",
         "energy-description": "Razred energetskog certifikata stana.",
-        "energy-placeholder": "Odaberite..."
+        "energy-placeholder": "Odaberite...",
+        "custom-id": "Šifra nekretnine",
+        "custom-id-description": "Šifra nekretnine za vašu internu uporabu."
     },
     "Map": {
         "search": "Traži",
@@ -196,12 +198,13 @@
         "trip-length": "Trajanje puta",
         "last-update": "Zadnja izmjena",
         "floor": "Kat",
-        "totalFloors": "Katovi stana",
+        "totalFloors": "Katova u stanu",
         "buildingFloors": "Katova u zgradi",
         "buildYear": "Godina izgradnje",
         "renovationYear": "Godina zadnje renovacije",
         "information": "Podaci o nekretnini",
-        "energy": "Energetski certifikat"
+        "energy": "Energetski certifikat",
+        "custom-id": "Šifra nekretnine"
     },
     "ListingsPage": {
         "per-night": "noćenje",

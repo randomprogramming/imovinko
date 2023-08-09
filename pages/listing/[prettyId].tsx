@@ -148,15 +148,16 @@ interface ClickableImageProps {
     url: string;
     onClick?(): void;
     showBanner?: boolean;
+    small?: boolean;
 }
-function ClickableImage({ url, onClick, showBanner }: ClickableImageProps) {
+function ClickableImage({ url, onClick, showBanner, small }: ClickableImageProps) {
     const t = useTranslations("ListingPage");
 
     return (
         <div
             className="relative w-full rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-sm hover:opacity-90 transition-all"
             style={{
-                height: "400px",
+                height: small ? "200px" : "400px",
             }}
             onClick={onClick}
         >
@@ -202,8 +203,8 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
         <div className="flex flex-col w-full space-y-4 px-1 lg:px-0">
             <ClickableImage url={media[0].url} onClick={onImageClick} />
             <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
-                <ClickableImage url={media[1].url} onClick={onImageClick} />
-                <ClickableImage url={media[2].url} onClick={onImageClick} />
+                <ClickableImage small url={media[1].url} onClick={onImageClick} />
+                <ClickableImage small url={media[2].url} onClick={onImageClick} />
             </div>
             {media.length >= 4 && (
                 <ClickableImage
@@ -571,6 +572,24 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 name: t("area"),
                 val: listing.apartment.surfaceArea + " m²",
             });
+            if (listing.apartment.bedroomCount) {
+                obj.push({
+                    name: t("bedrooms"),
+                    val: listing.apartment.bedroomCount,
+                });
+            }
+            if (listing.apartment.bathroomCount) {
+                obj.push({
+                    name: t("bathrooms"),
+                    val: listing.apartment.bathroomCount,
+                });
+            }
+            if (listing.apartment.parkingSpaceCount) {
+                obj.push({
+                    name: t("parking-spaces"),
+                    val: listing.apartment.parkingSpaceCount,
+                });
+            }
             if (listing.apartment.floor) {
                 obj.push({
                     name: t("floor"),
@@ -604,8 +623,14 @@ export default function ListingPage({ listing }: ListingPageProps) {
             if (listing.apartment.energyLabel) {
                 obj.push({
                     name: t("energy"),
-                    val: listing.apartment.energyLabel,
+                    val: listing.apartment.energyLabel.replaceAll("p", "+"),
                     textColor: EnergyClassColors[listing.apartment.energyLabel],
+                });
+            }
+            if (listing.apartment.customId) {
+                obj.push({
+                    name: t("custom-id"),
+                    val: listing.apartment.customId,
                 });
             }
         }
@@ -615,6 +640,28 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 obj.push({
                     name: t("location"),
                     val: locationString,
+                });
+            }
+            obj.push({
+                name: t("area"),
+                val: listing.house.surfaceArea + " m²",
+            });
+            if (listing.house.bedroomCount) {
+                obj.push({
+                    name: t("bedrooms"),
+                    val: listing.house.bedroomCount,
+                });
+            }
+            if (listing.house.bathroomCount) {
+                obj.push({
+                    name: t("bathrooms"),
+                    val: listing.house.bathroomCount,
+                });
+            }
+            if (listing.house.parkingSpaceCount) {
+                obj.push({
+                    name: t("parking-spaces"),
+                    val: listing.house.parkingSpaceCount,
                 });
             }
             if (listing.house.totalFloors) {
@@ -635,6 +682,19 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     val: listing.house.renovationYear + ".",
                 });
             }
+            if (listing.house.energyLabel) {
+                obj.push({
+                    name: t("energy"),
+                    val: listing.house.energyLabel.replaceAll("p", "+"),
+                    textColor: EnergyClassColors[listing.house.energyLabel],
+                });
+            }
+            if (listing.house.customId) {
+                obj.push({
+                    name: t("custom-id"),
+                    val: listing.house.customId,
+                });
+            }
         }
         if (listing.land) {
             const locationString = getPropertyLocationString(listing);
@@ -648,6 +708,12 @@ export default function ListingPage({ listing }: ListingPageProps) {
                 name: t("area"),
                 val: listing.land.surfaceArea + " m²",
             });
+            if (listing.land.customId) {
+                obj.push({
+                    name: t("custom-id"),
+                    val: listing.land.customId,
+                });
+            }
         }
         return obj;
     }
@@ -1040,24 +1106,29 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         <section className="container mx-auto mt-8">
-                            <Typography variant="h1">{t("information")}</Typography>
-                            <div className="w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2">
+                            <Typography variant="h2">{t("information")}</Typography>
+                            <div className="w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2 max-w-4xl">
                                 {getAdditionalInfo(listing).map((i, index) => {
                                     return (
                                         <>
                                             <div
+                                                key={`${i.name}-0`}
                                                 className={`py-2 px-2 ${
                                                     index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
                                                 }`}
                                             >
-                                                <Typography>{i.name}</Typography>
+                                                <Typography key={`${i.name}-1`}>
+                                                    {i.name}
+                                                </Typography>
                                             </div>
                                             <div
+                                                key={`${i.name}-2`}
                                                 className={`py-2 pl-8 pr-4 ${
                                                     index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
                                                 }`}
                                             >
                                                 <Typography
+                                                    key={`${i.name}-3`}
                                                     bold
                                                     style={{
                                                         color: i.textColor,
@@ -1073,7 +1144,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         <section id="location" className="container mx-auto mt-8">
-                            <Typography variant="h1" className="mb-4">
+                            <Typography variant="h2" className="mb-4">
                                 {t("location")}
                             </Typography>
                             <Map

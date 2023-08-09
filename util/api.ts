@@ -151,6 +151,7 @@ interface CreateListingData {
     buildYear?: string | number | null;
     renovationYear?: string | number | null;
     energyLabel?: EnergyClass | null;
+    customId?: string | null;
 }
 interface CreateListingResponse {
     id: string;
@@ -457,6 +458,7 @@ export interface Apartment extends PropertyLocation {
     buildYear?: number | null;
     renovationYear?: number | null;
     energyLabel?: EnergyClass | null;
+    customId?: string | null;
 }
 export interface House extends PropertyLocation {
     id: string;
@@ -477,6 +479,7 @@ export interface House extends PropertyLocation {
     buildYear?: number | null;
     renovationYear?: number | null;
     energyLabel?: EnergyClass | null;
+    customId?: string | null;
 }
 interface Land extends PropertyLocation {
     id: string;
@@ -488,6 +491,7 @@ interface Land extends PropertyLocation {
     updatedAt: string | Date;
     owner: Omit<FullAccount, "email">;
     media: Media[];
+    customId?: string | null;
 }
 export interface Listing {
     id: string;
