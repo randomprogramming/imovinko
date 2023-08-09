@@ -135,9 +135,15 @@ export default function ListApartment({ company }: ListApartmentProps) {
     });
     const [area, setArea] = useState(0);
     const [images, setImages] = useState<File[]>([]);
-    const [bedroomCount, setBedroomCount] = useState<number | null>();
-    const [bathroomCount, setBathroomCount] = useState<number | null>();
-    const [parkingSpaceCount, setParkingSpaceCount] = useState<number | null>();
+    const [bedroomCount, setBedroomCount] = useState<string | null>();
+    const [bathroomCount, setBathroomCount] = useState<string | null>();
+    const [parkingSpaceCount, setParkingSpaceCount] = useState<string | null>();
+
+    const [floor, setFloor] = useState<string | null>();
+    const [totalFloors, setTotalFloors] = useState<string | null>();
+    const [buildingFloors, setBuildingFloors] = useState<string | null>();
+    const [buildYear, setBuildYear] = useState<string | null>();
+    const [renovationYear, setRenovationYear] = useState<string | null>();
 
     const fieldErrorCodesParser = useFieldErrorCodes();
     const [loadingBar, setLoadingBar] = useState<{
@@ -238,6 +244,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 bathroomCount,
                 bedroomCount,
                 parkingSpaceCount,
+                floor,
+                totalFloors,
+                buildingFloors,
+                buildYear,
+                renovationYear,
                 ...listingData,
             });
 
@@ -379,7 +390,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                         <FlexRow
                             singleCol
                             className={`${
-                                isForSale ? "opacity-100" : "!mb-0 !p-0 h-0 opacity-0 invisible"
+                                isForSale ? "opacity-100" : "!mb-0 !p-0 h-0 opacity-0 invisible "
                             } transition-all`}
                         >
                             <Typography variant="h2">{t("sale-information")}</Typography>
@@ -1011,10 +1022,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                             <RowItem>
                                 <Input
                                     value={bedroomCount || ""}
-                                    onChange={(val) => {
-                                        setBedroomCount(parseInt(val));
-                                    }}
-                                    type="number"
+                                    onChange={setBedroomCount}
                                     hasError={fieldErrorCodesParser.has("apartment.bedroomCount")}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "apartment.bedroomCount"
@@ -1030,10 +1038,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                             <RowItem>
                                 <Input
                                     value={bathroomCount || ""}
-                                    onChange={(val) => {
-                                        setBathroomCount(parseInt(val));
-                                    }}
-                                    type="number"
+                                    onChange={setBathroomCount}
                                     hasError={fieldErrorCodesParser.has("apartment.bathroomCount")}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "apartment.bathroomCount"
@@ -1049,15 +1054,90 @@ export default function ListApartment({ company }: ListApartmentProps) {
                             <RowItem>
                                 <Input
                                     value={parkingSpaceCount || ""}
-                                    onChange={(val) => {
-                                        setParkingSpaceCount(parseInt(val));
-                                    }}
-                                    type="number"
+                                    onChange={setParkingSpaceCount}
                                     hasError={fieldErrorCodesParser.has(
                                         "apartment.parkingSpaceCount"
                                     )}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "apartment.parkingSpaceCount"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("floor")}>{t("floor-description")}</TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={floor}
+                                    onChange={setFloor}
+                                    hasError={fieldErrorCodesParser.has("apartment.floor")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.floor"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("total-floor")}>
+                                {t("total-floor-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={totalFloors}
+                                    onChange={setTotalFloors}
+                                    hasError={fieldErrorCodesParser.has("apartment.totalFloors")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.totalFloors"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("building-floor")}>
+                                {t("building-floor-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={buildingFloors}
+                                    onChange={setBuildingFloors}
+                                    hasError={fieldErrorCodesParser.has("apartment.buildingFloors")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.buildingFloors"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("build-year")}>
+                                {t("build-year-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={buildYear}
+                                    onChange={setBuildYear}
+                                    hasError={fieldErrorCodesParser.has("apartment.buildYear")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.buildYear"
+                                    )}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("renovation-year")}>
+                                {t("renovation-year-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    value={renovationYear}
+                                    onChange={setRenovationYear}
+                                    hasError={fieldErrorCodesParser.has("apartment.renovationYear")}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "apartment.renovationYear"
                                     )}
                                 />
                             </RowItem>

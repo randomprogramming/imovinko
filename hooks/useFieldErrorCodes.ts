@@ -6,6 +6,7 @@ export interface FieldErrors {
     path: string[];
     message: string;
     validation?: string;
+    expected?: string;
 }
 export type ParsedFieldErrors = Map<string, string[]>;
 
@@ -27,6 +28,11 @@ export default function () {
                 }
                 if (e.validation === "url") {
                     e.code = "invalid_url";
+                }
+            }
+            if (e.code === "invalid_type") {
+                if (e.expected === "number") {
+                    e.code = "not_valid_number";
                 }
             }
 
@@ -83,7 +89,9 @@ export default function () {
         if (code === "missing_offering_type") {
             return t("missing_offering_type");
         }
-
+        if (code === "not_valid_number") {
+            return t("not_valid_number");
+        }
         return undefined;
     }
 

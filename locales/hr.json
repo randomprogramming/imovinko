@@ -102,11 +102,11 @@
         "short-term-rent-description": "Opis koji će se prikazati na oglasu za kratkotrajno iznajmljivanje.",
         "long-term-rent-description": "Opis koji će se prikazati na oglasu za dugoročno iznajmljivanje.",
         "bedroom-count": "Broj spavaćih soba",
-        "bedroom-count-description": "Ukupan broj spavaćih soba u stanu",
+        "bedroom-count-description": "Ukupan broj spavaćih soba u stanu.",
         "bathroom-count": "Broj kupaonica",
-        "bathroom-count-description": "Ukupan broj kupaonica u stanu",
+        "bathroom-count-description": "Ukupan broj kupaonica u stanu.",
         "parking-count": "Broj parkirnih mjesta",
-        "parking-count-description": "Broj parkirnih mjesta koja pripadaju stanu",
+        "parking-count-description": "Broj parkirnih mjesta koja pripadaju stanu.",
         "choose-contact": "Odaberi kontakte...",
         "contact": "Kontakt osobe",
         "contact-description": "Odaberite osobe iz tvrtke koje će biti navedene kao kontakt u oglasu.",
@@ -118,7 +118,17 @@
         "uploading-media": "Slanje slika...",
         "updating-media": "Ažuriranje slika oglasa...",
         "listing-created": "Oglas predan!",
-        "error": "Molimo popravite greške prije predavanja oglasa."
+        "error": "Molimo popravite greške prije predavanja oglasa.",
+        "floor": "Kat",
+        "floor-description": "Kat na kojem se stan nalazi. Unesite '0' za prizemlje.",
+        "total-floor": "Ukupno katova",
+        "total-floor-description": "Ako stan ima više od jednog kata, unesite broj katova.",
+        "building-floor": "Katovi u zgradi",
+        "building-floor-description": "Ukupan broj katova u zgradi u kojoj se stan nalazi.",
+        "build-year": "Godina izgradnje",
+        "build-year-description": "Godina kada se stan izgradio.",
+        "renovation-year": "Godina renovacije",
+        "renovation-year-description": "Godina zadnje renovacije stana."
     },
     "Map": {
         "search": "Traži",
@@ -155,7 +165,8 @@
         "exists": "Korisnički račun već postoji",
         "account_not_found": "Račun s tim podacima nije pronađen",
         "invalid_url": "Neispravan URL",
-        "missing_offering_type": "Molimo odaberite barem jedan tip ponude!"
+        "missing_offering_type": "Molimo odaberite barem jedan tip ponude!",
+        "not_valid_number": "Nije važeći broj"
     },
     "ListingPage": {
         "per-night": "noćenje",

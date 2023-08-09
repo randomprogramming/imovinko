@@ -39,7 +39,7 @@ interface InputProps extends CheckBoxInputProps {
     type?: React.HTMLInputTypeAttribute;
     placeholder?: string;
     onChange?(newVal: string): void;
-    value?: string | number;
+    value?: string | number | null;
     small?: boolean;
     hasError?: boolean;
     errorMsg?: string;
@@ -82,7 +82,7 @@ export default function Input({
                 <textarea
                     id={name}
                     name={name}
-                    value={value}
+                    value={value || undefined}
                     rows={4}
                     placeholder={placeholder}
                     onKeyDown={onKeyDownTextArea}
@@ -114,7 +114,7 @@ export default function Input({
                 disabled={disabled}
                 type={type}
                 name={name}
-                value={value}
+                value={value || undefined}
                 placeholder={placeholder}
                 onKeyDown={onKeyDown}
                 onChange={(e) => {

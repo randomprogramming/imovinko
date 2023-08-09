@@ -102,11 +102,11 @@
         "short-term-rent-description": "Description to be shown on the apartment short term rent page.",
         "long-term-rent-description": "Description to be shown on the apartment long term rent page.",
         "bedroom-count": "Number of bedrooms",
-        "bedroom-count-description": "Total number of bedrooms in the apartment",
+        "bedroom-count-description": "Total number of bedrooms in the apartment.",
         "bathroom-count": "Number of bathrooms",
-        "bathroom-count-description": "Total number of bathrooms in the apartment",
+        "bathroom-count-description": "Total number of bathrooms in the apartment.",
         "parking-count": "Number of parking spaces",
-        "parking-count-description": "Number of parking spaces which belong to the apartment",
+        "parking-count-description": "Number of parking spaces which belong to the apartment.",
         "choose-contact": "Choose contacts...",
         "contact": "Contacts",
         "contact-description": "Choose members from your company which will be listed as contacts for this listing.",
@@ -118,7 +118,17 @@
         "uploading-media": "Uploading media...",
         "updating-media": "Updating property media...",
         "listing-created": "Listing created!",
-        "error": "Please fix the specified errros before submitting listing."
+        "error": "Please fix the specified errros before submitting listing.",
+        "floor": "Floor",
+        "floor-description": "Floor on which the apartmant is. Enter '0' for ground floor.",
+        "total-floor": "Total floors",
+        "total-floor-description": "If the apartment has more than one floor, enter how much.",
+        "building-floor": "Building floors",
+        "building-floor-description": "Total amount of floors in the building of the apartment",
+        "build-year": "Build year",
+        "build-year-description": "The year when the apartment was built.",
+        "renovation-year": "Renovation year",
+        "renovation-year-description": "The year when the apartment was last renovated."
     },
     "Map": {
         "search": "Search",
@@ -155,7 +165,8 @@
         "exists": "Account already exists",
         "account_not_found": "Account with that data was not found",
         "invalid_url": "Invalid URL",
-        "missing_offering_type": "Please choose at least one offering type!"
+        "missing_offering_type": "Please choose at least one offering type!",
+        "not_valid_number": "Not a valid number"
     },
     "ListingPage": {
         "per-night": "per night",

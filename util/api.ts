@@ -120,9 +120,14 @@ interface CreateListingData {
     lon: number;
     area: number;
 
-    bedroomCount?: number | null;
-    bathroomCount?: number | null;
-    parkingSpaceCount?: number | null;
+    bedroomCount?: string | number | null;
+    bathroomCount?: string | number | null;
+    parkingSpaceCount?: string | number | null;
+    floor?: string | number | null;
+    totalFloors?: string | number | null;
+    buildingFloors?: string | number | null;
+    buildYear?: string | number | null;
+    renovationYear?: string | number | null;
 }
 interface CreateListingResponse {
     id: string;
@@ -165,6 +170,11 @@ export async function createListing(data: CreateListingData) {
             bedroomCount: data.bedroomCount,
             bathroomCount: data.bathroomCount,
             parkingSpaceCount: data.parkingSpaceCount,
+            floor: data.floor,
+            totalFloors: data.totalFloors,
+            buildingFloors: data.buildingFloors,
+            buildYear: data.buildYear,
+            renovationYear: data.renovationYear,
         };
     }
 
