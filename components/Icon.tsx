@@ -43,7 +43,9 @@ export type IconName =
     | "file-missing"
     | "warning"
     | "error"
-    | "image-edit";
+    | "image-edit"
+    | "edit"
+    | "price-euro";
 
 interface IconProps {
     name: IconName;
@@ -1505,6 +1507,85 @@ export default function Icon({ name, height, width, className }: IconProps) {
                             strokeLinejoin="round"
                             className={className}
                         ></path>
+                    </g>
+                </svg>
+            );
+        case "edit":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#000000"
+                >
+                    <g>
+                        <g>
+                            <g>
+                                <g>
+                                    <path
+                                        className={className}
+                                        d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8"
+                                        fill="none"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                    ></path>
+                                    <polygon
+                                        className={className}
+                                        fill="none"
+                                        points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8"
+                                        stroke="#000000"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                    ></polygon>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            );
+        case "price-euro":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 64 64"
+                    xmlns="http://www.w3.org/2000/svg"
+                    strokeWidth="3"
+                    stroke="#000000"
+                    fill="none"
+                >
+                    <g>
+                        <path
+                            className={className}
+                            d="M43.12,58H20.88a2.33,2.33,0,0,1-2.33-2.33V28.89a1.15,1.15,0,0,1,.37-.85L30.73,17a1.16,1.16,0,0,1,1.56,0L45.05,28a1.18,1.18,0,0,1,.4.88V55.7A2.33,2.33,0,0,1,43.12,58Z"
+                            strokeLinecap="round"
+                        ></path>
+                        <path
+                            className={className}
+                            d="M32,25.2c-4.39,0-7.95-4.31-7.95-9.62S27.61,6,32,6s8,4.3,8,9.61"
+                            strokeLinecap="round"
+                        ></path>
+                        <path className={className} d="M39.78,46.88a8.1,8.1,0,1,1-1.53-13.8"></path>
+                        <line
+                            className={className}
+                            x1="22.68"
+                            y1="38.07"
+                            x2="36.17"
+                            y2="38.07"
+                        ></line>
+                        <line
+                            className={className}
+                            x1="22.68"
+                            y1="43.12"
+                            x2="34.54"
+                            y2="43.12"
+                        ></line>
                     </g>
                 </svg>
             );

@@ -13,7 +13,7 @@
         "houses": "houses",
         "land": "land",
         "open-map": "Open map",
-        "submit": "Submit listing",
+        "submit": "Submit listing now",
         "our-offer": "Our offering",
         "sale": "Sale",
         "sale-description": "You know where you want to be? Find the perfect house, apartment or land.",
@@ -23,7 +23,9 @@
         "short-description": "Need a place to relax at for a few days?",
         "short-term": "Short Term",
         "rent": "Rent",
-        "search": "Search Properties"
+        "search": "Search Properties",
+        "have-a-property": "Have a property to list?",
+        "dont-wait": "Don't wait!"
     },
     "SearchBar": {
         "placeholder": "Zagreb",
@@ -407,5 +409,9 @@
     },
     "404": {
         "message": "We couldn't find that page..."
+    },
+    "EditListingPage": {
+        "edit": "Edit",
+        "not-found": "Listing not found"
     }
 }

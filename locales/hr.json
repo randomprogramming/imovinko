@@ -14,7 +14,7 @@
         "houses": "kuća",
         "land": "zemljišta",
         "open-map": "Otvori kartu",
-        "submit": "Predaj oglas",
+        "submit": "Predaj oglas odmah",
         "our-offer": "Naša ponuda",
         "sale": "Prodaja",
         "sale-description": "Znate gdje želite biti? Pronađite savršenu kuću, stan ili zemljiste.",
@@ -23,7 +23,9 @@
         "short-description": "Trebate mjesto za odmoriti na par dana?",
         "short-term": "Kratkotrajan",
         "rent": "Najam",
-        "search": "Pretraži Nekretnine"
+        "search": "Pretraži Nekretnine",
+        "have-a-property": "Imaš nekretninu za oglasiti?",
+        "dont-wait": "Nemoj čekati!"
     },
     "SearchBar": {
         "placeholder": "Zagreb",
@@ -407,5 +409,9 @@
     },
     "404": {
         "message": "Nismo uspjeli pronaći ovu stranicu..."
+    },
+    "EditListingPage": {
+        "edit": "Izmjena",
+        "not-found": "Oglas nije pronađen"
     }
 }

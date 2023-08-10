@@ -98,7 +98,7 @@ export default function ListingListItem({ listing }: Props) {
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
-        <div className="flex lg:flex-row flex-col bg-zinc-50 rounded-md shadow hover:shadow-sm transition-all w-full overflow-hidden">
+        <div className="flex lg:flex-row flex-col bg-zinc-50 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden">
             <div className="h-64 lg:w-96 lg:h-full">
                 {firstImage ? (
                     <div className="select-none relative w-full h-full">
@@ -111,7 +111,6 @@ export default function ListingListItem({ listing }: Props) {
                                 height: "100%",
                                 width: "100%",
                             }}
-                            // Since this is just a thumbnail, we can lower the quality
                             quality={50}
                         />
                     </div>

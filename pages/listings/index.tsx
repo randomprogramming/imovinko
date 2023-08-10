@@ -516,7 +516,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             </header>
             <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
                 <div
-                    className="md:w-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-sm"
+                    className="md:sw-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-sm"
                     style={{
                         minWidth: "210px",
                     }}
@@ -610,7 +610,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
                     <div className="mt-8">
                         <Typography bold>{t("price")}</Typography>
-                        <div className="flex flex-row flex-wrap items-center ml-2">
+                        <div className="flex flex-row flex-wrap items-center">
                             <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                 <input
                                     id="priceFrom"

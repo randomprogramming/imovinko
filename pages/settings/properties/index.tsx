@@ -14,6 +14,7 @@ import Head from "next/head";
 import NoData from "@/components/NoData";
 import Dialog from "@/components/Dialog";
 import { useRouter } from "next/router";
+import Icon from "@/components/Icon";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -80,7 +81,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                             {t("my-listings")}
                             {` (${listings.count})`}
                         </Typography>
-                        <div className="mt-6 space-y-8">
+                        <div className="mt-6 space-y-8 w-full">
                             {listings.data.length === 0 && (
                                 <NoData>
                                     <Typography>
@@ -95,14 +96,26 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                             )}
                             {listings.data.map((l) => {
                                 return (
-                                    <Link
-                                        disableAnimatedHover
-                                        className="flex"
-                                        key={l.prettyId}
-                                        to={`/listing/${l.prettyId}`}
-                                    >
-                                        <ListingListItem listing={l} />
-                                    </Link>
+                                    <div key={l.prettyId} className="relative">
+                                        <Link
+                                            disableAnimatedHover
+                                            className="flex flex-1"
+                                            to={`/listing/${l.prettyId}`}
+                                        >
+                                            <ListingListItem listing={l} />
+                                        </Link>
+                                        <div className="absolute shadow-sm hover:shadow right-0 bottom-0 translate-y-[70%]">
+                                            <div className="bg-zinc-50 rounded-b flex flex-row">
+                                                <Link
+                                                    disableAnimatedHover
+                                                    to={`/listing/edit/${l.prettyId}`}
+                                                    className="p-2 flex items-center justify-center"
+                                                >
+                                                    <Icon name="edit" />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </div>
