@@ -172,16 +172,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                     <NoData title={t("no-data-message")} />
                                 )}
                                 {company.listings.data.map((l) => {
-                                    return (
-                                        <Link
-                                            disableAnimatedHover
-                                            className="flex"
-                                            key={l.prettyId}
-                                            to={`/listing/${l.prettyId}`}
-                                        >
-                                            <ListingListItem listing={l} />
-                                        </Link>
-                                    );
+                                    return <ListingListItem key={l.prettyId} listing={l} />;
                                 })}
                             </div>
                             <div className="flex items-center justify-center my-6">

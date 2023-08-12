@@ -157,16 +157,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                     </div>
                                 )}
                                 {account.listings.data.map((l) => {
-                                    return (
-                                        <Link
-                                            disableAnimatedHover
-                                            className="flex"
-                                            key={l.prettyId}
-                                            to={`/listing/${l.prettyId}`}
-                                        >
-                                            <ListingListItem listing={l} />
-                                        </Link>
-                                    );
+                                    return <ListingListItem key={l.prettyId} listing={l} />;
                                 })}
                             </div>
                             <div className="flex items-center justify-center my-6">

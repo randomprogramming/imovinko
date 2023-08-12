@@ -246,100 +246,107 @@ function ListingCard({ listing }: UIBlockProps) {
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
-        <div className="bg-zinc-50 border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden">
-            <div
-                className="w-full relative flex flex-col"
-                style={{
-                    minHeight: "200px",
-                }}
-            >
-                {firstImage ? (
-                    <Image
-                        src={firstImage?.url}
-                        alt="media image"
-                        fill
-                        style={{
-                            objectFit: "cover",
-                            height: "100%",
-                            width: "100%",
-                        }}
-                        // Since this is just a thumbnail, we can lower the quality
-                        quality={50}
-                    />
-                ) : (
-                    <div className="absolute left-0 right-0 top-0 bottom-0">
-                        <NoImage />
-                    </div>
-                )}
-            </div>
-            <div className="flex flex-col w-full h-full">
-                <div className="p-2">
-                    <div
-                        style={{
-                            fontSize: "11px",
-                        }}
-                    >
-                        <Typography className="tracking-widest text-zinc-500" uppercase>
-                            {getPropertyTypeAndOfferingTypeString(listing)}
-                        </Typography>
-                    </div>
-                    <div
-                        style={{
-                            minHeight: "3.5em",
-                            height: "3.5em",
-                            maxHeight: "3.5em",
-                        }}
-                    >
-                        <Typography variant="h2" className="line-clamp-2 text-base">
-                            {listing.title}
-                        </Typography>
-                    </div>
-                    <div
-                        style={{
-                            minHeight: "2em",
-                            height: "2em",
-                            maxHeight: "2em",
-                        }}
-                    >
-                        <Typography variant="secondary" uppercase className="line-clamp-2">
-                            {getPropertyLocationString(listing)}
-                        </Typography>
-                    </div>
-                    <div className="mt-2 w-full flex items-center justify-center">
-                        <IconRow
-                            listing={listing}
-                            containerClassName="!bg-transparent !shadow-none"
+        <Link
+            key={listing.prettyId}
+            to={`/listing/${listing.prettyId}`}
+            className="group flex bg-zinc-50 visited:bg-[#e9e9e9] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
+            disableAnimatedHover
+        >
+            <div className="w-full">
+                <div
+                    className="w-full relative flex flex-col"
+                    style={{
+                        minHeight: "200px",
+                    }}
+                >
+                    {firstImage ? (
+                        <Image
+                            src={firstImage?.url}
+                            alt="media image"
+                            fill
+                            style={{
+                                objectFit: "cover",
+                                height: "100%",
+                                width: "100%",
+                            }}
+                            // Since this is just a thumbnail, we can lower the quality
+                            quality={50}
                         />
-                    </div>
+                    ) : (
+                        <div className="absolute left-0 right-0 top-0 bottom-0">
+                            <NoImage />
+                        </div>
+                    )}
                 </div>
-                <div className="bg-zinc-300 h-px w-full mt-2" />
-                <div className="flex flex-row items-center p-2">
-                    <div>
-                        <Typography className="text-sm">
-                            {t("posted")}:{" "}
-                            <Typography variant="span" className="text-sm font-normal">
-                                {new Date(listing.createdAt)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
+                <div className="flex flex-col w-full h-full">
+                    <div className="p-2">
+                        <div
+                            style={{
+                                fontSize: "11px",
+                            }}
+                        >
+                            <Typography className="tracking-widest text-zinc-500" uppercase>
+                                {getPropertyTypeAndOfferingTypeString(listing)}
                             </Typography>
-                        </Typography>
+                        </div>
+                        <div
+                            style={{
+                                minHeight: "3.5em",
+                                height: "3.5em",
+                                maxHeight: "3.5em",
+                            }}
+                        >
+                            <Typography variant="h2" className="line-clamp-2 text-base">
+                                {listing.title}
+                            </Typography>
+                        </div>
+                        <div
+                            style={{
+                                minHeight: "2em",
+                                height: "2em",
+                                maxHeight: "2em",
+                            }}
+                        >
+                            <Typography variant="secondary" uppercase className="line-clamp-2">
+                                {getPropertyLocationString(listing)}
+                            </Typography>
+                        </div>
+                        <div className="mt-2 w-full flex items-center justify-center">
+                            <IconRow
+                                listing={listing}
+                                containerClassName="!bg-transparent !shadow-none"
+                            />
+                        </div>
                     </div>
-                    <div className="flex-1" />
-                    <div>
-                        <Typography bold className="text-xl">
-                            {listing.price.toLocaleString()} €{" "}
-                            <Typography variant="span" className="text-sm font-normal">
-                                {getPriceString(listing)}
+                    <div className="bg-zinc-300 h-px w-full mt-2" />
+                    <div className="flex flex-row items-center p-2">
+                        <div>
+                            <Typography className="text-sm">
+                                {t("posted")}:{" "}
+                                <Typography variant="span" className="text-sm font-normal">
+                                    {new Date(listing.createdAt)
+                                        .toLocaleDateString(undefined, {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                        })
+                                        .replaceAll("/", ".")}
+                                </Typography>
                             </Typography>
-                        </Typography>
+                        </div>
+                        <div className="flex-1" />
+                        <div>
+                            <Typography bold className="text-xl">
+                                {listing.price.toLocaleString()} €{" "}
+                                <Typography variant="span" className="text-sm font-normal">
+                                    {getPriceString(listing)}
+                                </Typography>
+                            </Typography>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 
@@ -714,27 +721,9 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         )}
                         {listings.data.map((listing) => {
                             if (useCards) {
-                                return (
-                                    <Link
-                                        key={listing.prettyId}
-                                        to={`/listing/${listing.prettyId}`}
-                                        className="flex"
-                                        disableAnimatedHover
-                                    >
-                                        <ListingCard listing={listing} />
-                                    </Link>
-                                );
+                                return <ListingCard key={listing.prettyId} listing={listing} />;
                             } else {
-                                return (
-                                    <Link
-                                        key={listing.prettyId}
-                                        to={`/listing/${listing.prettyId}`}
-                                        className="flex"
-                                        disableAnimatedHover
-                                    >
-                                        <ListingListItem listing={listing} />
-                                    </Link>
-                                );
+                                return <ListingListItem key={listing.prettyId} listing={listing} />;
                             }
                         })}
                     </div>

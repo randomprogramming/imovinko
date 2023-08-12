@@ -5,6 +5,7 @@ import Image from "next/image";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
 import NoImage from "../NoImage";
+import Link from "../Link";
 
 interface Props {
     listing: ListingBasic;
@@ -98,83 +99,90 @@ export default function ListingListItem({ listing }: Props) {
     const firstImage = getPropertyMedia(listing).at(0);
 
     return (
-        <div className="flex lg:flex-row flex-col bg-zinc-50 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden">
-            <div className="h-64 lg:w-96 lg:h-full">
-                {firstImage ? (
-                    <div className="select-none relative w-full h-full">
-                        <Image
-                            src={firstImage?.url}
-                            alt="media image"
-                            fill
-                            style={{
-                                objectFit: "cover",
-                                height: "100%",
-                                width: "100%",
-                            }}
-                            quality={50}
-                        />
-                    </div>
-                ) : (
-                    <NoImage />
-                )}
-            </div>
-            <div className="p-4 flex flex-col w-full h-fit md:h-full">
-                <div
-                    style={{
-                        fontSize: "11px",
-                    }}
-                >
-                    <Typography className="tracking-widest text-zinc-500" uppercase>
-                        {getPropertyTypeAndOfferingTypeString(listing)}
-                    </Typography>
+        <Link
+            disableAnimatedHover
+            className="flex flex-1 bg-zinc-50 visited:bg-[#f1f1f1] rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden"
+            to={`/listing/${listing.prettyId}`}
+        >
+            <div className="flex lg:flex-row flex-col w-full">
+                <div className="h-64 lg:w-96 lg:h-full">
+                    {firstImage ? (
+                        <div className="select-none relative w-full h-full">
+                            <Image
+                                src={firstImage?.url}
+                                alt="media image"
+                                fill
+                                style={{
+                                    objectFit: "cover",
+                                    height: "100%",
+                                    width: "100%",
+                                }}
+                                quality={50}
+                            />
+                        </div>
+                    ) : (
+                        <NoImage />
+                    )}
                 </div>
-                <div
-                    style={{
-                        minHeight: "4em",
-                        height: "4em",
-                        maxHeight: "4em",
-                    }}
-                >
-                    <Typography variant="h2" className="line-clamp-2">
-                        {listing.title}
-                    </Typography>
-                </div>
-                <div>
-                    <Typography variant="secondary" uppercase>
-                        {getPropertyLocationString(listing)}
-                    </Typography>
-                </div>
-                <div className="mt-2">
-                    <IconRow listing={listing} />
-                </div>
-                {/* Push the price element to the end */}
-                <div className="flex-1 mt-2" />
-                <div className="flex flex-row w-full items-center">
-                    <div className="mt-auto">
-                        <Typography className="text-sm">
-                            {t("posted")}:{" "}
-                            <Typography variant="span" className="text-sm font-normal">
-                                {new Date(listing.createdAt)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
-                            </Typography>
+                <div className="p-4 flex flex-col w-full h-fit md:h-full">
+                    <div
+                        className="visited:!bg-red-500"
+                        style={{
+                            fontSize: "11px",
+                        }}
+                    >
+                        <Typography className="tracking-widest text-zinc-500" uppercase>
+                            {getPropertyTypeAndOfferingTypeString(listing)}
                         </Typography>
                     </div>
-                    <div className="flex-1" />
+                    <div
+                        style={{
+                            minHeight: "4em",
+                            height: "4em",
+                            maxHeight: "4em",
+                        }}
+                    >
+                        <Typography variant="h2" className="line-clamp-2">
+                            {listing.title}
+                        </Typography>
+                    </div>
                     <div>
-                        <Typography bold className="text-xl">
-                            {listing.price.toLocaleString()} €{" "}
-                            <Typography variant="span" className="text-sm font-normal">
-                                {getPriceString(listing)}
-                            </Typography>
+                        <Typography variant="secondary" uppercase>
+                            {getPropertyLocationString(listing)}
                         </Typography>
+                    </div>
+                    <div className="mt-2">
+                        <IconRow listing={listing} />
+                    </div>
+                    {/* Push the price element to the end */}
+                    <div className="flex-1 mt-2" />
+                    <div className="flex flex-row w-full items-center">
+                        <div className="mt-auto">
+                            <Typography className="text-sm">
+                                {t("posted")}:{" "}
+                                <Typography variant="span" className="text-sm font-normal">
+                                    {new Date(listing.createdAt)
+                                        .toLocaleDateString(undefined, {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                        })
+                                        .replaceAll("/", ".")}
+                                </Typography>
+                            </Typography>
+                        </div>
+                        <div className="flex-1" />
+                        <div>
+                            <Typography bold className="text-xl">
+                                {listing.price.toLocaleString()} €{" "}
+                                <Typography variant="span" className="text-sm font-normal">
+                                    {getPriceString(listing)}
+                                </Typography>
+                            </Typography>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }

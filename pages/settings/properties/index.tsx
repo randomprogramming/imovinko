@@ -106,13 +106,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                 return (
                                     <div key={l.prettyId} className="relative flex flex-col w-full">
                                         <div className="flex-1 relative max-w-full">
-                                            <Link
-                                                disableAnimatedHover
-                                                className="flex flex-1"
-                                                to={`/listing/${l.prettyId}`}
-                                            >
-                                                <ListingListItem listing={l} />
-                                            </Link>
+                                            <ListingListItem listing={l} />
                                         </div>
                                         <div className="flex flex-row">
                                             <div className="flex-1"></div>
