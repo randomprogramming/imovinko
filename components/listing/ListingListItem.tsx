@@ -9,8 +9,9 @@ import Link from "../Link";
 
 interface Props {
     listing: ListingBasic;
+    showCustomId?: boolean;
 }
-export default function ListingListItem({ listing }: Props) {
+export default function ListingListItem({ listing, showCustomId }: Props) {
     const t = useTranslations("ListingListItem");
 
     function getPropertyMedia(p: ListingBasic) {
@@ -20,6 +21,16 @@ export default function ListingListItem({ listing }: Props) {
             return p.house.media;
         } else {
             return p.land!.media;
+        }
+    }
+
+    function getCustomId(p: ListingBasic) {
+        if (p.apartment) {
+            return p.apartment.customId;
+        } else if (p.house) {
+            return p.house.customId;
+        } else {
+            return p.land!.customId;
         }
     }
 
@@ -124,9 +135,19 @@ export default function ListingListItem({ listing }: Props) {
                         <NoImage />
                     )}
                 </div>
-                <div className="p-4 flex flex-col w-full h-fit md:h-full">
+                <div className=" px-3 pb-3 pt-2 flex flex-col w-full h-fit md:h-full">
+                    {showCustomId && (
+                        <div
+                            style={{
+                                fontSize: "11px",
+                            }}
+                        >
+                            <Typography className="tracking-wider text-zinc-500" uppercase>
+                                {getCustomId(listing)}
+                            </Typography>
+                        </div>
+                    )}
                     <div
-                        className="visited:!bg-red-500"
                         style={{
                             fontSize: "11px",
                         }}

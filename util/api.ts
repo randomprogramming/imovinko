@@ -332,6 +332,7 @@ interface BasicProperty extends PropertyLocation {
     bedroomCount: number | null;
     bathroomCount: number | null;
     parkingSpaceCount: number | null;
+    customId: string | null;
 }
 export interface ListingBasic {
     prettyId: string;
