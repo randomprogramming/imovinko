@@ -45,7 +45,8 @@ export type IconName =
     | "error"
     | "image-edit"
     | "edit"
-    | "price-euro";
+    | "sold"
+    | "trash";
 
 interface IconProps {
     name: IconName;
@@ -1548,44 +1549,66 @@ export default function Icon({ name, height, width, className }: IconProps) {
                     </g>
                 </svg>
             );
-        case "price-euro":
+        case "sold":
             return (
                 <svg
                     width={width || DEFAULT_W}
                     height={height || DEFAULT_H}
                     className={className}
-                    viewBox="0 0 64 64"
+                    viewBox="0 0 24 24"
+                    id="Layer_1"
+                    data-name="Layer 1"
                     xmlns="http://www.w3.org/2000/svg"
-                    strokeWidth="3"
-                    stroke="#000000"
-                    fill="none"
+                    fill="#000000"
                 >
                     <g>
                         <path
                             className={className}
-                            d="M43.12,58H20.88a2.33,2.33,0,0,1-2.33-2.33V28.89a1.15,1.15,0,0,1,.37-.85L30.73,17a1.16,1.16,0,0,1,1.56,0L45.05,28a1.18,1.18,0,0,1,.4.88V55.7A2.33,2.33,0,0,1,43.12,58Z"
-                            strokeLinecap="round"
+                            d="M1.46,19.19H4a1.25,1.25,0,0,0,1.25-1.25h0a1.26,1.26,0,0,0-.55-1L3,15.72a1.25,1.25,0,0,1-.55-1h0a1.25,1.25,0,0,1,1.25-1.25H6.25"
                         ></path>
+                        <line className={className} x1="23.5" y1="22.06" x2="0.5" y2="22.06"></line>
+                        <polyline
+                            className={className}
+                            points="22.54 10.56 12 1.94 1.46 10.56"
+                        ></polyline>
+                        <rect
+                            className={className}
+                            x="8.17"
+                            y="13.44"
+                            width="2.88"
+                            height="5.75"
+                            rx="1.44"
+                        ></rect>
+                        <polyline
+                            className={className}
+                            points="13.92 12.48 13.92 19.19 16.79 19.19"
+                        ></polyline>
                         <path
                             className={className}
-                            d="M32,25.2c-4.39,0-7.95-4.31-7.95-9.62S27.61,6,32,6s8,4.3,8,9.61"
-                            strokeLinecap="round"
+                            d="M18.71,13.44h1a1.92,1.92,0,0,1,1.92,1.92v1.92a1.92,1.92,0,0,1-1.92,1.92h-1a0,0,0,0,1,0,0V13.44a0,0,0,0,1,0,0Z"
                         ></path>
-                        <path className={className} d="M39.78,46.88a8.1,8.1,0,1,1-1.53-13.8"></path>
-                        <line
+                    </g>
+                </svg>
+            );
+        case "trash":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g>
+                        <path
                             className={className}
-                            x1="22.68"
-                            y1="38.07"
-                            x2="36.17"
-                            y2="38.07"
-                        ></line>
-                        <line
-                            className={className}
-                            x1="22.68"
-                            y1="43.12"
-                            x2="34.54"
-                            y2="43.12"
-                        ></line>
+                            d="M10 12L14 16M14 12L10 16M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        ></path>
                     </g>
                 </svg>
             );

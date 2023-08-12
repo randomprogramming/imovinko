@@ -6,9 +6,12 @@ import Typography from "@/components/Typography";
 import {
     Company,
     EnergyClass,
+    Listing,
     ListingFor,
+    PropertyType,
     createListing,
-    getMyCompany,
+    deleteMedia,
+    patchListing,
     patchPropertyMedia,
     uploadMedia,
 } from "@/util/api";
@@ -17,7 +20,6 @@ import { useTranslations } from "next-intl";
 import React, { useRef, useState, useId } from "react";
 import ImageUpload from "@/components/ImageUpload";
 import Select from "react-select";
-import cookie from "cookie";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
@@ -25,36 +27,53 @@ import Head from "next/head";
 import { space_grotesk } from "@/util/fonts";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import { OfferingType } from "@/util/api";
+import { findListing } from "@/util/api";
+import CurrencyInput from "react-currency-input-field";
+import Modal from "../Modal";
 
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-    const cookies = req.headers.cookie;
-    if (!cookies) {
-        return {
-            props: {
-                messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
-                company: null,
-            },
-        };
+export function intersection(a?: string[], b?: string[]): string[] {
+    if (!a || !b || a.length === 0 || b.length === 0) {
+        return [];
     }
+    const setA = new Set(a);
+    return b.filter((value) => setA.has(value));
+}
 
-    const parsed = cookie.parse(cookies);
-    const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
-
-    let company: Company | null = null;
-    try {
-        const { data } = await getMyCompany(jwt);
-        company = data;
-    } catch (e) {
-        console.error("Error when fetching company while creating apartment listing");
-    }
-
-    return {
-        props: {
-            messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
-            company,
-        },
-    };
-};
+const allEnergyLabels = [
+    {
+        label: "A+",
+        value: EnergyClass.Ap,
+    },
+    {
+        label: "A",
+        value: EnergyClass.A,
+    },
+    {
+        label: "B",
+        value: EnergyClass.B,
+    },
+    {
+        label: "C",
+        value: EnergyClass.C,
+    },
+    {
+        label: "D",
+        value: EnergyClass.D,
+    },
+    {
+        label: "E",
+        value: EnergyClass.E,
+    },
+    {
+        label: "F",
+        value: EnergyClass.F,
+    },
+    {
+        label: "G",
+        value: EnergyClass.G,
+    },
+];
 
 interface FlexRowProps {
     children?: React.ReactNode;
@@ -100,52 +119,95 @@ function TitleCol({ title, children, errorMsg, hasError }: TitleColProps) {
 
 interface ListApartmentProps {
     company: Company | null;
+    listing: Listing | null;
+    type: PropertyType;
 }
-export default function ListApartment({ company }: ListApartmentProps) {
-    const t = useTranslations("ListApartment");
+
+function getListingProperty(listing: Listing | null, type: PropertyType, key: string) {
+    if (!listing) {
+        return undefined;
+    }
+    const property = listing[type];
+    if (!property) {
+        return undefined;
+    }
+    if (Object.keys(property).includes(key)) {
+        return property[key as keyof typeof property];
+    }
+    return undefined;
+}
+// TODO: Use this component also for creating listings
+export default function InputListingData({ company, listing, type }: ListApartmentProps) {
+    const t = useTranslations("InputListingData");
 
     const router = useRouter();
 
     const imageUploadRef = useRef<HTMLInputElement>(null);
+
     const [isSubmittingAd, setIsSubmittingAd] = useState(false);
-    const [isForSale, setIsForSale] = useState(false);
-    const [saleListingTitle, setSaleListingTitle] = useState("");
-    const [saleListingPrice, setSaleListingPrice] = useState<number>();
-    const [saleListingDescription, setSaleListingDescription] = useState<string>("");
+
+    const [saleListingTitle, setSaleListingTitle] = useState(listing?.title);
+    const [saleListingPrice, setSaleListingPrice] = useState<number | undefined>(listing?.price);
+    const [saleListingDescription, setSaleListingDescription] = useState<string | undefined>(
+        listing?.description
+    );
     const [saleManualAccountContacts, setSaleManualAccountContacts] = useState<string[]>([]);
     const [saleContacts, setSaleContacts] = useState<string[]>([]);
-    const [isForShortTermRent, setIsForShortTermRent] = useState(false);
-    const [shortTermListingTitle, setShortTermListingTitle] = useState("");
-    const [shortTermListingPrice, setShortTermListingPrice] = useState<number>();
-    const [shortTermListingDescription, setShortTermListingDescription] = useState<string>("");
+    const [shortTermListingTitle, setShortTermListingTitle] = useState(listing?.title);
+    const [shortTermListingPrice, setShortTermListingPrice] = useState<number | undefined>(
+        listing?.price
+    );
+    const [shortTermListingDescription, setShortTermListingDescription] = useState<
+        string | undefined
+    >(listing?.description);
     const [shortTermContacts, setShortTermContacts] = useState<string[]>([]);
     const [shortTermManualAccountContacts, setShortTermManualAccountContacts] = useState<string[]>(
         []
     );
-    const [isForLongTermRent, setIsForLongTermRent] = useState(false);
-    const [longTermListingTitle, setLongTermListingTitle] = useState("");
-    const [longTermListingPrice, setLongTermListingPrice] = useState<number>();
-    const [longTermListingDescription, setLongTermListingDescription] = useState<string>("");
+    const [longTermListingTitle, setLongTermListingTitle] = useState(listing?.title);
+    const [longTermListingPrice, setLongTermListingPrice] = useState<number | undefined>(
+        listing?.price
+    );
+    const [longTermListingDescription, setLongTermListingDescription] = useState<
+        string | undefined
+    >(listing?.description);
     const [longTermContacts, setLongTermContacts] = useState<string[]>([]);
     const [longTermManualAccountContacts, setLongTermManualAccountContacts] = useState<string[]>(
         []
     );
     const [location, setLocation] = useState({
-        lat: 0,
-        lon: 0,
+        lat: getListingProperty(listing, type, "latitude") as number,
+        lon: getListingProperty(listing, type, "longitude") as number,
     });
-    const [area, setArea] = useState(0);
+    const [area, setArea] = useState(getListingProperty(listing, type, "surfaceArea") as number);
     const [images, setImages] = useState<File[]>([]);
-    const [bedroomCount, setBedroomCount] = useState<string | null>();
-    const [bathroomCount, setBathroomCount] = useState<string | null>();
-    const [parkingSpaceCount, setParkingSpaceCount] = useState<string | null>();
-
-    const [floor, setFloor] = useState<string | null>();
-    const [totalFloors, setTotalFloors] = useState<string | null>();
-    const [buildingFloors, setBuildingFloors] = useState<string | null>();
-    const [buildYear, setBuildYear] = useState<string | null>();
-    const [renovationYear, setRenovationYear] = useState<string | null>();
-    const [customId, setCustomId] = useState<string | null>();
+    const [bedroomCount, setBedroomCount] = useState<string | null | undefined>(
+        getListingProperty(listing, type, "bedroomCount") as string
+    );
+    const [bathroomCount, setBathroomCount] = useState<string | null>(
+        getListingProperty(listing, type, "bathroomCount") as string
+    );
+    const [parkingSpaceCount, setParkingSpaceCount] = useState<string | null>(
+        getListingProperty(listing, type, "parkingSpaceCount") as string
+    );
+    const [floor, setFloor] = useState<string | null>(
+        getListingProperty(listing, type, "floor") as string
+    );
+    const [totalFloors, setTotalFloors] = useState<string | null>(
+        getListingProperty(listing, type, "totalFloors") as string
+    );
+    const [buildingFloors, setBuildingFloors] = useState<string | null>(
+        getListingProperty(listing, type, "buildingFloors") as string
+    );
+    const [buildYear, setBuildYear] = useState<string | null>(
+        getListingProperty(listing, type, "buildYear") as string
+    );
+    const [renovationYear, setRenovationYear] = useState<string | null>(
+        getListingProperty(listing, type, "renovationYear") as string
+    );
+    const [customId, setCustomId] = useState<string | null>(
+        getListingProperty(listing, type, "customId") as string
+    );
 
     const fieldErrorCodesParser = useFieldErrorCodes();
     const [loadingBar, setLoadingBar] = useState<{
@@ -153,7 +215,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
         message: string;
         isError?: boolean;
     }>();
-    const [energyLabel, setEnergyLabel] = useState<EnergyClass | null>(null);
+    const [energyLabel, setEnergyLabel] = useState<EnergyClass | null>(
+        getListingProperty(listing, type, "energyLabel") as EnergyClass
+    );
+
+    const [mediaToDelete, setMediaToDelete] = useState<string | null>(null);
 
     const allCompanyAccounts = company
         ? [
@@ -193,69 +259,143 @@ export default function ListApartment({ company }: ListApartmentProps) {
               },
           ]
         : [];
+    const listingContactsIds = listing ? listing.contacts.map((ca) => ca.id) : [];
+    const listingManualContactsIds = listing
+        ? listing.manualAccountContacts.map((ca) => ca.id)
+        : [];
+    const defaultContacts = company
+        ? [
+              ...company.accounts
+                  .filter((ac) => listingContactsIds.includes(ac.id))
+                  .map((ac) => {
+                      return {
+                          id: ac.id,
+                          email: ac.email,
+                          firstName: ac.firstName,
+                          lastName: ac.lastName,
+                          username: ac.username,
+                          manual: false,
+                          value: ac.id,
+                          avatarUrl: ac.avatarUrl,
+                          label: `${ac.firstName}${ac.firstName && " "}${ac.lastName}`,
+                      };
+                  }),
+              ...company.manualAccounts
+                  .filter((ac) => listingManualContactsIds.includes(ac.id))
+                  .map((mac) => {
+                      return {
+                          id: mac.id,
+                          email: mac.email,
+                          firstName: mac.firstName,
+                          lastName: mac.lastName,
+                          username: null,
+                          manual: true,
+                          value: mac.id,
+                          avatarUrl: mac.avatarUrl,
+                          label: `${mac.firstName}${mac.firstName && " "}${mac.lastName}`,
+                      };
+                  }),
+          ]
+        : [];
+
+    async function handleMediaDelete(id: string) {
+        try {
+            await deleteMedia(id);
+            if (listing) {
+                const property = listing[type];
+                if (!property) {
+                    throw new Error("property not found");
+                }
+                router.reload();
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     async function submitAd() {
         setLoadingBar({
             message: t("creating-listing"),
             percent: 10,
         });
+        if (!listing) {
+            return;
+        }
         fieldErrorCodesParser.empty();
         try {
-            // First create the apartment, then PATCH or PUT the images,
-            // othwerise we might be uploading images for nothing when user enters some invalid apartment info
-            setIsSubmittingAd(true);
             let listingData = {};
-
-            if (isForSale) {
+            if (listing?.offeringType === OfferingType.sale) {
                 listingData = {
-                    ...listingData,
-                    saleListingPrice,
-                    saleListingTitle,
-                    saleListingDescription,
-                    saleContacts,
-                    saleManualAccountContacts,
+                    sale: {
+                        title: saleListingTitle,
+                        price: saleListingPrice,
+                        contactIds: saleContacts,
+                        manualAccountContactIds: saleManualAccountContacts,
+                        description: saleListingDescription,
+                    },
+                };
+            } else if (listing?.offeringType === OfferingType.shortTermRent) {
+                listingData = {
+                    shortTermRent: {
+                        title: shortTermListingTitle,
+                        price: shortTermListingPrice,
+                        contactIds: shortTermContacts,
+                        manualAccountContactIds: shortTermManualAccountContacts,
+                        description: shortTermListingDescription,
+                    },
+                };
+            } else {
+                listingData = {
+                    longTermRent: {
+                        title: longTermListingTitle,
+                        price: longTermListingPrice,
+                        contactIds: longTermContacts,
+                        manualAccountContactIds: longTermManualAccountContacts,
+                        description: longTermListingDescription,
+                    },
                 };
             }
-            if (isForShortTermRent) {
-                listingData = {
+            if (type === PropertyType.apartment) {
+                await patchListing(listing?.prettyId, {
                     ...listingData,
-                    shortTermListingPrice,
-                    shortTermListingTitle,
-                    shortTermListingDescription,
-                    shortTermContacts,
-                    shortTermManualAccountContacts,
-                };
-            }
-            if (isForLongTermRent) {
-                listingData = {
+                    apartment: {
+                        surfaceArea: area,
+                        bathroomCount,
+                        bedroomCount,
+                        buildingFloors,
+                        buildYear,
+                        customId,
+                        energyLabel,
+                        floor,
+                        parkingSpaceCount,
+                        renovationYear,
+                        totalFloors,
+                    },
+                });
+            } else if (type === PropertyType.house) {
+                await patchListing(listing?.prettyId, {
                     ...listingData,
-                    longTermListingPrice,
-                    longTermListingTitle,
-                    longTermListingDescription,
-                    longTermContacts,
-                    longTermManualAccountContacts,
-                };
+                    house: {
+                        surfaceArea: area,
+                        bathroomCount,
+                        bedroomCount,
+                        buildYear,
+                        customId,
+                        energyLabel,
+                        parkingSpaceCount,
+                        renovationYear,
+                        totalFloors,
+                    },
+                });
+            } else if (type === PropertyType.land) {
+                await patchListing(listing?.prettyId, {
+                    ...listingData,
+                    land: {
+                        surfaceArea: area,
+                        customId,
+                    },
+                });
             }
-            const resp = await createListing({
-                area,
-                lat: location.lat,
-                lon: location.lon,
-                listingFor: ListingFor.apartment,
-                isForLongTermRent,
-                isForShortTermRent,
-                isForSale,
-                bathroomCount,
-                bedroomCount,
-                parkingSpaceCount,
-                floor,
-                totalFloors,
-                buildingFloors,
-                buildYear,
-                renovationYear,
-                energyLabel,
-                customId,
-                ...listingData,
-            });
 
             setLoadingBar({
                 message: t("uploading-media"),
@@ -267,8 +407,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     message: t("updating-media"),
                     percent: 90,
                 });
+
                 await patchPropertyMedia({
-                    ...resp.data,
+                    id: listing[type]?.id!,
+                    listingFor: ListingFor[type],
                     media: imageUrls.map((url) => {
                         return { url };
                     }),
@@ -282,7 +424,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 await router.push({
                     pathname: "/settings/properties",
                     query: {
-                        listingCreated: true,
+                        listingUpdated: true,
                     },
                 });
             }, 250);
@@ -332,12 +474,57 @@ export default function ListApartment({ company }: ListApartmentProps) {
 
     return (
         <>
-            <Head>
-                <title>Imovinko - Stan</title>
-            </Head>
-            <header>
-                <Navbar hideSearchBar />
-            </header>
+            <Modal
+                small
+                show={typeof mediaToDelete === "string"}
+                onClose={() => {
+                    setMediaToDelete(null);
+                }}
+            >
+                <div className="flex flex-col">
+                    <div className="self-center my-2">
+                        {listing &&
+                            listing[type]?.media.find((media) => {
+                                return media.id === mediaToDelete;
+                            }) && (
+                                <img
+                                    src={
+                                        listing[type]?.media.find((media) => {
+                                            return media.id === mediaToDelete;
+                                        })?.url
+                                    }
+                                    className="w-32 h-24 object-cover rounded"
+                                />
+                            )}
+                    </div>
+                    <div className="px-2">
+                        {/* TODO: translate this */}
+                        <Typography>Are you sure you want to remove this image?</Typography>
+                    </div>
+                    <div className="grid grid-cols-2 border-t border-zinc-300 ">
+                        <div
+                            className="px-2 py-1 text-center hover:bg-zinc-200 transition-all cursor-pointer"
+                            onClick={() => {
+                                setMediaToDelete(null);
+                            }}
+                        >
+                            <Typography className="text-blue-500 select-none" bold>
+                                Cancel
+                            </Typography>
+                        </div>
+                        <div
+                            className="px-2 py-1 border-l border-zinc-300 text-center hover:bg-zinc-200 transition-all cursor-pointer"
+                            onClick={() => {
+                                handleMediaDelete(mediaToDelete!);
+                            }}
+                        >
+                            <Typography className="text-red-500 select-none" bold>
+                                Delete
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
             <main className="container mx-auto flex-1 flex flex-col" id="main">
                 <Typography variant="h1">{t("title")}</Typography>
                 <div className="flex-1 mt-8 flex justify-center">
@@ -368,57 +555,59 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                     }
                                 }}
                             />
-                            <TitleCol title={t("images")}>{t("images-desc")}</TitleCol>
+                            <TitleCol title={t("new-images")}>{t("new-images-desc")}</TitleCol>
+
                             <ImageUpload images={images} inputRef={imageUploadRef} />
                         </FlexRow>
-
-                        <FlexRow>
-                            <TitleCol
-                                hasError={fieldErrorCodesParser.has(
-                                    "sale.shortTermRent.longTermRent"
-                                )}
-                                errorMsg={fieldErrorCodesParser.getTranslated(
-                                    "sale.shortTermRent.longTermRent"
-                                )}
-                                title={t("offering-type")}
-                            >
-                                {t("offering-type-desc")}
-                            </TitleCol>
-                            <RowItem>
-                                <div className="space-y-2">
-                                    <Input
-                                        name={t("for-sale")}
-                                        type="checkbox"
-                                        checked={isForSale}
-                                        onCheckedChange={setIsForSale}
-                                        hasError={fieldErrorCodesParser.has(
-                                            "sale.shortTermRent.longTermRent"
-                                        )}
-                                        errorMsg={fieldErrorCodesParser.getTranslated(
-                                            "sale.shortTermRent.longTermRent"
-                                        )}
-                                    />
-                                    <Input
-                                        name={t("short-term-rent")}
-                                        type="checkbox"
-                                        checked={isForShortTermRent}
-                                        onCheckedChange={setIsForShortTermRent}
-                                    />
-                                    <Input
-                                        name={t("long-term-rent")}
-                                        type="checkbox"
-                                        checked={isForLongTermRent}
-                                        onCheckedChange={setIsForLongTermRent}
-                                    />
+                        {listing && listing[type]?.media && listing[type]?.media.length! > 0 && (
+                            <FlexRow singleCol>
+                                <TitleCol title={t("edit-images")}>
+                                    {t("edit-images-desc")}
+                                </TitleCol>
+                                <div className="w-full overflow-x-auto flex flex-row space-x-2 pb-2 mt-1">
+                                    {listing &&
+                                        listing[type]?.media.map((media) => {
+                                            return (
+                                                <div
+                                                    key={media.id}
+                                                    className="flex flex-col h-40 w-40 overflow-hidden rounded shadow-sm border border-zinc-300"
+                                                    style={{
+                                                        flex: "0 0 auto",
+                                                    }}
+                                                >
+                                                    <div className="h-3/4">
+                                                        <img
+                                                            src={media.url}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-row h-1/4 bg-zinc-50 items-center justify-center border-t border-zinc-300">
+                                                        <Button.Transparent
+                                                            className="!p-1"
+                                                            onClick={() => {
+                                                                setMediaToDelete(media.id);
+                                                            }}
+                                                        >
+                                                            <Icon
+                                                                name="trash"
+                                                                className="stroke-red-600"
+                                                            />
+                                                        </Button.Transparent>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                 </div>
-                            </RowItem>
-                        </FlexRow>
+                            </FlexRow>
+                        )}
 
                         {/* SALE SECTION START */}
                         <FlexRow
                             singleCol
                             className={`${
-                                isForSale ? "opacity-100" : "!mb-0 !p-0 h-0 opacity-0 invisible "
+                                listing?.offeringType === OfferingType.sale
+                                    ? "opacity-100"
+                                    : "!mb-0 !p-0 h-0 opacity-0 invisible "
                             } transition-all`}
                         >
                             <Typography variant="h2">{t("sale-information")}</Typography>
@@ -426,6 +615,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 <TitleCol title={t("ad-title")}>{t("ad-title-desc")}</TitleCol>
                                 <RowItem>
                                     <Input
+                                        disabled
                                         value={saleListingTitle}
                                         onChange={setSaleListingTitle}
                                         placeholder={t("ad-title-placeholder")}
@@ -481,6 +671,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             isMulti
                                             className={`z-30 ${space_grotesk.className}`}
                                             isSearchable
+                                            defaultValue={defaultContacts}
                                             closeMenuOnSelect={false}
                                             noOptionsMessage={() => {
                                                 return (
@@ -505,13 +696,15 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             options={allCompanyAccounts}
                                             hideSelectedOptions={false}
                                             onChange={(val) => {
+                                                console.log("val:");
+
+                                                console.log(val);
+
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
-                                                // @ts-ignore - something is messed up with the types here
                                                 setSaleContacts(contacts.map((c) => c.id));
                                                 setSaleManualAccountContacts(
-                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -540,11 +733,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             data={data}
                                                         >
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -555,11 +746,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
-                                                                        // @ts-ignore
                                                                         data.firstName && " "
-                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -576,11 +764,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -595,9 +781,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     />
                                                                 )}
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children} {/* @ts-ignore */}
+                                                                    {children}
                                                                     {data.email &&
-                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
@@ -617,14 +802,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 </FlexRow>
                             )}
                         </FlexRow>
-
                         {/* SALE SECTION END */}
-
                         {/* SHORT TERM RENT SECTION START */}
                         <FlexRow
                             singleCol
                             className={`${
-                                isForShortTermRent
+                                listing?.offeringType === OfferingType.shortTermRent
                                     ? "opacity-100"
                                     : "!mb-0 !p-0 h-0 opacity-0 invisible"
                             } transition-all`}
@@ -634,6 +817,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 <TitleCol title={t("ad-title")}>{t("ad-title-desc")}</TitleCol>
                                 <RowItem>
                                     <Input
+                                        disabled
                                         value={shortTermListingTitle}
                                         onChange={setShortTermListingTitle}
                                         placeholder={t("ad-title-placeholder")}
@@ -696,6 +880,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
+                                            defaultValue={defaultContacts}
                                             noOptionsMessage={() => {
                                                 return (
                                                     <div className="w-full flex items-center justify-center">
@@ -722,10 +907,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
-                                                // @ts-ignore
                                                 setShortTermContacts(contacts.map((c) => c.id));
                                                 setShortTermManualAccountContacts(
-                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -754,11 +937,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             data={data}
                                                         >
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -769,11 +950,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
-                                                                        // @ts-ignore
                                                                         data.firstName && " "
-                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -790,11 +968,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -809,9 +985,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     />
                                                                 )}
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children} {/* @ts-ignore */}
+                                                                    {children}
                                                                     {data.email &&
-                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
@@ -832,12 +1007,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                             )}
                         </FlexRow>
                         {/* SHORT TERM RENT SECTION END */}
-
                         {/* LONG TERM RENT SECTION START */}
                         <FlexRow
                             singleCol
                             className={`${
-                                isForLongTermRent
+                                listing?.offeringType === OfferingType.longTermRent
                                     ? "opacity-100 !mt-0"
                                     : "!mb-0 !p-0 h-0 opacity-0 invisible"
                             } transition-all`}
@@ -847,6 +1021,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 <TitleCol title={t("ad-title")}>{t("ad-title-desc")}</TitleCol>
                                 <RowItem>
                                     <Input
+                                        disabled
                                         value={longTermListingTitle}
                                         onChange={setLongTermListingTitle}
                                         placeholder={t("ad-title-placeholder")}
@@ -909,6 +1084,7 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
+                                            defaultValue={defaultContacts}
                                             noOptionsMessage={() => {
                                                 return (
                                                     <div className="w-full flex items-center justify-center">
@@ -932,13 +1108,14 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             options={allCompanyAccounts}
                                             hideSelectedOptions={false}
                                             onChange={(val) => {
+                                                console.log("val");
+                                                console.log(val);
+
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
-                                                // @ts-ignore
                                                 setLongTermContacts(contacts.map((c) => c.id));
                                                 setLongTermManualAccountContacts(
-                                                    // @ts-ignore
                                                     manualContacts.map((c) => c.id)
                                                 );
                                             }}
@@ -967,11 +1144,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                             data={data}
                                                         >
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -982,11 +1157,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {/* @ts-ignore */}
                                                                     {`${data.firstName}${
-                                                                        // @ts-ignore
                                                                         data.firstName && " "
-                                                                        // @ts-ignore
                                                                     }${data.lastName}`}
                                                                 </Typography>
                                                             </div>
@@ -1003,11 +1175,9 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                     return !isDisabled ? (
                                                         <div {...innerProps}>
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
-                                                                {/* @ts-ignore */}
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
                                                                         <Image
-                                                                            // @ts-ignore
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -1022,9 +1192,8 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                                                     />
                                                                 )}
                                                                 <Typography className="ml-2 flex-1">
-                                                                    {children} {/* @ts-ignore */}
+                                                                    {children}
                                                                     {data.email &&
-                                                                        // @ts-ignore
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
@@ -1045,7 +1214,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                             )}
                         </FlexRow>
                         {/* LONG TERM RENT SECTION END */}
-
                         <FlexRow>
                             <TitleCol title={t("bedroom-count")}>
                                 {t("bedroom-count-description")}
@@ -1061,7 +1229,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("bathroom-count")}>
                                 {t("bathroom-count-description")}
@@ -1077,7 +1244,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("parking-count")}>
                                 {t("parking-count-description")}
@@ -1095,7 +1261,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("floor")}>{t("floor-description")}</TitleCol>
                             <RowItem>
@@ -1109,7 +1274,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("total-floor")}>
                                 {t("total-floor-description")}
@@ -1125,7 +1289,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("building-floor")}>
                                 {t("building-floor-description")}
@@ -1141,7 +1304,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("build-year")}>
                                 {t("build-year-description")}
@@ -1157,7 +1319,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("renovation-year")}>
                                 {t("renovation-year-description")}
@@ -1173,12 +1334,14 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
                             <RowItem>
                                 <Select
                                     instanceId={useId()}
+                                    defaultValue={allEnergyLabels.find(
+                                        (lb) => lb.value === energyLabel
+                                    )}
                                     onChange={(newVal) => {
                                         setEnergyLabel(newVal ? newVal.value : null);
                                     }}
@@ -1205,60 +1368,25 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                             );
                                         },
                                     }}
-                                    options={[
-                                        {
-                                            label: "A+",
-                                            value: EnergyClass.Ap,
-                                        },
-                                        {
-                                            label: "A",
-                                            value: EnergyClass.A,
-                                        },
-                                        {
-                                            label: "B",
-                                            value: EnergyClass.B,
-                                        },
-                                        {
-                                            label: "C",
-                                            value: EnergyClass.C,
-                                        },
-                                        {
-                                            label: "D",
-                                            value: EnergyClass.D,
-                                        },
-                                        {
-                                            label: "E",
-                                            value: EnergyClass.E,
-                                        },
-                                        {
-                                            label: "F",
-                                            value: EnergyClass.F,
-                                        },
-                                        {
-                                            label: "G",
-                                            value: EnergyClass.G,
-                                        },
-                                    ]}
+                                    options={allEnergyLabels}
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow singleCol noPadding>
                             <div className="px-2">
-                                <TitleCol title={t("location")}>{t("location-desc")}</TitleCol>
+                                <TitleCol title={t("location")}>{""}</TitleCol>
                             </div>
                             <Map
+                                centerLat={location.lat}
+                                centerLon={location.lon}
                                 scrollZoom={true}
-                                showSearchBox
                                 showCenterMarker
                                 className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
                                 style={{
                                     height: "50vh",
                                 }}
-                                onCenterChange={setLocation}
                             />
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("area")}>{t("area-desc")}</TitleCol>
                             <RowItem>
@@ -1276,7 +1404,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         <FlexRow>
                             <TitleCol title={t("custom-id")}>{t("custom-id-description")}</TitleCol>
                             <RowItem>
@@ -1291,7 +1418,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 />
                             </RowItem>
                         </FlexRow>
-
                         {loadingBar && (
                             <FlexRow singleCol hideBottomBorder className="!m-0 !py-0">
                                 <Typography
@@ -1314,7 +1440,6 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 </div>
                             </FlexRow>
                         )}
-
                         <FlexRow singleCol hideBottomBorder className="!mt-0">
                             <Button.Primary
                                 label={t("submit")}

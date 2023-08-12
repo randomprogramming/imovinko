@@ -305,12 +305,12 @@ export async function patchCompanyAvatarUrl(avatarUrl?: string | null) {
 interface PatchPropertyMediaData {
     id: string;
     listingFor: ListingFor;
-    media: string[];
+    media: Omit<Media, "id">[];
 }
 export async function patchPropertyMedia(data: PatchPropertyMediaData) {
     return client({
         method: "PATCH",
-        url: "/listing/property-media",
+        url: "/listing/media/",
         data,
         headers: {
             ...getAuthHeaders(),
@@ -327,9 +327,7 @@ interface BoundingBox {
 interface BasicProperty extends PropertyLocation {
     latitude: number;
     longitude: number;
-    media: {
-        url: string;
-    }[];
+    media: Media[];
     surfaceArea: number;
     bedroomCount: number | null;
     bathroomCount: number | null;
@@ -435,7 +433,9 @@ export interface FullAccountSingleCompany extends Account {
     };
 }
 export interface Media {
+    id: string;
     url: string;
+    order?: string;
 }
 export interface Apartment extends PropertyLocation {
     id: string;
@@ -446,9 +446,7 @@ export interface Apartment extends PropertyLocation {
     createdAt: string | Date;
     updatedAt: string | Date;
     owner: Omit<FullAccount, "email">;
-    media: {
-        url: string;
-    }[];
+    media: Media[];
     bedroomCount: number | null;
     bathroomCount: number | null;
     parkingSpaceCount: number | null;
@@ -469,9 +467,7 @@ export interface House extends PropertyLocation {
     createdAt: string | Date;
     updatedAt: string | Date;
     owner: Omit<FullAccount, "email">;
-    media: {
-        url: string;
-    }[];
+    media: Media[];
     bedroomCount: number | null;
     bathroomCount: number | null;
     parkingSpaceCount: number | null;
@@ -504,6 +500,7 @@ export interface Listing {
     landId: string | null;
     createdAt: string | Date;
     updatedAt: string | Date;
+    prettyId: string;
     apartment:
         | (Apartment & {
               owner: FullAccountSingleCompany;
@@ -527,6 +524,7 @@ export interface Listing {
         lastName: string | null;
         phone: string | null;
         avatarUrl: string | null;
+        id: string;
     }[];
     manualAccountContacts: {
         username: null;
@@ -535,6 +533,7 @@ export interface Listing {
         lastName: string | null;
         phone: string | null;
         avatarUrl: string | null;
+        id: string;
     }[];
 }
 export async function findListing(id: string) {
@@ -841,5 +840,77 @@ export async function createContactMessage(data: ContactMessageData) {
         url: "/contact/",
         method: "POST",
         data,
+    });
+}
+
+interface PatchListingData {
+    sale?: {
+        title?: string;
+        price?: number | string;
+        description?: string;
+        contactIds: string[];
+        manualAccountContactIds: string[];
+    };
+    shortTermRent?: {
+        title?: string;
+        price?: number | string;
+        description?: string;
+        contactIds: string[];
+        manualAccountContactIds: string[];
+    };
+    longTermRent?: {
+        title?: string;
+        price?: number | string;
+        description?: string;
+        contactIds: string[];
+        manualAccountContactIds: string[];
+    };
+    apartment?: {
+        surfaceArea: number;
+        bedroomCount?: string | number | null;
+        bathroomCount?: string | number | null;
+        parkingSpaceCount?: string | number | null;
+        floor?: string | number | null;
+        totalFloors?: string | number | null;
+        buildingFloors?: string | number | null;
+        buildYear?: string | number | null;
+        renovationYear?: string | number | null;
+        energyLabel?: EnergyClass | null;
+        customId?: string | null;
+    };
+    house?: {
+        surfaceArea: number;
+        bedroomCount?: string | number | null;
+        bathroomCount?: string | number | null;
+        parkingSpaceCount?: string | number | null;
+        totalFloors?: string | number | null;
+        buildYear?: string | number | null;
+        renovationYear?: string | number | null;
+        energyLabel?: EnergyClass | null;
+        customId?: string | null;
+    };
+    land?: {
+        surfaceArea: number;
+        customId?: string | null;
+    };
+}
+export async function patchListing(prettyId: string, data: PatchListingData) {
+    return await client({
+        url: "/listing/pretty-id/" + prettyId,
+        method: "PATCH",
+        data,
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export async function deleteMedia(id: string) {
+    return await client({
+        url: "/listing/media/id/" + id,
+        method: "DELETE",
+        headers: {
+            ...getAuthHeaders(),
+        },
     });
 }

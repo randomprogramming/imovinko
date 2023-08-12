@@ -2,13 +2,16 @@ import NotFound from "@/components/404";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { Listing, findListing } from "@/util/api";
+import { Company, Listing, PropertyType, findListing, getMyCompany } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import React from "react";
+import cookie from "cookie";
+import PatchListingData from "@/components/listing/PatchListingData";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, req, params }) => {
+    const cookies = req.headers.cookie;
     let listing = null;
     if (typeof params?.prettyId === "string") {
         try {
@@ -17,19 +20,41 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
             console.error(e);
         }
     }
+    if (!cookies) {
+        return {
+            props: {
+                messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
+                company: null,
+                listing: null,
+            },
+        };
+    }
+
+    const parsed = cookie.parse(cookies);
+    const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+
+    let company: Company | null = null;
+    try {
+        const { data } = await getMyCompany(jwt);
+        company = data;
+    } catch (e) {
+        console.error("Error when fetching company while creating apartment listing");
+    }
 
     return {
         props: {
             messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
+            company,
             listing,
         },
     };
 };
 
 interface ListingPageProps {
+    company: Company | null;
     listing: Listing | null;
 }
-export default function EditListingPage({ listing }: ListingPageProps) {
+export default function EditListingPage({ listing, company }: ListingPageProps) {
     const t = useTranslations("EditListingPage");
 
     return (
@@ -48,9 +73,13 @@ export default function EditListingPage({ listing }: ListingPageProps) {
             <header>
                 <Navbar />
             </header>
-            <main className="flex-1">
+            <main className="flex-1 container mx-auto">
                 {listing ? (
-                    <div>Listing found!</div>
+                    <PatchListingData
+                        listing={listing}
+                        company={company}
+                        type={PropertyType.apartment}
+                    />
                 ) : (
                     <NotFound>
                         <Typography>{t("not-found")}</Typography>

@@ -77,11 +77,19 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                 message={t("listing-added-messages")}
                             />
                         )}
+                        {router.query.listingUpdated === "true" && (
+                            <Dialog
+                                className="mb-2"
+                                type="success"
+                                title={t("listing-updated")}
+                                message={t("listing-updated-messages")}
+                            />
+                        )}
                         <Typography variant="h2">
                             {t("my-listings")}
                             {` (${listings.count})`}
                         </Typography>
-                        <div className="mt-6 space-y-8 w-full">
+                        <div className="mt-6 space-y-4 w-full">
                             {listings.data.length === 0 && (
                                 <NoData>
                                     <Typography>
@@ -96,20 +104,33 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                             )}
                             {listings.data.map((l) => {
                                 return (
-                                    <div key={l.prettyId} className="relative">
-                                        <Link
-                                            disableAnimatedHover
-                                            className="flex flex-1"
-                                            to={`/listing/${l.prettyId}`}
-                                        >
-                                            <ListingListItem listing={l} />
-                                        </Link>
-                                        <div className="absolute shadow-sm hover:shadow right-0 bottom-0 translate-y-[70%]">
-                                            <div className="bg-zinc-50 rounded-b flex flex-row">
+                                    <div key={l.prettyId} className="relative flex flex-col w-full">
+                                        <div className="flex-1 relative max-w-full">
+                                            <Link
+                                                disableAnimatedHover
+                                                className="flex flex-1"
+                                                to={`/listing/${l.prettyId}`}
+                                            >
+                                                <ListingListItem listing={l} />
+                                            </Link>
+                                        </div>
+                                        <div className="flex flex-row">
+                                            <div className="flex-1"></div>
+                                            <div className="flex flex-row items-center bg-zinc-50 rounded shadow-sm mt-1 border border-zinc-300">
                                                 <Link
                                                     disableAnimatedHover
                                                     to={`/listing/edit/${l.prettyId}`}
-                                                    className="p-2 flex items-center justify-center"
+                                                    className="hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
+                                                >
+                                                    <Icon
+                                                        className="fill-none stroke-zinc-900 stroke-2"
+                                                        name="sold"
+                                                    />
+                                                </Link>
+                                                <Link
+                                                    disableAnimatedHover
+                                                    to={`/listing/edit/${l.prettyId}`}
+                                                    className="hover:bg-zinc-200 transition-all p-2 flex items-center justify-center"
                                                 >
                                                     <Icon name="edit" />
                                                 </Link>

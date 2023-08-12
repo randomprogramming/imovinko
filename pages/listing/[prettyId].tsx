@@ -555,6 +555,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
         name: string;
         val: string | number;
         textColor?: string;
+        className?: string;
     }
 
     function getAdditionalInfo(listing: Listing) {
@@ -625,6 +626,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                     name: t("energy"),
                     val: listing.apartment.energyLabel.replaceAll("p", "+"),
                     textColor: EnergyClassColors[listing.apartment.energyLabel],
+                    className: "shadowed-text",
                 });
             }
             if (listing.apartment.customId) {
@@ -1130,6 +1132,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                 <Typography
                                                     key={`${i.name}-3`}
                                                     bold
+                                                    className={i.className}
                                                     style={{
                                                         color: i.textColor,
                                                     }}
