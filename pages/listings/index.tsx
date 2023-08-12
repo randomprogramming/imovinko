@@ -249,7 +249,7 @@ function ListingCard({ listing }: UIBlockProps) {
         <Link
             key={listing.prettyId}
             to={`/listing/${listing.prettyId}`}
-            className="group flex bg-zinc-50 visited:bg-[#e9e9e9] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
+            className="group flex bg-white visited:bg-[#f1f1f1] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
             disableAnimatedHover
         >
             <div className="w-full">
@@ -296,7 +296,10 @@ function ListingCard({ listing }: UIBlockProps) {
                                 maxHeight: "3.5em",
                             }}
                         >
-                            <Typography variant="h2" className="line-clamp-2 text-base">
+                            <Typography
+                                variant="h2"
+                                className="line-clamp-2 text-base text-blue-700 group-visited:text-indigo-900"
+                            >
                                 {listing.title}
                             </Typography>
                         </div>

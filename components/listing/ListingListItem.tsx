@@ -112,10 +112,10 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
     return (
         <Link
             disableAnimatedHover
-            className="flex flex-1 bg-zinc-50 visited:bg-[#f1f1f1] rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden"
+            className="group flex flex-1 bg-white visited:bg-zinc-100 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden"
             to={`/listing/${listing.prettyId}`}
         >
-            <div className="flex lg:flex-row flex-col w-full">
+            <div className="flex  lg:flex-row flex-col w-full">
                 <div className="h-64 lg:w-96 lg:h-full">
                     {firstImage ? (
                         <div className="select-none relative w-full h-full">
@@ -157,13 +157,17 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
                         </Typography>
                     </div>
                     <div
+                        // className="group-visited:text-red-500"
                         style={{
                             minHeight: "4em",
                             height: "4em",
                             maxHeight: "4em",
                         }}
                     >
-                        <Typography variant="h2" className="line-clamp-2">
+                        <Typography
+                            variant="h2"
+                            className="line-clamp-2 group-visited:font-extrabold text-blue-700 group-visited:text-indigo-900"
+                        >
                             {listing.title}
                         </Typography>
                     </div>
