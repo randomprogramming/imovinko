@@ -91,7 +91,7 @@
         "area-desc": "Apartment area expressed in square meter (m²).",
         "submit": "Submit Ad",
         "images": "Apartment images",
-        "images-desc": "Please upload at least one image of the apartment. Maximum allowed file size is 8MB.",
+        "images-desc": "Maximum allowed file size is 8MB.",
         "sale-information": "Sale information",
         "short-term-rent-information": "Short Term Rent information",
         "long-term-rent-information": "Long Term Rent information",
@@ -135,7 +135,9 @@
         "energy-description": "Select the apartment energy certificate label.",
         "energy-placeholder": "Select...",
         "custom-id": "Property code",
-        "custom-id-description": "Property code intended for your internal use."
+        "custom-id-description": "Property code intended for your internal use.",
+        "existing-title": "Listing for existing property",
+        "existing-description": "If you want to submit a listing for an already existing property, no need to enter the property data again."
     },
     "Map": {
         "search": "Search",
@@ -476,5 +478,11 @@
         "energy-placeholder": "Select...",
         "custom-id": "Property code",
         "custom-id-description": "Property code intended for your internal use."
+    },
+    "PropertyDropdown": {
+        "choose": "Choose property...",
+        "code": "Property code",
+        "created": "Created",
+        "no-options": "There are no properties..."
     }
 }

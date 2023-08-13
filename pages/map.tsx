@@ -406,7 +406,6 @@ export default function MapScreen({ query }: MapScreenProps) {
                                                             style={{
                                                                 objectFit: "cover",
                                                             }}
-                                                            // Since this is just a thumbnail, we can lower the quality
                                                             quality={30}
                                                         />
                                                     </div>

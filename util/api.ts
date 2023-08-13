@@ -137,6 +137,10 @@ interface CreateListingData {
     longTermListingDescription?: string;
     longTermContacts?: string[];
     longTermManualAccountContacts?: string[];
+    existingProperty?: {
+        id: string;
+        propertType: PropertyType;
+    };
 
     lat: number;
     lon: number;
@@ -186,13 +190,32 @@ export async function createListing(data: CreateListingData) {
             manualAccountContactIds: data.longTermManualAccountContacts,
         };
     }
-    if (data.listingFor === ListingFor.apartment) {
+    if (!data.existingProperty && data.listingFor === ListingFor.apartment) {
         createListingData.apartment = {
             latitude: data.lat,
             longitude: data.lon,
             surfaceArea: data.area,
             ...data,
         };
+    }
+    if (!data.existingProperty && data.listingFor === ListingFor.house) {
+        createListingData.house = {
+            latitude: data.lat,
+            longitude: data.lon,
+            surfaceArea: data.area,
+            ...data,
+        };
+    }
+    if (!data.existingProperty && data.listingFor === ListingFor.land) {
+        createListingData.house = {
+            latitude: data.lat,
+            longitude: data.lon,
+            surfaceArea: data.area,
+            ...data,
+        };
+    }
+    if (data.existingProperty) {
+        createListingData.existingProperty = data.existingProperty;
     }
 
     return await client<CreateListingResponse>({
@@ -914,4 +937,59 @@ export async function deleteMedia(id: string) {
             ...getAuthHeaders(),
         },
     });
+}
+
+export interface BasicApartment {
+    id: string;
+    customId: string | null;
+    country: string | null;
+    region: string | null;
+    city: string | null;
+    postcode: string | null;
+    street: string | null;
+    address: string | null;
+    media: Media[];
+    createdAt: string | Date;
+    offeringTypes: OfferingType[];
+}
+export interface BasicHouse {
+    id: string;
+    customId: string | null;
+    country: string | null;
+    region: string | null;
+    city: string | null;
+    postcode: string | null;
+    street: string | null;
+    address: string | null;
+    media: Media[];
+    createdAt: string | Date;
+    offeringTypes: OfferingType[];
+}
+export interface BasicLand {
+    id: string;
+    customId: string | null;
+    country: string | null;
+    region: string | null;
+    city: string | null;
+    postcode: string | null;
+    street: string | null;
+    address: string | null;
+    media: Media[];
+    createdAt: string | Date;
+    offeringTypes: OfferingType[];
+}
+export async function getMyProperties(type: PropertyType.apartment): Promise<BasicApartment[]>;
+export async function getMyProperties(type: PropertyType.house): Promise<BasicHouse[]>;
+export async function getMyProperties(type: PropertyType.land): Promise<BasicLand[]>;
+export async function getMyProperties(
+    type: PropertyType
+): Promise<BasicApartment[] | BasicHouse[] | BasicLand[]> {
+    const resp = await client({
+        method: "GET",
+        url: "/property/mine/" + type,
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+    return resp.data;
 }

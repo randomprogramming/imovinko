@@ -7,27 +7,44 @@ interface CheckBoxInputProps {
     checked?: boolean;
     onCheckedChange?(newVal: boolean): void;
     className?: string;
+    disabled?: boolean;
 }
-function CheckBoxInput({ name, checked, onCheckedChange, className }: CheckBoxInputProps) {
+function CheckBoxInput({
+    name,
+    checked,
+    onCheckedChange,
+    className,
+    disabled,
+}: CheckBoxInputProps) {
     const [isChecked, setIsChecked] = useState(!!checked);
 
     React.useEffect(() => {
-        onCheckedChange && onCheckedChange(isChecked);
+        if (!disabled) {
+            onCheckedChange && onCheckedChange(isChecked);
+        }
     }, [isChecked]);
+
+    React.useEffect(() => {
+        setIsChecked(!!checked);
+    }, [checked]);
 
     return (
         <div
-            className={`${className} flex flex-row items-center hover:bg-zinc-300 w-fit px-2 py-1 rounded-md transition-all cursor-pointer`}
+            className={`${className} flex flex-row items-center hover:bg-zinc-300 w-fit px-2 py-1 rounded-md transition-all ${
+                !disabled && "cursor-pointer"
+            }`}
             onClick={() => {
-                setIsChecked(!isChecked);
+                if (!disabled) {
+                    setIsChecked(!isChecked);
+                }
             }}
         >
             <div
                 className={`w-4 h-4 rounded-sm transition-all border-zinc-400  border-2 ${
                     isChecked ? "bg-indigo-600" : "bg-transparent"
-                }`}
+                } ${disabled && "bg-zinc-400"}`}
             />
-            <label htmlFor={name} className="cursor-pointer ml-2">
+            <label htmlFor={name} className={`${!disabled && "cursor-pointer"} ml-2`}>
                 <Typography className="select-none">{name}</Typography>
             </label>
         </div>
@@ -72,6 +89,7 @@ export default function Input({
                 checked={checked}
                 name={name}
                 onCheckedChange={onCheckedChange}
+                disabled={disabled}
             />
         );
     }

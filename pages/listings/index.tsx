@@ -269,7 +269,6 @@ function ListingCard({ listing }: UIBlockProps) {
                                 height: "100%",
                                 width: "100%",
                             }}
-                            // Since this is just a thumbnail, we can lower the quality
                             quality={50}
                         />
                     ) : (

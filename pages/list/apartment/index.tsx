@@ -4,9 +4,14 @@ import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
+    BasicApartment,
+    BasicHouse,
+    BasicLand,
     Company,
     EnergyClass,
     ListingFor,
+    OfferingType,
+    PropertyType,
     createListing,
     getMyCompany,
     patchPropertyMedia,
@@ -14,7 +19,7 @@ import {
 } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useRef, useState, useId } from "react";
+import React, { useRef, useState, useId, useEffect } from "react";
 import ImageUpload from "@/components/ImageUpload";
 import Select from "react-select";
 import cookie from "cookie";
@@ -25,6 +30,7 @@ import Head from "next/head";
 import { space_grotesk } from "@/util/fonts";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import PropertyDropdown from "@/components/PropertyDropdown";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -154,6 +160,10 @@ export default function ListApartment({ company }: ListApartmentProps) {
         isError?: boolean;
     }>();
     const [energyLabel, setEnergyLabel] = useState<EnergyClass | null>(null);
+    const [isForExistingProperty, setIsForExistingProperty] = useState(false);
+    const [existingPropertySelected, setExistingPropertySelected] = useState<
+        BasicApartment | BasicHouse | BasicLand
+    >();
 
     const allCompanyAccounts = company
         ? [
@@ -236,6 +246,15 @@ export default function ListApartment({ company }: ListApartmentProps) {
                     longTermManualAccountContacts,
                 };
             }
+            if (isForExistingProperty && existingPropertySelected) {
+                listingData = {
+                    ...listingData,
+                    existingProperty: {
+                        id: existingPropertySelected.id,
+                        propertyType: PropertyType.apartment,
+                    },
+                };
+            }
             const resp = await createListing({
                 area,
                 lat: location.lat,
@@ -257,11 +276,12 @@ export default function ListApartment({ company }: ListApartmentProps) {
                 ...listingData,
             });
 
-            setLoadingBar({
-                message: t("uploading-media"),
-                percent: 45,
-            });
-            if (images.length > 0) {
+            if (images.length > 0 && !isForExistingProperty) {
+                setLoadingBar({
+                    message: t("uploading-media"),
+                    percent: 45,
+                });
+
                 const imageUrls = await uploadMedia(images);
                 setLoadingBar({
                     message: t("updating-media"),
@@ -330,10 +350,31 @@ export default function ListApartment({ company }: ListApartmentProps) {
         }
     }
 
+    useEffect(() => {
+        if (!isForExistingProperty) {
+            return;
+        }
+        if (isForSale && existingPropertySelected?.offeringTypes.includes(OfferingType.sale)) {
+            setIsForSale(false);
+        }
+        if (
+            isForShortTermRent &&
+            existingPropertySelected?.offeringTypes.includes(OfferingType.shortTermRent)
+        ) {
+            setIsForShortTermRent(false);
+        }
+        if (
+            isForLongTermRent &&
+            existingPropertySelected?.offeringTypes.includes(OfferingType.longTermRent)
+        ) {
+            setIsForLongTermRent(false);
+        }
+    }, [existingPropertySelected, isForExistingProperty]);
+
     return (
         <>
             <Head>
-                <title>Imovinko - Stan</title>
+                <title>Imovinko - Predaj oglas</title>
             </Head>
             <header>
                 <Navbar hideSearchBar />
@@ -369,7 +410,11 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                 }}
                             />
                             <TitleCol title={t("images")}>{t("images-desc")}</TitleCol>
-                            <ImageUpload images={images} inputRef={imageUploadRef} />
+                            <ImageUpload
+                                disabled={isForExistingProperty}
+                                images={images}
+                                inputRef={imageUploadRef}
+                            />
                         </FlexRow>
 
                         <FlexRow>
@@ -391,25 +436,66 @@ export default function ListApartment({ company }: ListApartmentProps) {
                                         type="checkbox"
                                         checked={isForSale}
                                         onCheckedChange={setIsForSale}
-                                        hasError={fieldErrorCodesParser.has(
-                                            "sale.shortTermRent.longTermRent"
-                                        )}
-                                        errorMsg={fieldErrorCodesParser.getTranslated(
-                                            "sale.shortTermRent.longTermRent"
-                                        )}
+                                        disabled={
+                                            isForExistingProperty &&
+                                            existingPropertySelected?.offeringTypes.includes(
+                                                OfferingType.sale
+                                            )
+                                        }
                                     />
                                     <Input
                                         name={t("short-term-rent")}
                                         type="checkbox"
                                         checked={isForShortTermRent}
                                         onCheckedChange={setIsForShortTermRent}
+                                        disabled={
+                                            isForExistingProperty &&
+                                            existingPropertySelected?.offeringTypes.includes(
+                                                OfferingType.shortTermRent
+                                            )
+                                        }
                                     />
                                     <Input
                                         name={t("long-term-rent")}
                                         type="checkbox"
                                         checked={isForLongTermRent}
                                         onCheckedChange={setIsForLongTermRent}
+                                        disabled={
+                                            isForExistingProperty &&
+                                            existingPropertySelected?.offeringTypes.includes(
+                                                OfferingType.longTermRent
+                                            )
+                                        }
                                     />
+                                </div>
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow>
+                            <TitleCol title={t("existing-title")}>
+                                {t("existing-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <div className="space-y-2 min-h-[134px]">
+                                    <Input
+                                        name={t("existing-title")}
+                                        type="checkbox"
+                                        checked={isForExistingProperty}
+                                        onCheckedChange={setIsForExistingProperty}
+                                    />
+                                    <div
+                                        className={`${
+                                            !isForExistingProperty && "hidden"
+                                        } transition-all`}
+                                    >
+                                        <PropertyDropdown
+                                            onPropertyChange={(newProperty) => {
+                                                setExistingPropertySelected(newProperty);
+                                            }}
+                                            selectedProperty={existingPropertySelected}
+                                            type={PropertyType.apartment}
+                                        />
+                                    </div>
                                 </div>
                             </RowItem>
                         </FlexRow>
@@ -1046,251 +1132,277 @@ export default function ListApartment({ company }: ListApartmentProps) {
                         </FlexRow>
                         {/* LONG TERM RENT SECTION END */}
 
-                        <FlexRow>
-                            <TitleCol title={t("bedroom-count")}>
-                                {t("bedroom-count-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={bedroomCount || ""}
-                                    onChange={setBedroomCount}
-                                    hasError={fieldErrorCodesParser.has("apartment.bedroomCount")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.bedroomCount"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                        {/* PROPERTY DATA SECTION START */}
+                        <div
+                            className={`flex flex-col w-full ${
+                                !isForExistingProperty
+                                    ? "opacity-100 !mt-0"
+                                    : "!mb-0 !p-0 opacity-0 invisible hidden"
+                            } transition-all`}
+                        >
+                            <FlexRow>
+                                <TitleCol title={t("bedroom-count")}>
+                                    {t("bedroom-count-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={bedroomCount || ""}
+                                        onChange={setBedroomCount}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.bedroomCount"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.bedroomCount"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("bathroom-count")}>
-                                {t("bathroom-count-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={bathroomCount || ""}
-                                    onChange={setBathroomCount}
-                                    hasError={fieldErrorCodesParser.has("apartment.bathroomCount")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.bathroomCount"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("bathroom-count")}>
+                                    {t("bathroom-count-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={bathroomCount || ""}
+                                        onChange={setBathroomCount}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.bathroomCount"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.bathroomCount"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("parking-count")}>
-                                {t("parking-count-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={parkingSpaceCount || ""}
-                                    onChange={setParkingSpaceCount}
-                                    hasError={fieldErrorCodesParser.has(
-                                        "apartment.parkingSpaceCount"
-                                    )}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.parkingSpaceCount"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("parking-count")}>
+                                    {t("parking-count-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={parkingSpaceCount || ""}
+                                        onChange={setParkingSpaceCount}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.parkingSpaceCount"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.parkingSpaceCount"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("floor")}>{t("floor-description")}</TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={floor}
-                                    onChange={setFloor}
-                                    hasError={fieldErrorCodesParser.has("apartment.floor")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.floor"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("floor")}>{t("floor-description")}</TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={floor}
+                                        onChange={setFloor}
+                                        hasError={fieldErrorCodesParser.has("apartment.floor")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.floor"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("total-floor")}>
-                                {t("total-floor-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={totalFloors}
-                                    onChange={setTotalFloors}
-                                    hasError={fieldErrorCodesParser.has("apartment.totalFloors")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.totalFloors"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("total-floor")}>
+                                    {t("total-floor-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={totalFloors}
+                                        onChange={setTotalFloors}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.totalFloors"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.totalFloors"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("building-floor")}>
-                                {t("building-floor-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={buildingFloors}
-                                    onChange={setBuildingFloors}
-                                    hasError={fieldErrorCodesParser.has("apartment.buildingFloors")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.buildingFloors"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("building-floor")}>
+                                    {t("building-floor-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={buildingFloors}
+                                        onChange={setBuildingFloors}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.buildingFloors"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.buildingFloors"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("build-year")}>
-                                {t("build-year-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={buildYear}
-                                    onChange={setBuildYear}
-                                    hasError={fieldErrorCodesParser.has("apartment.buildYear")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.buildYear"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("build-year")}>
+                                    {t("build-year-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={buildYear}
+                                        onChange={setBuildYear}
+                                        hasError={fieldErrorCodesParser.has("apartment.buildYear")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.buildYear"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("renovation-year")}>
-                                {t("renovation-year-description")}
-                            </TitleCol>
-                            <RowItem>
-                                <Input
-                                    value={renovationYear}
-                                    onChange={setRenovationYear}
-                                    hasError={fieldErrorCodesParser.has("apartment.renovationYear")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.renovationYear"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("renovation-year")}>
+                                    {t("renovation-year-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        value={renovationYear}
+                                        onChange={setRenovationYear}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.renovationYear"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.renovationYear"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
-                            <RowItem>
-                                <Select
-                                    instanceId={useId()}
-                                    onChange={(newVal) => {
-                                        setEnergyLabel(newVal ? newVal.value : null);
+                            <FlexRow>
+                                <TitleCol title={t("energy-title")}>
+                                    {t("energy-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Select
+                                        instanceId={useId()}
+                                        onChange={(newVal) => {
+                                            setEnergyLabel(newVal ? newVal.value : null);
+                                        }}
+                                        isSearchable={false}
+                                        isClearable
+                                        className={`z-30 ${space_grotesk.className}`}
+                                        classNames={{
+                                            control() {
+                                                return "!py-2 !px-2 !rounded-md !shadow-sm !border-none !bg-zinc-50";
+                                            },
+                                        }}
+                                        placeholder={t("energy-placeholder")}
+                                        components={{
+                                            Option: ({ innerProps, data }) => {
+                                                return (
+                                                    <div
+                                                        {...innerProps}
+                                                        className={`${getEnergyBg(
+                                                            data.value
+                                                        )} py-1 px-2`}
+                                                    >
+                                                        <Typography bold>{data.label}</Typography>
+                                                    </div>
+                                                );
+                                            },
+                                        }}
+                                        options={[
+                                            {
+                                                label: "A+",
+                                                value: EnergyClass.Ap,
+                                            },
+                                            {
+                                                label: "A",
+                                                value: EnergyClass.A,
+                                            },
+                                            {
+                                                label: "B",
+                                                value: EnergyClass.B,
+                                            },
+                                            {
+                                                label: "C",
+                                                value: EnergyClass.C,
+                                            },
+                                            {
+                                                label: "D",
+                                                value: EnergyClass.D,
+                                            },
+                                            {
+                                                label: "E",
+                                                value: EnergyClass.E,
+                                            },
+                                            {
+                                                label: "F",
+                                                value: EnergyClass.F,
+                                            },
+                                            {
+                                                label: "G",
+                                                value: EnergyClass.G,
+                                            },
+                                        ]}
+                                    />
+                                </RowItem>
+                            </FlexRow>
+
+                            <FlexRow singleCol noPadding>
+                                <div className="px-2">
+                                    <TitleCol title={t("location")}>{t("location-desc")}</TitleCol>
+                                </div>
+                                <Map
+                                    scrollZoom={true}
+                                    showSearchBox
+                                    showCenterMarker
+                                    className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
+                                    style={{
+                                        height: "50vh",
                                     }}
-                                    isSearchable={false}
-                                    isClearable
-                                    className={`z-30 ${space_grotesk.className}`}
-                                    classNames={{
-                                        control() {
-                                            return "!py-2 !px-2 !rounded-md !shadow-sm !border-none !bg-zinc-50";
-                                        },
-                                    }}
-                                    placeholder={t("energy-placeholder")}
-                                    components={{
-                                        Option: ({ innerProps, data }) => {
-                                            return (
-                                                <div
-                                                    {...innerProps}
-                                                    className={`${getEnergyBg(
-                                                        data.value
-                                                    )} py-1 px-2`}
-                                                >
-                                                    <Typography bold>{data.label}</Typography>
-                                                </div>
-                                            );
-                                        },
-                                    }}
-                                    options={[
-                                        {
-                                            label: "A+",
-                                            value: EnergyClass.Ap,
-                                        },
-                                        {
-                                            label: "A",
-                                            value: EnergyClass.A,
-                                        },
-                                        {
-                                            label: "B",
-                                            value: EnergyClass.B,
-                                        },
-                                        {
-                                            label: "C",
-                                            value: EnergyClass.C,
-                                        },
-                                        {
-                                            label: "D",
-                                            value: EnergyClass.D,
-                                        },
-                                        {
-                                            label: "E",
-                                            value: EnergyClass.E,
-                                        },
-                                        {
-                                            label: "F",
-                                            value: EnergyClass.F,
-                                        },
-                                        {
-                                            label: "G",
-                                            value: EnergyClass.G,
-                                        },
-                                    ]}
+                                    onCenterChange={setLocation}
                                 />
-                            </RowItem>
-                        </FlexRow>
+                            </FlexRow>
 
-                        <FlexRow singleCol noPadding>
-                            <div className="px-2">
-                                <TitleCol title={t("location")}>{t("location-desc")}</TitleCol>
-                            </div>
-                            <Map
-                                scrollZoom={true}
-                                showSearchBox
-                                showCenterMarker
-                                className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
-                                style={{
-                                    height: "50vh",
-                                }}
-                                onCenterChange={setLocation}
-                            />
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("area")}>{t("area-desc")}</TitleCol>
+                                <RowItem>
+                                    <Input
+                                        type="number"
+                                        placeholder={"160"}
+                                        value={area + ""}
+                                        onChange={(val) => {
+                                            setArea(parseInt(val));
+                                        }}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "apartment.surfaceArea"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.surfaceArea"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
 
-                        <FlexRow>
-                            <TitleCol title={t("area")}>{t("area-desc")}</TitleCol>
-                            <RowItem>
-                                <Input
-                                    type="number"
-                                    placeholder={"160"}
-                                    value={area + ""}
-                                    onChange={(val) => {
-                                        setArea(parseInt(val));
-                                    }}
-                                    hasError={fieldErrorCodesParser.has("apartment.surfaceArea")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.surfaceArea"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
-
-                        <FlexRow>
-                            <TitleCol title={t("custom-id")}>{t("custom-id-description")}</TitleCol>
-                            <RowItem>
-                                <Input
-                                    placeholder="A1603"
-                                    value={customId}
-                                    onChange={setCustomId}
-                                    hasError={fieldErrorCodesParser.has("apartment.customId")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.customId"
-                                    )}
-                                />
-                            </RowItem>
-                        </FlexRow>
+                            <FlexRow>
+                                <TitleCol title={t("custom-id")}>
+                                    {t("custom-id-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        placeholder="A1603"
+                                        value={customId}
+                                        onChange={setCustomId}
+                                        hasError={fieldErrorCodesParser.has("apartment.customId")}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "apartment.customId"
+                                        )}
+                                    />
+                                </RowItem>
+                            </FlexRow>
+                        </div>
+                        {/*  PROPERTY DATA SECTION START */}
 
                         {loadingBar && (
                             <FlexRow singleCol hideBottomBorder className="!m-0 !py-0">

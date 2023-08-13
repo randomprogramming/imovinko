@@ -91,7 +91,7 @@
         "area-desc": "Površina stana izražena u metrima kvadratnim (m²).",
         "submit": "Predaj Oglas",
         "images": "Slike apartmana",
-        "images-desc": "Potrebna je barem jedna slika stana. Najveća dozvoljena veličina datoteke je 8MB.",
+        "images-desc": "Najveća dozvoljena veličina datoteke je 8MB.",
         "sale-information": "Informacije za prodaju",
         "short-term-rent-information": "Informacije za kratkotrajno iznajmljivanje",
         "long-term-rent-information": "Informacije za dugoročno iznajmljivanje",
@@ -135,7 +135,9 @@
         "energy-description": "Razred energetskog certifikata stana.",
         "energy-placeholder": "Odaberite...",
         "custom-id": "Šifra nekretnine",
-        "custom-id-description": "Šifra nekretnine za vašu internu uporabu."
+        "custom-id-description": "Šifra nekretnine za vašu internu uporabu.",
+        "existing-title": "Oglas za postojeću nekretninu",
+        "existing-description": "Ukoliko želite predati oglas za nekretninu koju ste već unijeli u nekom prijašnjem oglasu, možete odabrati tu nekretninu ovdje."
     },
     "Map": {
         "search": "Traži",
@@ -476,5 +478,11 @@
         "energy-placeholder": "Odaberite...",
         "custom-id": "Šifra nekretnine",
         "custom-id-description": "Šifra nekretnine za vašu internu uporabu."
+    },
+    "PropertyDropdown": {
+        "choose": "Odaberi nekretninu...",
+        "code": "Šifra nekretnine",
+        "created": "Stvoreno",
+        "no-options": "Nema niti jedne nekretnine..."
     }
 }
