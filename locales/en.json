@@ -81,7 +81,7 @@
         "ad-title-desc": "Ad title up to a maximum of 100 characters.",
         "ad-title-placeholder": "Beautiful studio apartment in the city centre",
         "offering-type": "Offering Type",
-        "offering-type-desc": "Please choose how this apartment will be listed. Multiple options are allowed.",
+        "offering-type-desc": "Please choose how this property will be listed. Multiple options are allowed.",
         "for-sale": "For Sale",
         "short-term-rent": "Short Term Rent (Daily)",
         "long-term-rent": "Long Term Rent (Monthly)",
@@ -208,7 +208,8 @@
         "renovationYear": "Year of last renovation",
         "information": "Property information",
         "energy": "Energy Certification",
-        "custom-id": "Property code"
+        "custom-id": "Property code",
+        "price-history": "Price history"
     },
     "ListingsPage": {
         "per-night": "per night",

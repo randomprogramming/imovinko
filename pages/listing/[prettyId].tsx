@@ -31,6 +31,7 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import NotFound from "@/components/404";
 
+const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
@@ -1310,6 +1311,18 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 <div className="w-full mt-10">
                                     <MortgageCalculator initialLoanValue={listing.price} />
                                 </div>
+                            </section>
+                        )}
+
+                        {listing.priceChanges.length > 1 && (
+                            <section className="container mx-auto mt-8">
+                                <Typography variant="h2" className="mb-4">
+                                    {t("price-history")}
+                                </Typography>
+                                <PriceChangeChart
+                                    currentPrice={listing.price}
+                                    data={listing.priceChanges}
+                                />
                             </section>
                         )}
                     </div>

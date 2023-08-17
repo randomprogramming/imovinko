@@ -81,7 +81,7 @@
         "ad-title-desc": "Naslov oglasa do maksimalno 100 znakova.",
         "ad-title-placeholder": "Predivan studio apartman u centru grada",
         "offering-type": "Tip ponude",
-        "offering-type-desc": "Odaberite koji tipovi ponude vrijede za ovaj stan. Dozvoljeno je odabrati više opcija.",
+        "offering-type-desc": "Odaberite tipove ponude za ovu nekretninu. Dozvoljeno je odabrati više opcija.",
         "for-sale": "Za prodaju",
         "short-term-rent": "Kratkotrajno iznajmljivanje (dnevno)",
         "long-term-rent": "Dugoročno iznajmljivanje (mjesečno)",
@@ -208,7 +208,8 @@
         "renovationYear": "Godina zadnje renovacije",
         "information": "Podaci o nekretnini",
         "energy": "Energetski certifikat",
-        "custom-id": "Šifra nekretnine"
+        "custom-id": "Šifra nekretnine",
+        "price-history": "Povijest cijene"
     },
     "ListingsPage": {
         "per-night": "noćenje",

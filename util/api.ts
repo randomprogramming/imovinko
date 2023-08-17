@@ -513,6 +513,10 @@ interface Land extends PropertyLocation {
     media: Media[];
     customId?: string | null;
 }
+export interface PriceChange {
+    oldPrice: number;
+    createdAt: string | Date;
+}
 export interface Listing {
     id: string;
     title: string;
@@ -559,6 +563,7 @@ export interface Listing {
         avatarUrl: string | null;
         id: string;
     }[];
+    priceChanges: PriceChange[];
 }
 export async function findListing(id: string) {
     return await client<Listing>({
