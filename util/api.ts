@@ -114,116 +114,108 @@ export enum ListingFor {
     land = "land",
 }
 
-interface CreateListingData {
-    listingFor: ListingFor;
+export interface ListingData {
+    price?: number | string;
+    description?: string | null;
+    contactIds?: string[];
+    manualAccountContactIds?: string[];
+    title?: string;
+}
+export interface CreateListingData {
+    sale?: ListingData;
+    shortTermRent?: ListingData;
+    longTermRent?: ListingData;
 
-    isForSale?: boolean;
-    saleListingTitle?: string;
-    saleListingPrice?: number;
-    saleListingDescription?: string;
-    saleContacts?: string[];
-    saleManualAccountContacts?: string[];
+    apartment?: {
+        latitude: number;
+        longitude: number;
+        surfaceArea: number | string;
 
-    isForShortTermRent?: boolean;
-    shortTermListingTitle?: string;
-    shortTermListingPrice?: number;
-    shortTermListingDescription?: string;
-    shortTermContacts?: string[];
-    shortTermManualAccountContacts?: string[];
-
-    isForLongTermRent?: boolean;
-    longTermListingTitle?: string;
-    longTermListingPrice?: number;
-    longTermListingDescription?: string;
-    longTermContacts?: string[];
-    longTermManualAccountContacts?: string[];
-    existingProperty?: {
-        id: string;
-        propertType: PropertyType;
+        bedroomCount?: string | number | null;
+        bathroomCount?: string | number | null;
+        parkingSpaceCount?: string | number | null;
+        floor?: string | number | null;
+        totalFloors?: string | number | null;
+        buildingFloors?: string | number | null;
+        buildYear?: string | number | null;
+        renovationYear?: string | number | null;
+        energyLabel?: EnergyClass | null;
+        customId?: string | null;
     };
 
-    lat: number;
-    lon: number;
-    area: number;
+    house?: {
+        latitude: number;
+        longitude: number;
+        surfaceArea: number | string;
 
-    bedroomCount?: string | number | null;
-    bathroomCount?: string | number | null;
-    parkingSpaceCount?: string | number | null;
-    floor?: string | number | null;
-    totalFloors?: string | number | null;
-    buildingFloors?: string | number | null;
-    buildYear?: string | number | null;
-    renovationYear?: string | number | null;
-    energyLabel?: EnergyClass | null;
-    customId?: string | null;
+        bedroomCount?: string | number | null;
+        bathroomCount?: string | number | null;
+        parkingSpaceCount?: string | number | null;
+        totalFloors?: string | number | null;
+        buildYear?: string | number | null;
+        renovationYear?: string | number | null;
+        energyLabel?: EnergyClass | null;
+        customId?: string | null;
+    };
+
+    land?: {
+        latitude: number;
+        longitude: number;
+        surfaceArea: number | string;
+        customId?: string | null;
+    };
+
+    // listingFor: ListingFor;
+
+    // isForSale?: boolean;
+    // saleListingTitle?: string;
+    // saleListingPrice?: number;
+    // saleListingDescription?: string;
+    // saleContacts?: string[];
+    // saleManualAccountContacts?: string[];
+
+    // isForShortTermRent?: boolean;
+    // shortTermListingTitle?: string;
+    // shortTermListingPrice?: number;
+    // shortTermListingDescription?: string;
+    // shortTermContacts?: string[];
+    // shortTermManualAccountContacts?: string[];
+
+    // isForLongTermRent?: boolean;
+    // longTermListingTitle?: string;
+    // longTermListingPrice?: number;
+    // longTermListingDescription?: string;
+    // longTermContacts?: string[];
+    // longTermManualAccountContacts?: string[];
+    existingProperty?: {
+        id: string;
+        propertyType: PropertyType;
+    };
+
+    // lat: number;
+    // lon: number;
+    // area: number;
+
+    // bedroomCount?: string | number | null;
+    // bathroomCount?: string | number | null;
+    // parkingSpaceCount?: string | number | null;
+    // floor?: string | number | null;
+    // totalFloors?: string | number | null;
+    // buildingFloors?: string | number | null;
+    // buildYear?: string | number | null;
+    // renovationYear?: string | number | null;
+    // energyLabel?: EnergyClass | null;
+    // customId?: string | null;
 }
 interface CreateListingResponse {
     id: string;
     listingFor: ListingFor;
 }
 export async function createListing(data: CreateListingData) {
-    const createListingData: any = {};
-    if (data.isForSale) {
-        createListingData.sale = {
-            title: data.saleListingTitle,
-            price: data.saleListingPrice,
-            description: data.saleListingDescription,
-            contactIds: data.saleContacts,
-            manualAccountContactIds: data.saleManualAccountContacts,
-        };
-    }
-    if (data.isForShortTermRent) {
-        createListingData.shortTermRent = {
-            title: data.shortTermListingTitle,
-            price: data.shortTermListingPrice,
-            description: data.shortTermListingDescription,
-            contactIds: data.shortTermContacts,
-            manualAccountContactIds: data.shortTermManualAccountContacts,
-        };
-    }
-    if (data.isForLongTermRent) {
-        createListingData.longTermRent = {
-            title: data.longTermListingTitle,
-            price: data.longTermListingPrice,
-            description: data.longTermListingDescription,
-            contactIds: data.longTermContacts,
-            manualAccountContactIds: data.longTermManualAccountContacts,
-        };
-    }
-    if (!data.existingProperty && data.listingFor === ListingFor.apartment) {
-        createListingData.apartment = {
-            latitude: data.lat,
-            longitude: data.lon,
-            surfaceArea: data.area,
-            ...data,
-        };
-    }
-    if (!data.existingProperty && data.listingFor === ListingFor.house) {
-        createListingData.house = {
-            latitude: data.lat,
-            longitude: data.lon,
-            surfaceArea: data.area,
-            ...data,
-        };
-    }
-    if (!data.existingProperty && data.listingFor === ListingFor.land) {
-        createListingData.house = {
-            latitude: data.lat,
-            longitude: data.lon,
-            surfaceArea: data.area,
-            ...data,
-        };
-    }
-    if (data.existingProperty) {
-        createListingData.existingProperty = data.existingProperty;
-    }
-
     return await client<CreateListingResponse>({
         url: "/listing/submit",
         method: "POST",
-        data: {
-            ...createListingData,
-        },
+        data,
         headers: {
             ...getAuthHeaders(),
         },
