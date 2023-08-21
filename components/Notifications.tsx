@@ -85,7 +85,7 @@ export default function Notifications({ notifications, lightIcon }: Notification
                 )}
                 <Icon
                     name="notification"
-                    className={`${lightIcon && "fill-zinc-50"}`}
+                    className={`${lightIcon && "fill-zinc-50 2xl:fill-[#040404]"}`}
                     width={30}
                     height={30}
                 />

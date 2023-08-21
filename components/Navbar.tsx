@@ -52,11 +52,17 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
                 className={useLighterColorsOnSmallDevice ? "hover:bg-zinc-700" : ""}
             >
                 <div className="flex flex-row space-x-2">
-                    <Typography className={`${useLighterColorsOnSmallDevice && "text-zinc-50"}`}>
+                    <Typography
+                        className={`${
+                            useLighterColorsOnSmallDevice && "text-white xl:text-[#040404]"
+                        }`}
+                    >
                         {getAccountHandle()}
                     </Typography>
                     <Icon
-                        className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
+                        className={`${
+                            useLighterColorsOnSmallDevice && "fill-white xl:fill-[#040404]"
+                        }`}
                         name="account"
                     />
                 </div>
