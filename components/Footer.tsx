@@ -56,7 +56,7 @@ export default function Footer({ className }: FooterProps) {
                             Jezik/Language
                         </Typography>
                         <Link
-                            to={router.pathname}
+                            to={router.asPath}
                             locale="hr"
                             className="text-left w-fit"
                             underlineClassName="!bg-zinc-50"
@@ -66,7 +66,7 @@ export default function Footer({ className }: FooterProps) {
                             </Typography>
                         </Link>
                         <Link
-                            to={router.pathname}
+                            to={router.asPath}
                             locale="en"
                             className="text-left w-fit"
                             underlineClassName="!bg-zinc-50"
