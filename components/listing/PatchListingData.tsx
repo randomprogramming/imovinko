@@ -1,7 +1,6 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Map from "@/components/Map";
-import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
     Company,
@@ -9,13 +8,11 @@ import {
     Listing,
     ListingFor,
     PropertyType,
-    createListing,
     deleteMedia,
     patchListing,
     patchPropertyMedia,
     uploadMedia,
 } from "@/util/api";
-import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useRef, useState, useId } from "react";
 import ImageUpload from "@/components/ImageUpload";
@@ -23,14 +20,12 @@ import Select from "react-select";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import { space_grotesk } from "@/util/fonts";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import { OfferingType } from "@/util/api";
-import { findListing } from "@/util/api";
-import CurrencyInput from "react-currency-input-field";
 import Modal from "../Modal";
+import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
 
 export function intersection(a?: string[], b?: string[]): string[] {
     if (!a || !b || a.length === 0 || b.length === 0) {
@@ -38,83 +33,6 @@ export function intersection(a?: string[], b?: string[]): string[] {
     }
     const setA = new Set(a);
     return b.filter((value) => setA.has(value));
-}
-
-const allEnergyLabels = [
-    {
-        label: "A+",
-        value: EnergyClass.Ap,
-    },
-    {
-        label: "A",
-        value: EnergyClass.A,
-    },
-    {
-        label: "B",
-        value: EnergyClass.B,
-    },
-    {
-        label: "C",
-        value: EnergyClass.C,
-    },
-    {
-        label: "D",
-        value: EnergyClass.D,
-    },
-    {
-        label: "E",
-        value: EnergyClass.E,
-    },
-    {
-        label: "F",
-        value: EnergyClass.F,
-    },
-    {
-        label: "G",
-        value: EnergyClass.G,
-    },
-];
-
-interface FlexRowProps {
-    children?: React.ReactNode;
-    singleCol?: boolean;
-    hideBottomBorder?: boolean;
-    noPadding?: boolean;
-    className?: string;
-}
-function FlexRow({ children, singleCol, hideBottomBorder, noPadding, className }: FlexRowProps) {
-    return (
-        <div
-            className={`flex flex-col ${singleCol ? "flex-col" : "md:flex-row"} w-full ${
-                !hideBottomBorder && "border-b-zinc-200 border-b-2"
-            } mb-8 py-6 ${!noPadding && "px-2"} ${className}`}
-        >
-            {children}
-        </div>
-    );
-}
-function RowItem({ children }: FlexRowProps) {
-    return <div className="w-full md:w-1/2 flex flex-col mt-3 md:mt-0">{children}</div>;
-}
-
-interface TitleColProps {
-    title: string;
-    children?: React.ReactNode;
-    hasError?: boolean;
-    errorMsg?: string;
-}
-function TitleCol({ title, children, errorMsg, hasError }: TitleColProps) {
-    return (
-        <div className="w-full flex flex-col md:w-1/2">
-            <Typography bold className={`${hasError && "text-rose-700"}`}>
-                {title}
-            </Typography>
-            <Typography className="text-zinc-500">{children}</Typography>
-            {hasError && errorMsg && (
-                <Typography className="text-rose-700 mt-auto">{errorMsg}</Typography>
-            )}
-        </div>
-    );
 }
 
 interface ListApartmentProps {
@@ -136,7 +54,7 @@ function getListingProperty(listing: Listing | null, type: PropertyType, key: st
     }
     return undefined;
 }
-// TODO: Use this component also for creating listings
+
 export default function InputListingData({ company, listing, type }: ListApartmentProps) {
     const t = useTranslations("InputListingData");
 
@@ -526,7 +444,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                 </div>
             </Modal>
             <main className="container mx-auto flex-1 flex flex-col" id="main">
-                <Typography variant="h1">{t("title")}</Typography>
+                <Typography variant="h1">{t(`title-${type}`)}</Typography>
                 <div className="flex-1 mt-8 flex justify-center">
                     <div className="w-full md:max-w-4xl">
                         <FlexRow singleCol>
@@ -1214,7 +1132,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             )}
                         </FlexRow>
                         {/* LONG TERM RENT SECTION END */}
-                        <FlexRow>
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("bedroom-count")}>
                                 {t("bedroom-count-description")}
                             </TitleCol>
@@ -1229,7 +1147,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("bathroom-count")}>
                                 {t("bathroom-count-description")}
                             </TitleCol>
@@ -1244,7 +1163,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("parking-count")}>
                                 {t("parking-count-description")}
                             </TitleCol>
@@ -1261,7 +1181,11 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow
+                            type={type}
+                            blacklistTypes={[PropertyType.land, PropertyType.house]}
+                        >
                             <TitleCol title={t("floor")}>{t("floor-description")}</TitleCol>
                             <RowItem>
                                 <Input
@@ -1274,7 +1198,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("total-floor")}>
                                 {t("total-floor-description")}
                             </TitleCol>
@@ -1289,7 +1214,11 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow
+                            type={type}
+                            blacklistTypes={[PropertyType.land, PropertyType.house]}
+                        >
                             <TitleCol title={t("building-floor")}>
                                 {t("building-floor-description")}
                             </TitleCol>
@@ -1304,7 +1233,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("build-year")}>
                                 {t("build-year-description")}
                             </TitleCol>
@@ -1319,7 +1249,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("renovation-year")}>
                                 {t("renovation-year-description")}
                             </TitleCol>
@@ -1334,12 +1265,13 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 />
                             </RowItem>
                         </FlexRow>
-                        <FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]}>
                             <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
                             <RowItem>
                                 <Select
                                     instanceId={useId()}
-                                    defaultValue={allEnergyLabels.find(
+                                    defaultValue={energyLabels.find(
                                         (lb) => lb.value === energyLabel
                                     )}
                                     onChange={(newVal) => {
@@ -1368,13 +1300,13 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             );
                                         },
                                     }}
-                                    options={allEnergyLabels}
+                                    options={energyLabels}
                                 />
                             </RowItem>
                         </FlexRow>
                         <FlexRow singleCol noPadding>
                             <div className="px-2">
-                                <TitleCol title={t("location")}>{""}</TitleCol>
+                                <TitleCol title={t(`location-${type}`)}>{""}</TitleCol>
                             </div>
                             <Map
                                 centerLat={location.lat}

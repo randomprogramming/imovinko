@@ -57,6 +57,16 @@ interface ListingPageProps {
 export default function EditListingPage({ listing, company }: ListingPageProps) {
     const t = useTranslations("EditListingPage");
 
+    function getPropertyType() {
+        if (listing?.apartmentId) {
+            return PropertyType.apartment;
+        } else if (listing?.houseId) {
+            return PropertyType.house;
+        } else {
+            return PropertyType.land;
+        }
+    }
+
     return (
         <>
             <Head>
@@ -78,7 +88,7 @@ export default function EditListingPage({ listing, company }: ListingPageProps) 
                     <PatchListingData
                         listing={listing}
                         company={company}
-                        type={PropertyType.apartment}
+                        type={getPropertyType()}
                     />
                 ) : (
                     <NotFound>
