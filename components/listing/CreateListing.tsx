@@ -1070,9 +1070,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={bedroomCount || ""}
                                     onChange={setBedroomCount}
-                                    hasError={fieldErrorCodesParser.has("apartment.bedroomCount")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.bedroomCount`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.bedroomCount"
+                                        `${type}.bedroomCount`
                                     )}
                                 />
                             </RowItem>
@@ -1086,9 +1086,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={bathroomCount || ""}
                                     onChange={setBathroomCount}
-                                    hasError={fieldErrorCodesParser.has("apartment.bathroomCount")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.bathroomCount`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.bathroomCount"
+                                        `${type}.bathroomCount`
                                     )}
                                 />
                             </RowItem>
@@ -1103,10 +1103,10 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                     value={parkingSpaceCount || ""}
                                     onChange={setParkingSpaceCount}
                                     hasError={fieldErrorCodesParser.has(
-                                        "apartment.parkingSpaceCount"
+                                        `${type}.parkingSpaceCount`
                                     )}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.parkingSpaceCount"
+                                        `${type}.parkingSpaceCount`
                                     )}
                                 />
                             </RowItem>
@@ -1121,10 +1121,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={floor}
                                     onChange={setFloor}
-                                    hasError={fieldErrorCodesParser.has("apartment.floor")}
-                                    errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.floor"
-                                    )}
+                                    hasError={fieldErrorCodesParser.has(`${type}.floor`)}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(`${type}.floor`)}
                                 />
                             </RowItem>
                         </FlexRow>
@@ -1137,9 +1135,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={totalFloors}
                                     onChange={setTotalFloors}
-                                    hasError={fieldErrorCodesParser.has("apartment.totalFloors")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.totalFloors`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.totalFloors"
+                                        `${type}.totalFloors`
                                     )}
                                 />
                             </RowItem>
@@ -1156,9 +1154,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={buildingFloors}
                                     onChange={setBuildingFloors}
-                                    hasError={fieldErrorCodesParser.has("apartment.buildingFloors")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.buildingFloors`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.buildingFloors"
+                                        `${type}.buildingFloors`
                                     )}
                                 />
                             </RowItem>
@@ -1172,9 +1170,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={buildYear}
                                     onChange={setBuildYear}
-                                    hasError={fieldErrorCodesParser.has("apartment.buildYear")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.buildYear`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.buildYear"
+                                        `${type}.buildYear`
                                     )}
                                 />
                             </RowItem>
@@ -1188,9 +1186,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                 <Input
                                     value={renovationYear}
                                     onChange={setRenovationYear}
-                                    hasError={fieldErrorCodesParser.has("apartment.renovationYear")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.renovationYear`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.renovationYear"
+                                        `${type}.renovationYear`
                                     )}
                                 />
                             </RowItem>
@@ -1259,9 +1257,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                     onChange={(val) => {
                                         setArea(val);
                                     }}
-                                    hasError={fieldErrorCodesParser.has("apartment.surfaceArea")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.surfaceArea`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.surfaceArea"
+                                        `${type}.surfaceArea`
                                     )}
                                 />
                             </RowItem>
@@ -1274,9 +1272,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                     placeholder="A1603"
                                     value={customId}
                                     onChange={setCustomId}
-                                    hasError={fieldErrorCodesParser.has("apartment.customId")}
+                                    hasError={fieldErrorCodesParser.has(`${type}.customId`)}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
-                                        "apartment.customId"
+                                        `${type}.customId`
                                     )}
                                 />
                             </RowItem>

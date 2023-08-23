@@ -572,7 +572,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             }
             obj.push({
                 name: t("area"),
-                val: listing.apartment.surfaceArea + " m²",
+                val: listing.apartment.surfaceArea.toFixed(2) + " m²",
             });
             if (listing.apartment.bedroomCount) {
                 obj.push({
@@ -647,7 +647,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             }
             obj.push({
                 name: t("area"),
-                val: listing.house.surfaceArea + " m²",
+                val: listing.house.surfaceArea.toFixed(2) + " m²",
             });
             if (listing.house.bedroomCount) {
                 obj.push({
@@ -709,7 +709,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             }
             obj.push({
                 name: t("area"),
-                val: listing.land.surfaceArea + " m²",
+                val: listing.land.surfaceArea.toFixed(2) + " m²",
             });
             if (listing.land.customId) {
                 obj.push({

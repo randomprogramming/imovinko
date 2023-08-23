@@ -181,7 +181,8 @@
         "account_not_found": "Račun s tim podacima nije pronađen",
         "invalid_url": "Neispravan URL",
         "missing_offering_type": "Molimo odaberite barem jedan tip ponude!",
-        "not_valid_number": "Nije važeći broj"
+        "not_valid_number": "Nije važeći broj",
+        "invalid_username": "Korisničko ime smije sadržavati samo slova i brojke"
     },
     "ListingPage": {
         "per-night": "noćenje",

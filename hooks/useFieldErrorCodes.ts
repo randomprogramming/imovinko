@@ -26,6 +26,9 @@ export default function () {
                 if (e.validation === "email") {
                     e.code = "invalid_email";
                 }
+                if (e.path.includes("username")) {
+                    e.code = "invalid_username";
+                }
                 if (e.validation === "url") {
                     e.code = "invalid_url";
                 }
@@ -91,6 +94,9 @@ export default function () {
         }
         if (code === "not_valid_number") {
             return t("not_valid_number");
+        }
+        if (code === "invalid_username") {
+            return t("invalid_username");
         }
         return undefined;
     }

@@ -33,7 +33,11 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                 <div className="flex flex-row space-x-3">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
-                        <Typography>{listing.apartment.surfaceArea} m²</Typography>
+                        <Typography>
+                            {typeof listing.apartment.surfaceArea === "number" &&
+                                Math.round(listing.apartment.surfaceArea)}{" "}
+                            m²
+                        </Typography>
                         <div className="opacity-0 group-hover/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
                             <Typography className="text-xs">{t("area")}</Typography>
                         </div>
@@ -76,7 +80,11 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                 <div className="flex flex-row space-x-4">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
-                        <Typography>{listing.house.surfaceArea} m²</Typography>
+                        <Typography>
+                            {typeof listing.house.surfaceArea === "number" &&
+                                Math.round(listing.house.surfaceArea)}{" "}
+                            m²
+                        </Typography>
                         <div className="opacity-0 group-hover/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
                             <Typography className="text-xs">{t("area")}</Typography>
                         </div>
@@ -119,7 +127,11 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                 <div className="flex flex-row space-x-4">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
-                        <Typography>{listing.land.surfaceArea} m²</Typography>
+                        <Typography>
+                            {typeof listing.land.surfaceArea === "number" &&
+                                Math.round(listing.land.surfaceArea)}{" "}
+                            m²
+                        </Typography>
                         <div className="opacity-0 group-hover/IconRow/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
                             <Typography className="text-xs">{t("area")}</Typography>
                         </div>

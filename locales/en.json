@@ -181,7 +181,8 @@
         "account_not_found": "Account with that data was not found",
         "invalid_url": "Invalid URL",
         "missing_offering_type": "Please choose at least one offering type!",
-        "not_valid_number": "Not a valid number"
+        "not_valid_number": "Not a valid number",
+        "invalid_username": "Username may only contain letters and numbers"
     },
     "ListingPage": {
         "per-night": "per night",
