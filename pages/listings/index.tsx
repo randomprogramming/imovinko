@@ -1,9 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
-    Apartment,
-    House,
-    Land,
     ListingBasic,
     OfferingType,
     PaginatedListingBasic,
@@ -224,7 +221,13 @@ function ListingCard({ listing }: UIBlockProps) {
             if (!property) return "";
 
             const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
-            return `${pricePerMeterSquared.toLocaleString()} €/m²`;
+            const localeString = pricePerMeterSquared.toLocaleString();
+            const localeStringSplit = localeString.split(".");
+            if (localeStringSplit.length > 1) {
+                // Add the trailing 0 to the price
+                localeStringSplit[1] = localeStringSplit[1].padEnd(2, "0");
+            }
+            return `${localeStringSplit.join(".")} €/m²`;
         }
     }
 

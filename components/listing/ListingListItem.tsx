@@ -85,7 +85,12 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
             if (!property) return "";
 
             const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
-            return `${pricePerMeterSquared.toLocaleString()} €/m²`;
+            const localeString = pricePerMeterSquared.toLocaleString();
+            const localeStringSplit = localeString.split(".");
+            if (localeStringSplit.length > 1) {
+                localeStringSplit[1] = localeStringSplit[1].padEnd(2, "0");
+            }
+            return `${localeStringSplit.join(".")} €/m²`;
         }
     }
 
