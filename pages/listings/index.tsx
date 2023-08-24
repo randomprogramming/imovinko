@@ -1,6 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
+    Apartment,
+    House,
+    Land,
     ListingBasic,
     OfferingType,
     PaginatedListingBasic,
@@ -216,6 +219,12 @@ function ListingCard({ listing }: UIBlockProps) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
+        } else {
+            const property = p.apartment || p.house || p.land;
+            if (!property) return "";
+
+            const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
+            return `${pricePerMeterSquared.toLocaleString()} €/m²`;
         }
     }
 
@@ -323,26 +332,24 @@ function ListingCard({ listing }: UIBlockProps) {
                     <div className="bg-zinc-300 h-px w-full mt-2" />
                     <div className="flex flex-row items-center p-2">
                         <div>
-                            <Typography className="text-sm">
-                                {t("posted")}:{" "}
-                                <Typography variant="span" className="text-sm font-normal">
-                                    {new Date(listing.createdAt)
-                                        .toLocaleDateString(undefined, {
-                                            day: "2-digit",
-                                            month: "2-digit",
-                                            year: "numeric",
-                                        })
-                                        .replaceAll("/", ".")}
-                                </Typography>
+                            <Typography className="text-sm">{t("posted")}: </Typography>
+                            <Typography className="text-sm font-normal">
+                                {new Date(listing.createdAt)
+                                    .toLocaleDateString(undefined, {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replaceAll("/", ".")}
                             </Typography>
                         </div>
                         <div className="flex-1" />
-                        <div>
+                        <div className="flex flex-col items-end">
                             <Typography bold className="text-xl">
                                 {listing.price.toLocaleString()} €{" "}
-                                <Typography variant="span" className="text-sm font-normal">
-                                    {getPriceString(listing)}
-                                </Typography>
+                            </Typography>
+                            <Typography variant="span" className="text-sm font-normal">
+                                {getPriceString(listing)}
                             </Typography>
                         </div>
                     </div>
@@ -712,7 +719,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     <div
                         className={`${
                             useCards
-                                ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-6"
+                                ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-3 gap-y-3"
                                 : "space-y-6 max-w-3xl 2xl:max-w-5xl mx-auto"
                         } mt-2`}
                     >

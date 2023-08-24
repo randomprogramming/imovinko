@@ -493,7 +493,7 @@ export interface House extends PropertyLocation {
     energyLabel?: EnergyClass | null;
     customId?: string | null;
 }
-interface Land extends PropertyLocation {
+export interface Land extends PropertyLocation {
     id: string;
     latitude: number;
     longitude: number;

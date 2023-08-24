@@ -27,6 +27,7 @@ import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import PropertyDropdown from "@/components/PropertyDropdown";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
+import CurrencyInput from "react-currency-input-field";
 
 interface CreateListingProps {
     company: Company | null;
@@ -496,10 +497,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                             </TitleCol>
                             <RowItem>
                                 <Input
-                                    value={saleListingPrice + ""}
-                                    onChange={(val) => {
-                                        setSaleListingPrice(val);
-                                    }}
+                                    type="currency"
+                                    value={saleListingPrice}
+                                    onChange={setSaleListingPrice}
                                     placeholder={"150000"}
                                     hasError={fieldErrorCodesParser.has("sale.price")}
                                     errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
@@ -699,10 +699,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                             </TitleCol>
                             <RowItem>
                                 <Input
-                                    value={shortTermListingPrice + ""}
-                                    onChange={(val) => {
-                                        setShortTermListingPrice(val);
-                                    }}
+                                    type="currency"
+                                    value={shortTermListingPrice}
+                                    onChange={setShortTermListingPrice}
                                     placeholder={"120"}
                                     hasError={fieldErrorCodesParser.has("shortTermRent.price")}
                                     errorMsg={fieldErrorCodesParser.getTranslated(
@@ -901,10 +900,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                             </TitleCol>
                             <RowItem>
                                 <Input
-                                    value={longTermListingPrice + ""}
-                                    onChange={(val) => {
-                                        setLongTermListingPrice(val);
-                                    }}
+                                    type="currency"
+                                    value={longTermListingPrice}
+                                    onChange={setLongTermListingPrice}
                                     placeholder={"450"}
                                     hasError={fieldErrorCodesParser.has("longTermRent.price")}
                                     errorMsg={fieldErrorCodesParser.getTranslated(

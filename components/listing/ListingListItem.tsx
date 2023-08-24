@@ -80,6 +80,12 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
+        } else {
+            const property = p.apartment || p.house || p.land;
+            if (!property) return "";
+
+            const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
+            return `${pricePerMeterSquared.toLocaleString()} €/m²`;
         }
     }
 
@@ -183,26 +189,24 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
                     <div className="flex-1 mt-2" />
                     <div className="flex flex-row w-full items-center">
                         <div className="mt-auto">
-                            <Typography className="text-sm">
-                                {t("posted")}:{" "}
-                                <Typography variant="span" className="text-sm font-normal">
-                                    {new Date(listing.createdAt)
-                                        .toLocaleDateString(undefined, {
-                                            day: "2-digit",
-                                            month: "2-digit",
-                                            year: "numeric",
-                                        })
-                                        .replaceAll("/", ".")}
-                                </Typography>
+                            <Typography className="text-sm">{t("posted")}: </Typography>
+                            <Typography className="text-sm font-normal">
+                                {new Date(listing.createdAt)
+                                    .toLocaleDateString(undefined, {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replaceAll("/", ".")}
                             </Typography>
                         </div>
                         <div className="flex-1" />
-                        <div>
+                        <div className="flex flex-col items-end">
                             <Typography bold className="text-xl">
                                 {listing.price.toLocaleString()} €{" "}
-                                <Typography variant="span" className="text-sm font-normal">
-                                    {getPriceString(listing)}
-                                </Typography>
+                            </Typography>
+                            <Typography variant="span" className="text-sm font-normal">
+                                {getPriceString(listing)}
                             </Typography>
                         </div>
                     </div>

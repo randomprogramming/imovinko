@@ -566,11 +566,11 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 </TitleCol>
                                 <RowItem>
                                     <Input
+                                        type="currency"
                                         value={saleListingPrice + ""}
                                         onChange={(val) => {
                                             setSaleListingPrice(parseFloat(val));
                                         }}
-                                        type="number"
                                         placeholder={"150000"}
                                         hasError={fieldErrorCodesParser.has("sale.price")}
                                         errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
@@ -777,7 +777,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             setShortTermListingPrice(parseFloat(val));
                                         }}
                                         placeholder={"120"}
-                                        type="number"
+                                        type="currency"
                                         hasError={fieldErrorCodesParser.has("shortTermRent.price")}
                                         errorMsg={fieldErrorCodesParser.getTranslated(
                                             "shortTermRent.price"
@@ -981,7 +981,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             setLongTermListingPrice(parseFloat(val));
                                         }}
                                         placeholder={"450"}
-                                        type="number"
+                                        type="currency"
                                         hasError={fieldErrorCodesParser.has("longTermRent.price")}
                                         errorMsg={fieldErrorCodesParser.getTranslated(
                                             "longTermRent.price"
