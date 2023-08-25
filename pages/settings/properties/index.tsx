@@ -111,16 +111,22 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                         <div className="flex flex-row">
                                             <div className="flex-1"></div>
                                             <div className="flex flex-row items-center bg-zinc-50 rounded shadow-sm mt-1 border border-zinc-300">
-                                                <Link
-                                                    disableAnimatedHover
-                                                    to={`/listing/edit/${l.prettyId}`}
-                                                    className="hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
+                                                {/* TODO: Finish these buttons */}
+                                                <button
+                                                    disabled
+                                                    className="outline-none hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
+                                                >
+                                                    <Icon name="close" className="fill-red-600" />
+                                                </button>
+                                                <button
+                                                    disabled
+                                                    className="outline-none  hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
                                                 >
                                                     <Icon
-                                                        className="fill-none stroke-zinc-900 stroke-2"
+                                                        className="fill-none stroke-2 !stroke-emerald-600"
                                                         name="sold"
                                                     />
-                                                </Link>
+                                                </button>
                                                 <Link
                                                     disableAnimatedHover
                                                     to={`/listing/edit/${l.prettyId}`}
