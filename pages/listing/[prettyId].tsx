@@ -1331,7 +1331,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
                         {listing.priceChanges.length > 1 && (
                             <section className="container mx-auto mt-8">
-                                <Typography variant="h2" className="mb-4">
+                                <Typography variant="h2" className="mb-2">
                                     {t("price-history")}
                                 </Typography>
                                 <PriceChangeChart

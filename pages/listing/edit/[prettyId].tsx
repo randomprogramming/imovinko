@@ -70,7 +70,7 @@ export default function EditListingPage({ listing, company }: ListingPageProps) 
     return (
         <>
             <Head>
-                <title>{listing ? t("edit") + listing.title : t("not-found")}</title>
+                <title>{listing ? t("edit") + " " + listing.title : t("not-found")}</title>
                 <meta
                     name="description"
                     content="Imovinko - oglasnik za nekretnine. Pronađite svoj dom."

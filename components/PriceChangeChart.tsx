@@ -81,7 +81,7 @@ export default function PriceChangeChart({ data, currentPrice }: PriceChangeChar
     }
 
     return (
-        <div className="w-full h-64">
+        <div className="w-full h-72">
             <ResponsiveLine
                 tooltip={(input) => {
                     const date = input.point.data.xFormatted;
@@ -121,7 +121,7 @@ export default function PriceChangeChart({ data, currentPrice }: PriceChangeChar
                     "legends",
                     DashedSolidLine,
                 ]}
-                margin={{ top: 50, right: 100, bottom: 50, left: 100 }}
+                margin={{ top: 50, right: 50, bottom: 50, left: 75 }}
                 xScale={{ type: "time", format: "%Y-%m-%dT%H:%M:%S.%L%Z" }}
                 yScale={{
                     type: "linear",
@@ -131,7 +131,7 @@ export default function PriceChangeChart({ data, currentPrice }: PriceChangeChar
                 xFormat="time:%Y-%m-%dT%H:%M:%S.%L%Z"
                 curve="catmullRom"
                 axisBottom={{
-                    tickValues: "every 1 month",
+                    tickValues: "every 3 month",
                     tickSize: 0,
                     tickPadding: 15,
                     tickRotation: 45,
