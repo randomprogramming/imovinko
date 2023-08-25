@@ -116,7 +116,7 @@ export default function ListingCardItem({ listing }: Props) {
         <Link
             key={listing.prettyId}
             to={`/listing/${listing.prettyId}`}
-            className="group flex bg-white visited:bg-[#f1f1f1] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
+            className="group flex bg-white visited:bg-[#fafafa] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
             disableAnimatedHover
         >
             <div className="w-full">
@@ -127,17 +127,27 @@ export default function ListingCardItem({ listing }: Props) {
                     }}
                 >
                     {firstImage ? (
-                        <Image
-                            src={firstImage?.url}
-                            alt="media image"
-                            fill
-                            style={{
-                                objectFit: "cover",
-                                height: "100%",
-                                width: "100%",
-                            }}
-                            quality={50}
-                        />
+                        <>
+                            <Image
+                                src={firstImage?.url}
+                                alt="media image"
+                                fill
+                                style={{
+                                    objectFit: "cover",
+                                    height: "100%",
+                                    width: "100%",
+                                }}
+                                quality={50}
+                            />
+                            <div
+                                style={{ fontSize: "11px" }}
+                                className="absolute bg-emerald-700 text-zinc-50 left-2 bottom-0 translate-y-1/2 px-2 py-0.5 rounded-sm"
+                            >
+                                <Typography uppercase className="tracking-wider">
+                                    {getPropertyTypeAndOfferingTypeString(listing)}
+                                </Typography>
+                            </div>
+                        </>
                     ) : (
                         <div className="absolute left-0 right-0 top-0 bottom-0">
                             <NoImage />
@@ -146,7 +156,7 @@ export default function ListingCardItem({ listing }: Props) {
                 </div>
                 <div className="flex flex-col w-full h-full">
                     <div className="p-2">
-                        <div
+                        {/* <div
                             style={{
                                 fontSize: "11px",
                             }}
@@ -154,7 +164,7 @@ export default function ListingCardItem({ listing }: Props) {
                             <Typography className="tracking-widest text-zinc-500" uppercase>
                                 {getPropertyTypeAndOfferingTypeString(listing)}
                             </Typography>
-                        </div>
+                        </div> */}
                         <div
                             style={{
                                 minHeight: "3.5em",

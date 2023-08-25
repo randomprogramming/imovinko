@@ -18,6 +18,8 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import Icon from "@/components/Icon";
 import { poppins } from "@/util/fonts";
+import ListingCardItem from "@/components/listing/ListingCardItem";
+import ListingListItem from "@/components/listing/ListingListItem";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery({
@@ -392,67 +394,9 @@ export default function Home({ newestListings, counts }: HomeProps) {
 
                 <section className="container mx-auto mt-12">
                     <Typography variant="h1">{t("newest-ads")}</Typography>
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full gap-6">
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full gap-4">
                         {newestListings.map((l) => {
-                            const apartmentMedia = l.apartment?.media;
-                            const houseMedia = l.house?.media;
-                            const landMedia = l.land?.media;
-
-                            const media = apartmentMedia || houseMedia || landMedia;
-                            let url;
-                            if (media && media.length > 0) {
-                                url = media[0].url;
-                            }
-
-                            return (
-                                <Link
-                                    key={l.prettyId}
-                                    to={`/listing/${l.prettyId}`}
-                                    className="bg-zinc-200 shadow-sm hover:shadow-md rounded-lg hover:rounded-xl transition-all overflow-hidden"
-                                >
-                                    {url ? (
-                                        <img
-                                            className="h-64 w-full object-cover rounded-b-lg"
-                                            src={`${url}`}
-                                        />
-                                    ) : (
-                                        <div className="h-64 w-full rounded-b-lg overflow-hidden">
-                                            <NoImage className="bg-zinc-300" />
-                                        </div>
-                                    )}
-                                    <div className="relative">
-                                        <div className="absolute bg-emerald-700 text-zinc-50 left-4 -translate-y-1/2 px-2 py-0.5 rounded">
-                                            <Typography>
-                                                {getOfferingTypeString(l.offeringType)}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="px-2 mt-3"
-                                        style={{
-                                            minHeight: "3.5em",
-                                            height: "3.5em",
-                                            maxHeight: "3.5em",
-                                        }}
-                                    >
-                                        <Typography variant="h2" className="line-clamp-2">
-                                            {l.title}
-                                        </Typography>
-                                    </div>
-                                    <div className="flex flex-row px-2 pb-1">
-                                        <div className="flex-1" />
-                                        <Typography bold className="text-xl">
-                                            {l.price.toLocaleString()} €{" "}
-                                            <Typography
-                                                variant="span"
-                                                className="text-sm font-normal"
-                                            >
-                                                {getPriceString(l)}
-                                            </Typography>
-                                        </Typography>
-                                    </div>
-                                </Link>
-                            );
+                            return <ListingCardItem key={l.prettyId} listing={l} />;
                         })}
                     </div>
                 </section>
