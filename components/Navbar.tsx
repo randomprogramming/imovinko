@@ -9,10 +9,8 @@ import { useTranslations } from "next-intl";
 import Notifications from "./Notifications";
 import { CompanyInvitation, getNotifications } from "@/util/api";
 
-interface AuthDropdownProps {
-    useLighterColorsOnSmallDevice?: boolean;
-}
-function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
+interface AuthDropdownProps {}
+function AuthDropdown({}: AuthDropdownProps) {
     const t = useTranslations("Navbar");
 
     const { account, logout } = useAuthentication();
@@ -49,22 +47,10 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
-                className={useLighterColorsOnSmallDevice ? "hover:bg-zinc-700" : ""}
             >
                 <div className="flex flex-row space-x-2">
-                    <Typography
-                        className={`${
-                            useLighterColorsOnSmallDevice && "text-white xl:text-[#040404]"
-                        }`}
-                    >
-                        {getAccountHandle()}
-                    </Typography>
-                    <Icon
-                        className={`${
-                            useLighterColorsOnSmallDevice && "fill-white xl:fill-[#040404]"
-                        }`}
-                        name="account"
-                    />
+                    <Typography>{getAccountHandle()}</Typography>
+                    <Icon name="account" />
                 </div>
             </Button.Transparent>
             <div
@@ -124,7 +110,7 @@ function AuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
     );
 }
 
-function MobileAuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps) {
+function MobileAuthDropdown({}: AuthDropdownProps) {
     const { account, logout } = useAuthentication();
 
     const [dropdown, setDropdown] = useState(false);
@@ -210,12 +196,7 @@ function MobileAuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps
                     setDropdown(!dropdown);
                 }}
             >
-                <Icon
-                    name="account"
-                    className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
-                    height="26"
-                    width="26"
-                />
+                <Icon name="account" height="26" width="26" />
             </Button.Transparent>
             <div
                 className={`absolute right-0 w-full z-30 mt-3 transition-all duration-75 rounded-lg shadow-lg ${
@@ -236,13 +217,8 @@ function MobileAuthDropdown({ useLighterColorsOnSmallDevice }: AuthDropdownProps
 interface NavbarProps {
     hideSearchBar?: boolean;
     lighterSearchbar?: boolean;
-    useLighterColorsOnSmallDevice?: boolean;
 }
-export default function Navbar({
-    hideSearchBar,
-    lighterSearchbar,
-    useLighterColorsOnSmallDevice,
-}: NavbarProps) {
+export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps) {
     const t = useTranslations("Navbar");
 
     const auth = useAuthentication();
@@ -270,11 +246,7 @@ export default function Navbar({
                 <Icon name="logo-text" height="36" />
             </Link>
             <Link to="/" className="md:hidden" disableAnimatedHover>
-                <Icon
-                    name="logo"
-                    className={`${useLighterColorsOnSmallDevice && "fill-zinc-50"}`}
-                    height="32"
-                />
+                <Icon name="logo" height="32" />
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
@@ -287,46 +259,22 @@ export default function Navbar({
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center">
                 {auth.account && companyInvitations && (
-                    <Notifications
-                        lightIcon={useLighterColorsOnSmallDevice}
-                        notifications={companyInvitations}
-                    />
+                    <Notifications notifications={companyInvitations} />
                 )}
 
-                <MobileAuthDropdown useLighterColorsOnSmallDevice={useLighterColorsOnSmallDevice} />
+                <MobileAuthDropdown />
             </div>
             {/* Desktop View */}
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        {companyInvitations && (
-                            <Notifications
-                                lightIcon={useLighterColorsOnSmallDevice}
-                                notifications={companyInvitations}
-                            />
-                        )}
-                        <AuthDropdown
-                            useLighterColorsOnSmallDevice={useLighterColorsOnSmallDevice}
-                        />
+                        {companyInvitations && <Notifications notifications={companyInvitations} />}
+                        <AuthDropdown />
                     </>
                 ) : (
-                    <div
-                        className={`flex flex-row space-x-4 ${
-                            useLighterColorsOnSmallDevice && "text-zinc-50"
-                        }`}
-                    >
-                        <Link
-                            underlineClassName={`${useLighterColorsOnSmallDevice && "!bg-zinc-50"}`}
-                            to="/register"
-                        >
-                            {t("sign-up")}
-                        </Link>
-                        <Link
-                            underlineClassName={`${useLighterColorsOnSmallDevice && "!bg-zinc-50"}`}
-                            to="/login"
-                        >
-                            {t("sign-in")}
-                        </Link>
+                    <div className={`flex flex-row space-x-4`}>
+                        <Link to="/register">{t("sign-up")}</Link>
+                        <Link to="/login">{t("sign-in")}</Link>
                     </div>
                 )}
             </div>

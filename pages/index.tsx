@@ -87,15 +87,15 @@ export default function Home({ newestListings, counts }: HomeProps) {
                     content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam"
                 />
             </Head>
-            <header className="absolute top-0 container mx-auto left-0 right-0 z-20">
-                <Navbar useLighterColorsOnSmallDevice />
+            <header className="container mx-auto left-0 right-0 z-20">
+                <Navbar />
             </header>
             <main className="flex-1">
                 <section className="max-w-5xl mx-auto">
                     <div className="w-full">
                         <div className="flex flex-col-reverse md:flex-row container mx-auto">
-                            <div className="md:translate-y-12 z-10 flex-1 flex flex-col bg-[#ececec] rounded-xl md:bg-transparent md:rounded-none pt-0 md:pt-20">
-                                <div className="flex flex-col h-full space-y-4">
+                            <div className="md:translate-y-10 z-10 flex-1 flex flex-col bg-[#ececec] rounded-xl md:bg-transparent md:rounded-none pt-0">
+                                <div className="flex flex-col h-full">
                                     <div className="relative group flex-1">
                                         <div className="group-hover:scale-105 transition-all hidden md:flex absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ececec] px-4 py-1 rounded-lg z-30">
                                             <Typography
@@ -257,7 +257,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                     src={"/images/homepage-side-bg.jpg"}
                                     alt="house"
                                     fill
-                                    className="rounded-b-xl"
+                                    className="rounded-xl"
                                     style={{
                                         objectFit: "cover",
                                     }}
