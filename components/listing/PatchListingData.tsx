@@ -65,15 +65,15 @@ export default function InputListingData({ company, listing, type }: ListApartme
     const [isSubmittingAd, setIsSubmittingAd] = useState(false);
 
     const [saleListingTitle, setSaleListingTitle] = useState(listing?.title);
-    const [saleListingPrice, setSaleListingPrice] = useState<number | undefined>(listing?.price);
+    const [saleListingPrice, setSaleListingPrice] = useState<string>(String(listing?.price));
     const [saleListingDescription, setSaleListingDescription] = useState<string | undefined>(
         listing?.description
     );
     const [saleManualAccountContacts, setSaleManualAccountContacts] = useState<string[]>([]);
     const [saleContacts, setSaleContacts] = useState<string[]>([]);
     const [shortTermListingTitle, setShortTermListingTitle] = useState(listing?.title);
-    const [shortTermListingPrice, setShortTermListingPrice] = useState<number | undefined>(
-        listing?.price
+    const [shortTermListingPrice, setShortTermListingPrice] = useState<string>(
+        String(listing?.price)
     );
     const [shortTermListingDescription, setShortTermListingDescription] = useState<
         string | undefined
@@ -83,8 +83,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
         []
     );
     const [longTermListingTitle, setLongTermListingTitle] = useState(listing?.title);
-    const [longTermListingPrice, setLongTermListingPrice] = useState<number | undefined>(
-        listing?.price
+    const [longTermListingPrice, setLongTermListingPrice] = useState<string>(
+        String(listing?.price)
     );
     const [longTermListingDescription, setLongTermListingDescription] = useState<
         string | undefined
@@ -567,10 +567,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 <RowItem>
                                     <Input
                                         type="currency"
-                                        value={saleListingPrice + ""}
-                                        onChange={(val) => {
-                                            setSaleListingPrice(parseFloat(val));
-                                        }}
+                                        value={saleListingPrice}
+                                        onChange={setSaleListingPrice}
                                         placeholder={"150000"}
                                         hasError={fieldErrorCodesParser.has("sale.price")}
                                         errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
@@ -772,10 +770,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 </TitleCol>
                                 <RowItem>
                                     <Input
-                                        value={shortTermListingPrice + ""}
-                                        onChange={(val) => {
-                                            setShortTermListingPrice(parseFloat(val));
-                                        }}
+                                        value={shortTermListingPrice}
+                                        onChange={setShortTermListingPrice}
                                         placeholder={"120"}
                                         type="currency"
                                         hasError={fieldErrorCodesParser.has("shortTermRent.price")}
@@ -976,10 +972,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                 </TitleCol>
                                 <RowItem>
                                     <Input
-                                        value={longTermListingPrice + ""}
-                                        onChange={(val) => {
-                                            setLongTermListingPrice(parseFloat(val));
-                                        }}
+                                        value={longTermListingPrice}
+                                        onChange={setLongTermListingPrice}
                                         placeholder={"450"}
                                         type="currency"
                                         hasError={fieldErrorCodesParser.has("longTermRent.price")}
