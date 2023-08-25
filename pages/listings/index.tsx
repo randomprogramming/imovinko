@@ -53,6 +53,23 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         delete query.priceTo;
     }
 
+    let pricePerSquareMeterFrom = query.pricePerSquareMeterFrom;
+    if (Array.isArray(pricePerSquareMeterFrom)) {
+        pricePerSquareMeterFrom = pricePerSquareMeterFrom.at(0);
+    }
+    if (isNaN(pricePerSquareMeterFrom as any)) {
+        pricePerSquareMeterFrom = undefined;
+        delete query.pricePerSquareMeterFrom;
+    }
+    let pricePerSquareMeterTo = query.pricePerSquareMeterTo;
+    if (Array.isArray(pricePerSquareMeterTo)) {
+        pricePerSquareMeterTo = pricePerSquareMeterTo.at(0);
+    }
+    if (isNaN(pricePerSquareMeterTo as any)) {
+        pricePerSquareMeterTo = undefined;
+        delete query.pricePerSquareMeterTo;
+    }
+
     let sortBy = query.sortBy;
     if (Array.isArray(sortBy)) {
         sortBy = sortBy.at(0);
@@ -139,6 +156,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         offeringType: offeringTypes,
         page,
         priceFrom,
+        pricePerSquareMeterFrom,
+        pricePerSquareMeterTo,
         priceTo,
         sortBy,
         sortDirection: sortDirectionTyped,
@@ -217,14 +236,17 @@ function ListingCard({ listing }: UIBlockProps) {
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
         } else {
-            const property = p.apartment || p.house || p.land;
-            if (!property) return "";
+            let pricePerMeterSquared = p.pricePerMeterSquared;
+            if (!pricePerMeterSquared) {
+                const property = p.apartment || p.house || p.land;
+                if (!property) return "";
+                pricePerMeterSquared = p.price / property.surfaceArea;
+            }
 
-            const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
+            pricePerMeterSquared = Math.round(pricePerMeterSquared * 100) / 100;
             const localeString = pricePerMeterSquared.toLocaleString();
             const localeStringSplit = localeString.split(".");
             if (localeStringSplit.length > 1) {
-                // Add the trailing 0 to the price
                 localeStringSplit[1] = localeStringSplit[1].padEnd(2, "0");
             }
             return `${localeStringSplit.join(".")} €/m²`;
@@ -419,6 +441,20 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             ? undefined
             : params?.priceTo
     );
+    const [pricePerSquareMeterFrom, setPricePerSquareMeterFrom] = useState(
+        isNaN(params?.pricePerSquareMeterFrom as any)
+            ? undefined
+            : Array.isArray(params?.pricePerSquareMeterFrom)
+            ? undefined
+            : params?.pricePerSquareMeterFrom
+    );
+    const [pricePerSquareMeterTo, setPricePerSquareMeterTo] = useState(
+        isNaN(params?.pricePerSquareMeterTo as any)
+            ? undefined
+            : Array.isArray(params?.pricePerSquareMeterTo)
+            ? undefined
+            : params?.pricePerSquareMeterTo
+    );
     const [filterRegionShortCodes, setFilterRegionShortCodes] = useState<
         {
             label: string;
@@ -461,6 +497,24 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             allParams.priceTo = priceTo;
         } else {
             delete allParams.priceTo;
+        }
+        if (
+            pricePerSquareMeterFrom &&
+            pricePerSquareMeterFrom.length > 0 &&
+            !isNaN(pricePerSquareMeterFrom as any)
+        ) {
+            allParams.pricePerSquareMeterFrom = pricePerSquareMeterFrom;
+        } else {
+            delete allParams.pricePerSquareMeterFrom;
+        }
+        if (
+            pricePerSquareMeterTo &&
+            pricePerSquareMeterTo.length > 0 &&
+            !isNaN(pricePerSquareMeterTo as any)
+        ) {
+            allParams.pricePerSquareMeterTo = pricePerSquareMeterTo;
+        } else {
+            delete allParams.pricePerSquareMeterTo;
         }
         if (filterRegionShortCodes.length > 0) {
             allParams.region = filterRegionShortCodes.map((c) => c.value);
@@ -656,6 +710,41 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     }}
                                 />
                                 <label htmlFor="priceTo">
+                                    <Typography>€</Typography>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <Typography bold>{t("price-per-meter-squared")}</Typography>
+                        <div className="flex flex-row flex-wrap items-center">
+                            <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                <input
+                                    id="pricePerSquareMeterFrom"
+                                    name="pricePerSquareMeterFrom"
+                                    className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                    value={pricePerSquareMeterFrom}
+                                    onChange={(e) => {
+                                        setPricePerSquareMeterFrom(e.target.value);
+                                    }}
+                                />
+                                <label htmlFor="pricePerSquareMeterFrom">
+                                    <Typography>€</Typography>
+                                </label>
+                            </div>
+                            <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                            <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                <input
+                                    id="pricePerSquareMeterTo"
+                                    name="pricePerSquareMeterTo"
+                                    className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                    value={pricePerSquareMeterTo}
+                                    onChange={(e) => {
+                                        setPricePerSquareMeterTo(e.target.value);
+                                    }}
+                                />
+                                <label htmlFor="pricePerSquareMeterTo">
                                     <Typography>€</Typography>
                                 </label>
                             </div>

@@ -75,6 +75,20 @@ export default function MapScreen({ query }: MapScreenProps) {
             ? undefined
             : queryCopy?.priceTo
     );
+    const [pricePerSquareMeterFrom, setPricePerSquareMeterFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.pricePerSquareMeterFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.pricePerSquareMeterFrom)
+            ? undefined
+            : queryCopy?.pricePerSquareMeterFrom
+    );
+    const [pricePerSquareMeterTo, setPricePerSquareMeterTo] = useState<string | undefined>(
+        isNaN(queryCopy?.pricePerSquareMeterTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.pricePerSquareMeterTo)
+            ? undefined
+            : queryCopy?.pricePerSquareMeterTo
+    );
 
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
     const [isSearchInProgress, setIsSearchInProgress] = useState(false);
@@ -119,6 +133,25 @@ export default function MapScreen({ query }: MapScreenProps) {
                 delete allParams.priceTo;
             }
 
+            if (
+                pricePerSquareMeterFrom &&
+                pricePerSquareMeterFrom.length > 0 &&
+                !isNaN(pricePerSquareMeterFrom as any)
+            ) {
+                allParams.pricePerSquareMeterFrom = pricePerSquareMeterFrom;
+            } else {
+                delete allParams.pricePerSquareMeterFrom;
+            }
+            if (
+                pricePerSquareMeterTo &&
+                pricePerSquareMeterTo.length > 0 &&
+                !isNaN(pricePerSquareMeterTo as any)
+            ) {
+                allParams.pricePerSquareMeterTo = pricePerSquareMeterTo;
+            } else {
+                delete allParams.pricePerSquareMeterTo;
+            }
+
             if (propertyTypes.length === 0) {
                 propertyTypes = [PropertyType.apartment, PropertyType.house, PropertyType.land];
             }
@@ -139,7 +172,9 @@ export default function MapScreen({ query }: MapScreenProps) {
                 propertyTypes,
                 offeringTypes,
                 priceFrom,
-                priceTo
+                priceTo,
+                pricePerSquareMeterFrom,
+                pricePerSquareMeterTo
             );
 
             // Restart to first page when filter changes
@@ -269,6 +304,8 @@ export default function MapScreen({ query }: MapScreenProps) {
         mapBounds,
         priceFrom,
         priceTo,
+        pricePerSquareMeterFrom,
+        pricePerSquareMeterTo,
     ]);
 
     return (
@@ -569,13 +606,12 @@ export default function MapScreen({ query }: MapScreenProps) {
 
                             <div className="mt-8">
                                 <Typography bold>{t("price")}</Typography>
-                                <div className="flex flex-row flex-wrap items-center ml-2">
+                                <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
                                         <DebounceInput
                                             id="priceFrom"
                                             name="priceFrom"
                                             className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                            // value={priceFrom}
                                             debounceTimeout={1000}
                                             onChange={(e) => {
                                                 setPriceFrom(e.target.value);
@@ -592,12 +628,46 @@ export default function MapScreen({ query }: MapScreenProps) {
                                             name="priceTo"
                                             debounceTimeout={1000}
                                             className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                            // value={priceTo}
                                             onChange={(e) => {
                                                 setPriceTo(e.target.value);
                                             }}
                                         />
                                         <label htmlFor="priceTo">
+                                            <Typography>€</Typography>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("price-per-meter-squared")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="pricePerSquareMeterFrom"
+                                            name="pricePerSquareMeterFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setPricePerSquareMeterFrom(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="pricePerSquareMeterFrom">
+                                            <Typography>€</Typography>
+                                        </label>
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="pricePerSquareMeterTo"
+                                            name="pricePerSquareMeterTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setPricePerSquareMeterTo(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="pricePerSquareMeterTo">
                                             <Typography>€</Typography>
                                         </label>
                                     </div>

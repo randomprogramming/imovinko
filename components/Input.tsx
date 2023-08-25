@@ -131,6 +131,7 @@ export default function Input({
             <div className="relative">
                 <CurrencyInput
                     decimalsLimit={2}
+                    groupSeparator=" "
                     intlConfig={{
                         locale: "hr",
                         currency: "EUR",

@@ -252,6 +252,21 @@ export default function ListingPage({ listing }: ListingPageProps) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
+        } else {
+            let pricePerMeterSquared = p.pricePerMeterSquared;
+            if (!pricePerMeterSquared) {
+                const property = p.apartment || p.house || p.land;
+                if (!property) return "";
+                pricePerMeterSquared = p.price / property.surfaceArea;
+            }
+
+            pricePerMeterSquared = Math.round(pricePerMeterSquared * 100) / 100;
+            const localeString = pricePerMeterSquared.toLocaleString();
+            const localeStringSplit = localeString.split(".");
+            if (localeStringSplit.length > 1) {
+                localeStringSplit[1] = localeStringSplit[1].padEnd(2, "0");
+            }
+            return `${localeStringSplit.join(".")} €/m²`;
         }
     }
 
@@ -928,9 +943,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     </Typography>
                                     <Typography variant="h2" className="mt-2 text-right">
                                         {listing.price.toLocaleString()} €{" "}
-                                        <span className="text-sm font-normal">
-                                            {getPriceString(listing)}
-                                        </span>
+                                    </Typography>
+                                    <Typography className="text-right">
+                                        {getPriceString(listing)}
                                     </Typography>
                                 </div>
                                 <div className="my-4 text-center">
@@ -1039,9 +1054,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     </Typography>
                                     <Typography variant="h2" className="mt-2 text-right">
                                         {listing.price.toLocaleString()} €{" "}
-                                        <span className="text-sm font-normal">
-                                            {getPriceString(listing)}
-                                        </span>
+                                    </Typography>
+                                    <Typography className="text-right">
+                                        {getPriceString(listing)}
                                     </Typography>
                                 </div>
 

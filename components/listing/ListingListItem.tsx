@@ -81,10 +81,14 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
         } else {
-            const property = p.apartment || p.house || p.land;
-            if (!property) return "";
+            let pricePerMeterSquared = p.pricePerMeterSquared;
+            if (!pricePerMeterSquared) {
+                const property = p.apartment || p.house || p.land;
+                if (!property) return "";
+                pricePerMeterSquared = p.price / property.surfaceArea;
+            }
 
-            const pricePerMeterSquared = Math.round((p.price / property.surfaceArea) * 100) / 100;
+            pricePerMeterSquared = Math.round(pricePerMeterSquared * 100) / 100;
             const localeString = pricePerMeterSquared.toLocaleString();
             const localeStringSplit = localeString.split(".");
             if (localeStringSplit.length > 1) {
@@ -168,7 +172,6 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
                         </Typography>
                     </div>
                     <div
-                        // className="group-visited:text-red-500"
                         style={{
                             minHeight: "4em",
                             height: "4em",
@@ -210,7 +213,7 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
                             <Typography bold className="text-xl">
                                 {listing.price.toLocaleString()} €{" "}
                             </Typography>
-                            <Typography variant="span" className="text-sm font-normal">
+                            <Typography className="text-sm font-normal">
                                 {getPriceString(listing)}
                             </Typography>
                         </div>

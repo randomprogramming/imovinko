@@ -164,48 +164,10 @@ export interface CreateListingData {
         surfaceArea: number | string;
         customId?: string | null;
     };
-
-    // listingFor: ListingFor;
-
-    // isForSale?: boolean;
-    // saleListingTitle?: string;
-    // saleListingPrice?: number;
-    // saleListingDescription?: string;
-    // saleContacts?: string[];
-    // saleManualAccountContacts?: string[];
-
-    // isForShortTermRent?: boolean;
-    // shortTermListingTitle?: string;
-    // shortTermListingPrice?: number;
-    // shortTermListingDescription?: string;
-    // shortTermContacts?: string[];
-    // shortTermManualAccountContacts?: string[];
-
-    // isForLongTermRent?: boolean;
-    // longTermListingTitle?: string;
-    // longTermListingPrice?: number;
-    // longTermListingDescription?: string;
-    // longTermContacts?: string[];
-    // longTermManualAccountContacts?: string[];
     existingProperty?: {
         id: string;
         propertyType: PropertyType;
     };
-
-    // lat: number;
-    // lon: number;
-    // area: number;
-
-    // bedroomCount?: string | number | null;
-    // bathroomCount?: string | number | null;
-    // parkingSpaceCount?: string | number | null;
-    // floor?: string | number | null;
-    // totalFloors?: string | number | null;
-    // buildingFloors?: string | number | null;
-    // buildYear?: string | number | null;
-    // renovationYear?: string | number | null;
-    // energyLabel?: EnergyClass | null;
-    // customId?: string | null;
 }
 interface CreateListingResponse {
     id: string;
@@ -353,6 +315,7 @@ export interface ListingBasic {
     prettyId: string;
     title: string;
     price: number;
+    pricePerMeterSquared: number | null;
     description: string;
     apartment: BasicProperty | null;
     house: BasicProperty | null;
@@ -372,7 +335,9 @@ export async function findListingsByBoundingBox(
     propertyType: PropertyType[],
     offeringType: OfferingType[],
     priceFrom?: number | string,
-    priceTo?: number | string
+    priceTo?: number | string,
+    pricePerSquareMeterFrom?: number | string,
+    pricePerSquareMeterTo?: number | string
 ) {
     return (
         await client<PaginatedListingBasic>({
@@ -385,6 +350,8 @@ export async function findListingsByBoundingBox(
                 pageSize: 20,
                 priceFrom: priceFrom || undefined,
                 priceTo: priceTo || undefined,
+                pricePerSquareMeterFrom: pricePerSquareMeterFrom || undefined,
+                pricePerSquareMeterTo: pricePerSquareMeterTo || undefined,
             },
         })
     ).data;
@@ -395,6 +362,8 @@ export async function findListingsByQuery(data: {
     page?: number | string;
     priceFrom?: number | string;
     priceTo?: number | string;
+    pricePerSquareMeterFrom?: number | string;
+    pricePerSquareMeterTo?: number | string;
     sortBy?: string;
     sortDirection?: "asc" | "desc";
     pageSize?: number;
@@ -407,14 +376,9 @@ export async function findListingsByQuery(data: {
         url: "/listing/",
         method: "GET",
         params: {
+            ...data,
             propertyType: data.propertyType.join(","),
             offeringType: data.offeringType.join(","),
-            page: data.page,
-            priceFrom: data.priceFrom,
-            priceTo: data.priceTo,
-            sortBy: data.sortBy,
-            sortDirection: data.sortDirection,
-            pageSize: data.pageSize,
             region: data.region?.join(","),
         },
     });
@@ -515,6 +479,7 @@ export interface Listing {
     description: string;
     offeringType: OfferingType;
     price: number;
+    pricePerMeterSquared: number | null;
     houseId: string | null;
     apartmentId: string | null;
     landId: string | null;
