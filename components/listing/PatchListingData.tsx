@@ -232,14 +232,15 @@ export default function InputListingData({ company, listing, type }: ListApartme
     }
 
     async function submitAd() {
+        if (!listing) {
+            return;
+        }
+        setIsSubmittingAd(true);
+        fieldErrorCodesParser.empty();
         setLoadingBar({
             message: t("creating-listing"),
             percent: 10,
         });
-        if (!listing) {
-            return;
-        }
-        fieldErrorCodesParser.empty();
         try {
             let listingData = {};
             if (listing?.offeringType === OfferingType.sale) {
@@ -359,13 +360,14 @@ export default function InputListingData({ company, listing, type }: ListApartme
                 percent: 100,
                 isError: true,
             });
-            setIsSubmittingAd(false);
             const mainSection = document.querySelector("#main");
             if (mainSection) {
                 mainSection.scrollIntoView({
                     behavior: "smooth",
                 });
             }
+        } finally {
+            setIsSubmittingAd(false);
         }
     }
 

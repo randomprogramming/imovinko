@@ -108,7 +108,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                         <Link
                                             to="/listings"
                                             disableAnimatedHover
-                                            className="group-hover:scale-105 transition-all bg-gradient-to-tr flex flex-col shadow-sm from-[#058E3F] to-[#004346] w-full rounded-b-xl md:rounded-t-xl flex-1 relative pt-16 md:pt-4 overflow-hidden"
+                                            className="group-hover:scale-105 transition-all bg-gradient-to-tr flex flex-col shadow-sm from-[#058E3F] to-[#004346] w-full sm:rounded-xl flex-1 relative lg:pt-16 md:pt-4 overflow-hidden"
                                         >
                                             <div className="relative overflow-hidden p-4 h-full flex flex-col">
                                                 <Typography
@@ -134,7 +134,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                                         </Typography>
                                                     </div>
                                                 </div>
-                                                <div className="absolute -bottom-16 -right-16 xl:-bottom-6 ">
+                                                <div className="absolute -bottom-12 -right-12 xl:-bottom-6">
                                                     <img
                                                         src="/images/removal2.png"
                                                         className="relative h-44 sm:h-56 md:h-64 z-20"
@@ -144,10 +144,10 @@ export default function Home({ newestListings, counts }: HomeProps) {
                                         </Link>
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row flex-1">
+                                    <div className="flex flex-col sm:flex-row flex-1 mt-4">
                                         <Link
                                             to="/map"
-                                            className="flex-1 flex overflow-hidden rounded-xl relative group w-full h-full min-h-[160px]"
+                                            className="flex-1 flex overflow-hidden sm:rounded-xl relative group w-full h-full min-h-[160px]"
                                         >
                                             <div className="flex-1 flex absolute top-0 left-0 right-0 bottom-0 bg-[url('/images/map.jpg')] bg-cover blur-[3px] group-hover:blur-sm transition-all"></div>
                                             <div className="flex-1 relative z-20 flex items-center justify-center text-center">
@@ -317,7 +317,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                         </div>
                         <img
                             src="/images/removal.png"
-                            className="absolute right-0 bottom-0 h-96 z-30"
+                            className="absolute right-0 bottom-0 h-40 sm:h-52 md:h-64 lg:h-96 z-30 "
                         />
                     </div>
                 </section>
