@@ -41,6 +41,15 @@ interface PriceChangeChartProps {
     currentPrice: number;
 }
 export default function PriceChangeChart({ data, currentPrice }: PriceChangeChartProps) {
+    function getMinPrice() {
+        const allPrices = data.map((p) => p.oldPrice);
+        allPrices.push(currentPrice);
+        allPrices.sort((a, b) => {
+            return a - b;
+        });
+        return allPrices.at(0) || 0;
+    }
+
     function generateGraphData() {
         const sorted = data.sort((a, b) => {
             return moment(a.createdAt).diff(b.createdAt);
@@ -127,6 +136,7 @@ export default function PriceChangeChart({ data, currentPrice }: PriceChangeChar
                     type: "linear",
                     stacked: false,
                     reverse: false,
+                    min: Math.max(getMinPrice() * 0.9, 0),
                 }}
                 xFormat="time:%Y-%m-%dT%H:%M:%S.%L%Z"
                 curve="catmullRom"
