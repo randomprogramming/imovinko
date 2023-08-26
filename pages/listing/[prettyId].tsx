@@ -770,7 +770,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         <div
                             className={`${
                                 isMediaPopupOpen ? "opacity-100" : "opacity-0 invisible"
-                            } absolute top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
+                            } fixed top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
                         >
                             <div className="flex flex-col h-full w-full">
                                 <div className="h-[10%] flex flex-row">
@@ -807,7 +807,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                     height={20}
                                                     width={20}
                                                 />
-                                                <Typography className="text-zinc-50">
+                                                <Typography className="text-zinc-50 hidden md:flex">
                                                     {t("close")}
                                                 </Typography>
                                             </div>

@@ -75,7 +75,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
             </header>
             <main className="flex-1">
                 <section className="container mx-auto p-1">
-                    <div className="relative h-[720px] w-full rounded-3xl overflow-hidden">
+                    <div className="relative h-[720px] w-full rounded-lg md:rounded-2xl xl:rounded-3xl overflow-hidden">
                         <div className="absolute left-0 right-0 top-0 bottom-0 z-20">
                             <div className="flex flex-col h-full items-center justify-center max-w-[90%] md:max-w-[75%] mx-auto">
                                 <div className="backdrop-blur-2xl flex flex-col items-center space-y-6 rounded-3xl p-6">
