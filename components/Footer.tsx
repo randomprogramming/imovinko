@@ -50,6 +50,7 @@ export default function Footer({ className }: FooterProps) {
                         <FooterLink to="/map" title={t("open-map")} />
                         <FooterLink to="/calculator" title={t("mortgage-calculator")} />
                         <FooterLink to="/contact" title={t("contact")} />
+                        <FooterLink to="/privacy" title={t("privacy")} />
                     </div>
                     <div className="flex flex-col space-y-1">
                         <Typography variant="span" uppercase font="work_sans">

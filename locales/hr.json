@@ -386,7 +386,8 @@
         "browse": "Pretraži oglase",
         "open-map": "Otvori kartu",
         "mortgage-calculator": "Kalkulator kredita",
-        "contact": "Kontakt"
+        "contact": "Kontakt",
+        "privacy": "Pravila o zaštiti privatnosti"
     },
     "Contact": {
         "contact-us": "Kontaktirajte nas",
@@ -505,5 +506,30 @@
         "code": "Šifra nekretnine",
         "created": "Stvoreno",
         "no-options": "Nema niti jedne nekretnine..."
+    },
+    "Privacy": {
+        "header": "Pravila o zaštiti privatnosti Imovinka",
+        "1": "Imovinko upravlja web stranicom www.imovinko.com koja pruža mogućnost pregledavanja oglasa nekretnina.",
+        "2": "Ova stranica služi za informiranje posjetitelja web stranice o našim pravilima o prikupljanju, korištenju i otkrivanju osobnih podataka ako se netko odluči koristiti našom web stranicom Imovinko.",
+        "3": "Ako odlučite koristiti našu uslugu, pristajete na prikupljanje i korištenje informacija u vezi s ovom politikom. Osobni podaci koje prikupljamo koriste se za pružanje i poboljšanje usluge. Vaše podatke nećemo koristiti niti dijeliti ni s kim osim na način opisan u ovim Pravilima privatnosti.",
+        "information-collection": "Prikupljanje i korištenje informacija",
+        "4": "Za bolje iskustvo tijekom korištenja naše usluge, možemo od vas tražiti određene osobne podatke, uključujući ali ne ograničavajući se na vaše ime, broj telefona i poštansku adresu. Podaci koje prikupljamo koristit će se za kontaktiranje ili identifikaciju.",
+        "log-data": "Logiranje podataka",
+        "5": "Želimo vas obavijestiti da kad god posjetite našu uslugu, prikupljamo informacije koje nam vaš preglednik šalje, a koje se nazivaju podaci zapisnika. Ovi podaci preglednika mogu uključivati informacije kao što su adresa internetskog protokola (\"IP\") vašeg računala, verzija preglednika, stranice naše usluge koje posjećujete, vrijeme i datum vaše posjete, vrijeme provedeno na tim stranicama i druge statistike.",
+        "cookies": "Kolačići",
+        "6": "Kolačići su datoteke s malom količinom podataka koje se obično koriste kao anonimni jedinstveni identifikator. One se šalju vašem pregledniku s web stranice koju posjetite i pohranjuju se na tvrdi disk vašeg računala.",
+        "7": "Naša web stranica koristi \"kolačiće\" za prikupljanje informacija i poboljšanje naše usluge. Imate mogućnost prihvatiti ili odbiti ove kolačiće i znati kada se kolačić šalje na vaše računalo. Ako odlučite odbiti naše kolačiće, možda nećete moći koristiti neke dijelove naše usluge.",
+        "service-providers": "Pružatelji usluga",
+        "8": "Možemo zaposliti tvrtke i pojedince treće strane. Želimo obavijestiti naše korisnike da te treće strane imaju pristup maloj količini vaših osobnih podataka. Razlog je da u naše ime obavljaju zadatke koji su im dodijeljeni. Međutim, dužni su ne otkrivati niti koristiti podatke u bilo koju drugu svrhu.",
+        "security": "Sigurnost",
+        "9": "Cijenimo vaše povjerenje u pružanju vaših osobnih podataka, stoga nastojimo koristiti komercijalno prihvatljive načine njihove zaštite. No zapamtite da nijedna metoda prijenosa putem interneta ili metoda elektroničke pohrane nije 100% sigurna i pouzdana i ne možemo jamčiti njihovu apsolutnu sigurnost.",
+        "links": "Linkovi na druge stranice",
+        "10": "Naša usluga može sadržavati poveznice na druge stranice. Ako kliknete na poveznicu treće strane, bit ćete preusmjereni na tu stranicu. Imajte na umu da ovim vanjskim stranicama ne upravljamo mi. Stoga vam savjetujemo da pregledate Politiku privatnosti ovih web stranica. Nemamo kontrolu i ne preuzimamo nikakvu odgovornost za sadržaj, pravila o privatnosti ili praksu bilo kojih stranica ili usluga trećih strana.",
+        "children": "Privatnost djece",
+        "11": "Naše se usluge ne obraćaju nikome mlađem od 13 godina. Ne prikupljamo svjesno osobne podatke koji bi mogli identificirati djecu mlađu od 13 godina. U slučaju da otkrijemo da nam je dijete mlađe od 13 godina dalo osobne podatke, odmah ih brišemo s naših poslužitelja. Ukoliko ste roditelj ili skrbnik i znate da nam je vaše dijete dostavilo osobne podatke, molimo da nas kontaktirate kako bismo mogli poduzeti potrebne radnje.",
+        "changes": "Promjene ove Politike privatnosti",
+        "12": "S vremena na vrijeme možemo ažurirati našu Politiku privatnosti. Stoga vam savjetujemo da povremeno pregledate ovu stranicu radi eventualnih promjena. Obavijestit ćemo vas o svim promjenama objavljivanjem novih Pravila privatnosti na ovoj stranici. Ove promjene stupaju na snagu odmah nakon objave na ovoj stranici.",
+        "contact": "Kontaktirajte nas",
+        "13": "Ako imate bilo kakvih pitanja ili prijedloga o našoj Politici privatnosti, slobodno nas kontaktirajte."
     }
 }
