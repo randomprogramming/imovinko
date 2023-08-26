@@ -9,6 +9,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import CustomLink from "@/components/Link";
+import Main from "@/components/Main";
 
 export async function getStaticProps(context: NextPageContext) {
     return {
@@ -62,7 +63,7 @@ export default function List() {
             <header>
                 <Navbar hideSearchBar />
             </header>
-            <main className="container mx-auto flex-1 flex flex-col items-center">
+            <Main container className="items-center">
                 <div className="mt-24">
                     {account && !account.username && (
                         <Dialog type="warning" title={t("missing-username")} className="mb-4">
@@ -101,7 +102,7 @@ export default function List() {
                         />
                     </div>
                 </div>
-            </main>
+            </Main>
         </>
     );
 }

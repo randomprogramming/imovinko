@@ -26,6 +26,7 @@ import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import { OfferingType } from "@/util/api";
 import Modal from "../Modal";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
+import Main from "../Main";
 
 export function intersection(a?: string[], b?: string[]): string[] {
     if (!a || !b || a.length === 0 || b.length === 0) {
@@ -445,7 +446,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                     </div>
                 </div>
             </Modal>
-            <main className="container mx-auto flex-1 flex flex-col" id="main">
+            <Main container id="main">
                 <Typography variant="h1">{t(`title-${type}`)}</Typography>
                 <div className="flex-1 mt-8 flex justify-center">
                     <div className="w-full md:max-w-4xl">
@@ -1377,7 +1378,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                         </FlexRow>
                     </div>
                 </div>
-            </main>
+            </Main>
         </>
     );
 }

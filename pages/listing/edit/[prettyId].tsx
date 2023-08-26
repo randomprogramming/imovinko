@@ -9,6 +9,7 @@ import Head from "next/head";
 import React from "react";
 import cookie from "cookie";
 import PatchListingData from "@/components/listing/PatchListingData";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, params }) => {
     const cookies = req.headers.cookie;
@@ -83,7 +84,7 @@ export default function EditListingPage({ listing, company }: ListingPageProps) 
             <header>
                 <Navbar />
             </header>
-            <main className="flex-1 container mx-auto">
+            <Main container>
                 {listing ? (
                     <PatchListingData
                         listing={listing}
@@ -95,7 +96,7 @@ export default function EditListingPage({ listing, company }: ListingPageProps) 
                         <Typography>{t("not-found")}</Typography>
                     </NotFound>
                 )}
-            </main>
+            </Main>
             <Footer />
         </>
     );

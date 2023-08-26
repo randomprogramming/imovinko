@@ -26,6 +26,7 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -348,7 +349,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                     </div>
                 </div>
             </Modal>
-            <main className="container mx-auto flex-1">
+            <Main container>
                 {successfullyInvited && (
                     <Dialog
                         className="mt-4"
@@ -767,7 +768,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         )}
                     </div>
                 </div>
-            </main>
+            </Main>
             <Footer />
         </>
     );

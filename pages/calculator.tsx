@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import Main from "@/components/Main";
 
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
@@ -34,7 +35,7 @@ export default function CalculatorPage() {
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto flex-1">
+            <Main container>
                 <div className="w-full flex flex-col items-center justify-center mt-12 space-y-12 lg:space-y-20">
                     <div className="self-start">
                         <Typography variant="h1">{t("calculator")}</Typography>
@@ -42,7 +43,7 @@ export default function CalculatorPage() {
                     </div>
                     <MortgageCalculator />
                 </div>
-            </main>
+            </Main>
             <Footer />
         </div>
     );

@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import NotFound from "@/components/404";
+import Main from "@/components/Main";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -763,7 +764,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             <header>
                 <Navbar />
             </header>
-            <main className={`flex-1 ${isMediaPopupOpen ? "overflow-y-hidden" : "pb-12"}`}>
+            <Main className={`${isMediaPopupOpen ? "overflow-y-hidden" : "pb-12"}`}>
                 {listing ? (
                     <div>
                         <div
@@ -1346,7 +1347,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         <Typography>{t("not-found")}</Typography>
                     </NotFound>
                 )}
-            </main>
+            </Main>
             <Footer />
         </>
     );

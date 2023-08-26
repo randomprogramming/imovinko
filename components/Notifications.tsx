@@ -10,9 +10,8 @@ import Link from "./Link";
 
 interface NotificationsProps {
     notifications: CompanyInvitation[];
-    lightIcon?: boolean;
 }
-export default function Notifications({ notifications, lightIcon }: NotificationsProps) {
+export default function Notifications({ notifications }: NotificationsProps) {
     const [companyInvitations, setCompanyInvitations] =
         useState<CompanyInvitation[]>(notifications);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,7 +74,7 @@ export default function Notifications({ notifications, lightIcon }: Notification
     return (
         <div className="md:relative">
             <Button.Transparent
-                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative ${lightIcon && "hover:bg-zinc-700"}`}
+                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative`}
                 onClick={() => {
                     setIsMenuOpen(!isMenuOpen);
                 }}
@@ -83,12 +82,7 @@ export default function Notifications({ notifications, lightIcon }: Notification
                 {companyInvitations.length > 0 && (
                     <div className="animate-pulse absolute top-1 right-1 w-2 h-2 bg-rose-600 rounded-full"></div>
                 )}
-                <Icon
-                    name="notification"
-                    className={`${lightIcon && "fill-zinc-50 2xl:fill-[#040404]"}`}
-                    width={30}
-                    height={30}
-                />
+                <Icon name="notification" width={30} height={30} />
             </Button.Transparent>
             <div
                 className={`absolute bg-zinc-50 right-0 max-w-sm shadow-md z-20 rounded-xl overflow-y-auto transition-all ${

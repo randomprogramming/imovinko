@@ -13,6 +13,7 @@ import Head from "next/head";
 import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
 import Image from "next/image";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
     let account: FullPublicAccount | null = null;
@@ -59,7 +60,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto mt-8 flex-1">
+            <Main className="mt-8" container>
                 {account ? (
                     <div>
                         <div className="flex flex-col sm:flex-row w-full max-w-3xl mx-auto">
@@ -175,7 +176,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                         <Typography className="text-lg">{t("not-found")}</Typography>
                     </NotFound>
                 )}
-            </main>
+            </Main>
             <Footer />
         </>
     );

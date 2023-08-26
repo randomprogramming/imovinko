@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
@@ -104,7 +105,7 @@ export default function CreateCompanyPage() {
             <header>
                 <Navbar hideSearchBar />
             </header>
-            <main className="container mx-auto flex-1 flex flex-col">
+            <Main container>
                 <Typography variant="h1">{t("title")}</Typography>
 
                 <div className="flex justify-center mt-8">
@@ -194,7 +195,7 @@ export default function CreateCompanyPage() {
                         </FlexRow>
                     </div>
                 </div>
-            </main>
+            </Main>
         </>
     );
 }

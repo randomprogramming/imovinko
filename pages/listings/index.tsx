@@ -21,6 +21,7 @@ import RegionDropdown, {
 } from "@/components/RegionDropdown";
 import NoData from "@/components/NoData";
 import ListingCardItem from "@/components/listing/ListingCardItem";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     let page = query.page;
@@ -368,7 +369,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             <header className="z-30">
                 <Navbar />
             </header>
-            <main className="flex-1 flex flex-col md:flex-row border-t border-zinc-300">
+            <Main className="md:flex-row border-t border-zinc-300">
                 <div
                     className="md:sw-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-sm"
                     style={{
@@ -615,7 +616,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     )}
                 </div>
-            </main>
+            </Main>
             <Footer className="!mt-0" />
         </>
     );

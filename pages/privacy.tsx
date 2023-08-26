@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import { NextPageContext } from "next";
@@ -30,7 +31,7 @@ export default function PrivacyPolicyPage() {
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto flex-1">
+            <Main container>
                 <div>
                     <Typography variant="h1">{t("header")}</Typography>
 
@@ -94,7 +95,7 @@ export default function PrivacyPolicyPage() {
 
                     <Typography>{t("13")}</Typography>
                 </div>
-            </main>
+            </Main>
             <Footer />
         </div>
     );

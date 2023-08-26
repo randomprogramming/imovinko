@@ -5,6 +5,7 @@ import React from "react";
 import cookie from "cookie";
 import Head from "next/head";
 import CreateListing from "@/components/listing/CreateListing";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -49,9 +50,9 @@ export default function ListHouse({ company }: ListHouseProps) {
             <header>
                 <Navbar hideSearchBar />
             </header>
-            <main className="container mx-auto flex-1 flex flex-col" id="main">
+            <Main container id="main">
                 <CreateListing type={PropertyType.house} company={company} />
-            </main>
+            </Main>
         </>
     );
 }

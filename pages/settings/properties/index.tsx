@@ -15,6 +15,7 @@ import NoData from "@/components/NoData";
 import Dialog from "@/components/Dialog";
 import { useRouter } from "next/router";
 import Icon from "@/components/Icon";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -65,7 +66,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <Navbar />
             </header>
 
-            <main className="container mx-auto flex-1">
+            <Main container>
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
@@ -150,7 +151,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         </div>
                     </div>
                 </div>
-            </main>
+            </Main>
             <Footer />
         </>
     );

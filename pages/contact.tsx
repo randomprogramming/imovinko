@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Icon from "@/components/Icon";
 import Input from "@/components/Input";
 import Link from "@/components/Link";
+import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
@@ -72,7 +73,7 @@ export default function Contact() {
             <header className="container mx-auto ">
                 <Navbar />
             </header>
-            <main className="flex-1 flex flex-row container mx-auto">
+            <Main className="!flex-row" container>
                 <div className="px-1 md:max-w-lg w-full flex-1 mb-4">
                     {router.query.sent === "true" && (
                         <Dialog type="success" title={t("sent")} message={t("sent-description")} />
@@ -122,7 +123,7 @@ export default function Contact() {
                     </div>
                     <Image src={"/images/lights.jpg"} alt="lights" fill className="object-cover" />
                 </div>
-            </main>
+            </Main>
             <Footer className="!m-0" />
         </>
     );

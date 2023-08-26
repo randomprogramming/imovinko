@@ -22,6 +22,7 @@ import { setJWTCookie } from "@/util/cookie";
 import { useRouter } from "next/router";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Image from "next/image";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -145,7 +146,7 @@ export default function AccountPage({ account }: AccountPageProps) {
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto flex-1">
+            <Main container>
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
@@ -311,7 +312,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                         </div>
                     </div>
                 </div>
-            </main>
+            </Main>
             <Footer />
         </>
     );

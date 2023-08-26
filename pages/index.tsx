@@ -13,13 +13,12 @@ import {
     getPropertyCount,
 } from "@/util/api";
 import { useTranslations } from "next-intl";
-import NoImage from "@/components/NoImage";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import Icon from "@/components/Icon";
 import { poppins } from "@/util/fonts";
 import ListingCardItem from "@/components/listing/ListingCardItem";
-import ListingListItem from "@/components/listing/ListingListItem";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     const newest = await findListingsByQuery({
@@ -58,24 +57,6 @@ export default function Home({ newestListings, counts }: HomeProps) {
         return (value / Math.pow(1000, index)).toFixed(1).replace(/\.0$/, "") + suffix[index - 1];
     }
 
-    function getPriceString(p: ListingBasic) {
-        if (p.offeringType === OfferingType.shortTermRent) {
-            return ` ${t("per-night")}`;
-        } else if (p.offeringType === OfferingType.longTermRent) {
-            return ` ${t("per-month")}`;
-        }
-    }
-
-    function getOfferingTypeString(l: OfferingType) {
-        if (l === OfferingType.longTermRent) {
-            return t("long-term-rent");
-        } else if (l === OfferingType.shortTermRent) {
-            return t("short-term-rent");
-        } else {
-            return t("for-sale");
-        }
-    }
-
     return (
         <>
             <Head>
@@ -92,8 +73,8 @@ export default function Home({ newestListings, counts }: HomeProps) {
             <header className="container mx-auto left-0 right-0 z-20">
                 <Navbar />
             </header>
-            <main className="flex-1">
-                <section className="max-w-5xl mx-auto">
+            <Main className="flex-1">
+                <section className="max-w-5xl mx-auto w-full">
                     <div className="w-full">
                         <div className="flex flex-col-reverse md:flex-row container mx-auto">
                             <div className="md:translate-y-10 z-10 flex-1 flex flex-col bg-[#ececec] rounded-xl md:bg-transparent md:rounded-none pt-0">
@@ -400,7 +381,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                         })}
                     </div>
                 </section>
-            </main>
+            </Main>
             <Footer />
         </>
     );

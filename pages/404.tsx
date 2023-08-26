@@ -1,5 +1,6 @@
 import NotFound from "@/components/404";
 import Footer from "@/components/Footer";
+import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
 import { NextPageContext } from "next";
 import { useTranslations } from "next-intl";
@@ -30,9 +31,9 @@ export default function Custom404() {
             <header className="container mx-auto ">
                 <Navbar />
             </header>
-            <main className="flex-1 flex flex-row container mx-auto">
+            <Main container className="!flex-row">
                 <NotFound className="mt-4">{t("message")}</NotFound>
-            </main>
+            </Main>
             <Footer />
         </>
     );

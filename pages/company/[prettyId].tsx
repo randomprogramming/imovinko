@@ -13,6 +13,7 @@ import Head from "next/head";
 import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
 import Image from "next/image";
+import Main from "@/components/Main";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
     let company: CompanyWithListings | null = null;
@@ -77,7 +78,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
             <header>
                 <Navbar />
             </header>
-            <main className="container mx-auto mt-8 flex-1">
+            <Main className="mt-8" container>
                 {company ? (
                     <div>
                         <div className="flex flex-col sm:flex-row">
@@ -190,7 +191,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                         <Typography className="text-lg">{t("not-found")}</Typography>
                     </NotFound>
                 )}
-            </main>
+            </Main>
             <Footer />
         </>
     );

@@ -191,12 +191,12 @@ function MobileAuthDropdown({}: AuthDropdownProps) {
     return (
         <div className="relative">
             <Button.Transparent
-                className="hover:!bg-zinc-800 !px-1 md:!p-1"
+                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative`}
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
             >
-                <Icon name="account" height="26" width="26" />
+                <Icon name="account" height="30" width="30" className="scale-95 origin-center" />
             </Button.Transparent>
             <div
                 className={`absolute right-0 w-full z-30 mt-3 transition-all duration-75 rounded-lg shadow-lg ${
