@@ -52,6 +52,7 @@ export default function Searchbar({ className, light }: SearchbarProps) {
                         light ? "bg-zinc-100" : "bg-zinc-300"
                     } outline-none h-full ${space_grotesk.className} z-40 rounded-lg`}
                     placeholder={t("placeholder")}
+                    size={1}
                     value={searchVal}
                     onKeyDown={(e) => {
                         if (e.key.toLowerCase() === "enter") {

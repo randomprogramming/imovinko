@@ -9,8 +9,10 @@ import { useTranslations } from "next-intl";
 import Notifications from "./Notifications";
 import { CompanyInvitation, getNotifications } from "@/util/api";
 
-interface AuthDropdownProps {}
-function AuthDropdown({}: AuthDropdownProps) {
+interface AuthDropdownProps {
+    lightIcons?: boolean;
+}
+function AuthDropdown({ lightIcons }: AuthDropdownProps) {
     const t = useTranslations("Navbar");
 
     const { account, logout } = useAuthentication();
@@ -47,10 +49,13 @@ function AuthDropdown({}: AuthDropdownProps) {
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
+                className={`${lightIcons && "hover:!bg-zinc-900 hover:!bg-opacity-75"}`}
             >
                 <div className="flex flex-row space-x-2">
-                    <Typography>{getAccountHandle()}</Typography>
-                    <Icon name="account" />
+                    <Typography className={`${lightIcons && "text-zinc-50"}`}>
+                        {getAccountHandle()}
+                    </Typography>
+                    <Icon name="account" className={`${lightIcons && "fill-zinc-50"}`} />
                 </div>
             </Button.Transparent>
             <div
@@ -110,7 +115,7 @@ function AuthDropdown({}: AuthDropdownProps) {
     );
 }
 
-function MobileAuthDropdown({}: AuthDropdownProps) {
+function MobileAuthDropdown({ lightIcons }: AuthDropdownProps) {
     const { account, logout } = useAuthentication();
 
     const [dropdown, setDropdown] = useState(false);
@@ -191,12 +196,19 @@ function MobileAuthDropdown({}: AuthDropdownProps) {
     return (
         <div className="relative">
             <Button.Transparent
-                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative`}
+                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative ${
+                    lightIcons && "hover:!bg-zinc-900 hover:!bg-opacity-75"
+                }`}
                 onClick={() => {
                     setDropdown(!dropdown);
                 }}
             >
-                <Icon name="account" height="30" width="30" className="scale-95 origin-center" />
+                <Icon
+                    name="account"
+                    height="30"
+                    width="30"
+                    className={`scale-95 origin-center ${lightIcons && "fill-zinc-50"}`}
+                />
             </Button.Transparent>
             <div
                 className={`absolute right-0 w-full z-30 mt-3 transition-all duration-75 rounded-lg shadow-lg ${
@@ -217,8 +229,9 @@ function MobileAuthDropdown({}: AuthDropdownProps) {
 interface NavbarProps {
     hideSearchBar?: boolean;
     lighterSearchbar?: boolean;
+    lightIcons?: boolean;
 }
-export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps) {
+export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: NavbarProps) {
     const t = useTranslations("Navbar");
 
     const auth = useAuthentication();
@@ -243,10 +256,10 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
     return (
         <div className="container mx-auto flex flex-row items-center my-4 px-1">
             <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
-                <Icon name="logo-text" height="36" />
+                <Icon name="logo-text" height="36" className={`${lightIcons && "fill-zinc-50"}`} />
             </Link>
             <Link to="/" className="md:hidden" disableAnimatedHover>
-                <Icon name="logo" height="32" />
+                <Icon name="logo" height="32" className={`${lightIcons && "fill-zinc-50"}`} />
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
@@ -259,22 +272,31 @@ export default function Navbar({ hideSearchBar, lighterSearchbar }: NavbarProps)
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center">
                 {auth.account && companyInvitations && (
-                    <Notifications notifications={companyInvitations} />
+                    <Notifications lightIcons={lightIcons} notifications={companyInvitations} />
                 )}
 
-                <MobileAuthDropdown />
+                <MobileAuthDropdown lightIcons={lightIcons} />
             </div>
             {/* Desktop View */}
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        {companyInvitations && <Notifications notifications={companyInvitations} />}
-                        <AuthDropdown />
+                        {companyInvitations && (
+                            <Notifications
+                                lightIcons={lightIcons}
+                                notifications={companyInvitations}
+                            />
+                        )}
+                        <AuthDropdown lightIcons={lightIcons} />
                     </>
                 ) : (
-                    <div className={`flex flex-row space-x-4`}>
-                        <Link to="/register">{t("sign-up")}</Link>
-                        <Link to="/login">{t("sign-in")}</Link>
+                    <div className={`flex flex-row space-x-4 ${lightIcons && "text-zinc-50"}`}>
+                        <Link underlineClassName={`${lightIcons && "!bg-zinc-50"}`} to="/register">
+                            {t("sign-up")}
+                        </Link>
+                        <Link underlineClassName={`${lightIcons && "!bg-zinc-50"}`} to="/login">
+                            {t("sign-in")}
+                        </Link>
                     </div>
                 )}
             </div>
