@@ -764,7 +764,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
             <header>
                 <Navbar />
             </header>
-            <Main className={`${isMediaPopupOpen ? "overflow-y-hidden" : "pb-12"}`}>
+            <Main className={`${isMediaPopupOpen ? "overflow-y-hidden touch-none" : "pb-12"}`}>
                 {listing ? (
                     <div>
                         <div
