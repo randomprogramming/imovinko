@@ -714,7 +714,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                 <div
                     className={`absolute ${
                         isSearchInProgress ? " top-20" : "top-0 -translate-y-full"
-                    } left-1/2 translate-x-1/2 z-50 transition-all`}
+                    } left-1/2 -translate-x-1/2 z-50 transition-all`}
                 >
                     <div className="bg-zinc-50 rounded-2xl shadow-md p-3 flex flex-row space-x-2">
                         {/* <div
