@@ -1029,7 +1029,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 </div>
                             </div>
                             <div className="flex-1 flex flex-col lg:w-1/2">
-                                <div className="lg:hidden block">
+                                <div className="lg:hidden block px-1">
                                     <Typography variant="h1">{listing.title}</Typography>
                                     <Typography variant="secondary" uppercase className="my-1">
                                         {getPropertyLocationString(listing)}
@@ -1110,7 +1110,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         <section className="container mx-auto mt-8">
-                            <Typography variant="h2">{t("information")}</Typography>
+                            <Typography variant="h2" className="px-1 md:px-0">
+                                {t("information")}
+                            </Typography>
                             <div className="w-full md:w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2 max-w-4xl">
                                 {getAdditionalInfo(listing).map((i, index) => {
                                     return (
@@ -1144,7 +1146,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         <section id="location" className="container mx-auto mt-8">
-                            <Typography variant="h2" className="mb-4">
+                            <Typography variant="h2" className="mb-4 px-1 md: px-0">
                                 {t("location")}
                             </Typography>
                             <Map
@@ -1185,7 +1187,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 </Marker>
                             </Map>
 
-                            <div className="mt-2">
+                            <div className="mt-2 px-1 md:px-0">
                                 <Typography bold>{t("travel-time")}</Typography>
                                 <Typography>{t("travel-time-description")}</Typography>
                                 <div className="relative inline-flex flex-row bg-zinc-50 items-center p-1 !pr-0 rounded shadow w-full max-w-sm mt-2">
@@ -1299,12 +1301,12 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         {listing.offeringType === OfferingType.sale && (
-                            <section className="container mx-auto mt-8">
+                            <section className="container mx-auto mt-8 px-1 md:px-0">
                                 <Typography variant="h2" className="mb-4">
                                     {t("calculator")}
                                 </Typography>
                                 <Typography>{t("calculator-description")}</Typography>
-                                <div className="w-full mt-10">
+                                <div className="w-full mt-8">
                                     <MortgageCalculator initialLoanValue={listing.price} />
                                 </div>
                             </section>
