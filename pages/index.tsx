@@ -16,7 +16,6 @@ import { useTranslations } from "next-intl";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import Icon from "@/components/Icon";
-import { poppins } from "@/util/fonts";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import Main from "@/components/Main";
 
@@ -73,7 +72,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
             <header className="container mx-auto absolute left-0 right-0  px-1 lg:px-2 xl:px-4 z-30">
                 <Navbar lightIcons />
             </header>
-            <main className="flex-1">
+            <Main className="flex-1">
                 <section className="container mx-auto p-1">
                     <div className="relative h-[660px] md:h-[720px] w-full rounded-lg md:rounded-2xl xl:rounded-3xl overflow-hidden">
                         <div className="absolute left-0 right-0 top-0 bottom-0 z-20">
@@ -161,7 +160,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                         })}
                     </div>
                 </section>
-            </main>
+            </Main>
             <Footer />
         </>
     );

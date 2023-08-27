@@ -1111,7 +1111,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
                         <section className="container mx-auto mt-8">
                             <Typography variant="h2">{t("information")}</Typography>
-                            <div className="w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2 max-w-4xl">
+                            <div className="w-full md:w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2 max-w-4xl">
                                 {getAdditionalInfo(listing).map((i, index) => {
                                     return (
                                         <React.Fragment key={i.name}>
@@ -1318,6 +1318,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 <PriceChangeChart
                                     currentPrice={listing.price}
                                     data={listing.priceChanges}
+                                    locale={router.locale}
                                 />
                             </section>
                         )}

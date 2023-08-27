@@ -363,7 +363,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                                 anchor: "bottom",
                                 direction: "row",
                                 itemHeight: 20,
-                                itemWidth: 100,
+                                itemWidth: 105,
                                 translateY: 22,
                                 symbolShape: ({ x, y, size, fill }) => {
                                     return (
@@ -384,7 +384,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                         tooltip={({ datum }) => {
                             const val = Number(datum.value);
                             return (
-                                <div className="bg-zinc-50 rounded shadow p-1">
+                                <div className="hidden md:flex bg-zinc-50 rounded shadow p-1">
                                     <Typography>
                                         {datum.label}
                                         {": "}

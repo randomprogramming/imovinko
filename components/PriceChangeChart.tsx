@@ -39,8 +39,13 @@ const DashedSolidLine = ({ series, lineGenerator, xScale, yScale }) => {
 interface PriceChangeChartProps {
     data: PriceChange[];
     currentPrice: number;
+    locale?: string;
 }
-export default function PriceChangeChart({ data, currentPrice }: PriceChangeChartProps) {
+export default function PriceChangeChart({ data, currentPrice, locale }: PriceChangeChartProps) {
+    if (locale) {
+        moment.locale(locale);
+    }
+
     function getMinPrice() {
         const allPrices = data.map((p) => p.oldPrice);
         allPrices.push(currentPrice);
