@@ -1111,25 +1111,20 @@ export default function ListingPage({ listing }: ListingPageProps) {
                             <div className="w-fit grid grid-cols-2 rounded overflow-hidden shadow-sm mt-2 max-w-4xl">
                                 {getAdditionalInfo(listing).map((i, index) => {
                                     return (
-                                        <>
+                                        <React.Fragment key={i.name}>
                                             <div
-                                                key={`${i.name}-0`}
                                                 className={`py-2 px-2 ${
                                                     index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
                                                 }`}
                                             >
-                                                <Typography key={`${i.name}-1`}>
-                                                    {i.name}
-                                                </Typography>
+                                                <Typography>{i.name}</Typography>
                                             </div>
                                             <div
-                                                key={`${i.name}-2`}
                                                 className={`py-2 pl-8 pr-4 ${
                                                     index % 2 === 0 ? "bg-zinc-50" : "bg-zinc-200"
                                                 }`}
                                             >
                                                 <Typography
-                                                    key={`${i.name}-3`}
                                                     bold
                                                     className={i.className}
                                                     style={{
@@ -1139,7 +1134,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                     {i.val}
                                                 </Typography>
                                             </div>
-                                        </>
+                                        </React.Fragment>
                                     );
                                 })}
                             </div>
