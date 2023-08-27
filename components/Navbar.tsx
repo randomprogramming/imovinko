@@ -194,9 +194,9 @@ function MobileAuthDropdown({ lightIcons }: AuthDropdownProps) {
     }
 
     return (
-        <div className="relative">
+        <div className="relative pl-1">
             <Button.Transparent
-                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative ${
+                className={`!p-1 relative ${
                     lightIcons && "hover:!bg-zinc-900 hover:!bg-opacity-75"
                 }`}
                 onClick={() => {
@@ -258,7 +258,7 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
                 <Icon name="logo-text" height="36" className={`${lightIcons && "fill-zinc-50"}`} />
             </Link>
-            <Link to="/" className="md:hidden" disableAnimatedHover>
+            <Link to="/" className="pl-1 pr-2 md:hidden" disableAnimatedHover>
                 <Icon name="logo" height="32" className={`${lightIcons && "fill-zinc-50"}`} />
             </Link>
             {hideSearchBar ? (
