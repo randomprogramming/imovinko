@@ -338,8 +338,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 closeButton={false}
                                 style={{
                                     padding: 0,
-                                    width: "35vw",
-                                    maxWidth: "420px",
+                                    maxWidth: "90vw",
+                                    width: "420px",
                                 }}
                                 anchor="top"
                                 latitude={getPropertyLat(openProperty)}
@@ -518,11 +518,11 @@ export default function MapScreen({ query }: MapScreenProps) {
                     </Map>
                 </div>
 
-                <div className="absolute bottom-20 left-1/2 z-40 -translate-x-1/2">
+                <div className="absolute bottom-8 md:bottom-14 xl:bottom-20 left-1/2 z-40 -translate-x-1/2">
                     <Link
                         to="/listings"
                         query={queryCopy}
-                        className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-5 py-3 hover:px-6 hover:py-4 transition-all"
+                        className="relative bg-zinc-900 rounded-xl shadow-2xl flex flex-row space-x-1 px-4 py-3 hover:px-6 hover:py-4 transition-all"
                         disableAnimatedHover
                     >
                         <Icon name="list" className="stroke-zinc-50" />
