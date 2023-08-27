@@ -231,6 +231,21 @@ export default function MapScreen({ query }: MapScreenProps) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
             return ` ${t("per-month")}`;
+        } else {
+            let pricePerMeterSquared = p.pricePerMeterSquared;
+            if (!pricePerMeterSquared) {
+                const property = p.apartment || p.house || p.land;
+                if (!property) return "";
+                pricePerMeterSquared = p.price / property.surfaceArea;
+            }
+
+            pricePerMeterSquared = Math.round(pricePerMeterSquared * 100) / 100;
+            const localeString = pricePerMeterSquared.toLocaleString();
+            const localeStringSplit = localeString.split(".");
+            if (localeStringSplit.length > 1) {
+                localeStringSplit[1] = localeStringSplit[1].padEnd(2, "0");
+            }
+            return `${localeStringSplit.join(".")} €/m²`;
         }
     }
 
@@ -350,7 +365,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                     openProperty ? "opacity-100" : "opacity-0"
                                 } transition-all duration-300 z-30`}
                             >
-                                <div className="w-full relative">
+                                <div className="w-full relative border-b border-zinc-300">
                                     <div className="absolute top-2 left-2 z-50">
                                         <Button.Transparent
                                             className="group bg-white hover:bg-zinc-200 !p-1.5"
@@ -454,24 +469,30 @@ export default function MapScreen({ query }: MapScreenProps) {
 
                                 <div className="pb-4 px-4">
                                     <div className="pb-1">
-                                        <Typography variant="h1" className="mt-2">
-                                            {openProperty.price.toLocaleString()} €{" "}
-                                            <span className="text-sm font-normal">
-                                                {getPriceString(openProperty)}
-                                            </span>
-                                        </Typography>
                                         <div>
                                             <Typography variant="secondary" uppercase>
                                                 {getPropertyLocationString(openProperty)}
                                             </Typography>
                                         </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <Typography variant="h2" className="my-2">
+                                    <div
+                                        style={{
+                                            minHeight: "3.5em",
+                                            height: "3.5em",
+                                            maxHeight: "3.5em",
+                                        }}
+                                    >
+                                        <Typography variant="h2" className="line-clamp-2 text-base">
                                             {openProperty.title}
                                         </Typography>
                                     </div>
-                                    <div>
+                                    <Typography variant="h2" className="mt-2 text-right">
+                                        {openProperty.price.toLocaleString()} €{" "}
+                                    </Typography>
+                                    <Typography className="text-sm font-normal text-right">
+                                        {getPriceString(openProperty)}
+                                    </Typography>
+                                    <div className="mt-2">
                                         <Link to={`/listing/${openProperty.prettyId}`}>
                                             <Button.Primary label={t("more-details")} />
                                         </Link>
@@ -518,7 +539,11 @@ export default function MapScreen({ query }: MapScreenProps) {
                     </Map>
                 </div>
 
-                <div className="absolute bottom-8 md:bottom-14 xl:bottom-20 left-1/2 z-40 -translate-x-1/2">
+                <div
+                    className={`absolute bottom-8 md:bottom-14 xl:bottom-20 left-1/2 z-20 -translate-x-1/2 transition-all ${
+                        openProperty && "-bottom-20"
+                    }`}
+                >
                     <Link
                         to="/listings"
                         query={queryCopy}
