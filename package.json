@@ -27,7 +27,6 @@
         "next-intl": "^2.14.6",
         "nextjs-progressbar": "^0.0.16",
         "postcss": "8.4.24",
-        "re-carousel": "^2.4.0",
         "react": "18.2.0",
         "react-currency-input-field": "^3.6.11",
         "react-debounce-input": "^3.3.0",
@@ -43,7 +42,6 @@
     "devDependencies": {
         "@types/cookie": "^0.5.1",
         "@types/mapbox-gl": "^2.7.11",
-        "@types/re-carousel": "^2.4.0",
         "@types/react-slider": "^1.3.1",
         "@types/uuid": "^9.0.2",
         "prettier": "^2.8.8"

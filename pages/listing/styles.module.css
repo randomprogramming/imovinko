@@ -1,0 +1,23 @@
+/* Overriding the carousel CSS so we can use flex for the images */
+.carousel-root {
+    display: flex;
+}
+
+.carousel-root :global(.carousel) {
+    display: flex;
+}
+
+.carousel-root :global(.carousel > .slider-wrapper) {
+    margin: 0 !important;
+    display: flex;
+}
+
+.carousel-root :global(.carousel > .slider-wrapper > .slider) {
+    flex: 1;
+    display: flex !important;
+}
+
+.carousel-root :global(.carousel > .slider-wrapper > .slider > .slide) {
+    flex: 1;
+    display: flex !important;
+}

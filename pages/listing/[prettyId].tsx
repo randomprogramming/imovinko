@@ -12,12 +12,11 @@ import {
 } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Map from "@/components/Map";
 import { Marker } from "react-map-gl";
-import Carousel from "re-carousel";
 import Button from "@/components/Button";
 import IconRow from "@/components/listing/IconRow";
 import Link from "@/components/Link";
@@ -31,6 +30,8 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import NotFound from "@/components/404";
 import Main from "@/components/Main";
+import { Carousel as RCarousel } from "react-responsive-carousel";
+import styles from "./styles.module.css";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -182,7 +183,7 @@ function ClickableImage({ url, onClick, showBanner, small }: ClickableImageProps
 
 interface MediaComponentProps {
     media: Media[];
-    onImageClick?(): void;
+    onImageClick?(imageIndex: number): void;
 }
 function MediaComponent({ media, onImageClick }: MediaComponentProps) {
     if (media.length === 0) {
@@ -195,23 +196,60 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
     if (media.length <= 2) {
         return (
             <div className="flex flex-col w-full space-y-4">
-                {media.map((m) => {
-                    return <ClickableImage url={m.url} key={m.url} onClick={onImageClick} />;
+                {media.map((m, i) => {
+                    return (
+                        <ClickableImage
+                            url={m.url}
+                            key={m.url}
+                            onClick={() => {
+                                if (onImageClick) {
+                                    onImageClick(i);
+                                }
+                            }}
+                        />
+                    );
                 })}
             </div>
         );
     }
     return (
         <div className="flex flex-col w-full space-y-4 px-1 lg:px-0">
-            <ClickableImage url={media[0].url} onClick={onImageClick} />
+            <ClickableImage
+                url={media[0].url}
+                onClick={() => {
+                    if (onImageClick) {
+                        onImageClick(0);
+                    }
+                }}
+            />
             <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
-                <ClickableImage small url={media[1].url} onClick={onImageClick} />
-                <ClickableImage small url={media[2].url} onClick={onImageClick} />
+                <ClickableImage
+                    small
+                    url={media[1].url}
+                    onClick={() => {
+                        if (onImageClick) {
+                            onImageClick(1);
+                        }
+                    }}
+                />
+                <ClickableImage
+                    small
+                    url={media[2].url}
+                    onClick={() => {
+                        if (onImageClick) {
+                            onImageClick(2);
+                        }
+                    }}
+                />
             </div>
             {media.length >= 4 && (
                 <ClickableImage
                     url={media[3].url}
-                    onClick={onImageClick}
+                    onClick={() => {
+                        if (onImageClick) {
+                            onImageClick(3);
+                        }
+                    }}
                     showBanner={media.length > 4}
                 />
             )}
@@ -772,7 +810,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 isMediaPopupOpen ? "opacity-100" : "opacity-0 invisible"
                             } fixed top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
                         >
-                            <div className="flex flex-col h-full w-full">
+                            <div className="h-full w-full">
                                 <div className="h-[10%] flex flex-row">
                                     <div
                                         style={{
@@ -814,128 +852,71 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                         </Button.Transparent>
                                     </div>
                                 </div>
-                                <div className="flex-1 h-[80%] flex flex-row">
-                                    <Carousel
-                                        loop
-                                        widgets={[
-                                            (props) => {
-                                                if (props.index !== currentSlide) {
-                                                    setCurrentSlide(props.index);
-                                                }
-
-                                                return null;
-                                            },
-                                            (props) => {
-                                                useEffect(() => {
-                                                    let shouldHandleKeyDown = true;
-                                                    function keydownHandler(e: KeyboardEvent) {
-                                                        if (!shouldHandleKeyDown) return;
-                                                        shouldHandleKeyDown = false;
-                                                        // HANDLE KEY DOWN HERE
-                                                        if (
-                                                            e.key === "ArrowRight" ||
-                                                            e.keyCode === 39
-                                                        ) {
-                                                            props.nextHandler();
-                                                        } else if (
-                                                            e.key === "ArrowLeft" ||
-                                                            e.keyCode === 37
-                                                        ) {
-                                                            props.prevHandler();
-                                                        }
-                                                    }
-                                                    function keyupHandler() {
-                                                        shouldHandleKeyDown = true;
-                                                    }
-                                                    if (isMediaPopupOpen) {
-                                                        document.removeEventListener(
-                                                            "keydown",
-                                                            keydownHandler
-                                                        );
-                                                        document.removeEventListener(
-                                                            "keyup",
-                                                            keyupHandler
-                                                        );
-                                                        document.addEventListener(
-                                                            "keydown",
-                                                            keydownHandler
-                                                        );
-                                                        document.addEventListener(
-                                                            "keyup",
-                                                            keyupHandler
-                                                        );
-                                                    }
-
-                                                    return () => {
-                                                        document.removeEventListener(
-                                                            "keydown",
-                                                            keydownHandler
-                                                        );
-                                                        document.removeEventListener(
-                                                            "keyup",
-                                                            keyupHandler
-                                                        );
-                                                    };
-                                                }, []);
-
-                                                return (
-                                                    <div className="text-white absolute w-full bottom-0 top-0 z-[100]">
-                                                        <div className="absolute left-6 top-1/2">
-                                                            <button
-                                                                onClick={props.prevHandler}
-                                                                className="rounded-full p-1.5 group"
-                                                            >
-                                                                <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
-                                                                    <Icon
-                                                                        name="left"
-                                                                        height={32}
-                                                                        width={32}
-                                                                    />
-                                                                </div>
-                                                            </button>
-                                                        </div>
-                                                        <div className="absolute right-6 top-1/2">
-                                                            <button
-                                                                onClick={props.nextHandler}
-                                                                className="rounded-full p-1.5 group"
-                                                            >
-                                                                <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
-                                                                    <Icon
-                                                                        name="right"
-                                                                        height={32}
-                                                                        width={32}
-                                                                    />
-                                                                </div>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            },
-                                        ]}
-                                        frames={getPropertyMedia(listing).map((m) => {
-                                            return (
-                                                <div
-                                                    key={m.url}
-                                                    className="flex items-center justify-center w-full h-full"
+                                <RCarousel
+                                    className={`h-[80%] z-30 ${styles["carousel-root"]}`}
+                                    showThumbs={false}
+                                    useKeyboardArrows
+                                    selectedItem={currentSlide}
+                                    onChange={(newSlide) => {
+                                        setCurrentSlide(newSlide);
+                                    }}
+                                    infiniteLoop
+                                    swipeable
+                                    emulateTouch
+                                    preventMovementUntilSwipeScrollTolerance
+                                    showStatus={false}
+                                    renderArrowPrev={(handler) => {
+                                        return (
+                                            <div className="absolute left-6 top-1/2 z-30">
+                                                <button
+                                                    onClick={handler}
+                                                    className="rounded-full p-1.5 group"
                                                 >
-                                                    {/* NextJS's images are literal hell to work with */}
-                                                    <img
-                                                        className="select-none max-h-full w-auto"
-                                                        src={m.url}
-                                                        alt="property image"
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    />
-                                </div>
-                                <div className="text-white h-[10%]">
-                                    {/* TODO: Put thumbnails here */}
+                                                    <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                        <Icon name="left" height={32} width={32} />
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        );
+                                    }}
+                                    renderArrowNext={(handler) => {
+                                        return (
+                                            <div className="absolute right-6 top-1/2 z-30">
+                                                <button
+                                                    onClick={handler}
+                                                    className="rounded-full p-1.5 group"
+                                                >
+                                                    <div className="rounded-full bg-white p-1 w-full group-hover:bg-zinc-200 transition-all">
+                                                        <Icon name="right" height={32} width={32} />
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        );
+                                    }}
+                                >
+                                    {getPropertyMedia(listing).map((m) => {
+                                        return (
+                                            <div
+                                                key={m.url}
+                                                className="flex items-center justify-center flex-1"
+                                            >
+                                                <Image
+                                                    fill
+                                                    className="select-none max-h-full w-auto object-contain"
+                                                    src={m.url}
+                                                    alt="property image"
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </RCarousel>
+                                <div className="h-[10%] text-white">
+                                    {/* TODO: Render thumbnails here */}
                                 </div>
                             </div>
                         </div>
 
-                        <section className="flex flex-col-reverse lg:flex-row container mx-auto lg:mt-8">
+                        <section className="flex flex-col-reverse lg:flex-row container mx-auto">
                             <div className="flex-1 flex flex-col lg:w-1/2 lg:pr-6">
                                 <div className="hidden lg:block">
                                     <Typography variant="h1">{listing.title}</Typography>
@@ -1063,8 +1044,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
 
                                 <MediaComponent
                                     media={getPropertyMedia(listing)}
-                                    onImageClick={() => {
+                                    onImageClick={(imageIndex) => {
                                         setIsMediaPopupOpen(true);
+                                        setCurrentSlide(imageIndex);
                                     }}
                                 />
                                 {(listing.contacts.length > 0 ||
