@@ -1146,7 +1146,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                         </section>
 
                         <section id="location" className="container mx-auto mt-8">
-                            <Typography variant="h2" className="mb-4 px-1 md: px-0">
+                            <Typography variant="h2" className="mb-4 px-1 md:px-0">
                                 {t("location")}
                             </Typography>
                             <Map
