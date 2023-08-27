@@ -75,7 +75,7 @@ export default function Notifications({ notifications, lightIcons }: Notificatio
     return (
         <div className="md:relative">
             <Button.Transparent
-                className={`!p-0 md:!p-1 mr-0 md:mr-1 relative ${
+                className={`!p-[3px] md:!p-1 mr-0 ml-1 md:mr-1 relative ${
                     lightIcons && "hover:!bg-zinc-900 hover:!bg-opacity-75"
                 }`}
                 onClick={() => {

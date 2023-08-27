@@ -152,7 +152,22 @@ export default function Home({ newestListings, counts }: HomeProps) {
                     </div>
                 </section>
 
-                <section className="container mx-auto mt-12">
+                <section className="container mx-auto mt-4">
+                    <Link
+                        disableAnimatedHover
+                        to="/map"
+                        className="flex overflow-hidden sm:rounded-xl relative group w-full h-64 hover:shadow-sm transition-all"
+                    >
+                        <div className="flex-1 flex absolute top-0 left-0 right-0 bottom-0 bg-[url('/images/map.jpg')] bg-cover blur-[3px] group-hover:blur-sm transition-all"></div>
+                        <div className="flex-1 relative z-20 flex items-center justify-center text-center">
+                            <Typography className="text-4xl tracking-widest" bold uppercase>
+                                {t("open-map")}
+                            </Typography>
+                        </div>
+                    </Link>
+                </section>
+
+                <section className="container mx-auto mt-8">
                     <Typography variant="h1">{t("newest-ads")}</Typography>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full gap-4">
                         {newestListings.map((l) => {
