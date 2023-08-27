@@ -499,7 +499,10 @@
         "energy-description": "Razred energetskog certifikata nekretnine.",
         "energy-placeholder": "Odaberite...",
         "custom-id": "Šifra nekretnine",
-        "custom-id-description": "Šifra nekretnine za vašu internu uporabu."
+        "custom-id-description": "Šifra nekretnine za vašu internu uporabu.",
+        "confirm": "Jeste li sigurni da želite obrisati ovu sliku?",
+        "cancel": "Otkaži",
+        "delete": "Obriši"
     },
     "PropertyDropdown": {
         "choose": "Odaberi nekretninu...",

@@ -499,7 +499,10 @@
         "energy-description": "Select the property energy certificate label.",
         "energy-placeholder": "Select...",
         "custom-id": "Property code",
-        "custom-id-description": "Property code intended for your internal use."
+        "custom-id-description": "Property code intended for your internal use.",
+        "confirm": "Are you sure you want to remove this image?",
+        "cancel": "Cancel",
+        "delete": "Delete"
     },
     "PropertyDropdown": {
         "choose": "Choose property...",

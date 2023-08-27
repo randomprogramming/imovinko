@@ -424,8 +424,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             )}
                     </div>
                     <div className="px-2">
-                        {/* TODO: translate this */}
-                        <Typography>Are you sure you want to remove this image?</Typography>
+                        <Typography>{t("confirm")}</Typography>
                     </div>
                     <div className="grid grid-cols-2 border-t border-zinc-300 ">
                         <div
@@ -435,7 +434,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             }}
                         >
                             <Typography className="text-blue-500 select-none" bold>
-                                Cancel
+                                {t("cancel")}
                             </Typography>
                         </div>
                         <div
@@ -445,7 +444,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             }}
                         >
                             <Typography className="text-red-500 select-none" bold>
-                                Delete
+                                {t("delete")}
                             </Typography>
                         </div>
                     </div>
