@@ -255,11 +255,37 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
 
     return (
         <div className="container mx-auto flex flex-row items-center my-2 md:my-4 px-1">
-            <Link to="/" className="px-1 pt-1 hidden md:block" disableAnimatedHover>
+            <Link to="/" className="px-1 pt-1 hidden md:block relative" disableAnimatedHover>
                 <Icon name="logo-text" height="36" className={`${lightIcons && "fill-zinc-50"}`} />
+                {process.env.NEXT_PUBLIC_BETA && (
+                    <div className="absolute -bottom-1 right-0 rounded  bg-rose-500 translate-y-1/2 px-0.5">
+                        <Typography
+                            uppercase
+                            bold
+                            style={{
+                                fontSize: "12px",
+                            }}
+                        >
+                            Beta
+                        </Typography>
+                    </div>
+                )}
             </Link>
-            <Link to="/" className="pl-1 pr-2 md:hidden" disableAnimatedHover>
+            <Link to="/" className="pl-1 pr-2 md:hidden relative" disableAnimatedHover>
                 <Icon name="logo" height="32" className={`${lightIcons && "fill-zinc-50"}`} />
+                {process.env.NEXT_PUBLIC_BETA && (
+                    <div className="absolute -bottom-1 right-0 rounded  bg-rose-500 translate-y-1/2 px-0.5">
+                        <Typography
+                            uppercase
+                            bold
+                            style={{
+                                fontSize: "12px",
+                            }}
+                        >
+                            Beta
+                        </Typography>
+                    </div>
+                )}
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar

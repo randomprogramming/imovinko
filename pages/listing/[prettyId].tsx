@@ -934,7 +934,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     <IconRow listing={listing} />
                                 </div>
 
-                                <div className="mt-4 whitespace-pre-line break-all">
+                                <div className="mt-4 whitespace-pre-line break-all px-1 md:px-0">
                                     <Typography>{listing.description}</Typography>
                                 </div>
 
@@ -1054,7 +1054,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                 />
                                 {(listing.contacts.length > 0 ||
                                     listing.manualAccountContacts.length > 0) && (
-                                    <div className="mt-12 bg-zinc-50 rounded shadow-sm p-3 space-y-3 max-w-md ml-auto">
+                                    <div className="mt-8 bg-zinc-50 rounded shadow-sm p-3 space-y-3 max-w-md ml-auto">
                                         <Typography
                                             sm
                                             uppercase
