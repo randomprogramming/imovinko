@@ -86,10 +86,10 @@ export default function Login() {
                 </div>
             </div>
             <div
-                className="bg-zinc-100 rounded-3xl md:-ml-10 z-50 px-2 md:px-0"
+                className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0"
                 style={{ flex: 2 }}
             >
-                <div className="md:px-10 py-6">
+                <div className="lg:px-10 py-6">
                     <Typography variant="h1">{t("welcome")}</Typography>
                     <div className="mt-8">
                         <Button.Primary

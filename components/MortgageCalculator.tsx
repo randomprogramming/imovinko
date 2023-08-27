@@ -204,7 +204,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
                 minHeight: "375px",
             }}
         >
-            <div className="lg:w-1/3 lg:pr-2">
+            <div className="lg:w-1/3 lg:pr-2 px-2 lg:pl-0">
                 <div>
                     <Typography>{t("loan-amount")}</Typography>
                     <CurrencyInput

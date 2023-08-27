@@ -60,15 +60,14 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
             <header>
                 <Navbar />
             </header>
-            <Main className="mt-8" container>
+            <Main container>
                 {account ? (
                     <div>
-                        <div className="flex flex-col sm:flex-row w-full max-w-3xl mx-auto">
+                        <div className="flex flex-col-reverse sm:flex-row w-full max-w-3xl mx-auto">
                             <div
-                                className="bg-zinc-100 rounded-xl shadow"
+                                className="bg-zinc-100 sm:rounded-xl shadow sm:max-w-[420px]"
                                 style={{
                                     minWidth: "280px",
-                                    maxWidth: "420px",
                                 }}
                             >
                                 <div className="border-b-2 border-b-zinc-300 px-8 py-6 flex flex-col items-center justify-center">
@@ -129,7 +128,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                     </table>
                                 </div>
                             </div>
-                            <div className="sm:ml-4 mt-4 sm:mt-0">
+                            <div className="sm:ml-4 sm:mt-0">
                                 <Typography variant="h1">{account.username}</Typography>
                                 {account.company && (
                                     <Typography>

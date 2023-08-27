@@ -930,7 +930,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                         {getPriceString(listing)}
                                     </Typography>
                                 </div>
-                                <div className="my-4 text-center">
+                                <div className="my-4 text-center hidden lg:block">
                                     <IconRow listing={listing} />
                                 </div>
 
@@ -1040,6 +1040,9 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     <Typography className="text-right">
                                         {getPriceString(listing)}
                                     </Typography>
+                                    <div className="my-2 flex items-center justify-center">
+                                        <IconRow listing={listing} />
+                                    </div>
                                 </div>
 
                                 <MediaComponent
