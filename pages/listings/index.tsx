@@ -172,6 +172,7 @@ interface ListingsPageProps {
 }
 export default function ListingsPage({ listings, params }: ListingsPageProps) {
     const t = useTranslations("ListingsPage");
+    const tRegionDropdown = useTranslations("RegionDropdown");
 
     let selectedSort = "";
     if (params?.sortBy && (params.sortBy === "createdAt" || params.sortBy === "price")) {
@@ -242,7 +243,18 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             label: string;
             value: HRRegionShortCode;
         }[]
-    >(parseInitialRegionParams(params?.region));
+    >(
+        parseInitialRegionParams(params?.region)
+            .map((rp) => {
+                return {
+                    label: tRegionDropdown(rp.value),
+                    value: rp.value,
+                };
+            })
+            .sort((a, b) => {
+                return a.label.localeCompare(b.label);
+            })
+    );
 
     const router = useRouter();
 

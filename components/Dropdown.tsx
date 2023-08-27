@@ -12,10 +12,6 @@ interface DropdownProps {
     onOptionChange?(opt: Option): void;
 }
 export default function Dropdown({ options, className, onOptionChange }: DropdownProps) {
-    if (options.length === 0) {
-        return <div className="h-full w-4 bg-zinc-50"></div>;
-    }
-
     const [selectedVal, setSelectedVal] = useState<Option>(options[0]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -32,6 +28,10 @@ export default function Dropdown({ options, className, onOptionChange }: Dropdow
             onOptionChange(selectedVal);
         }
     }, [selectedVal]);
+
+    if (options.length === 0) {
+        return <div className="h-full w-4 bg-zinc-50"></div>;
+    }
 
     return (
         <div className="relative inline-flex">

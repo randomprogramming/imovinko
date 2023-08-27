@@ -140,6 +140,11 @@ export default function InputListingData({ company, listing, type }: ListApartme
 
     const [mediaToDelete, setMediaToDelete] = useState<string | null>(null);
 
+    const id1 = useId();
+    const id2 = useId();
+    const id3 = useId();
+    const id4 = useId();
+
     const allCompanyAccounts = company
         ? [
               {
@@ -586,7 +591,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
 
                                     <RowItem>
                                         <Select
-                                            instanceId={useId()}
+                                            instanceId={id1}
                                             isMulti
                                             className={`z-30 ${space_grotesk.className}`}
                                             isSearchable
@@ -792,7 +797,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
 
                                     <RowItem>
                                         <Select
-                                            instanceId={useId()}
+                                            instanceId={id2}
                                             className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
@@ -994,7 +999,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
 
                                     <RowItem>
                                         <Select
-                                            instanceId={useId()}
+                                            instanceId={id3}
                                             className={`z-30 ${space_grotesk.className}`}
                                             isMulti
                                             isSearchable
@@ -1267,7 +1272,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
                             <RowItem>
                                 <Select
-                                    instanceId={useId()}
+                                    instanceId={id4}
                                     defaultValue={energyLabels.find(
                                         (lb) => lb.value === energyLabel
                                     )}

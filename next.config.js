@@ -12,10 +12,6 @@ const nextConfig = {
     experimental: {
         scrollRestoration: true,
     },
-    // TODO: Remove this and fix eslint errors...
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
 };
 
 module.exports = nextConfig;

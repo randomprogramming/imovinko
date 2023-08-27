@@ -34,19 +34,11 @@ interface RegionDropdownProps {
 }
 
 export function parseInitialRegionParams(parseInitialParams?: string | string[]) {
-    const t = useTranslations("RegionDropdown");
-
-    const selectValues = Object.values(HRRegionShortCode)
-        .map((code) => {
-            return {
-                label: t(code),
-                value: code,
-            };
-        })
-        .sort((a, b) => {
-            return a.label.localeCompare(b.label);
-        });
-
+    const selectValues = Object.values(HRRegionShortCode).map((code) => {
+        return {
+            value: code,
+        };
+    });
     if (parseInitialParams) {
         let params = parseInitialParams;
         if (typeof parseInitialParams === "string") {

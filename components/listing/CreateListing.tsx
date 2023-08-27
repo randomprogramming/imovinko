@@ -27,7 +27,6 @@ import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import PropertyDropdown from "@/components/PropertyDropdown";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
-import CurrencyInput from "react-currency-input-field";
 
 interface CreateListingProps {
     company: Company | null;
@@ -90,6 +89,11 @@ export default function CreateListing({ company, type }: CreateListingProps) {
     const [existingPropertySelected, setExistingPropertySelected] = useState<
         BasicApartment | BasicHouse | BasicLand
     >();
+
+    const id1 = useId();
+    const id2 = useId();
+    const id3 = useId();
+    const id4 = useId();
 
     const allCompanyAccounts = company
         ? [
@@ -512,7 +516,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
 
                                 <RowItem>
                                     <Select
-                                        instanceId={useId()}
+                                        instanceId={id1}
                                         isMulti
                                         className={`z-30 ${space_grotesk.className}`}
                                         isSearchable
@@ -716,7 +720,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
 
                                 <RowItem>
                                     <Select
-                                        instanceId={useId()}
+                                        instanceId={id2}
                                         className={`z-30 ${space_grotesk.className}`}
                                         isMulti
                                         isSearchable
@@ -917,7 +921,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
 
                                 <RowItem>
                                     <Select
-                                        instanceId={useId()}
+                                        instanceId={id3}
                                         className={`z-30 ${space_grotesk.className}`}
                                         isMulti
                                         isSearchable
@@ -1196,7 +1200,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                             <TitleCol title={t("energy-title")}>{t("energy-description")}</TitleCol>
                             <RowItem>
                                 <Select
-                                    instanceId={useId()}
+                                    instanceId={id4}
                                     onChange={(newVal) => {
                                         setEnergyLabel(newVal ? newVal.value : null);
                                     }}
