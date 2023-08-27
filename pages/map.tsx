@@ -354,7 +354,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 style={{
                                     padding: 0,
                                     maxWidth: "90vw",
-                                    width: "420px",
+                                    width: "380px",
                                 }}
                                 anchor="top"
                                 latitude={getPropertyLat(openProperty)}
@@ -468,7 +468,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
 
                                 <div className="pb-4 px-4">
-                                    <div className="pb-1">
+                                    <div className="mt-1">
                                         <div>
                                             <Typography variant="secondary" uppercase>
                                                 {getPropertyLocationString(openProperty)}
@@ -541,7 +541,7 @@ export default function MapScreen({ query }: MapScreenProps) {
 
                 <div
                     className={`absolute bottom-8 md:bottom-14 xl:bottom-20 left-1/2 z-20 -translate-x-1/2 transition-all ${
-                        openProperty && "-bottom-20"
+                        openProperty && "scale-0"
                     }`}
                 >
                     <Link
