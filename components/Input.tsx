@@ -2,6 +2,7 @@ import { space_grotesk } from "@/util/fonts";
 import React, { useState } from "react";
 import Typography from "./Typography";
 import CurrencyInput from "react-currency-input-field";
+import PhoneInput from "react-phone-input-2";
 
 interface CheckBoxInputProps {
     name?: string;
@@ -54,7 +55,7 @@ function CheckBoxInput({
 
 interface InputProps extends CheckBoxInputProps {
     className?: string;
-    type?: React.HTMLInputTypeAttribute | "currency";
+    type?: React.HTMLInputTypeAttribute | "currency" | "phone-2";
     placeholder?: string;
     onChange?(newVal: string): void;
     value?: string | number | null;
@@ -153,6 +154,38 @@ export default function Input({
                     } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
                         hasError ? "!border-rose-700" : "border-transparent"
                     } outline-none shadow-sm relative z-[15] disabled:bg-zinc-300 ${className}`}
+                />
+                {hasError &&
+                    errorMsg &&
+                    (hollow ? (
+                        <div className="z-10 bg-rose-700 text-white absolute -bottom-[2px] translate-y-full left-0 px-2 py-1 rounded-md shadow-sm">
+                            <Typography className="text-sm">{errorMsg}</Typography>
+                        </div>
+                    ) : (
+                        <div className="z-10 bg-rose-700 text-white absolute -bottom-5 left-0 px-2 pt-2 rounded-b-md shadow-sm">
+                            <Typography className="text-sm">{errorMsg}</Typography>
+                        </div>
+                    ))}
+            </div>
+        );
+    }
+
+    if (type === "phone-2") {
+        // TODO: Localize country names
+        // Also this phoneinput library doesn't have a 'name' property...
+        return (
+            <div className="relative">
+                <PhoneInput
+                    containerClass={`${space_grotesk.className} ${
+                        hasError ? "!border-rose-700" : "border-transparent"
+                    } border-2 border-zinc-400 rounded-md `}
+                    inputClass="!bg-transparent !border-none !text-base !h-auto !py-2"
+                    buttonClass="!border-l-0 !border-t-0 !border-b-0 !border-2 !border-zinc-400 [&>*:first-child]:!px-2 [&>*:first-child]:!rounded-l-md !bg-zinc-100"
+                    dropdownClass="!rounded-sm"
+                    value={String(value)}
+                    country="hr" // This is the default country
+                    countryCodeEditable={false}
+                    onChange={onChange}
                 />
                 {hasError &&
                     errorMsg &&

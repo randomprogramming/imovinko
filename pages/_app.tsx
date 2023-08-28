@@ -1,9 +1,10 @@
 import "@/styles/globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "react-phone-input-2/lib/style.css";
+import "moment/locale/hr";
 import type { AppProps } from "next/app";
 import { NextIntlProvider } from "next-intl";
-import "moment/locale/hr";
 import NextNProgress from "nextjs-progressbar";
 
 export default function App({ Component, pageProps }: AppProps) {

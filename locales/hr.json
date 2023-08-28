@@ -290,7 +290,7 @@
         "members-description": "Članovi tvrtke. Svi članovi se mogu navesti kao kontakt osobe prilikom predavanja oglasa. Članovi koji su se registrirali mogu i predavati nove oglase.",
         "username": "Korisničko Ime",
         "invite-member": "Pozovi člana",
-        "invite-member-description": "Ukoliko član ima Imovinko korisnički računa, unesite njihovu e-mail adresu ili korisničko ime kako bi ih pozvali kao člana tvrtke.",
+        "invite-member-description": "Ukoliko član ima Imovinko korisnički račun, unesite njihovu e-mail adresu ili korisničko ime kako bi ih pozvali kao člana tvrtke.",
         "manual-member": "Unesi člana ručno",
         "manual-member-description": "Ručno unesite informacije o članu. Kreirani član će se moći koristiti kao kontakt osoba prilikom predaje oglasa.",
         "first-name": "Ime",

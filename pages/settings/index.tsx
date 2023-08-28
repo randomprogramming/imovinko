@@ -56,7 +56,7 @@ export default function AccountPage({ account }: AccountPageProps) {
     const [firstName, setFirstName] = useState(account.firstName || "");
     const [lastName, setLastName] = useState(account.lastName || "");
     const [username, setUsername] = useState(account.username || "");
-    const [phone, setPhone] = useState(account.phone || "");
+    const [phone, setPhone] = useState<string | undefined>(account.phone || "");
     const [isLoading, setIsLoading] = useState(false);
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -96,7 +96,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                 username,
                 firstName,
                 lastName,
-                phone,
+                phone: phone && phone.length > 5 ? "+" + phone : null,
             });
             if (typeof data.accessToken === "string" && data.accessToken.length > 0) {
                 setJWTCookie(data.accessToken);
@@ -293,8 +293,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                                 </label>
                                 <Input
                                     name="phone"
-                                    hollow
-                                    className="!p-2"
+                                    type="phone-2"
                                     value={phone}
                                     onChange={setPhone}
                                     hasError={fieldErrorCodesParser.has("phone")}

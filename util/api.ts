@@ -559,7 +559,7 @@ export interface PatchMyAccountBody {
     confirmPassword?: string;
     firstName?: string;
     lastName?: string;
-    phone?: string;
+    phone?: string | null;
 }
 interface PatchMyAccountResponse {
     accessToken?: string;

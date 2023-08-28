@@ -32,6 +32,7 @@ import NotFound from "@/components/404";
 import Main from "@/components/Main";
 import { Carousel as RCarousel } from "react-responsive-carousel";
 import styles from "./styles.module.css";
+import { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -61,7 +62,7 @@ interface ContactCardProps {
     avatarUrl?: string | null;
     contacts: {
         type: "email" | "phone";
-        contact: string | null;
+        contact: string | null | undefined;
     }[];
 }
 function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: ContactCardProps) {
@@ -606,6 +607,16 @@ export default function ListingPage({ listing }: ListingPageProps) {
         return locationStr;
     }
 
+    function formatPhone(phone: string | undefined | null) {
+        if (!phone) {
+            return undefined;
+        }
+        if (isValidPhoneNumber(phone)) {
+            return formatPhoneNumber(phone);
+        }
+        return undefined;
+    }
+
     interface AdditionalInfo {
         name: string;
         val: string | number;
@@ -1077,7 +1088,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                         },
                                                         {
                                                             type: "phone",
-                                                            contact: ac.phone,
+                                                            contact: formatPhone(ac.phone),
                                                         },
                                                     ]}
                                                 />
@@ -1098,7 +1109,7 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                                         },
                                                         {
                                                             type: "phone",
-                                                            contact: mac.phone,
+                                                            contact: formatPhone(mac.phone),
                                                         },
                                                     ]}
                                                 />

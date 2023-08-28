@@ -317,8 +317,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                     </label>
                                     <Input
                                         name="manualNumber"
-                                        hollow
-                                        className="!p-2"
+                                        type="phone-2"
                                         value={manualEntryPhoneNumber}
                                         onChange={setManualEntryPhoneNumber}
                                     />
