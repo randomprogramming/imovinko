@@ -1212,10 +1212,12 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                             </div>
                         </section>
 
-                        <section id="location" className="container mx-auto mt-8">
-                            <Typography variant="h2" className="mb-4 px-1 md:px-0">
-                                {t("location")}
-                            </Typography>
+                        <section id="location" className="w-full mt-8">
+                            <div className="container mx-auto px-1 md:px-0">
+                                <Typography variant="h2" className="mb-4">
+                                    {t("location")}
+                                </Typography>
+                            </div>
                             <Map
                                 className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
                                 style={{
@@ -1254,7 +1256,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                 </Marker>
                             </Map>
 
-                            <div className="mt-2 px-1 md:px-0">
+                            <div className="container mx-auto mt-2 px-1 md:px-0">
                                 <Typography bold>{t("travel-time")}</Typography>
                                 <Typography>{t("travel-time-description")}</Typography>
                                 <div className="relative inline-flex flex-row bg-zinc-50 items-center p-1 !pr-0 rounded shadow w-full max-w-sm mt-2">
