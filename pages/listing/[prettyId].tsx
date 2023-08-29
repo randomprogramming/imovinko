@@ -6,8 +6,11 @@ import {
     Listing,
     Media,
     OfferingType,
+    PaginatedListingBasic,
+    PropertyType,
     TravelingMethods,
     findListing,
+    findListingsByBoundingBox,
     suggestLocations,
 } from "@/util/api";
 import { GetServerSideProps } from "next";
@@ -33,15 +36,50 @@ import Main from "@/components/Main";
 import { Carousel as RCarousel } from "react-responsive-carousel";
 import styles from "./styles.module.css";
 import { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
+import ListingCardItem from "@/components/listing/ListingCardItem";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
     let listing = null;
+    let similarListings = null;
     if (typeof params?.prettyId === "string") {
         try {
             listing = (await findListing(params.prettyId)).data;
+            const listingProperty = listing.apartment || listing.house || listing.land;
+            if (!listingProperty) {
+                throw new Error("Listing has no property");
+            }
+            let propertyType: PropertyType;
+            if (listing.apartment) {
+                propertyType = PropertyType.apartment;
+            } else if (listing.house) {
+                propertyType = PropertyType.house;
+            } else {
+                propertyType = PropertyType.land;
+            }
+            const nwlat = listingProperty.latitude + 0.01;
+            const nwlng = listingProperty.longitude - 0.01;
+            const selat = listingProperty.latitude - 0.01;
+            const selng = listingProperty.longitude + 0.01;
+
+            // This finds some listings which are similar to the currently opened listing(similar location, similar price, etc.)
+            const similarListingsResp = await findListingsByBoundingBox({
+                boundingBox: {
+                    nwlat,
+                    nwlng,
+                    selat,
+                    selng,
+                },
+                propertyType: [propertyType],
+                offeringType: [listing.offeringType],
+                priceFrom: listing.price * 0.9,
+                priceTo: listing.price * 1.1,
+                pageSize: 4,
+                exclude: [listing.prettyId],
+            });
+            similarListings = similarListingsResp;
         } catch (e) {
             console.error(e);
         }
@@ -51,6 +89,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
         props: {
             messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
             listing,
+            similarListings,
         },
     };
 };
@@ -260,8 +299,9 @@ function MediaComponent({ media, onImageClick }: MediaComponentProps) {
 
 interface ListingPageProps {
     listing: Listing | null;
+    similarListings: PaginatedListingBasic | null;
 }
-export default function ListingPage({ listing }: ListingPageProps) {
+export default function ListingPage({ listing, similarListings }: ListingPageProps) {
     const MARKER_SIZE = 48;
     const t = useTranslations("ListingPage");
 
@@ -1333,6 +1373,20 @@ export default function ListingPage({ listing }: ListingPageProps) {
                                     data={listing.priceChanges}
                                     locale={router.locale}
                                 />
+                            </section>
+                        )}
+
+                        {similarListings?.data && similarListings.data.length > 0 && (
+                            <section className="container mx-auto mt-8">
+                                <Typography variant="h2" className="mb-2">
+                                    {t("similar")}
+                                </Typography>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-3 gap-y-3">
+                                    {similarListings.data.map((l) => {
+                                        return <ListingCardItem listing={l} key={l.prettyId} />;
+                                    })}
+                                </div>
                             </section>
                         )}
                     </div>

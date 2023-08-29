@@ -162,20 +162,20 @@ export default function MapScreen({ query }: MapScreenProps) {
                     OfferingType.shortTermRent,
                 ];
             }
-            const { data } = await findListingsByBoundingBox(
-                {
+            const { data } = await findListingsByBoundingBox({
+                boundingBox: {
                     nwlng: mapBounds.getNorthWest().lng,
                     nwlat: mapBounds.getNorthWest().lat,
                     selng: mapBounds.getSouthEast().lng,
                     selat: mapBounds.getSouthEast().lat,
                 },
-                propertyTypes,
-                offeringTypes,
+                propertyType: propertyTypes,
+                offeringType: offeringTypes,
                 priceFrom,
                 priceTo,
                 pricePerSquareMeterFrom,
-                pricePerSquareMeterTo
-            );
+                pricePerSquareMeterTo,
+            });
 
             // Restart to first page when filter changes
             delete allParams.page;

@@ -217,7 +217,8 @@
         "information": "Property information",
         "energy": "Energy Certification",
         "custom-id": "Property code",
-        "price-history": "Price history"
+        "price-history": "Price history",
+        "similar": "Similar listings"
     },
     "ListingsPage": {
         "per-night": "per night",

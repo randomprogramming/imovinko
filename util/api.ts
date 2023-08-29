@@ -330,28 +330,31 @@ export interface PaginatedListingBasic {
     pageSize: number;
     count: number;
 }
-export async function findListingsByBoundingBox(
-    boundingBox: BoundingBox,
-    propertyType: PropertyType[],
-    offeringType: OfferingType[],
-    priceFrom?: number | string,
-    priceTo?: number | string,
-    pricePerSquareMeterFrom?: number | string,
-    pricePerSquareMeterTo?: number | string
-) {
+export async function findListingsByBoundingBox(data: {
+    boundingBox?: BoundingBox;
+    propertyType?: PropertyType[];
+    offeringType?: OfferingType[];
+    priceFrom?: number | string;
+    priceTo?: number | string;
+    pricePerSquareMeterFrom?: number | string;
+    pricePerSquareMeterTo?: number | string;
+    pageSize?: number;
+    exclude?: string[];
+}) {
+    const { ...bounding } = data.boundingBox;
+    delete data.boundingBox;
+
     return (
         await client<PaginatedListingBasic>({
             url: "/listing/",
             method: "GET",
             params: {
-                ...boundingBox,
-                propertyType: propertyType.join(","),
-                offeringType: offeringType.join(","),
-                pageSize: 20,
-                priceFrom: priceFrom || undefined,
-                priceTo: priceTo || undefined,
-                pricePerSquareMeterFrom: pricePerSquareMeterFrom || undefined,
-                pricePerSquareMeterTo: pricePerSquareMeterTo || undefined,
+                ...data,
+                ...bounding,
+                propertyType: data.propertyType ? data.propertyType.join(",") : undefined,
+                offeringType: data.offeringType ? data.offeringType.join(",") : undefined,
+                exclude: data.exclude ? data.exclude.join(",") : undefined,
+                pageSize: data.pageSize || 20,
             },
         })
     ).data;
