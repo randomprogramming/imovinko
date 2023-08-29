@@ -1394,7 +1394,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                             </section>
                         )}
 
-                        {getPropertyOtherListings(listing).length > 1 && (
+                        {getPropertyOtherListings(listing).length > 0 && (
                             <section className="container mx-auto mt-8 px-1 md:px-0">
                                 <Typography variant="h2" className="mb-2">
                                     {t("other-listings")}
