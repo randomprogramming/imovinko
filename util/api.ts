@@ -492,16 +492,19 @@ export interface Listing {
     apartment:
         | (Apartment & {
               owner: FullAccountSingleCompany;
+              listings: ListingBasic[];
           })
         | null;
     house:
         | (House & {
               owner: FullAccountSingleCompany;
+              listings: ListingBasic[];
           })
         | null;
     land:
         | (Land & {
               owner: FullAccountSingleCompany;
+              listings: ListingBasic[];
           })
         | null;
     viewCount: number;

@@ -218,7 +218,8 @@
         "energy": "Energetski certifikat",
         "custom-id": "Šifra nekretnine",
         "price-history": "Povijest cijene",
-        "similar": "Slični oglasi"
+        "similar": "Slični oglasi",
+        "other-listings": "Svi oglasi nekretnine"
     },
     "ListingsPage": {
         "per-night": "noćenje",

@@ -4,6 +4,7 @@ import {
     EnergyClassColors,
     FullAccountSingleCompany,
     Listing,
+    ListingBasic,
     Media,
     OfferingType,
     PaginatedListingBasic,
@@ -37,6 +38,7 @@ import { Carousel as RCarousel } from "react-responsive-carousel";
 import styles from "./styles.module.css";
 import { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
 import ListingCardItem from "@/components/listing/ListingCardItem";
+import ListingListItem from "@/components/listing/ListingListItem";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -397,6 +399,20 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         if (account.username) {
             return `/account/${account.username}`;
         }
+    }
+
+    function getPropertyOtherListings(p: Listing) {
+        let otherListings: ListingBasic[] = [];
+        // Get propertys other listings. If the property is listed for sale and long term rent at the same time for instance.
+        if (p.apartment) {
+            otherListings = p.apartment.listings;
+        } else if (p.house) {
+            otherListings = p.house.listings;
+        } else {
+            otherListings = p.land!.listings;
+        }
+        // Don't return the currently open listing
+        return otherListings.filter((ol) => ol.offeringType !== p.offeringType);
     }
 
     function getAccountHandle(p: Listing) {
@@ -1365,7 +1381,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
 
                         {listing.priceChanges.length > 1 && (
                             <section className="container mx-auto mt-8">
-                                <Typography variant="h2" className="mb-2">
+                                <Typography variant="h2" className="mb-2 px-1 md:px-0">
                                     {t("price-history")}
                                 </Typography>
                                 <PriceChangeChart
@@ -1376,8 +1392,22 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                             </section>
                         )}
 
+                        {getPropertyOtherListings(listing).length > 1 && (
+                            <section className="container mx-auto mt-8 px-1 md:px-0">
+                                <Typography variant="h2" className="mb-2">
+                                    {t("other-listings")}
+                                </Typography>
+
+                                <div className="space-y-6">
+                                    {getPropertyOtherListings(listing).map((l) => {
+                                        return <ListingListItem listing={l} key={l.prettyId} />;
+                                    })}
+                                </div>
+                            </section>
+                        )}
+
                         {similarListings?.data && similarListings.data.length > 0 && (
-                            <section className="container mx-auto mt-8">
+                            <section className="container mx-auto mt-8 px-1 md:px-0">
                                 <Typography variant="h2" className="mb-2">
                                     {t("similar")}
                                 </Typography>
