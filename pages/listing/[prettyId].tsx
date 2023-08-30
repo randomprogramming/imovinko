@@ -1219,7 +1219,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                 </Typography>
                             </div>
                             <Map
-                                className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
+                                className="w-full shadow-sm mt-2"
                                 style={{
                                     height: "50vh",
                                 }}
