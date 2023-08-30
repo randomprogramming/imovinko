@@ -107,7 +107,7 @@ export default function Register() {
                         <Icon name="logo-text" height={48} />
                     </Link>
                     <Image
-                        src="/images/register-cover-new.jpg"
+                        src="/images/register-cover-new.jpeg"
                         alt="modern house exterior"
                         fill
                         style={{

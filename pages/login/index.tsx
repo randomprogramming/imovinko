@@ -76,7 +76,7 @@ export default function Login() {
                         <Icon name="logo-text" height={48} className="fill-zinc-50" />
                     </Link>
                     <Image
-                        src="/images/login-cover.jpg"
+                        src="/images/login-cover.jpeg"
                         alt="modern house exterior"
                         fill
                         style={{

@@ -144,7 +144,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                             </div>
                         </div>
                         <Image
-                            src="/images/homepage-new.jpg"
+                            src="/images/homepage-new.jpeg"
                             alt="architecture"
                             fill
                             className="object-cover w-full h-full z-10"
@@ -158,7 +158,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                         to="/map"
                         className="flex overflow-hidden sm:rounded-xl relative group w-full h-64 hover:shadow-sm transition-all"
                     >
-                        <div className="flex-1 flex absolute top-0 left-0 right-0 bottom-0 bg-[url('/images/map.jpg')] bg-cover blur-[3px] group-hover:blur-sm transition-all"></div>
+                        <div className="flex-1 flex absolute top-0 left-0 right-0 bottom-0 bg-[url('/images/map.jpeg')] bg-cover blur-[3px] group-hover:blur-sm transition-all"></div>
                         <div className="flex-1 relative z-20 flex items-center justify-center text-center">
                             <Typography className="text-4xl tracking-widest" bold uppercase>
                                 {t("open-map")}
