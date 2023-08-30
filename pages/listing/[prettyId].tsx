@@ -842,6 +842,26 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         return obj;
     }
 
+    function upHandler(event: KeyboardEvent) {
+        const { key } = event;
+
+        if (key === "ArrowLeft") {
+            let newSlide = currentSlide - 1;
+            if (newSlide < 0) {
+                newSlide = getPropertyMedia(listing).length - 1;
+            }
+            setCurrentSlide(newSlide);
+        }
+
+        if (key === "ArrowRight") {
+            let newSlide = currentSlide + 1;
+            if (newSlide >= getPropertyMedia(listing).length) {
+                newSlide = 0;
+            }
+            setCurrentSlide(newSlide);
+        }
+    }
+
     React.useEffect(() => {
         if (isMediaPopupOpen) {
             setScrollWhenOpeningImage(document.documentElement.scrollTop);
@@ -852,6 +872,16 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             window.scroll(0, scrollWhenOpeningImage);
         }
     }, [isMediaPopupOpen]);
+
+    React.useEffect(() => {
+        if (isMediaPopupOpen) {
+            window.addEventListener("keyup", upHandler);
+            // Remove event listeners on cleanup
+            return () => {
+                window.removeEventListener("keyup", upHandler);
+            };
+        }
+    }, [isMediaPopupOpen, currentSlide]);
 
     return (
         <>
@@ -878,7 +908,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                             } fixed top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
                         >
                             <div className="h-full w-full">
-                                <div className="h-[10%] flex flex-row">
+                                <div className="h-[15%] flex flex-row">
                                     <div
                                         style={{
                                             minWidth: "25%",
@@ -922,7 +952,6 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                 <RCarousel
                                     className={`h-[80%] z-30 ${styles["carousel-root"]}`}
                                     showThumbs={false}
-                                    useKeyboardArrows
                                     selectedItem={currentSlide}
                                     onChange={(newSlide) => {
                                         setCurrentSlide(newSlide);
@@ -932,6 +961,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     emulateTouch
                                     preventMovementUntilSwipeScrollTolerance
                                     showStatus={false}
+                                    showIndicators={false}
                                     renderArrowPrev={(handler) => {
                                         return (
                                             <div className="absolute left-6 top-1/2 z-30">
@@ -977,7 +1007,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         );
                                     })}
                                 </RCarousel>
-                                <div className="h-[10%] text-white">
+                                <div className="h-[5%] text-white">
                                     {/* TODO: Render thumbnails here */}
                                 </div>
                             </div>
