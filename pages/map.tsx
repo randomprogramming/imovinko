@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
-import Map from "@/components/Map";
+import Map, { MapStyle } from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import { ListingBasic, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
@@ -37,6 +37,7 @@ export default function MapScreen({ query }: MapScreenProps) {
     const queryCopyLon = typeof queryCopy.lon === "string" ? parseFloat(queryCopy.lon) : null;
     const t = useTranslations("Map");
 
+    const [lightIcons, setLightIcons] = useState(false);
     const [properties, setProperties] = useState<ListingBasic[]>([]);
     const [hoveredProperty, setHoveredProperty] = useState<null | string>(null);
     const [openProperty, setOpenProperty] = useState<ListingBasic | null>(null);
@@ -305,6 +306,15 @@ export default function MapScreen({ query }: MapScreenProps) {
         return locationStr;
     }
 
+    function onMapStyleChange(newStyle: string) {
+        // Mapbox satellite images are quite dark, so you can't see the navbar icons...
+        if (newStyle === MapStyle.satelliteMapStyle) {
+            setLightIcons(true);
+        } else {
+            setLightIcons(false);
+        }
+    }
+
     React.useEffect(() => {
         if (!isSearchInProgress) {
             searchProperties();
@@ -334,11 +344,12 @@ export default function MapScreen({ query }: MapScreenProps) {
                 />
             </Head>
             <header className="z-30">
-                <Navbar lighterSearchbar />
+                <Navbar lighterSearchbar lightIcons={lightIcons} />
             </header>
             <main>
                 <div className="fixed top-0 left-0 w-screen h-screen flex">
                     <Map
+                        onMapStyleChange={onMapStyleChange}
                         className="flex-1"
                         onBoundsChange={setMapBounds}
                         centerLat={queryCopyLat || undefined}

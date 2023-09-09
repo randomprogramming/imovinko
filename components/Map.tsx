@@ -12,11 +12,17 @@ import {
     retrieveSuggestedFeature,
 } from "@/util/api";
 import MapComponent, { MapRef, Marker, NavigationControl } from "react-map-gl";
+import Image from "next/image";
 
 const MARKER_SIZE = 64;
 const STARTING_LON = 15.9819;
 const STARTING_LAT = 45.815;
 const STARTING_ZOOM = 10;
+
+export const MapStyle = {
+    streetMapStyle: process.env.NEXT_PUBLIC_MAPBOX_STREETS_STYLE || "",
+    satelliteMapStyle: process.env.NEXT_PUBLIC_MAPBOX_SATELLITE_STYLE || "",
+};
 
 interface MapProps {
     showSearchBox?: boolean;
@@ -39,6 +45,7 @@ interface MapProps {
         distanceMeters: number | string | null,
         lengthSeconds: number | string | null
     ): void;
+    onMapStyleChange?(newStyle: string): void;
 }
 export default function Map({
     className,
@@ -57,6 +64,7 @@ export default function Map({
     travelingMethod,
     navigationControlStyle,
     onDirectionsLoad,
+    onMapStyleChange,
     scrollZoom = false,
 }: MapProps) {
     const t = useTranslations("Map");
@@ -79,6 +87,8 @@ export default function Map({
         placeId: directionsPlaceMapboxId,
         placeName: directionsPlaceName,
     });
+
+    const [selectedMapStyle, setSetselectedMapStyle] = useState(MapStyle.streetMapStyle);
 
     async function searchLocation() {
         try {
@@ -253,6 +263,13 @@ export default function Map({
         }
     }
 
+    function changeMapStyle(style: string) {
+        setSetselectedMapStyle(style);
+        if (onMapStyleChange) {
+            onMapStyleChange(style);
+        }
+    }
+
     useEffect(() => {
         loadDirections();
     }, [directionsPlaceMapboxId, travelingMethod]);
@@ -282,10 +299,46 @@ export default function Map({
                     width: "100%",
                 }}
                 mapboxAccessToken={process.env["NEXT_PUBLIC_MAPBOX_API_KEY"]}
-                mapStyle="mapbox://styles/randomprogramming/climaebcr00ky01pg146a2z67"
+                mapStyle={selectedMapStyle}
                 onMoveEnd={onMoveEnd}
                 scrollZoom={scrollZoom}
             >
+                <div className="absolute bottom-8 left-8 z-40 flex flex-row">
+                    <button
+                        onClick={() => {
+                            changeMapStyle(MapStyle.streetMapStyle);
+                        }}
+                        className={`border-2 ${
+                            selectedMapStyle === MapStyle.streetMapStyle
+                                ? "border-yellow-400"
+                                : "border-black"
+                        } w-16 h-16 relative rounded overflow-hidden shadow`}
+                    >
+                        <Image
+                            className="object-cover"
+                            fill
+                            alt="satellite"
+                            src="/images/satelliteMap.jpg"
+                        />
+                    </button>
+                    <button
+                        onClick={() => {
+                            changeMapStyle(MapStyle.satelliteMapStyle);
+                        }}
+                        className={`border-2 ${
+                            selectedMapStyle === MapStyle.satelliteMapStyle
+                                ? "border-yellow-400"
+                                : "border-black"
+                        } ml-2 w-16 h-16 relative rounded overflow-hidden shadow`}
+                    >
+                        <Image
+                            className="object-cover"
+                            fill
+                            alt="street"
+                            src="/images/streetMap.jpg"
+                        />
+                    </button>
+                </div>
                 <NavigationControl style={navigationControlStyle} />
                 {directionsPlaceMapboxId && (
                     <div
