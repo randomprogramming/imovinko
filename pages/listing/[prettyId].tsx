@@ -916,6 +916,17 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         }
     }
 
+    function downHandler(event: KeyboardEvent) {
+        const { key } = event;
+
+        if (key === "Escape") {
+            if (isMediaPopupOpen) {
+                event.preventDefault();
+                setIsMediaPopupOpen(false);
+            }
+        }
+    }
+
     async function handleMessageSend() {
         setIsSendingMessage(true);
         try {
@@ -950,9 +961,15 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
 
     React.useEffect(() => {
         if (isMediaPopupOpen) {
+            // Very important to use keydown to listen for the Escape key:
+            // Macos will exit your Full-screen app if you press the Escape key, so we need to prevent the default action
+            // And close the media popup.
+            // If you use keyup, it won't work, as the call order is like this-> keydown event->exit fullscreen->keyup event
+            window.addEventListener("keydown", downHandler);
             window.addEventListener("keyup", upHandler);
             // Remove event listeners on cleanup
             return () => {
+                window.addEventListener("keydown", downHandler);
                 window.removeEventListener("keyup", upHandler);
             };
         }
