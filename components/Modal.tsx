@@ -30,9 +30,9 @@ export default function Modal({ show, children, onClose, small }: ModalProps) {
                 onClick={onClose}
             />
             <div
-                className={`bg-zinc-100 z-50 fixed overflow-auto  flex  ${
+                className={`bg-zinc-100 z-50 fixed overflow-auto flex ${
                     small
-                        ? "rounded w-fit h-fit"
+                        ? "rounded w-fit h-fit max-h-[80vh] overflow-y-auto"
                         : "rounded-xl left-2 right-2 top-2 bottom-2 md:left-10 md:right-10 md:top-10 md:bottom-10 lg:left-32 lg:right-32 lg:top-32 lg:bottom-32"
                 } `}
             >

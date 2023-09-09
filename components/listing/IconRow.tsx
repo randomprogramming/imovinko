@@ -6,15 +6,15 @@ interface IconRowProps {
     listing: {
         apartment: {
             surfaceArea: number | null;
-            bedroomCount: number | null;
-            bathroomCount: number | null;
-            parkingSpaceCount: number | null;
+            bedroomCount?: string | number | null;
+            bathroomCount?: string | number | null;
+            parkingSpaceCount?: string | number | null;
         } | null;
         house: {
             surfaceArea: number | null;
-            bedroomCount: number | null;
-            bathroomCount: number | null;
-            parkingSpaceCount: number | null;
+            bedroomCount?: string | number | null;
+            bathroomCount?: string | number | null;
+            parkingSpaceCount?: string | number | null;
         } | null;
         land: {
             surfaceArea: number | null;

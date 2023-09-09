@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
 import Notifications from "./Notifications";
-import { CompanyInvitation, getNotifications } from "@/util/api";
+import { CompanyInvitation, Conversation, getNotifications } from "@/util/api";
 
 interface AuthDropdownProps {
     lightIcons?: boolean;
@@ -237,6 +237,7 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
     const auth = useAuthentication();
 
     const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[] | null>(null);
+    const [conversations, setConversations] = useState<Conversation[] | null>(null);
 
     useEffect(() => {
         (async function () {
@@ -246,7 +247,8 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
 
             try {
                 const notifications = await getNotifications();
-                setCompanyInvitations(notifications.data);
+                setCompanyInvitations(notifications.data.invitations);
+                setConversations(notifications.data.conversations);
             } catch (err) {
                 console.error(err);
             }
@@ -297,8 +299,12 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             {/* Profile section */}
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center">
-                {auth.account && companyInvitations && (
-                    <Notifications lightIcons={lightIcons} notifications={companyInvitations} />
+                {auth.account && companyInvitations && conversations && (
+                    <Notifications
+                        lightIcons={lightIcons}
+                        invitations={companyInvitations}
+                        conversations={conversations}
+                    />
                 )}
 
                 <MobileAuthDropdown lightIcons={lightIcons} />
@@ -307,10 +313,11 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        {companyInvitations && (
+                        {companyInvitations && conversations && (
                             <Notifications
                                 lightIcons={lightIcons}
-                                notifications={companyInvitations}
+                                invitations={companyInvitations}
+                                conversations={conversations}
                             />
                         )}
                         <AuthDropdown lightIcons={lightIcons} />

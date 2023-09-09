@@ -219,7 +219,12 @@
         "custom-id": "Property code",
         "price-history": "Price history",
         "similar": "Similar listings",
-        "other-listings": "All property listings"
+        "other-listings": "Other property listings",
+        "send-message": "Send message",
+        "listing-will-be-sent": "Listing will be sent along with your message.",
+        "message-for": "Message for",
+        "message-placeholder": "Type your message here...",
+        "send": "Send"
     },
     "ListingsPage": {
         "per-night": "per night",
@@ -334,10 +339,13 @@
         "not-found": "Company not found."
     },
     "Notifications": {
-        "notification": "Notification",
         "notifications": "Notifications",
-        "none": "You have no notifications",
-        "invited-you": "has invited you to join the company as a member"
+        "none": "You have no invitations",
+        "invited-you": "has invited you to join the company as a member",
+        "conversations": "Conversations",
+        "invitations": "Invitations",
+        "open-all-conversations": "Open all conversations",
+        "none-unread": "You have no unread messages"
     },
     "Calculator": {
         "loan-amount": "Loan amount",
@@ -536,5 +544,14 @@
         "12": "We may update our Privacy Policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately, after they are posted on this page.",
         "contact": "Contact Us",
         "13": "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us."
+    },
+    "Conversations": {
+        "enter-message": "Write message...",
+        "you": "You",
+        "participants": "participants",
+        "conversations": "Conversations",
+        "conversation-members": "In conversation:",
+        "listing": "Listing:",
+        "choose-conversation": "Choose a conversation on the left side of the screen"
     }
 }

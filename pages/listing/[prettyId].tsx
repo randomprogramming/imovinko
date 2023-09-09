@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import {
+    Account,
     EnergyClassColors,
     FullAccountSingleCompany,
     Listing,
@@ -12,6 +13,7 @@ import {
     TravelingMethods,
     findListing,
     findListingsByBoundingBox,
+    sendMessage,
     suggestLocations,
 } from "@/util/api";
 import { GetServerSideProps } from "next";
@@ -39,6 +41,9 @@ import styles from "./styles.module.css";
 import { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import ListingListItem from "@/components/listing/ListingListItem";
+import Modal from "@/components/Modal";
+import Input from "@/components/Input";
+import useAuthentication from "@/hooks/useAuthentication";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -102,11 +107,14 @@ interface ContactCardProps {
     username?: string | null;
     avatarUrl?: string | null;
     contacts: {
-        type: "email" | "phone";
-        contact: string | null | undefined;
+        type: "email" | "phone" | "message";
+        contact?: string | null | undefined;
+        onClick?(): void;
     }[];
 }
 function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: ContactCardProps) {
+    const t = useTranslations("ListingPage");
+
     function NameDiv() {
         return (
             <Typography bold variant="span">{`${firstName ? firstName : ""}${firstName ? " " : ""}${
@@ -157,7 +165,7 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                 </div>
 
                 {contacts
-                    .filter((c) => !!c.contact)
+                    .filter((c) => !!c.contact || c.type === "message")
                     .map((c, i) => {
                         return (
                             <div
@@ -172,7 +180,6 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                                         <Typography>{c.contact}</Typography>
                                     </a>
                                 )}
-                                {/* TODO: Maybe format phone number so that all phone numbers show on the site are of the same format? */}
                                 {c.type === "phone" && (
                                     <a
                                         className="border-2 border-zinc-700 hover:bg-zinc-100 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2 px-12"
@@ -180,6 +187,20 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                                     >
                                         <Typography>{c.contact}</Typography>
                                     </a>
+                                )}
+                                {c.type === "message" && (
+                                    <button
+                                        className="border-2 border-emerald-800 bg-emerald-700 text-white hover:bg-emerald-600 rounded-lg hover:rounded-xl  hover:shadow  transition-all w-full flex items-center justify-center py-2 px-12"
+                                        onClick={() => {
+                                            if (c.onClick) {
+                                                c.onClick();
+                                            }
+                                        }}
+                                    >
+                                        <Typography uppercase bold>
+                                            {t("send-message")}
+                                        </Typography>
+                                    </button>
                                 )}
                             </div>
                         );
@@ -309,6 +330,8 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
 
     const router = useRouter();
 
+    const { account } = useAuthentication();
+
     const [isMediaPopupOpen, setIsMediaPopupOpen] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     // remember where the user was when they open the media popup and scroll to that place when they close the popup
@@ -326,6 +349,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
     }>({});
     const [suggestionDropdownShouldBeOpen, setSuggestionDropdownShouldBeOpen] = useState(false);
     const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+    const [messageModalAccountId, setMessageModalAccountId] = useState<string | null>(null);
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const [message, setMessage] = useState("");
 
     const totalSlides = getPropertyMedia(listing).length;
 
@@ -415,9 +441,31 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         return otherListings.filter((ol) => ol.offeringType !== p.offeringType);
     }
 
-    function getAccountHandle(p: Listing) {
-        const account = getListingAccount(p);
+    function getAccountNoCompanyHandle(account?: Account) {
+        if (!account) {
+            return "";
+        }
 
+        if (account.firstName && account.lastName) {
+            return `${account.firstName} ${account.lastName}`;
+        }
+
+        if (account.firstName) {
+            return account.firstName;
+        }
+
+        if (account.lastName) {
+            return account.lastName;
+        }
+
+        if (account.username) {
+            return account.username;
+        }
+
+        return account.email;
+    }
+
+    function getAccountHandleAcc(account?: FullAccountSingleCompany | null) {
         if (!account) {
             return "";
         }
@@ -445,11 +493,17 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             return account.lastName;
         }
 
-        return "";
+        return account.email;
+    }
+
+    function getAccountHandle(p: Listing) {
+        const account = getListingAccount(p);
+
+        return getAccountHandleAcc(account);
     }
 
     function getListingAccount(p: Listing) {
-        let account: Omit<FullAccountSingleCompany, "email"> | null = null;
+        let account: FullAccountSingleCompany | null = null;
         if (p.apartment) {
             account = p.apartment.owner;
         }
@@ -862,6 +916,27 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         }
     }
 
+    async function handleMessageSend() {
+        setIsSendingMessage(true);
+        try {
+            const sendMessageResp = await sendMessage({
+                content: message,
+                listingId: listing?.id,
+                otherParticipantId: messageModalAccountId,
+            });
+
+            await router.push({
+                pathname: "/conversations",
+                query: {
+                    c: sendMessageResp.data.conversationId,
+                },
+            });
+        } catch (err) {
+            setIsSendingMessage(false);
+            console.error(err);
+        }
+    }
+
     React.useEffect(() => {
         if (isMediaPopupOpen) {
             setScrollWhenOpeningImage(document.documentElement.scrollTop);
@@ -902,6 +977,50 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             <Main className={`${isMediaPopupOpen ? "overflow-y-hidden touch-none" : "pb-12"}`}>
                 {listing ? (
                     <div>
+                        <Modal
+                            small
+                            show={!!messageModalAccountId}
+                            onClose={() => {
+                                setMessageModalAccountId(null);
+                            }}
+                        >
+                            <div className="flex flex-col">
+                                <ListingListItem
+                                    hideIconRow
+                                    listing={listing}
+                                    className="border-t border-b border-zinc-300 rounded-none shadow-none"
+                                />
+
+                                <Typography sm className="!italic text-zinc-500 px-2">
+                                    {t("listing-will-be-sent")}
+                                </Typography>
+
+                                <Typography variant="h2" className="mt-4 px-2">
+                                    {t("message-for")}
+                                    {": "}
+                                    {getAccountNoCompanyHandle(
+                                        listing.contacts.find((c) => c.id === messageModalAccountId)
+                                    )}
+                                </Typography>
+                                <div className="p-2">
+                                    <Input
+                                        type="textarea"
+                                        className="border border-zinc-300"
+                                        placeholder={t("message-placeholder")}
+                                        value={message}
+                                        onChange={setMessage}
+                                    />
+                                </div>
+                                <div className="px-2 mb-2">
+                                    <Button.Primary
+                                        onClick={handleMessageSend}
+                                        label={t("send")}
+                                        loading={isSendingMessage}
+                                        className="bg-emerald-800 hover:bg-emerald-700"
+                                    />
+                                </div>
+                            </div>
+                        </Modal>
                         <div
                             className={`${
                                 isMediaPopupOpen ? "opacity-100" : "opacity-0 invisible"
@@ -1162,7 +1281,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {listing.contacts.map((ac) => {
                                             return (
                                                 <ContactCard
-                                                    key={JSON.stringify(ac)}
+                                                    key={ac.id}
                                                     firstName={ac.firstName}
                                                     lastName={ac.lastName}
                                                     username={ac.username}
@@ -1176,6 +1295,15 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                             type: "phone",
                                                             contact: formatPhone(ac.phone),
                                                         },
+                                                        {
+                                                            type: "message",
+                                                            async onClick() {
+                                                                if (!account) {
+                                                                    await router.push("/login");
+                                                                }
+                                                                setMessageModalAccountId(ac.id);
+                                                            },
+                                                        },
                                                     ]}
                                                 />
                                             );
@@ -1183,7 +1311,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {listing.manualAccountContacts.map((mac) => {
                                             return (
                                                 <ContactCard
-                                                    key={JSON.stringify(mac)}
+                                                    key={mac.id}
                                                     firstName={mac.firstName}
                                                     lastName={mac.lastName}
                                                     username={mac.username}

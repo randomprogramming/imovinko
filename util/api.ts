@@ -306,10 +306,10 @@ interface BasicProperty extends PropertyLocation {
     longitude: number;
     media: Media[];
     surfaceArea: number;
-    bedroomCount: number | null;
-    bathroomCount: number | null;
-    parkingSpaceCount: number | null;
-    customId: string | null;
+    bedroomCount?: number | null | undefined;
+    bathroomCount?: number | null | undefined;
+    parkingSpaceCount?: number | null | undefined;
+    customId?: string | null;
 }
 export interface ListingBasic {
     prettyId: string;
@@ -323,13 +323,16 @@ export interface ListingBasic {
     offeringType: OfferingType;
     createdAt: string | Date;
 }
-export interface PaginatedListingBasic {
-    data: ListingBasic[];
+type PaginatedData<T> = {
+    data: T[];
     page: number;
     totalPages: number;
     pageSize: number;
     count: number;
-}
+};
+
+export type PaginatedListingBasic = PaginatedData<ListingBasic>;
+
 export async function findListingsByBoundingBox(data: {
     boundingBox?: BoundingBox;
     propertyType?: PropertyType[];
@@ -430,9 +433,9 @@ export interface Apartment extends PropertyLocation {
     updatedAt: string | Date;
     owner: Omit<FullAccount, "email">;
     media: Media[];
-    bedroomCount: number | null;
-    bathroomCount: number | null;
-    parkingSpaceCount: number | null;
+    bedroomCount?: number | null | undefined;
+    bathroomCount?: number | null | undefined;
+    parkingSpaceCount?: number | null | undefined;
     floor?: number | null;
     totalFloors?: number | null;
     buildingFloors?: number | null;
@@ -451,9 +454,9 @@ export interface House extends PropertyLocation {
     updatedAt: string | Date;
     owner: Omit<FullAccount, "email">;
     media: Media[];
-    bedroomCount: number | null;
-    bathroomCount: number | null;
-    parkingSpaceCount: number | null;
+    bedroomCount?: number | null | undefined;
+    bathroomCount?: number | null | undefined;
+    parkingSpaceCount?: number | null | undefined;
     totalFloors?: number | null;
     buildYear?: number | null;
     renovationYear?: number | null;
@@ -687,6 +690,26 @@ export async function createManualAccount(data: ManulAccountEntryData) {
     });
 }
 
+export interface Conversation {
+    id: string;
+    hasUnread: boolean;
+    title: string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    lastMessage: {
+        createdAt: Date | string;
+        content: string;
+        sender: Account;
+    } | null;
+    participants: (Account & { avatarUrl: string | null })[];
+    listing: ListingBasic | null;
+}
+
+export interface Notifications {
+    invitations: CompanyInvitation[];
+    conversations: Conversation[];
+}
+
 export interface CompanyInvitation {
     id: string;
     company: {
@@ -696,12 +719,64 @@ export interface CompanyInvitation {
     createdAt: string | Date;
 }
 export async function getNotifications() {
-    return await client<CompanyInvitation[]>({
+    return await client<Notifications>({
         method: "GET",
         url: "/account/notifications/",
         headers: {
             ...getAuthHeaders(),
         },
+    });
+}
+
+export async function getConversations(jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    return await client<Conversation[]>({
+        method: "GET",
+        url: "/conversation/",
+        headers,
+    });
+}
+
+export interface Message {
+    id: string;
+    content: string;
+    senderId: string;
+}
+export async function getConversationMessages(id: string, page?: number) {
+    return await client<PaginatedData<Message>>({
+        method: "GET",
+        url: "/conversation/messages/",
+        headers: {
+            ...getAuthHeaders(),
+        },
+        params: {
+            id,
+            page,
+            pageSize: 24,
+        },
+    });
+}
+
+interface SendMessageResponse {
+    conversationId: string;
+}
+export async function sendMessage(data: {
+    conversationId?: string;
+    content: string;
+    listingId?: string | null;
+    otherParticipantId?: string | null;
+}) {
+    return await client<SendMessageResponse>({
+        method: "POST",
+        url: "/conversation/message/",
+        headers: {
+            ...getAuthHeaders(),
+        },
+        data,
     });
 }
 

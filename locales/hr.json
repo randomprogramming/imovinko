@@ -219,7 +219,12 @@
         "custom-id": "Šifra nekretnine",
         "price-history": "Povijest cijene",
         "similar": "Slični oglasi",
-        "other-listings": "Svi oglasi nekretnine"
+        "other-listings": "Ostali oglasi nekretnine",
+        "send-message": "Pošalji poruku",
+        "listing-will-be-sent": "Oglas će biti poslan uz vašu poruku.",
+        "message-for": "Poruka za",
+        "message-placeholder": "Upišite poruku ovdje...",
+        "send": "Pošalji"
     },
     "ListingsPage": {
         "per-night": "noćenje",
@@ -334,10 +339,13 @@
         "not-found": "Tvrtka nije pronađena."
     },
     "Notifications": {
-        "notification": "Notifikacija",
-        "notifications": "Notifikacija",
-        "none": "Nema niti jedne notifikacije",
-        "invited-you": "vas poziva da se pridružite tvrtci kao član"
+        "notifications": "Notifikacije",
+        "none": "Nemate niti jednog poziva",
+        "invited-you": "vas poziva da se pridružite tvrtci kao član",
+        "conversations": "Razgovori",
+        "invitations": "Pozivnice",
+        "open-all-conversations": "Otvori sve razgovore",
+        "none-unread": "Nemate nepročitanih poruka"
     },
     "Calculator": {
         "loan-amount": "Iznos kredita",
@@ -536,5 +544,14 @@
         "12": "S vremena na vrijeme možemo ažurirati našu Politiku privatnosti. Stoga vam savjetujemo da povremeno pregledate ovu stranicu radi eventualnih promjena. Obavijestit ćemo vas o svim promjenama objavljivanjem novih Pravila privatnosti na ovoj stranici. Ove promjene stupaju na snagu odmah nakon objave na ovoj stranici.",
         "contact": "Kontaktirajte nas",
         "13": "Ako imate bilo kakvih pitanja ili prijedloga o našoj Politici privatnosti, slobodno nas kontaktirajte."
+    },
+    "Conversations": {
+        "enter-message": "Upišite poruku...",
+        "you": "Vi",
+        "participants": "sudionika",
+        "conversations": "Razgovori",
+        "conversation-members": "U razgovoru:",
+        "listing": "Oglas:",
+        "choose-conversation": "Odaberi razgovor s lijeve strane"
     }
 }

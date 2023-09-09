@@ -10,8 +10,10 @@ import Link from "../Link";
 interface Props {
     listing: ListingBasic;
     showCustomId?: boolean;
+    hideIconRow?: boolean;
+    className?: string;
 }
-export default function ListingListItem({ listing, showCustomId }: Props) {
+export default function ListingListItem({ listing, showCustomId, hideIconRow, className }: Props) {
     const t = useTranslations("ListingListItem");
 
     function getPropertyMedia(p: ListingBasic) {
@@ -127,7 +129,7 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
     return (
         <Link
             disableAnimatedHover
-            className="group flex flex-1 bg-white visited:bg-zinc-100 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden"
+            className={`group flex flex-1 bg-white visited:bg-zinc-100 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden ${className}`}
             to={`/listing/${listing.prettyId}`}
         >
             <div className="flex  lg:flex-row flex-col w-full">
@@ -190,9 +192,11 @@ export default function ListingListItem({ listing, showCustomId }: Props) {
                             {getPropertyLocationString(listing)}
                         </Typography>
                     </div>
-                    <div className="mt-2">
-                        <IconRow listing={listing} />
-                    </div>
+                    {!hideIconRow && (
+                        <div className="mt-2">
+                            <IconRow listing={listing} />
+                        </div>
+                    )}
                     {/* Push the price element to the end */}
                     <div className="flex-1 mt-2" />
                     <div className="flex flex-row w-full items-center">

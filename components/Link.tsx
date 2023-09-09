@@ -14,6 +14,7 @@ interface LinkProps {
     newTab?: boolean;
     draggable?: boolean;
     locale?: string;
+    shallow?: true;
 }
 
 export default function Link({
@@ -27,6 +28,7 @@ export default function Link({
     newTab,
     draggable,
     locale,
+    shallow,
 }: LinkProps) {
     if (to) {
         return (
@@ -38,6 +40,7 @@ export default function Link({
                     pathname: to,
                     query,
                 }}
+                shallow={shallow}
                 className={`${className} group relative`}
             >
                 {children}
