@@ -318,7 +318,7 @@ export default function Conversation({ allConversations }: ConversationProps) {
                     })
                 ) : (
                     <div className="self-center mb-auto mt-10">
-                        <Typography>{t("choose-conversation")}</Typography>
+                        <Typography bold>{t("choose-conversation")}</Typography>
                     </div>
                 )}
                 {!isLoadingMessages &&
