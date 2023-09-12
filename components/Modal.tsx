@@ -8,12 +8,18 @@ interface ModalProps {
 }
 
 export default function Modal({ show, children, onClose, small }: ModalProps) {
+    function preventDefault(e: Event) {
+        e.preventDefault();
+    }
+
     useEffect(() => {
         if (show) {
             // Disable scrolling when modal is shown
             document.body.style.overflow = "hidden";
+            document.body.addEventListener("touchmove", preventDefault, { passive: false });
         } else {
             document.body.style.overflow = "unset";
+            document.body.removeEventListener("touchmove", preventDefault);
         }
     }, [show]);
 
