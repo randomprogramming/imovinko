@@ -5,6 +5,7 @@ import Image from "next/image";
 import NoImage from "../NoImage";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
+import SaveListingIcon from "../SaveListingIcon";
 
 interface Props {
     listing: ListingBasic;
@@ -116,9 +117,12 @@ export default function ListingCardItem({ listing }: Props) {
         <Link
             key={listing.prettyId}
             to={`/listing/${listing.prettyId}`}
-            className="group flex bg-white visited:bg-[#fafafa] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
+            className="group relative flex bg-white visited:bg-[#fafafa] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
             disableAnimatedHover
         >
+            <div className="absolute top-1 left-1 z-30">
+                <SaveListingIcon listingId={listing.id} saved={listing.saved} className="!p-1.5" />
+            </div>
             <div className="w-full">
                 <div
                     className="w-full relative flex flex-col"

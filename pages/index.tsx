@@ -18,8 +18,14 @@ import Head from "next/head";
 import Icon from "@/components/Icon";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import Main from "@/components/Main";
+import cookie from "cookie";
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
+    const cookies = req.headers.cookie;
+
+    const parsed = cookie.parse(cookies || "");
+    const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+
     const newest = await findListingsByQuery({
         propertyType: [PropertyType.apartment, PropertyType.apartment, PropertyType.land],
         offeringType: [OfferingType.longTermRent, OfferingType.sale, OfferingType.shortTermRent],
@@ -27,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         sortBy: "createdAt",
         sortDirection: "desc",
         pageSize: 4,
+        jwt,
     });
     const counts = await getPropertyCount();
 

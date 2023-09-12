@@ -22,8 +22,9 @@ import RegionDropdown, {
 import NoData from "@/components/NoData";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import Main from "@/components/Main";
+import cookie from "cookie";
 
-export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, locale, req }) => {
     let page = query.page;
     if (Array.isArray(page)) {
         page = page.at(0);
@@ -144,6 +145,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         }) as HRRegionShortCode[];
     }
 
+    const cookies = req.headers.cookie;
+
+    const parsed = cookie.parse(cookies || "");
+    const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+
     const { data } = await findListingsByQuery({
         propertyType: propertyTypes,
         offeringType: offeringTypes,
@@ -155,6 +161,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
         sortBy,
         sortDirection: sortDirectionTyped,
         region: regions,
+        jwt,
     });
 
     return {

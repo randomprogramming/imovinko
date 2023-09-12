@@ -18,6 +18,7 @@ import Input from "@/components/Input";
 import { DebounceInput } from "react-debounce-input";
 import Head from "next/head";
 import NoImage from "@/components/NoImage";
+import SaveListingIcon from "@/components/SaveListingIcon";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -378,15 +379,11 @@ export default function MapScreen({ query }: MapScreenProps) {
                             >
                                 <div className="w-full relative border-b border-zinc-300">
                                     <div className="absolute top-2 left-2 z-50">
-                                        <Button.Transparent
-                                            className="group bg-white hover:bg-zinc-200 !p-1.5"
-                                            onClick={() => {
-                                                // TODO: Implement
-                                                console.log("Implement me");
-                                            }}
-                                        >
-                                            <Icon name="heart" height={20} width={20} />
-                                        </Button.Transparent>
+                                        <SaveListingIcon
+                                            saved={openProperty.saved}
+                                            className="bg-white !p-1.5"
+                                            listingId={openProperty.id}
+                                        />
                                     </div>
                                     <div className="absolute top-2 right-2 z-50">
                                         <Button.Transparent

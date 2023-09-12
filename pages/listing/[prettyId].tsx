@@ -44,16 +44,23 @@ import ListingListItem from "@/components/listing/ListingListItem";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import useAuthentication from "@/hooks/useAuthentication";
+import cookie from "cookie";
+import SaveListingIcon from "@/components/SaveListingIcon";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, locale, req }) => {
     let listing = null;
     let similarListings = null;
     if (typeof params?.prettyId === "string") {
         try {
-            listing = (await findListing(params.prettyId)).data;
+            const cookies = req.headers.cookie;
+
+            const parsed = cookie.parse(cookies || "");
+            const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+
+            listing = (await findListing(params.prettyId, jwt)).data;
             const listingProperty = listing.apartment || listing.house || listing.land;
             if (!listingProperty) {
                 throw new Error("Listing has no property");
@@ -85,6 +92,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
                 priceTo: listing.price * 1.1,
                 pageSize: 4,
                 exclude: [listing.prettyId],
+                jwt,
             });
             similarListings = similarListingsResp;
         } catch (e) {
@@ -1259,6 +1267,14 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                             </Typography>
                                         </Typography>
                                     </div>
+                                </div>
+
+                                <div className="mt-2">
+                                    <SaveListingIcon
+                                        listingId={listing.id}
+                                        saved={listing.saved}
+                                        text={t("save-listing")}
+                                    />
                                 </div>
                             </div>
                             <div className="flex-1 flex flex-col lg:w-1/2">

@@ -14,8 +14,9 @@ import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
 import Image from "next/image";
 import Main from "@/components/Main";
+import cookie from "cookie";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, query, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, query, locale, req }) => {
     let account: FullPublicAccount | null = null;
     if (typeof params?.username === "string") {
         let pageNum: number | undefined = undefined;
@@ -23,7 +24,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query, lo
             if (typeof query.page === "string") {
                 pageNum = parseInt(query.page);
             }
-            const { data } = await getAccountByUsername(params.username, pageNum);
+            const cookies = req.headers.cookie;
+
+            const parsed = cookie.parse(cookies || "");
+            const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+            const { data } = await getAccountByUsername(params.username, pageNum, jwt);
             account = data;
         } catch (e) {
             console.error(e);

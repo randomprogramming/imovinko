@@ -312,6 +312,7 @@ interface BasicProperty extends PropertyLocation {
     customId?: string | null;
 }
 export interface ListingBasic {
+    id: string;
     prettyId: string;
     title: string;
     price: number;
@@ -322,6 +323,7 @@ export interface ListingBasic {
     land: BasicProperty | null;
     offeringType: OfferingType;
     createdAt: string | Date;
+    saved: boolean;
 }
 type PaginatedData<T> = {
     data: T[];
@@ -343,9 +345,17 @@ export async function findListingsByBoundingBox(data: {
     pricePerSquareMeterTo?: number | string;
     pageSize?: number;
     exclude?: string[];
+    jwt?: string;
 }) {
     const { ...bounding } = data.boundingBox;
+    const jwtC = data.jwt;
     delete data.boundingBox;
+    delete data.jwt;
+
+    const headers = getAuthHeaders();
+    if (jwtC) {
+        headers.Authorization = `Bearer ${jwtC}`;
+    }
 
     return (
         await client<PaginatedListingBasic>({
@@ -359,6 +369,7 @@ export async function findListingsByBoundingBox(data: {
                 exclude: data.exclude ? data.exclude.join(",") : undefined,
                 pageSize: data.pageSize || 20,
             },
+            headers,
         })
     ).data;
 }
@@ -374,9 +385,16 @@ export async function findListingsByQuery(data: {
     sortDirection?: "asc" | "desc";
     pageSize?: number;
     region?: HRRegionShortCode[];
+    jwt?: string;
 }) {
     if (data.region && data.region.length === 0) {
         data.region = undefined;
+    }
+    const jwtC = data.jwt;
+    delete data.jwt;
+    const headers = getAuthHeaders();
+    if (jwtC) {
+        headers.Authorization = `Bearer ${jwtC}`;
     }
     return await client<PaginatedListingBasic>({
         url: "/listing/",
@@ -387,6 +405,7 @@ export async function findListingsByQuery(data: {
             offeringType: data.offeringType.join(","),
             region: data.region?.join(","),
         },
+        headers,
     });
 }
 export interface BasicCompany {
@@ -530,11 +549,18 @@ export interface Listing {
         id: string;
     }[];
     priceChanges: PriceChange[];
+    saved: boolean;
 }
-export async function findListing(id: string) {
+export async function findListing(id: string, jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+
     return await client<Listing>({
         url: `/listing/pretty-id/${id}`,
         method: "GET",
+        headers,
     });
 }
 
@@ -659,13 +685,18 @@ export interface CompanyWithListings {
     avatarUrl: string | null;
     listings: PaginatedListingBasic;
 }
-export async function getCompanyByPrettyId(prettyId: string, page: number) {
+export async function getCompanyByPrettyId(prettyId: string, page: number, jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
     return await client<CompanyWithListings>({
         method: "GET",
         url: `/company/${prettyId}`,
         params: {
             page,
         },
+        headers,
     });
 }
 
@@ -828,13 +859,18 @@ export interface FullPublicAccount {
     createdAt: string | Date;
     avatarUrl: string | null;
 }
-export async function getAccountByUsername(username: string, listingsPage?: number) {
+export async function getAccountByUsername(username: string, listingsPage?: number, jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
     return await client<FullPublicAccount>({
         method: "GET",
         url: `/account/username/${username}`,
         params: {
             page: listingsPage,
         },
+        headers,
     });
 }
 
@@ -1035,4 +1071,43 @@ export async function getMyProperties(
         },
     });
     return resp.data;
+}
+
+export async function getSavedListings(page?: number, jwt?: string) {
+    const headers = getAuthHeaders();
+    if (jwt) {
+        headers.Authorization = `Bearer ${jwt}`;
+    }
+    return await client({
+        method: "GET",
+        url: "/listing/saved",
+        headers,
+        params: {
+            page,
+        },
+    });
+}
+export async function saveListing(listingId: string) {
+    return await client({
+        method: "POST",
+        url: "/listing/save",
+        headers: {
+            ...getAuthHeaders(),
+        },
+        data: {
+            id: listingId,
+        },
+    });
+}
+export async function removeSavedListing(listingId: string) {
+    return await client({
+        method: "POST",
+        url: "/listing/save/remove",
+        headers: {
+            ...getAuthHeaders(),
+        },
+        data: {
+            id: listingId,
+        },
+    });
 }

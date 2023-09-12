@@ -25,7 +25,11 @@ function NavigationLink({ title, active, to, iconName }: NavigationLinkProps) {
             {iconName && (
                 <Icon
                     name={iconName}
-                    className={`${iconName === "property" ? "stroke-zinc-700" : "fill-zinc-700"}`}
+                    className={`${
+                        iconName === "property" || iconName === "star"
+                            ? "stroke-zinc-700"
+                            : "fill-zinc-700"
+                    }`}
                 />
             )}
             <Typography bold>{title}</Typography>
@@ -67,6 +71,12 @@ export default function Navigation() {
                 to="/settings/properties"
                 active={"/settings/properties" === router.pathname}
                 iconName="property"
+            />
+            <NavigationLink
+                title={t("saved")}
+                to="/settings/saved"
+                active={"/settings/saved" === router.pathname}
+                iconName="star"
             />
             <div className="flex-1" />
             {account && !account.username && (

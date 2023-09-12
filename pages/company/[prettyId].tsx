@@ -14,8 +14,9 @@ import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
 import Image from "next/image";
 import Main from "@/components/Main";
+import cookie from "cookie";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, locale, query, req }) => {
     let company: CompanyWithListings | null = null;
     if (!params?.prettyId || Array.isArray(params.prettyId)) {
         return {
@@ -33,7 +34,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
     } catch (_e) {}
 
     try {
-        company = (await getCompanyByPrettyId(params.prettyId, page || 1)).data;
+        const cookies = req.headers.cookie;
+
+        const parsed = cookie.parse(cookies || "");
+        const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+        company = (await getCompanyByPrettyId(params.prettyId, page || 1, jwt)).data;
     } catch (e) {
         console.error("Failed to fetch company");
     }

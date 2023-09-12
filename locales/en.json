@@ -224,7 +224,8 @@
         "listing-will-be-sent": "Listing will be sent along with your message.",
         "message-for": "Message for",
         "message-placeholder": "Type your message here...",
-        "send": "Send"
+        "send": "Send",
+        "save-listing": "Save"
     },
     "ListingsPage": {
         "per-night": "per night",
@@ -280,7 +281,8 @@
         "add-username": "Add username",
         "add-username-message-click": "Click",
         "add-username-message-here": "here",
-        "add-username-message-rest": "to add a username"
+        "add-username-message-rest": "to add a username",
+        "saved": "Saved"
     },
     "CompanyPage": {
         "not-found": "We couldn't find your company.",
@@ -553,5 +555,9 @@
         "conversation-members": "In conversation:",
         "listing": "Listing:",
         "choose-conversation": "Choose a conversation"
+    },
+    "SavedPropertiesPage": {
+        "saved-listings": "Saved Listings",
+        "no-data-message": "You have no saved listings!"
     }
 }

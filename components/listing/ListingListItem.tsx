@@ -6,6 +6,7 @@ import Typography from "../Typography";
 import IconRow from "./IconRow";
 import NoImage from "../NoImage";
 import Link from "../Link";
+import SaveListingIcon from "../SaveListingIcon";
 
 interface Props {
     listing: ListingBasic;
@@ -129,10 +130,13 @@ export default function ListingListItem({ listing, showCustomId, hideIconRow, cl
     return (
         <Link
             disableAnimatedHover
-            className={`group flex flex-1 bg-white visited:bg-zinc-100 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden ${className}`}
+            className={`group relative flex flex-1 bg-white visited:bg-zinc-100 rounded-md shadow-sm hover:shadow transition-all w-full overflow-hidden ${className}`}
             to={`/listing/${listing.prettyId}`}
         >
-            <div className="flex  lg:flex-row flex-col w-full">
+            <div className="absolute top-1 left-1 z-30">
+                <SaveListingIcon listingId={listing.id} saved={listing.saved} className="!p-1.5" />
+            </div>
+            <div className="flex lg:flex-row flex-col w-full">
                 <div className="h-64 lg:w-96 lg:h-full">
                     {firstImage ? (
                         <div className="select-none relative w-full h-full">

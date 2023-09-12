@@ -224,7 +224,8 @@
         "listing-will-be-sent": "Oglas će biti poslan uz vašu poruku.",
         "message-for": "Poruka za",
         "message-placeholder": "Upišite poruku ovdje...",
-        "send": "Pošalji"
+        "send": "Pošalji",
+        "save-listing": "Spremi"
     },
     "ListingsPage": {
         "per-night": "noćenje",
@@ -280,7 +281,8 @@
         "add-username": "Dodaj korisničko ime",
         "add-username-message-click": "Klikni",
         "add-username-message-here": "ovdje",
-        "add-username-message-rest": "kako bi dodao korisničko ime"
+        "add-username-message-rest": "kako bi dodao korisničko ime",
+        "saved": "Spremljeno"
     },
     "CompanyPage": {
         "not-found": "Nismo pronašli tvoju tvrtku.",
@@ -553,5 +555,9 @@
         "conversation-members": "U razgovoru:",
         "listing": "Oglas:",
         "choose-conversation": "Odaberite razgovor"
+    },
+    "SavedPropertiesPage": {
+        "saved-listings": "Spremljeni oglasi",
+        "no-data-message": "Nemate niti jedan spremljeni oglas!"
     }
 }
