@@ -1064,7 +1064,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                             onClick={selectShareLinkText}
                                             ref={shareLinkInputRef}
                                             value={shareLink}
-                                            className={`${space_grotesk.className} outline-none flex-1 rounded-l border border-emerald-700 px-1`}
+                                            className={`${space_grotesk.className} outline-none flex-1 rounded-l !rounded-r-none border border-emerald-700 px-1`}
                                         />
                                         <button
                                             onClick={onShareLinkCopy}
