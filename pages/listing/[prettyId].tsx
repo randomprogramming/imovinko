@@ -18,7 +18,7 @@ import {
 } from "@/util/api";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Map from "@/components/Map";
@@ -340,6 +340,8 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
 
     const { account } = useAuthentication();
 
+    const shareLinkInputRef = useRef<HTMLInputElement>(null);
+
     const [isMediaPopupOpen, setIsMediaPopupOpen] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     // remember where the user was when they open the media popup and scroll to that place when they close the popup
@@ -360,6 +362,8 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
     const [messageModalAccountId, setMessageModalAccountId] = useState<string | null>(null);
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const [message, setMessage] = useState("");
+    const [showShareModal, setShowShareModal] = useState(false);
+    const [shareLink, setShareLink] = useState("");
 
     const totalSlides = getPropertyMedia(listing).length;
 
@@ -935,6 +939,20 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         }
     }
 
+    function getShareLink() {
+        // Remove URL queries
+        return window.location.href.split("?")[0];
+    }
+
+    function onShareLinkCopy() {
+        selectShareLinkText();
+        navigator.clipboard.writeText(getShareLink());
+    }
+
+    function selectShareLinkText() {
+        shareLinkInputRef.current?.select();
+    }
+
     async function handleMessageSend() {
         setIsSendingMessage(true);
         try {
@@ -955,6 +973,11 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             console.error(err);
         }
     }
+
+    React.useEffect(() => {
+        // getShareLink needs access to the JS window object, which is no available on server side
+        setShareLink(getShareLink());
+    }, []);
 
     React.useEffect(() => {
         if (isMediaPopupOpen) {
@@ -1002,6 +1025,57 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             <Main className={`${isMediaPopupOpen ? "overflow-y-hidden touch-none" : "pb-12"}`}>
                 {listing ? (
                     <div>
+                        <Modal
+                            small
+                            show={showShareModal}
+                            onClose={() => {
+                                setShowShareModal(false);
+                            }}
+                        >
+                            <div className="flex flex-col">
+                                <div className="flex flex-row py-2">
+                                    <Typography variant="h2" className="pl-2">
+                                        {t("share-listing")}
+                                    </Typography>
+                                    <div className="flex-1" />
+                                    <div className="pr-2">
+                                        <Button.Transparent
+                                            className="!p-1.5"
+                                            onClick={() => {
+                                                setShowShareModal(false);
+                                            }}
+                                        >
+                                            <Icon name="close" />
+                                        </Button.Transparent>
+                                    </div>
+                                </div>
+
+                                <ListingListItem
+                                    className="rounded-none border-y border-zinc-400"
+                                    listing={listing}
+                                    hideIconRow
+                                />
+
+                                <div className="mx-4 my-4">
+                                    <Typography>{t("link")}:</Typography>
+                                    <div className="flex flex-row">
+                                        <input
+                                            readOnly
+                                            onClick={selectShareLinkText}
+                                            ref={shareLinkInputRef}
+                                            value={shareLink}
+                                            className={`${space_grotesk.className} outline-none flex-1 rounded-l border border-emerald-700 px-1`}
+                                        />
+                                        <button
+                                            onClick={onShareLinkCopy}
+                                            className="bg-emerald-700 hover:bg-emerald-600 text-white py-1 px-1 rounded-r border border-emerald-700 outline-none"
+                                        >
+                                            {t("copy")}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </Modal>
                         <Modal
                             small
                             show={!!messageModalAccountId}
@@ -1269,12 +1343,24 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     </div>
                                 </div>
 
-                                <div className="mt-2">
+                                <div className="flex flex-row flex-wrap gap-1">
                                     <SaveListingIcon
                                         listingId={listing.id}
                                         saved={listing.saved}
                                         text={t("save-listing")}
+                                        className="mt-4"
                                     />
+                                    <Button.Transparent
+                                        className="mt-4"
+                                        onClick={() => {
+                                            setShowShareModal(true);
+                                        }}
+                                    >
+                                        <Icon name="share" />
+                                        <Typography className="ml-1" bold>
+                                            {t("share")}
+                                        </Typography>
+                                    </Button.Transparent>
                                 </div>
                             </div>
                             <div className="flex-1 flex flex-col lg:w-1/2">

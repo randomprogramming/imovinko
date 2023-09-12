@@ -225,7 +225,11 @@
         "message-for": "Poruka za",
         "message-placeholder": "Upišite poruku ovdje...",
         "send": "Pošalji",
-        "save-listing": "Spremi"
+        "save-listing": "Spremi",
+        "share": "Podijeli",
+        "share-listing": "Podijeli oglas",
+        "link": "Poveznica",
+        "copy": "Kopiraj"
     },
     "ListingsPage": {
         "per-night": "noćenje",

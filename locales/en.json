@@ -225,7 +225,11 @@
         "message-for": "Message for",
         "message-placeholder": "Type your message here...",
         "send": "Send",
-        "save-listing": "Save"
+        "save-listing": "Save",
+        "share": "Share",
+        "share-listing": "Share listing",
+        "link": "Link",
+        "copy": "Copy"
     },
     "ListingsPage": {
         "per-night": "per night",
