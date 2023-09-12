@@ -119,7 +119,7 @@ export default function Register() {
             <div className="flex-1 flex flex-col justify-between items-center">
                 <div className="px-2 md:px-10 py-6 w-full">
                     <Typography variant="h1">{t("sign-up")}</Typography>
-                    <div className="mt-8">
+                    <div className="mt-8 flex flex-col items-center">
                         <Button.Primary
                             icon="google"
                             label={t("sign-up-google")}
@@ -127,6 +127,7 @@ export default function Register() {
                             onClick={() => {
                                 router.push(GOOGLE_REGISTER_URL);
                             }}
+                            className="!w-fit !px-4"
                         />
                     </div>
 

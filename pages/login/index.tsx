@@ -91,7 +91,7 @@ export default function Login() {
             >
                 <div className="lg:px-10 py-6">
                     <Typography variant="h1">{t("welcome")}</Typography>
-                    <div className="mt-8">
+                    <div className="mt-8 flex flex-col items-center">
                         <Button.Primary
                             icon="google"
                             label={t("sign-in-google")}
@@ -99,6 +99,7 @@ export default function Login() {
                             onClick={() => {
                                 router.push(GOOGLE_REGISTER_URL);
                             }}
+                            className="!w-fit !px-4"
                         />
                     </div>
                     <div className="flex flex-row items-center my-8">
