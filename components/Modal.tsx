@@ -17,10 +17,12 @@ export default function Modal({ show, children, onClose, small }: ModalProps) {
             // Disable scrolling when modal is shown
             document.body.style.overflow = "hidden";
             document.body.addEventListener("touchmove", preventDefault, { passive: false });
-        } else {
+        }
+
+        return () => {
             document.body.style.overflow = "unset";
             document.body.removeEventListener("touchmove", preventDefault);
-        }
+        };
     }, [show]);
 
     return (
