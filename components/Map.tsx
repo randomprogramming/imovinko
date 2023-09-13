@@ -307,7 +307,7 @@ export default function Map({
             >
                 <NavigationControl style={navigationControlStyle} />(
                 <div
-                    className={`flex flex-col absolute bottom-20 left-6 z-40 transition-all ${
+                    className={`flex flex-col absolute bottom-24 left-6 z-40 transition-all ${
                         hideImageStyleButtons && "scale-0"
                     }`}
                 >
