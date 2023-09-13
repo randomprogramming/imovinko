@@ -303,7 +303,7 @@ export default function Map({
                 onMoveEnd={onMoveEnd}
                 scrollZoom={scrollZoom}
             >
-                <div className="absolute bottom-8 left-8 z-40 flex flex-row">
+                <div className="flex flex-col absolute bottom-8 md:bottom-14 xl:bottom-20 left-8 z-40">
                     <button
                         onClick={() => {
                             changeMapStyle(MapStyle.streetMapStyle);
@@ -325,11 +325,11 @@ export default function Map({
                         onClick={() => {
                             changeMapStyle(MapStyle.satelliteMapStyle);
                         }}
-                        className={`border-2 ${
+                        className={`mt-2 border-2 ${
                             selectedMapStyle === MapStyle.satelliteMapStyle
                                 ? "border-yellow-400"
                                 : "border-black"
-                        } ml-2 w-16 h-16 relative rounded overflow-hidden shadow`}
+                        } w-16 h-16 relative rounded overflow-hidden shadow`}
                     >
                         <Image
                             className="object-cover"
