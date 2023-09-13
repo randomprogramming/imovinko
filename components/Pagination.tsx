@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Typography from "./Typography";
 import { useRouter } from "next/router";
+import Icon from "./Icon";
 
 interface PaginationProps {
     currentPage: number;
@@ -61,6 +62,15 @@ export default function Pagination({ currentPage, maxPage }: PaginationProps) {
 
     return (
         <div className="flex flex-row space-x-2">
+            <button
+                disabled={currentPage === 1}
+                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-300`}
+                onClick={() => {
+                    onPageChange(currentPage - 1);
+                }}
+            >
+                <Icon name="down-chevron" className="rotate-45 origin-center" />
+            </button>
             {indexes.map((i) => {
                 return (
                     <button
@@ -77,6 +87,15 @@ export default function Pagination({ currentPage, maxPage }: PaginationProps) {
                     </button>
                 );
             })}
+            <button
+                disabled={currentPage === maxPage}
+                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-300`}
+                onClick={() => {
+                    onPageChange(currentPage + 1);
+                }}
+            >
+                <Icon name="down-chevron" className="-rotate-45 origin-center" />
+            </button>
         </div>
     );
 }
