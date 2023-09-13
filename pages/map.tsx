@@ -19,6 +19,7 @@ import { DebounceInput } from "react-debounce-input";
 import Head from "next/head";
 import NoImage from "@/components/NoImage";
 import SaveListingIcon from "@/components/SaveListingIcon";
+import IconRow from "@/components/listing/IconRow";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -477,12 +478,16 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
 
                                 <div className="pb-4 px-4">
-                                    <div className="mt-1">
-                                        <div>
+                                    <div className="mt-1 flex items-center justify-center !text-sm">
+                                        {/* <div>
                                             <Typography variant="secondary" uppercase>
                                                 {getPropertyLocationString(openProperty)}
                                             </Typography>
-                                        </div>
+                                        </div> */}
+                                        <IconRow
+                                            listing={openProperty}
+                                            containerClassName="!bg-transparent !shadow-none"
+                                        />
                                     </div>
                                     <div
                                         style={{
