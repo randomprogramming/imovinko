@@ -350,6 +350,7 @@ export default function MapScreen({ query }: MapScreenProps) {
             <main>
                 <div className="fixed top-0 left-0 w-screen h-screen flex">
                     <Map
+                        hideImageStyleButtons={!!openProperty}
                         onMapStyleChange={onMapStyleChange}
                         className="flex-1"
                         onBoundsChange={setMapBounds}

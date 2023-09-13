@@ -41,6 +41,7 @@ interface MapProps {
     travelingMethod?: TravelingMethods;
     scrollZoom?: boolean;
     navigationControlStyle?: React.CSSProperties;
+    hideImageStyleButtons?: boolean;
     onDirectionsLoad?(
         distanceMeters: number | string | null,
         lengthSeconds: number | string | null
@@ -65,6 +66,7 @@ export default function Map({
     navigationControlStyle,
     onDirectionsLoad,
     onMapStyleChange,
+    hideImageStyleButtons,
     scrollZoom = false,
 }: MapProps) {
     const t = useTranslations("Map");
@@ -303,7 +305,12 @@ export default function Map({
                 onMoveEnd={onMoveEnd}
                 scrollZoom={scrollZoom}
             >
-                <div className="flex flex-col absolute bottom-8 md:bottom-14 xl:bottom-20 left-8 z-40">
+                <NavigationControl style={navigationControlStyle} />(
+                <div
+                    className={`flex flex-col absolute bottom-20 left-6 z-40 transition-all ${
+                        hideImageStyleButtons && "scale-0"
+                    }`}
+                >
                     <button
                         onClick={() => {
                             changeMapStyle(MapStyle.streetMapStyle);
@@ -339,7 +346,6 @@ export default function Map({
                         />
                     </button>
                 </div>
-                <NavigationControl style={navigationControlStyle} />
                 {directionsPlaceMapboxId && (
                     <div
                         className="absolute top-2 left-2 bg-zinc-50 rounded shadow p-2 text-base"
