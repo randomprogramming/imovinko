@@ -182,12 +182,10 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                 })}
                             </div>
                             <div className="flex items-center justify-center my-6">
-                                {company.listings.totalPages > 1 && (
-                                    <Pagination
-                                        currentPage={company.listings.page}
-                                        maxPage={company.listings.totalPages}
-                                    />
-                                )}
+                                <Pagination
+                                    currentPage={company.listings.page}
+                                    maxPage={company.listings.totalPages}
+                                />
                             </div>
                         </div>
                     </div>

@@ -166,12 +166,10 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                 })}
                             </div>
                             <div className="flex items-center justify-center my-6">
-                                {account.listings.totalPages > 1 && (
-                                    <Pagination
-                                        currentPage={account.listings.page}
-                                        maxPage={account.listings.totalPages}
-                                    />
-                                )}
+                                <Pagination
+                                    currentPage={account.listings.page}
+                                    maxPage={account.listings.totalPages}
+                                />
                             </div>
                         </div>
                     </div>

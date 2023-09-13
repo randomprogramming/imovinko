@@ -81,12 +81,7 @@ export default function SavedProperties({ listings }: SavedPropertiesPageProps) 
                             })}
                         </div>
                         <div className="flex items-center justify-center my-6">
-                            {listings.totalPages > 1 && (
-                                <Pagination
-                                    currentPage={listings.page}
-                                    maxPage={listings.totalPages}
-                                />
-                            )}
+                            <Pagination currentPage={listings.page} maxPage={listings.totalPages} />
                         </div>
                     </div>
                 </div>
