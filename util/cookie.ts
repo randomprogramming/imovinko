@@ -1,5 +1,4 @@
 import { v4 } from "uuid";
-import Cookie from "js-cookie";
 
 export const MAPBOX_SESSION_COOKIE_NAME = "mapbox-imovinko-session";
 
@@ -12,11 +11,16 @@ function getCookie(cookiename: string) {
     return decodeURIComponent(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, "") : "");
 }
 
+function getDomain() {
+    if (typeof window === "undefined") return "";
+    return "." + window.location.hostname;
+}
+
 function delete_cookie(cookiename: string) {
     if (typeof document === "undefined") return;
-    Cookie.remove(cookiename);
-    // document.cookie =
-    //     cookiename + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax;";
+    document.cookie =
+        cookiename +
+        `=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax; Domain=${getDomain()}`;
 }
 
 export function getJWTCookie() {
