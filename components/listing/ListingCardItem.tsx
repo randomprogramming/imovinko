@@ -129,7 +129,7 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                 <div
                     className="w-full relative flex flex-col"
                     style={{
-                        minHeight: "200px",
+                        minHeight: "230px",
                     }}
                 >
                     {firstImage ? (
@@ -145,20 +145,20 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                                 }}
                                 quality={50}
                             />
-                            <div
-                                style={{ fontSize: "11px" }}
-                                className="absolute bg-emerald-700 text-zinc-50 left-2 bottom-0 translate-y-1/2 px-2 py-0.5 rounded-sm"
-                            >
-                                <Typography uppercase className="tracking-wider">
-                                    {getPropertyTypeAndOfferingTypeString(listing)}
-                                </Typography>
-                            </div>
                         </>
                     ) : (
                         <div className="absolute left-0 right-0 top-0 bottom-0">
                             <NoImage />
                         </div>
                     )}
+                    <div
+                        style={{ fontSize: "11px" }}
+                        className="absolute bg-emerald-700 text-zinc-50 left-2 bottom-0 translate-y-1/2 px-2 py-0.5 rounded-sm shadow-sm"
+                    >
+                        <Typography uppercase className="tracking-wider">
+                            {getPropertyTypeAndOfferingTypeString(listing)}
+                        </Typography>
+                    </div>
                 </div>
                 <div className="flex flex-col w-full h-full">
                     <div className="p-2">
