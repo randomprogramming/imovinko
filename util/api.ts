@@ -503,6 +503,7 @@ export interface Listing {
     id: string;
     title: string;
     description: string;
+    deactivated: string | Date | null;
     offeringType: OfferingType;
     price: number;
     pricePerMeterSquared: number | null;
