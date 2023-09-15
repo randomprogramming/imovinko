@@ -24,12 +24,17 @@ export default function Searchbar({ className, light }: SearchbarProps) {
             const { data } = await geocode(searchVal);
 
             if (data) {
-                return router.push({
+                router.push({
                     pathname: "/map",
                     query: {
                         ...data,
                     },
                 });
+            }
+
+            if (router.pathname === "/map") {
+                // No need to reload the page if we're already on the map page
+                setIsLoading(false);
             }
         } catch (err) {
             console.error(err);

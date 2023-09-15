@@ -20,6 +20,7 @@ import Head from "next/head";
 import NoImage from "@/components/NoImage";
 import SaveListingIcon from "@/components/SaveListingIcon";
 import IconRow from "@/components/listing/IconRow";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -35,10 +36,16 @@ interface MapScreenProps {
 }
 export default function MapScreen({ query }: MapScreenProps) {
     const [queryCopy, setQueryCopy] = useState(query);
-    const queryCopyLat = typeof queryCopy.lat === "string" ? parseFloat(queryCopy.lat) : null;
-    const queryCopyLon = typeof queryCopy.lon === "string" ? parseFloat(queryCopy.lon) : null;
     const t = useTranslations("Map");
 
+    const router = useRouter();
+
+    const [locationLat, setLocationLat] = useState(
+        typeof queryCopy.lat === "string" ? parseFloat(queryCopy.lat) : null
+    );
+    const [locationLon, setLocationLon] = useState(
+        typeof queryCopy.lon === "string" ? parseFloat(queryCopy.lon) : null
+    );
     const [lightIcons, setLightIcons] = useState(false);
     const [properties, setProperties] = useState<ListingBasic[]>([]);
     const [hoveredProperty, setHoveredProperty] = useState<null | string>(null);
@@ -335,6 +342,17 @@ export default function MapScreen({ query }: MapScreenProps) {
         pricePerSquareMeterTo,
     ]);
 
+    React.useEffect(() => {
+        try {
+            const newLat =
+                typeof router.query.lat === "string" ? parseFloat(router.query.lat) : null;
+            const newLon =
+                typeof router.query.lon === "string" ? parseFloat(router.query.lon) : null;
+            setLocationLat(newLat);
+            setLocationLon(newLon);
+        } catch (_e) {}
+    }, [router.query]);
+
     return (
         <>
             <Head>
@@ -355,8 +373,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                         onMapStyleChange={onMapStyleChange}
                         className="flex-1"
                         onBoundsChange={setMapBounds}
-                        centerLat={queryCopyLat || undefined}
-                        centerLon={queryCopyLon || undefined}
+                        centerLat={locationLat || undefined}
+                        centerLon={locationLon || undefined}
                         scrollZoom={true}
                         navigationControlStyle={{
                             marginTop: "6rem",

@@ -276,18 +276,21 @@ export default function Map({
         loadDirections();
     }, [directionsPlaceMapboxId, travelingMethod]);
 
+    useEffect(() => {
+        // This triggers the "onmoveend" callback when the map first renders
+        map.current?.flyTo({
+            center: [centerLon || STARTING_LON, centerLat || STARTING_LAT],
+            zoom: zoom || STARTING_ZOOM,
+            duration: 0,
+        });
+    }, [centerLon, centerLat, map.current]);
+
     return (
         <div className={`${className} overflow-hidden`} style={style}>
             <MapComponent
                 onLoad={() => {
                     setIsMapLoaded(true);
                     onLoad && onLoad();
-                    // This triggers the "onmoveend" callback when the map first renders
-                    map.current?.flyTo({
-                        center: [centerLon || STARTING_LON, centerLat || STARTING_LAT],
-                        zoom: zoom || STARTING_ZOOM,
-                        duration: 0,
-                    });
                 }}
                 ref={map}
                 mapLib={mapboxgl}
