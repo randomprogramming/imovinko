@@ -394,7 +394,16 @@
         "listing-added": "Oglas predan!",
         "listing-added-messages": "Vaš oglas je uspješno predan!",
         "listing-updated": "Oglas izmijenjen!",
-        "listing-updated-messages": "Vaš oglas je uspješno izmijenjen!"
+        "listing-updated-messages": "Vaš oglas je uspješno izmijenjen!",
+        "deactivate-listing": "Jeste li sigurni za želite deaktivirati ovaj oglas?",
+        "no": "Ne",
+        "deactivate": "Deaktiviraj",
+        "activate-listing": "Aktiviraj ovaj oglas?",
+        "activate": "Aktiviraj",
+        "listing-was-activated": "Oglas aktiviran",
+        "listing-was-activated-message": "Oglas uspješno aktiviran, korisnici će sada moći pronaći vaš oglas.",
+        "listing-was-deactivated": "Oglas deaktiviran",
+        "listing-was-deactivated-message": "Oglas je deaktiviran. Nitko osim vas neće imati pristup oglasu."
     },
     "Footer": {
         "sign-in": "Prijavi se",

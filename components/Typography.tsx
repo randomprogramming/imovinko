@@ -1,5 +1,5 @@
 import React from "react";
-import { poppins, space_grotesk, varela_round, work_sans } from "@/util/fonts";
+import { space_grotesk, work_sans } from "@/util/fonts";
 
 interface TypographyProps {
     children?: React.ReactNode;

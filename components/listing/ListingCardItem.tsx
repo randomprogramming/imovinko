@@ -9,8 +9,10 @@ import SaveListingIcon from "../SaveListingIcon";
 
 interface Props {
     listing: ListingBasic;
+    hideIconRow?: boolean;
+    className?: string;
 }
-export default function ListingCardItem({ listing }: Props) {
+export default function ListingCardItem({ listing, hideIconRow, className }: Props) {
     const t = useTranslations("ListingListItem");
 
     function getPropertyMedia(p: ListingBasic) {
@@ -117,7 +119,7 @@ export default function ListingCardItem({ listing }: Props) {
         <Link
             key={listing.prettyId}
             to={`/listing/${listing.prettyId}`}
-            className="group relative flex bg-white visited:bg-[#fafafa] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden"
+            className={`group relative flex bg-white visited:bg-[#fafafa] border border-zinc-300 w-full rounded-lg shadow-sm hover:shadow transition-all overflow-hidden ${className}`}
             disableAnimatedHover
         >
             <div className="absolute top-1 left-1 z-30">
@@ -194,12 +196,14 @@ export default function ListingCardItem({ listing }: Props) {
                                 {getPropertyLocationString(listing)}
                             </Typography>
                         </div>
-                        <div className="mt-2 w-full flex items-center justify-center">
-                            <IconRow
-                                listing={listing}
-                                containerClassName="!bg-transparent !shadow-none"
-                            />
-                        </div>
+                        {!hideIconRow && (
+                            <div className="mt-2 w-full flex items-center justify-center">
+                                <IconRow
+                                    listing={listing}
+                                    containerClassName="!bg-transparent !shadow-none"
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className="bg-zinc-300 h-px w-full mt-2" />
                     <div className="flex flex-row items-center p-2">

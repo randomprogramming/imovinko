@@ -33,7 +33,7 @@ export function deleteJWTCookie() {
 
 export function setJWTCookie(value: string) {
     let date = new Date();
-    date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
     const expires = "; expires=" + date.toUTCString();
     document.cookie =
         (process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || "") +

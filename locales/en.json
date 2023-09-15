@@ -394,7 +394,16 @@
         "listing-added": "Listing created!",
         "listing-added-messages": "Your new listing has been created and can now be seen by anyone!",
         "listing-updated": "Listing updated!",
-        "listing-updated-messages": "Your listing has been successfully updated!"
+        "listing-updated-messages": "Your listing has been successfully updated!",
+        "deactivate-listing": "Are you sure you want to deactivate this listing?",
+        "no": "No",
+        "deactivate": "Deactivate",
+        "activate-listing": "Activate this listing?",
+        "activate": "Activate",
+        "listing-was-activated": "Listing Activated",
+        "listing-was-activated-message": "The listing has been successfully activated, users will now be able to find your listing.",
+        "listing-was-deactivated": "Listing Deactivated",
+        "listing-was-deactivated-message": "Listing deactivated. Only you can access the listing now."
     },
     "Footer": {
         "sign-in": "Sign In",
