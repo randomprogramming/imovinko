@@ -14,7 +14,7 @@ function getCookie(cookiename: string) {
 function delete_cookie(cookiename: string) {
     if (typeof document === "undefined") return;
 
-    document.cookie = cookiename + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie = cookiename + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
 }
 
 export function getJWTCookie() {
