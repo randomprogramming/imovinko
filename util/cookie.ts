@@ -13,7 +13,7 @@ function getCookie(cookiename: string) {
 
 function getDomain() {
     if (typeof window === "undefined") return "";
-    return "." + window.location.hostname;
+    return "." + window.location.hostname.replaceAll("www.", "");
 }
 
 function delete_cookie(cookiename: string) {
