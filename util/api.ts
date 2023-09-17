@@ -325,6 +325,8 @@ export interface ListingBasic {
     createdAt: string | Date;
     saved: boolean;
     deactivated: Date | string | null;
+    saleDate: Date | string | null;
+    salePrice: number | null;
 }
 type PaginatedData<T> = {
     data: T[];
@@ -1016,6 +1018,22 @@ export async function patchListingActivated(prettyId: string, activated: boolean
         method: "PATCH",
         data: {
             activated,
+        },
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+}
+
+export async function patchListingSaleData(
+    prettyId: string,
+    salePrice: undefined | number | string
+) {
+    return await client({
+        url: "/listing/sold/pretty-id/" + prettyId,
+        method: "PATCH",
+        data: {
+            salePrice,
         },
         headers: {
             ...getAuthHeaders(),

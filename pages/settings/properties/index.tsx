@@ -8,6 +8,7 @@ import {
     PaginatedListingBasic,
     getMyListings,
     patchListingActivated,
+    patchListingSaleData,
 } from "@/util/api";
 import Typography from "@/components/Typography";
 import Link from "@/components/Link";
@@ -23,6 +24,8 @@ import Icon from "@/components/Icon";
 import Main from "@/components/Main";
 import Modal from "@/components/Modal";
 import ListingCardItem from "@/components/listing/ListingCardItem";
+import Input from "@/components/Input";
+import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -64,10 +67,15 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
 
     const router = useRouter();
 
+    const fieldErrorCodesParser = useFieldErrorCodes();
+
     const [removeListingModal, setRemoveListingModal] = useState<ListingBasic>();
     const [activateListingModal, setActivateListingModal] = useState<ListingBasic>();
+    const [soldListingModal, setSoldListingModal] = useState<ListingBasic>();
     const [isDeactivatingListing, setIsDeactivatingListing] = useState(false);
     const [isActivatingListing, setIsActivatingListing] = useState(false);
+    const [isSellingListing, setIsSellingListing] = useState(false);
+    const [salePrice, setSalePrice] = useState<number | string>();
 
     async function handleListingDeactivate(prettyId: string) {
         if (isDeactivatingListing) {
@@ -117,6 +125,46 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
         }
     }
 
+    async function handleListingSale(prettyId: string, salePrice: undefined | number | string) {
+        if (isSellingListing) {
+            return;
+        }
+        setIsSellingListing(true);
+        fieldErrorCodesParser.empty();
+        try {
+            await patchListingSaleData(prettyId, salePrice);
+            await router.push(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        sold: true,
+                    },
+                },
+                undefined,
+                { shallow: true }
+            );
+            router.reload();
+        } catch (e: any) {
+            setIsSellingListing(false);
+            if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
+                fieldErrorCodesParser.parseErrorCodes(e.response.data);
+            } else if (typeof e.response?.data === "string") {
+                fieldErrorCodesParser.parseErrorMessage(e.response.data);
+            } else {
+                console.error(e);
+            }
+        }
+    }
+
+    React.useEffect(() => {
+        fieldErrorCodesParser.empty();
+        if (!soldListingModal) {
+            setSalePrice(undefined);
+        } else {
+            setSalePrice(soldListingModal.price);
+        }
+    }, [soldListingModal]);
+
     return (
         <>
             <Head>
@@ -127,6 +175,58 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
             </header>
 
             <Main container>
+                <Modal
+                    small
+                    show={!!soldListingModal}
+                    onClose={() => {
+                        setSoldListingModal(undefined);
+                    }}
+                >
+                    <div className="flex flex-col">
+                        <ListingCardItem
+                            listing={soldListingModal!}
+                            hideIconRow
+                            className="!shadow-none !rounded-none"
+                        />
+                        <div className="px-2 mt-6 mb-4">
+                            <Typography bold>{t("enter-sale-price")}:</Typography>
+                            <Input
+                                className="border border-zinc-300"
+                                type="currency"
+                                value={salePrice}
+                                onChange={setSalePrice}
+                                name="salePrice"
+                                hasError={fieldErrorCodesParser.has("salePrice")}
+                                errorMsg={fieldErrorCodesParser.getTranslated("salePrice")}
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 border-t border-zinc-300 ">
+                            <div
+                                className="px-2 py-1 text-center hover:bg-zinc-200 transition-all cursor-pointer"
+                                onClick={() => {
+                                    setSoldListingModal(undefined);
+                                }}
+                            >
+                                <Typography className="select-none" bold>
+                                    {t("cancel")}
+                                </Typography>
+                            </div>
+                            <div
+                                className="px-2 py-1 border-l border-zinc-300 text-center hover:bg-zinc-200 transition-all cursor-pointer flex flex-row justify-center"
+                                onClick={() => {
+                                    handleListingSale(soldListingModal!.prettyId, salePrice);
+                                }}
+                            >
+                                {isSellingListing && (
+                                    <Icon width={20} height={20} name="loading" className="mr-2" />
+                                )}
+                                <Typography className="text-green-700 select-none" bold>
+                                    {t("sold")}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
                 <Modal
                     small
                     show={!!removeListingModal}
@@ -204,7 +304,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                     handleListingActivate(activateListingModal!.prettyId);
                                 }}
                             >
-                                {isDeactivatingListing && (
+                                {isActivatingListing && (
                                     <Icon width={20} height={20} name="loading" className="mr-2" />
                                 )}
                                 <Typography className="text-emerald-500 select-none" bold>
@@ -248,6 +348,14 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                 type="warning"
                                 title={t("listing-was-deactivated")}
                                 message={t("listing-was-deactivated-message")}
+                            />
+                        )}
+                        {router.query.sold === "true" && !isSellingListing && (
+                            <Dialog
+                                className="mb-4"
+                                type="success"
+                                title={t("listing-sold")}
+                                message={t("listing-sold-message")}
                             />
                         )}
                         <Typography variant="h2">
@@ -303,11 +411,13 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                                     )}
                                                 </button>
                                                 <button
-                                                    disabled
+                                                    onClick={() => {
+                                                        setSoldListingModal(l);
+                                                    }}
                                                     className="outline-none  hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
                                                 >
                                                     <Icon
-                                                        className="fill-none stroke-2 !stroke-emerald-800"
+                                                        className="fill-none stroke-2 !stroke-emerald-700"
                                                         name="sold"
                                                     />
                                                 </button>

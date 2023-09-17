@@ -6,6 +6,7 @@ import NoImage from "../NoImage";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
 import SaveListingIcon from "../SaveListingIcon";
+import { isSold } from "@/util/listing";
 
 interface Props {
     listing: ListingBasic;
@@ -231,6 +232,13 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                     </div>
                 </div>
             </div>
+            {isSold(listing) && (
+                <div className="absolute bottom-5 right-0 -rotate-[40deg] w-40 text-center text-white translate-x-10 bg-rose-600">
+                    <Typography uppercase bold className="tracking-wider">
+                        {t("sold")}
+                    </Typography>
+                </div>
+            )}
         </Link>
     );
 }

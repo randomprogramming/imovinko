@@ -385,7 +385,8 @@
         "house": "Kuća",
         "apartment": "Stan",
         "land": "Zemljište",
-        "posted": "Objavljeno"
+        "posted": "Objavljeno",
+        "sold": "Prodano"
     },
     "MyPropertiesPage": {
         "my-listings": "Moji oglasi",
@@ -403,7 +404,12 @@
         "listing-was-activated": "Oglas aktiviran",
         "listing-was-activated-message": "Oglas uspješno aktiviran, korisnici će sada moći pronaći vaš oglas.",
         "listing-was-deactivated": "Oglas deaktiviran",
-        "listing-was-deactivated-message": "Oglas je deaktiviran. Nitko osim vas neće imati pristup oglasu."
+        "listing-was-deactivated-message": "Oglas je deaktiviran. Nitko osim vas neće imati pristup oglasu.",
+        "enter-sale-price": "Unesite prodajnu cijenu",
+        "cancel": "Odustani",
+        "sold": "Prodano",
+        "listing-sold": "Oglas označen kao prodan",
+        "listing-sold-message": "Oglas je označen kao prodan, korisnici više neće moći pronaći taj oglas."
     },
     "Footer": {
         "sign-in": "Prijavi se",

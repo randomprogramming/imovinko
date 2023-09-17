@@ -385,7 +385,8 @@
         "rent": "Rent",
         "short-term-rent": "Short Term Rent",
         "long-term-rent": "Long Term Rent",
-        "posted": "Posted"
+        "posted": "Posted",
+        "sold": "Sold"
     },
     "MyPropertiesPage": {
         "my-listings": "My Listings",
@@ -403,7 +404,12 @@
         "listing-was-activated": "Listing Activated",
         "listing-was-activated-message": "The listing has been successfully activated, users will now be able to find your listing.",
         "listing-was-deactivated": "Listing Deactivated",
-        "listing-was-deactivated-message": "Listing deactivated. Only you can access the listing now."
+        "listing-was-deactivated-message": "Listing deactivated. Only you can access the listing now.",
+        "enter-sale-price": "Enter sale price",
+        "cancel": "Cancel",
+        "sold": "Sold",
+        "listing-sold": "Listing marked as sold",
+        "listing-sold-message": "Listing has been marked as sold, users will not be able to find that listing anymore."
     },
     "Footer": {
         "sign-in": "Sign In",
