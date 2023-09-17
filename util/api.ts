@@ -554,6 +554,8 @@ export interface Listing {
     }[];
     priceChanges: PriceChange[];
     saved: boolean;
+    saleDate: Date | string | null;
+    salePrice: number | null;
 }
 export async function findListing(id: string, jwt?: string) {
     const headers = getAuthHeaders();

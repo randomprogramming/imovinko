@@ -26,6 +26,7 @@ import Modal from "@/components/Modal";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import Input from "@/components/Input";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
+import { isSold } from "@/util/listing";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -387,49 +388,52 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                                                 }
                                             />
                                         </div>
-                                        <div className="flex flex-row">
-                                            <div className="flex-1"></div>
-                                            <div className="flex flex-row items-center bg-zinc-50 rounded shadow-sm mt-1 border border-zinc-300">
-                                                <button
-                                                    onClick={() => {
-                                                        l.deactivated
-                                                            ? setActivateListingModal(l)
-                                                            : setRemoveListingModal(l);
-                                                    }}
-                                                    className="outline-none hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
-                                                >
-                                                    {l.deactivated ? (
+                                        {/* When a listing is sold, it may not be edited anymore */}
+                                        {!isSold(l) && (
+                                            <div className="flex flex-row">
+                                                <div className="flex-1"></div>
+                                                <div className="flex flex-row items-center bg-zinc-50 rounded shadow-sm mt-1 border border-zinc-300">
+                                                    <button
+                                                        onClick={() => {
+                                                            l.deactivated
+                                                                ? setActivateListingModal(l)
+                                                                : setRemoveListingModal(l);
+                                                        }}
+                                                        className="outline-none hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
+                                                    >
+                                                        {l.deactivated ? (
+                                                            <Icon
+                                                                name="checkmark"
+                                                                className="fill-emerald-600"
+                                                            />
+                                                        ) : (
+                                                            <Icon
+                                                                name="close"
+                                                                className="fill-red-600"
+                                                            />
+                                                        )}
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            setSoldListingModal(l);
+                                                        }}
+                                                        className="outline-none  hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
+                                                    >
                                                         <Icon
-                                                            name="checkmark"
-                                                            className="fill-emerald-600"
+                                                            className="fill-none stroke-2 !stroke-emerald-700"
+                                                            name="sold"
                                                         />
-                                                    ) : (
-                                                        <Icon
-                                                            name="close"
-                                                            className="fill-red-600"
-                                                        />
-                                                    )}
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        setSoldListingModal(l);
-                                                    }}
-                                                    className="outline-none  hover:bg-zinc-200 transition-all p-2 flex items-center justify-center border-r border-zinc-300"
-                                                >
-                                                    <Icon
-                                                        className="fill-none stroke-2 !stroke-emerald-700"
-                                                        name="sold"
-                                                    />
-                                                </button>
-                                                <Link
-                                                    disableAnimatedHover
-                                                    to={`/listing/edit/${l.prettyId}`}
-                                                    className="hover:bg-zinc-200 transition-all p-2 flex items-center justify-center"
-                                                >
-                                                    <Icon name="edit" />
-                                                </Link>
+                                                    </button>
+                                                    <Link
+                                                        disableAnimatedHover
+                                                        to={`/listing/edit/${l.prettyId}`}
+                                                        className="hover:bg-zinc-200 transition-all p-2 flex items-center justify-center"
+                                                    >
+                                                        <Icon name="edit" />
+                                                    </Link>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 );
                             })}
