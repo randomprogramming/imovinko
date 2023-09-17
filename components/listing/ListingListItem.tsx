@@ -14,8 +14,15 @@ interface Props {
     showCustomId?: boolean;
     hideIconRow?: boolean;
     className?: string;
+    showSavedAt?: boolean;
 }
-export default function ListingListItem({ listing, showCustomId, hideIconRow, className }: Props) {
+export default function ListingListItem({
+    listing,
+    showCustomId,
+    hideIconRow,
+    className,
+    showSavedAt,
+}: Props) {
     const t = useTranslations("ListingListItem");
 
     function getPropertyMedia(p: ListingBasic) {
@@ -169,6 +176,26 @@ export default function ListingListItem({ listing, showCustomId, hideIconRow, cl
                             </Typography>
                         </div>
                     )}
+
+                    {showSavedAt && listing.savedAt && (
+                        <div
+                            style={{
+                                fontSize: "12px",
+                            }}
+                        >
+                            <Typography className="tracking-wider" uppercase>
+                                {t("saved")}:{" "}
+                                {new Date(listing.savedAt)
+                                    .toLocaleDateString(undefined, {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replaceAll("/", ".")}
+                            </Typography>
+                        </div>
+                    )}
+
                     <div
                         style={{
                             fontSize: "11px",

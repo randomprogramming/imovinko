@@ -388,7 +388,8 @@
         "short-term-rent": "Short Term Rent",
         "long-term-rent": "Long Term Rent",
         "posted": "Posted",
-        "sold": "Sold"
+        "sold": "Sold",
+        "saved": "Saved"
     },
     "MyPropertiesPage": {
         "my-listings": "My Listings",

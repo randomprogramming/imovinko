@@ -339,6 +339,7 @@ export interface ListingBasic {
     deactivated: Date | string | null;
     saleDate: Date | string | null;
     salePrice: number | null;
+    savedAt?: Date | string | null; // Only available on the "My Saved Listings" page
 }
 type PaginatedData<T> = {
     data: T[];

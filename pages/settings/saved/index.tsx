@@ -75,9 +75,7 @@ export default function SavedProperties({ listings }: SavedPropertiesPageProps) 
                                 </NoData>
                             )}
                             {listings.data.map((l) => {
-                                return (
-                                    <ListingListItem key={l.prettyId} showCustomId listing={l} />
-                                );
+                                return <ListingListItem key={l.prettyId} showSavedAt listing={l} />;
                             })}
                         </div>
                         <div className="flex items-center justify-center my-6">

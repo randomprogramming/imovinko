@@ -388,7 +388,8 @@
         "apartment": "Stan",
         "land": "Zemljište",
         "posted": "Objavljeno",
-        "sold": "Prodano"
+        "sold": "Prodano",
+        "saved": "Spremljeno"
     },
     "MyPropertiesPage": {
         "my-listings": "Moji oglasi",
