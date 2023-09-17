@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getJWTCookie, getMapboxSessionCookie } from "./cookie";
+import { deleteJWTCookie, getJWTCookie, getMapboxSessionCookie } from "./cookie";
 import { HRRegionShortCode } from "@/components/RegionDropdown";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -44,6 +44,18 @@ function getAuthHeaders() {
 const client = axios.create({
     baseURL,
 });
+
+client.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (error.response.status === 401) {
+            deleteJWTCookie();
+        }
+        return Promise.reject(error);
+    }
+);
 
 interface AccountRegistrationProps {
     username: string;
