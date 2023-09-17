@@ -183,7 +183,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         setSoldListingModal(undefined);
                     }}
                 >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-[320px]">
                         <ListingCardItem
                             listing={soldListingModal!}
                             hideIconRow
@@ -279,7 +279,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         setActivateListingModal(undefined);
                     }}
                 >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-[320px]">
                         <ListingCardItem
                             listing={activateListingModal!}
                             hideIconRow
