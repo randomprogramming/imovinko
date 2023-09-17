@@ -21,6 +21,7 @@ import NoImage from "@/components/NoImage";
 import SaveListingIcon from "@/components/SaveListingIcon";
 import IconRow from "@/components/listing/IconRow";
 import { useRouter } from "next/router";
+import { formatPrice } from "@/util/listing";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -519,7 +520,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                         </Typography>
                                     </div>
                                     <Typography variant="h2" className="mt-2 text-right">
-                                        {openProperty.price.toLocaleString()} €{" "}
+                                        {formatPrice(openProperty.price)}
                                     </Typography>
                                     <Typography className="text-sm font-normal text-right">
                                         {getPriceString(openProperty)}
@@ -560,7 +561,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                         >
                                             <div className="bg-white p-1 rounded-xl group-hover:px-2 group-hover:py-1.5 transition-all shadow-sm border border-zinc-300">
                                                 <Typography className="text-sm">
-                                                    {p.price.toLocaleString()} €
+                                                    {formatPrice(p.price)}
                                                 </Typography>
                                             </div>
                                         </div>

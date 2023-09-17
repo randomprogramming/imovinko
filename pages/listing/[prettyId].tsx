@@ -47,7 +47,7 @@ import useAuthentication from "@/hooks/useAuthentication";
 import cookie from "cookie";
 import SaveListingIcon from "@/components/SaveListingIcon";
 import Dialog from "@/components/Dialog";
-import { isSold } from "@/util/listing";
+import { formatPrice, isSold } from "@/util/listing";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -1249,7 +1249,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {getPropertyLocationString(listing)}
                                     </Typography>
                                     <Typography variant="h2" className="mt-2 text-right">
-                                        {listing.price.toLocaleString()} €{" "}
+                                        {formatPrice(listing.price)}
                                     </Typography>
                                     <Typography className="text-right">
                                         {getPriceString(listing)}
@@ -1380,7 +1380,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {getPropertyLocationString(listing)}
                                     </Typography>
                                     <Typography variant="h2" className="mt-2 text-right">
-                                        {listing.price.toLocaleString()} €{" "}
+                                        {formatPrice(listing.price)}
                                     </Typography>
                                     <Typography className="text-right">
                                         {getPriceString(listing)}

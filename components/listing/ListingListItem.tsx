@@ -7,7 +7,7 @@ import IconRow from "./IconRow";
 import NoImage from "../NoImage";
 import Link from "../Link";
 import SaveListingIcon from "../SaveListingIcon";
-import { isSold } from "@/util/listing";
+import { formatPrice, isSold } from "@/util/listing";
 
 interface Props {
     listing: ListingBasic;
@@ -247,7 +247,7 @@ export default function ListingListItem({
                         <div className="flex-1" />
                         <div className="flex flex-col items-end">
                             <Typography bold className="text-xl">
-                                {listing.price.toLocaleString()} €{" "}
+                                {formatPrice(listing.price)}
                             </Typography>
                             <Typography className="text-sm font-normal">
                                 {getPriceString(listing)}

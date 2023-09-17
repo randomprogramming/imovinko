@@ -77,7 +77,7 @@ export default function MortgageCalculator({ initialLoanValue }: MortgageCalcula
     const INTEREST_RATE_SUFFIX = " " + "%";
 
     const [totalLoanAmount, setTotalLoanAmount] = useState(
-        initialLoanValue || DEFAULT_TOTAL_LOAN_AMOUNT
+        initialLoanValue ? Math.ceil(initialLoanValue) : DEFAULT_TOTAL_LOAN_AMOUNT
     );
     const [interestRate, setInterestRate] = useState(DEFAULT_INTEREST_RATE);
     const [loanLengthMonths, setLoanLengthMonths] = useState(DEFAULT_LOAN_LENGTH_MONTHS);
