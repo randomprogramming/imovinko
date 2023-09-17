@@ -229,7 +229,9 @@
         "share": "Share",
         "share-listing": "Share listing",
         "link": "Link",
-        "copy": "Copy"
+        "copy": "Copy",
+        "listing-sold": "Listing sold or rented",
+        "listing-sold-message": "This listing is no longer available."
     },
     "ListingsPage": {
         "per-night": "per night",

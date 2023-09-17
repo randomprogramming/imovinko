@@ -229,7 +229,9 @@
         "share": "Podijeli",
         "share-listing": "Podijeli oglas",
         "link": "Poveznica",
-        "copy": "Kopiraj"
+        "copy": "Kopiraj",
+        "listing-sold": "Oglas prodan ili iznajmljen",
+        "listing-sold-message": "Ovaj oglas više nije dostupan."
     },
     "ListingsPage": {
         "per-night": "noćenje",

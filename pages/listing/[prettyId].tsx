@@ -46,6 +46,8 @@ import Input from "@/components/Input";
 import useAuthentication from "@/hooks/useAuthentication";
 import cookie from "cookie";
 import SaveListingIcon from "@/components/SaveListingIcon";
+import Dialog from "@/components/Dialog";
+import { isSold } from "@/util/listing";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -1234,6 +1236,14 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                         <section className="flex flex-col-reverse lg:flex-row container mx-auto">
                             <div className="flex-1 flex flex-col lg:w-1/2 lg:pr-6">
                                 <div className="hidden lg:block">
+                                    {isSold(listing) && (
+                                        <Dialog
+                                            className="mb-2"
+                                            type="information"
+                                            title={t("listing-sold")}
+                                            message={t("listing-sold-message")}
+                                        />
+                                    )}
                                     <Typography variant="h1">{listing.title}</Typography>
                                     <Typography variant="secondary" uppercase>
                                         {getPropertyLocationString(listing)}

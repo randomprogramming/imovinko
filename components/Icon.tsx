@@ -51,7 +51,8 @@ export type IconName =
     | "three-dots"
     | "help"
     | "star"
-    | "share";
+    | "share"
+    | "information";
 
 interface IconProps {
     name: IconName;
@@ -1721,6 +1722,60 @@ export default function Icon({ name, height, width, className }: IconProps) {
                                 strokeLinejoin="round"
                             ></path>
                         </g>
+                    </g>
+                </svg>
+            );
+        case "information":
+            return (
+                <svg
+                    width={width || DEFAULT_W}
+                    height={height || DEFAULT_H}
+                    className={className}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g>
+                        <g clip-path="url(#clip0_429_11160)">
+                            <circle
+                                className={className}
+                                cx="12"
+                                cy="11.9999"
+                                r="9"
+                                stroke="#292929"
+                                strokeWidth="1.6799999999999997"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></circle>
+                            <rect
+                                className={className}
+                                x="12"
+                                y="8"
+                                width="0.01"
+                                height="0.01"
+                                stroke="#292929"
+                                strokeWidth="1.6799999999999997"
+                                strokeLinejoin="round"
+                            ></rect>
+                            <path
+                                className={className}
+                                d="M12 12V16"
+                                stroke="#292929"
+                                strokeWidth="1.6799999999999997"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></path>
+                        </g>
+                        <defs>
+                            <clipPath>
+                                <rect
+                                    className={className}
+                                    width="24"
+                                    height="24"
+                                    fill="white"
+                                ></rect>
+                            </clipPath>
+                        </defs>
                     </g>
                 </svg>
             );
