@@ -73,7 +73,7 @@ export default function Contact() {
             <header className="container mx-auto ">
                 <Navbar />
             </header>
-            <Main className="!flex-row" container>
+            <Main className="!flex-row" container mobilePadding>
                 <div className="px-1 md:max-w-lg w-full flex-1 mb-4">
                     {router.query.sent === "true" && (
                         <Dialog type="success" title={t("sent")} message={t("sent-description")} />

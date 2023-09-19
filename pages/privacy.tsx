@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
             <header>
                 <Navbar />
             </header>
-            <Main container>
+            <Main container mobilePadding>
                 <div>
                     <Typography variant="h1">{t("header")}</Typography>
 

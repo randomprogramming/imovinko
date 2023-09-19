@@ -355,6 +355,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                 setLocationLat(newLat);
                 setLocationLon(newLon);
                 setMapZoom(14);
+                setOpenProperty(null);
             }
         } catch (_e) {}
     }, [router.query]);
