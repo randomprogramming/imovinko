@@ -175,7 +175,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <Navbar />
             </header>
 
-            <Main container>
+            <Main container mobilePadding>
                 <Modal
                     small
                     show={!!soldListingModal}

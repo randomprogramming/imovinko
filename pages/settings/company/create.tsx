@@ -110,7 +110,7 @@ export default function CreateCompanyPage() {
             <header>
                 <Navbar hideSearchBar />
             </header>
-            <Main container>
+            <Main container mobilePadding>
                 <Typography variant="h1">{t("title")}</Typography>
 
                 <div className="flex justify-center mt-8">
