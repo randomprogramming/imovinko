@@ -294,6 +294,7 @@
         "not-found": "We couldn't find your company.",
         "click-here": "Click here to create a new company.",
         "created": "Company Registered",
+        "created-message": "Company successfully registered. Invite members to you company now!",
         "name": "Company Name",
         "pin": "PIN",
         "web-page": "Website",

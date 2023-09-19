@@ -67,6 +67,8 @@ interface CompanyPageProps {
 export default function CompanyPage({ company, query }: CompanyPageProps) {
     const successfullyInvited = !!query.invited;
     const manualSuccessfullyCreate = !!query.manualEntry;
+    const successfullyCreated = !!query.created;
+    const successfullyUpdated = !!query.updated;
 
     const t = useTranslations("CompanyPage");
 
@@ -350,31 +352,39 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                 </div>
             </Modal>
             <Main container>
-                {successfullyInvited && (
-                    <Dialog
-                        className="mt-4"
-                        type="success"
-                        title={t("success")}
-                        message={t("success-message")}
-                    />
-                )}
-                {manualSuccessfullyCreate && (
-                    <Dialog
-                        className="mt-4"
-                        type="success"
-                        title={t("manual-succes")}
-                        message={t("manual-message")}
-                    />
-                )}
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="flex flex-col flex-1 max-w-2xl mx-auto">
-                        {router.query.updated === "true" && !isRedirecting && (
+                        {successfullyUpdated && !isRedirecting && (
                             <Dialog
+                                className="mb-2"
                                 type="success"
                                 title={t("updated-title")}
                                 message={t("updated-message")}
-                                className="mb-3"
+                            />
+                        )}
+                        {successfullyInvited && (
+                            <Dialog
+                                className="mb-2"
+                                type="success"
+                                title={t("success")}
+                                message={t("success-message")}
+                            />
+                        )}
+                        {manualSuccessfullyCreate && (
+                            <Dialog
+                                className="mb-2"
+                                type="success"
+                                title={t("manual-succes")}
+                                message={t("manual-message")}
+                            />
+                        )}
+                        {successfullyCreated && (
+                            <Dialog
+                                className="mb-2"
+                                type="success"
+                                title={t("created")}
+                                message={t("created-message")}
                             />
                         )}
                         {company ? (

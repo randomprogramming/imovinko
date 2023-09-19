@@ -294,6 +294,7 @@
         "not-found": "Nismo pronašli tvoju tvrtku.",
         "click-here": "Kliknite ovdje da kreirate novu tvrtku.",
         "created": "Tvrtka registrirana",
+        "created-message": "Tvrtka uspješno registrirana. Sada možete pozvati ostale članove tvrtke!",
         "name": "Ime tvrtke",
         "pin": "OIB",
         "web-page": "Web stranica",

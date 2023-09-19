@@ -83,7 +83,12 @@ export default function CreateCompanyPage() {
                 storeName,
                 description,
             });
-            await router.push("/settings/company");
+            await router.push({
+                pathname: "/settings/company",
+                query: {
+                    created: true,
+                },
+            });
         } catch (e: any) {
             if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
                 fieldErrorCodesParser.parseErrorCodes(e.response.data);
