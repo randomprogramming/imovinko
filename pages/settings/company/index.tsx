@@ -351,10 +351,10 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                     </div>
                 </div>
             </Modal>
-            <Main container>
+            <Main container mobilePadding>
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
-                    <div className="flex flex-col flex-1 max-w-2xl mx-auto">
+                    <div className="flex flex-col flex-1 max-w-full md:max-w-2xl mx-auto">
                         {successfullyUpdated && !isRedirecting && (
                             <Dialog
                                 className="mb-2"
@@ -564,7 +564,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                         </Typography>{" "}
                                         {t("registered-users-2")}
                                     </Typography>
-                                    <div className="max-w-full overflow-x-auto mt-4">
+                                    <div className="overflow-x-auto mt-4 max-w-[100vw] pb-1">
                                         <table className="border-separate border-spacing-0 ">
                                             <thead>
                                                 <tr className="border-2 rounded-lg border-zinc-300">
