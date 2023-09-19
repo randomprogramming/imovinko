@@ -22,6 +22,11 @@ export default function Conversations({ conversations }: ConversationProps) {
 
     return (
         <div className="w-full h-full">
+            {conversations.length === 0 && (
+                <Typography className="text-center mt-2" bold>
+                    {t("no-conversations")}
+                </Typography>
+            )}
             {conversations.map((c) => {
                 return (
                     <Link

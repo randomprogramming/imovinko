@@ -576,7 +576,8 @@
         "conversations": "Conversations",
         "conversation-members": "In conversation:",
         "listing": "Listing:",
-        "choose-conversation": "Choose a conversation"
+        "choose-conversation": "Choose a conversation",
+        "no-conversations": "You have not participated in any conversations!"
     },
     "SavedPropertiesPage": {
         "saved-listings": "Saved Listings",

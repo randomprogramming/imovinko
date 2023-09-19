@@ -576,7 +576,8 @@
         "conversations": "Razgovori",
         "conversation-members": "U razgovoru:",
         "listing": "Oglas:",
-        "choose-conversation": "Odaberite razgovor"
+        "choose-conversation": "Odaberite razgovor",
+        "no-conversations": "Niste sudjelovali u niti jednom razgovoru!"
     },
     "SavedPropertiesPage": {
         "saved-listings": "Spremljeni oglasi",
