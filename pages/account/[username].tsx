@@ -15,6 +15,7 @@ import NotFound from "@/components/404";
 import Image from "next/image";
 import Main from "@/components/Main";
 import cookie from "cookie";
+import { formatDMYDate } from "@/util/date";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query, locale, req }) => {
     let account: FullPublicAccount | null = null;
@@ -106,13 +107,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
                                                 </td>
                                                 <td className="pl-1">
                                                     <Typography bold className="text-sm" sm>
-                                                        {new Date(account.createdAt)
-                                                            .toLocaleDateString(undefined, {
-                                                                day: "2-digit",
-                                                                month: "2-digit",
-                                                                year: "numeric",
-                                                            })
-                                                            .replaceAll("/", ".")}
+                                                        {formatDMYDate(account.createdAt)}
                                                     </Typography>
                                                 </td>
                                             </tr>

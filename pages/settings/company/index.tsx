@@ -27,6 +27,7 @@ import Head from "next/head";
 import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Main from "@/components/Main";
+import { formatDMYDate } from "@/util/date";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -425,14 +426,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                             {company.name}
                                         </Typography>
                                         <Typography className="text-zinc-600 text-sm">
-                                            {t("created")}:{" "}
-                                            {new Date(company.createdAt)
-                                                .toLocaleDateString(undefined, {
-                                                    day: "2-digit",
-                                                    month: "2-digit",
-                                                    year: "numeric",
-                                                })
-                                                .replaceAll("/", ".")}
+                                            {t("created")}: {formatDMYDate(company.createdAt)}
                                         </Typography>
                                     </div>
                                 </div>

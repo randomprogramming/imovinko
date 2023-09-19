@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Image from "next/image";
 import Main from "@/components/Main";
+import { formatDMYDate } from "@/util/date";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -207,14 +208,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                                     {getAccountHandle()}
                                 </Typography>
                                 <Typography className="text-zinc-600 text-sm">
-                                    {t("joined")}:{" "}
-                                    {new Date(account.createdAt)
-                                        .toLocaleDateString(undefined, {
-                                            day: "2-digit",
-                                            month: "2-digit",
-                                            year: "numeric",
-                                        })
-                                        .replaceAll("/", ".")}
+                                    {t("joined")}: {formatDMYDate(account.createdAt)}
                                 </Typography>
                             </div>
                         </div>

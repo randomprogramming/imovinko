@@ -4,6 +4,7 @@ import moment from "moment";
 import Typography from "./Typography";
 import { space_grotesk } from "@/util/fonts";
 import { PriceChange } from "@/util/api";
+import { formatDMYDate } from "@/util/date";
 
 const currentPriceDataId = "currentPrice";
 
@@ -106,15 +107,7 @@ export default function PriceChangeChart({ data, currentPrice, locale }: PriceCh
 
                     return (
                         <div className="p-2 rounded-lg text-center bg-zinc-50 border border-zinc-300 shadow-sm">
-                            <Typography sm>
-                                {new Date(date)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
-                            </Typography>
+                            <Typography sm>{formatDMYDate(date)}</Typography>
                             <Typography bold sm>
                                 {price.toLocaleString()} €
                             </Typography>

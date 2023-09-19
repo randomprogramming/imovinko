@@ -7,6 +7,8 @@ import Typography from "../Typography";
 import IconRow from "./IconRow";
 import SaveListingIcon from "../SaveListingIcon";
 import { formatPrice, isSold } from "@/util/listing";
+import moment from "moment";
+import { formatDMYDate } from "@/util/date";
 
 interface Props {
     listing: ListingBasic;
@@ -211,13 +213,7 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                         <div>
                             <Typography className="text-sm">{t("posted")}: </Typography>
                             <Typography className="text-sm font-normal">
-                                {new Date(listing.createdAt)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
+                                {formatDMYDate(listing.createdAt)}
                             </Typography>
                         </div>
                         <div className="flex-1" />

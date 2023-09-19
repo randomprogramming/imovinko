@@ -48,6 +48,7 @@ import cookie from "cookie";
 import SaveListingIcon from "@/components/SaveListingIcon";
 import Dialog from "@/components/Dialog";
 import { formatPrice, isSold } from "@/util/listing";
+import { formatDMYDate } from "@/util/date";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -551,22 +552,10 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         }
 
         if (account.company) {
-            return new Date(account.company.createdAt)
-                .toLocaleDateString(undefined, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                })
-                .replaceAll("/", ".");
+            return formatDMYDate(account.company.createdAt);
         }
 
-        return new Date(account.createdAt)
-            .toLocaleDateString(undefined, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-            })
-            .replaceAll("/", ".");
+        return formatDMYDate(account.createdAt);
     }
 
     function getSuggestionFullLocation(suggestion: any) {
@@ -1307,13 +1296,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         <Typography>
                                             {t("listing-posted")}:{" "}
                                             <Typography variant="span" bold>
-                                                {new Date(listing.createdAt)
-                                                    .toLocaleDateString(undefined, {
-                                                        day: "2-digit",
-                                                        month: "2-digit",
-                                                        year: "numeric",
-                                                    })
-                                                    .replaceAll("/", ".") +
+                                                {formatDMYDate(listing.createdAt) +
                                                     " " +
                                                     new Date(listing.createdAt).toLocaleTimeString(
                                                         undefined,
@@ -1327,13 +1310,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         <Typography>
                                             {t("last-update")}:{" "}
                                             <Typography variant="span" bold>
-                                                {new Date(listing.createdAt)
-                                                    .toLocaleDateString(undefined, {
-                                                        day: "2-digit",
-                                                        month: "2-digit",
-                                                        year: "numeric",
-                                                    })
-                                                    .replaceAll("/", ".") +
+                                                {formatDMYDate(listing.createdAt) +
                                                     " " +
                                                     new Date(listing.createdAt).toLocaleTimeString(
                                                         undefined,

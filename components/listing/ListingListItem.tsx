@@ -8,6 +8,7 @@ import NoImage from "../NoImage";
 import Link from "../Link";
 import SaveListingIcon from "../SaveListingIcon";
 import { formatPrice, isSold } from "@/util/listing";
+import { formatDMYDate } from "@/util/date";
 
 interface Props {
     listing: ListingBasic;
@@ -184,14 +185,7 @@ export default function ListingListItem({
                             }}
                         >
                             <Typography className="tracking-wider" uppercase>
-                                {t("saved")}:{" "}
-                                {new Date(listing.savedAt)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
+                                {t("saved")}: {formatDMYDate(listing.savedAt)}
                             </Typography>
                         </div>
                     )}
@@ -235,13 +229,7 @@ export default function ListingListItem({
                         <div className="mt-auto">
                             <Typography className="text-sm">{t("posted")}: </Typography>
                             <Typography className="text-sm font-normal">
-                                {new Date(listing.createdAt)
-                                    .toLocaleDateString(undefined, {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replaceAll("/", ".")}
+                                {formatDMYDate(listing.createdAt)}
                             </Typography>
                         </div>
                         <div className="flex-1" />

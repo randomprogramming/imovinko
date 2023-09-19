@@ -5,6 +5,7 @@ import Select from "react-select";
 import NoImage from "./NoImage";
 import Typography from "./Typography";
 import { useTranslations } from "next-intl";
+import { formatDMYDate } from "@/util/date";
 
 interface BasicPropertyCardProps {
     data: BasicApartment | BasicHouse | BasicLand;
@@ -68,13 +69,7 @@ function BasicPropertyCard({ data, hideBottomBorder }: BasicPropertyCardProps) {
                 <Typography sm>
                     {t("created")}:{" "}
                     <Typography sm variant="span" bold>
-                        {new Date(data.createdAt)
-                            .toLocaleDateString(undefined, {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                            })
-                            .replaceAll("/", ".") +
+                        {formatDMYDate(data.createdAt) +
                             " " +
                             new Date(data.createdAt).toLocaleTimeString(undefined, {
                                 hour: "2-digit",
