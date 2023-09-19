@@ -327,7 +327,7 @@ export default function Conversation({ allConversations }: ConversationProps) {
                         <div className="h-auto md:h-64 mb-auto">
                             <ListingListItem
                                 showCustomId
-                                className="!rounded-none !bg-transparent !shadow-none border-b border-zinc-200"
+                                className="!rounded-none !bg-transparent !shadow-none border-b border-zinc-200 mb-12"
                                 hideIconRow
                                 listing={openConversation.listing}
                             />

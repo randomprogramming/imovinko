@@ -147,7 +147,7 @@ export default function AccountPage({ account }: AccountPageProps) {
             <header>
                 <Navbar />
             </header>
-            <Main container>
+            <Main container mobilePadding>
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
