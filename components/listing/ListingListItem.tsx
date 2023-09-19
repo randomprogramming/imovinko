@@ -165,7 +165,7 @@ export default function ListingListItem({
                         <NoImage />
                     )}
                 </div>
-                <div className="px-3 pb-3 pt-2 flex flex-col w-full h-fit md:h-full">
+                <div className="px-3 pb-3 pt-2 flex flex-col w-full h-fit lg:h-full">
                     {showCustomId && (
                         <div
                             style={{
@@ -219,12 +219,12 @@ export default function ListingListItem({
                         </Typography>
                     </div>
                     {!hideIconRow && (
-                        <div className="mt-2">
+                        <div className="mt-2 self-center lg:self-start">
                             <IconRow listing={listing} />
                         </div>
                     )}
                     {/* Push the price element to the end */}
-                    <div className="flex-1 mt-2" />
+                    <div className="flex-1 mt-2 hidden lg:flex" />
                     <div className="flex flex-row w-full items-center">
                         <div className="mt-auto">
                             <Typography className="text-sm">{t("posted")}: </Typography>
