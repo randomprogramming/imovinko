@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import Link from "@/components/Link";
-import Map, { MapStyle } from "@/components/Map";
+import Map, { DEFAULT_ZOOM, MapStyle } from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import { ListingBasic, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
@@ -103,6 +103,7 @@ export default function MapScreen({ query }: MapScreenProps) {
 
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
     const [isSearchInProgress, setIsSearchInProgress] = useState(false);
+    const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
 
     async function searchProperties() {
         if (!mapBounds) {
@@ -349,8 +350,12 @@ export default function MapScreen({ query }: MapScreenProps) {
                 typeof router.query.lat === "string" ? parseFloat(router.query.lat) : null;
             const newLon =
                 typeof router.query.lon === "string" ? parseFloat(router.query.lon) : null;
-            setLocationLat(newLat);
-            setLocationLon(newLon);
+
+            if (newLat && newLon) {
+                setLocationLat(newLat);
+                setLocationLon(newLon);
+                setMapZoom(14);
+            }
         } catch (_e) {}
     }, [router.query]);
 
@@ -377,6 +382,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                         centerLat={locationLat || undefined}
                         centerLon={locationLon || undefined}
                         scrollZoom={true}
+                        zoom={mapZoom}
                         navigationControlStyle={{
                             marginTop: "6rem",
                         }}

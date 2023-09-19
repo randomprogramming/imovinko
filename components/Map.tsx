@@ -17,7 +17,7 @@ import Image from "next/image";
 const MARKER_SIZE = 64;
 const STARTING_LON = 15.9819;
 const STARTING_LAT = 45.815;
-const STARTING_ZOOM = 10;
+export const DEFAULT_ZOOM = 10;
 
 export const MapStyle = {
     streetMapStyle: process.env.NEXT_PUBLIC_MAPBOX_STREETS_STYLE || "",
@@ -280,7 +280,7 @@ export default function Map({
         // This triggers the "onmoveend" callback when the map first renders
         map.current?.flyTo({
             center: [centerLon || STARTING_LON, centerLat || STARTING_LAT],
-            zoom: zoom || STARTING_ZOOM,
+            zoom: zoom || DEFAULT_ZOOM,
             duration: 0,
         });
     }, [centerLon, centerLat, map.current]);
@@ -297,7 +297,7 @@ export default function Map({
                 initialViewState={{
                     longitude: centerLon || STARTING_LON,
                     latitude: centerLat || STARTING_LAT,
-                    zoom: zoom || STARTING_ZOOM,
+                    zoom: zoom || DEFAULT_ZOOM,
                 }}
                 style={{
                     height: "100%",
