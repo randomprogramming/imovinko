@@ -27,6 +27,7 @@ import { OfferingType } from "@/util/api";
 import Modal from "../Modal";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
 import Main from "../Main";
+import { Marker } from "react-map-gl";
 
 export function intersection(a?: string[], b?: string[]): string[] {
     if (!a || !b || a.length === 0 || b.length === 0) {
@@ -1312,13 +1313,17 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             <Map
                                 centerLat={location.lat}
                                 centerLon={location.lon}
-                                scrollZoom={true}
-                                showCenterMarker
+                                scrollZoom={false}
                                 className="w-full shadow-sm mt-2 sm:rounded-lg sm:shadow-md"
                                 style={{
                                     height: "50vh",
                                 }}
-                            />
+                                zoom={16}
+                            >
+                                <Marker longitude={location.lon} latitude={location.lat}>
+                                    <Icon name="marker" height={48} width={48} />
+                                </Marker>
+                            </Map>
                         </FlexRow>
                         <FlexRow>
                             <TitleCol title={t("area")}>{t("area-desc")}</TitleCol>
