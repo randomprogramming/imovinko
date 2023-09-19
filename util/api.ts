@@ -93,7 +93,9 @@ interface LoginResponse {
     accessToken: string;
 }
 export async function login(data: LoginProps) {
-    return await client.post<LoginResponse>("/auth/login", data);
+    return await client.post<LoginResponse>("/auth/login", data, {
+        // withCredentials: true,
+    });
 }
 
 export interface Account {
