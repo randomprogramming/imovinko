@@ -1074,7 +1074,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                 setMessageModalAccountId(null);
                             }}
                         >
-                            <div className="flex flex-col w-full h-full relative">
+                            <div className="flex flex-col relative">
                                 <ListingListItem
                                     hideIconRow
                                     listing={listing}
