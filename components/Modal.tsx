@@ -11,15 +11,15 @@ export default function Modal({ show, children, onClose, small }: ModalProps) {
     useEffect(() => {
         if (show) {
             document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none";
+            // document.body.style.touchAction = "none";
         } else {
             document.body.style.overflow = "unset";
-            document.body.style.touchAction = "unset";
+            // document.body.style.touchAction = "unset";
         }
 
         return () => {
             document.body.style.overflow = "unset";
-            document.body.style.touchAction = "unset";
+            // document.body.style.touchAction = "unset";
         };
     }, [show]);
 
