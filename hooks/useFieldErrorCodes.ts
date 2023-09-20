@@ -50,12 +50,13 @@ export default function () {
     }
 
     function parseErrorMessage(message: string) {
-        // message should be in format err::field_name::message
+        // message should be in format err::model::field_name::message
+        // Model is account, listing, company, etc.
         const msgSplit = message.split("::");
-        if (msgSplit.length !== 3) {
+        if (msgSplit.length !== 4) {
             return;
         }
-        const [_err, fieldName, errorMessage] = msgSplit;
+        const [_err, _model, fieldName, errorMessage] = msgSplit;
 
         const errorCodes = new Map<string, string[]>();
         if (errorCodes.has(fieldName)) {
