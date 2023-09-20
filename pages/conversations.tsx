@@ -84,11 +84,11 @@ export default function ConversationsPage({ conversations }: ConversationsPagePr
                 <div
                     className={`${
                         hasConversationSelected ? "flex flex-col" : "hidden"
-                    } md:flex md:flex-1 md:ml-4`}
+                    } md:flex flex-1 md:ml-4`}
                 >
                     <div className="flex flex-row items-center md:hidden my-2">
                         <Button.Transparent
-                            className="!py-0.5 !pl-0 border-2 border-black"
+                            className="!py-1 !pl-0 border-2 border-black"
                             onClick={() => {
                                 router.replace({
                                     pathname: router.pathname,
@@ -99,10 +99,12 @@ export default function ConversationsPage({ conversations }: ConversationsPagePr
                             <Icon
                                 name="down-chevron"
                                 className="origin-center rotate-45"
-                                width={48}
-                                height={48}
+                                width={32}
+                                height={32}
                             />
-                            <Typography variant="h2">{t("conversations")}</Typography>
+                            <Typography bold uppercase className="tracking-wide">
+                                {t("conversations")}
+                            </Typography>
                         </Button.Transparent>
                     </div>
                     <Conversation allConversations={conversations} />

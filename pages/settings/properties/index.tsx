@@ -187,7 +187,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         <ListingCardItem
                             listing={soldListingModal!}
                             hideIconRow
-                            className="!shadow-none !rounded-none"
+                            className="!shadow-none !rounded-none !border-none"
                         />
                         <div className="px-2 mt-6 mb-4">
                             <Typography bold>{t("enter-sale-price")}:</Typography>
