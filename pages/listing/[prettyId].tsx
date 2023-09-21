@@ -1172,6 +1172,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     showStatus={false}
                                     showIndicators={false}
                                     renderArrowPrev={(handler) => {
+                                        if (getPropertyMedia(listing).length <= 1) {
+                                            return null;
+                                        }
                                         return (
                                             <div className="absolute left-6 top-1/2 z-30">
                                                 <button
@@ -1186,6 +1189,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         );
                                     }}
                                     renderArrowNext={(handler) => {
+                                        if (getPropertyMedia(listing).length <= 1) {
+                                            return null;
+                                        }
                                         return (
                                             <div className="absolute right-6 top-1/2 z-30">
                                                 <button
