@@ -348,7 +348,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
             });
             setTimeout(async () => {
                 await router.push({
-                    pathname: "/settings/properties",
+                    pathname: "/settings/listings",
                     query: {
                         listingUpdated: true,
                     },

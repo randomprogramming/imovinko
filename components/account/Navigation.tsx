@@ -68,8 +68,8 @@ export default function Navigation() {
             />
             <NavigationLink
                 title={t("my-properties")}
-                to="/settings/properties"
-                active={"/settings/properties" === router.pathname}
+                to="/settings/listings"
+                active={"/settings/listings" === router.pathname}
                 iconName="property"
             />
             <NavigationLink

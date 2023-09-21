@@ -264,7 +264,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
             });
             setTimeout(async () => {
                 await router.push({
-                    pathname: "/settings/properties",
+                    pathname: "/settings/listings",
                     query: {
                         listingCreated: true,
                     },
