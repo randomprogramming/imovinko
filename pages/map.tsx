@@ -753,10 +753,14 @@ export default function MapScreen({ query }: MapScreenProps) {
 
                 <div
                     className={`absolute ${
-                        isSearchInProgress ? " top-20" : "top-0 -translate-y-full"
+                        isSearchInProgress ? "top-20" : "top-0 -translate-y-full"
                     } left-1/2 -translate-x-1/2 z-50 transition-all`}
                 >
-                    <div className="bg-zinc-50 rounded-2xl shadow-md p-3 flex flex-row space-x-2">
+                    <div
+                        className={`bg-zinc-50 rounded-xl p-3 flex flex-row space-x-2 ${
+                            isSearchInProgress ? "shadow" : "shadow-none"
+                        }`}
+                    >
                         {/* <div
                             className="bg-zinc-900 p-1.5 w-2 h-2 shadow rounded-full animate-bounce blue-circle"
                             style={{
