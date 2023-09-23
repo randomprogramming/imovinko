@@ -55,3 +55,21 @@ body,
             -0.5px -0.5px 0 #040404;
     }
 }
+
+.carousel-status {
+    z-index: 50 !important;
+    height: fit-content;
+    bottom: 0.75rem !important;
+    right: 0.75rem !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: rgb(228 228 231);
+    color: #040404 !important;
+    top: unset !important;
+    border-radius: 4px;
+    text-shadow: none !important;
+    font-weight: bold;
+    font-size: 11px !important;
+    letter-spacing: 0.075em;
+}

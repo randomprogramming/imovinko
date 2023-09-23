@@ -436,10 +436,14 @@ export default function MapScreen({ query }: MapScreenProps) {
                                             autoPlay={false}
                                             infiniteLoop={true}
                                             showThumbs={false}
-                                            showStatus={false}
+                                            showStatus={true}
+                                            showIndicators={false}
                                             swipeable={true}
                                             emulateTouch={true}
-                                            className="w-full"
+                                            className={`w-full ${space_grotesk.className}`}
+                                            statusFormatter={(curr, total) => {
+                                                return `${curr}/${total}`;
+                                            }}
                                             renderArrowPrev={(onClickHandler) => {
                                                 return (
                                                     <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
