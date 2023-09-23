@@ -260,7 +260,16 @@
         "expensive-first": "Expensive first",
         "show-map": "Show map",
         "regions": "Region",
-        "none-found": "We couldn't find any listings that match your filter!"
+        "none-found": "We couldn't find any listings that match your filter!",
+        "area": "Surface Area",
+        "bedroomCount": "Bedroom count",
+        "bathroomCount": "Bathroom count",
+        "parkingSpaceCount": "Parking Spaces count",
+        "buildYear": "Build year",
+        "renovationYear": "Last renovation year",
+        "show-more-filters": "Show more filters",
+        "show-less-filters": "Show less filters",
+        "clear-filter": "Clear filter"
     },
     "AccountPage": {
         "my-account": "My Account",

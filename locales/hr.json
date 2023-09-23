@@ -260,7 +260,16 @@
         "expensive-first": "Skuplji prvo",
         "show-map": "Prikaži kartu",
         "regions": "Županija",
-        "none-found": "Nismo pronašli niti jedan oglas koji odgovara vašem filteru!"
+        "none-found": "Nismo pronašli niti jedan oglas koji odgovara vašem filteru!",
+        "area": "Površina",
+        "bedroomCount": "Broj spavaćih soba",
+        "bathroomCount": "Broj kupaonica",
+        "parkingSpaceCount": "Broj parkirnih mjesta",
+        "buildYear": "Godina izgradnje",
+        "renovationYear": "Godina zadnje renovacije",
+        "show-more-filters": "Prikaži više filtera",
+        "show-less-filters": "Prikaži manje filtera",
+        "clear-filter": "Obriši filter"
     },
     "AccountPage": {
         "my-account": "Moj račun",

@@ -47,6 +47,113 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         delete query.priceTo;
     }
 
+    let areaFrom = query.areaFrom;
+    if (Array.isArray(areaFrom)) {
+        areaFrom = areaFrom.at(0);
+    }
+    if (isNaN(areaFrom as any)) {
+        areaFrom = undefined;
+        delete query.areaFrom;
+    }
+
+    let areaTo = query.areaTo;
+    if (Array.isArray(areaTo)) {
+        areaTo = areaTo.at(0);
+    }
+    if (isNaN(areaTo as any)) {
+        areaTo = undefined;
+        delete query.areaTo;
+    }
+    let bedroomCountFrom = query.bedroomCountFrom;
+    if (Array.isArray(bedroomCountFrom)) {
+        bedroomCountFrom = bedroomCountFrom.at(0);
+    }
+    if (isNaN(bedroomCountFrom as any)) {
+        bedroomCountFrom = undefined;
+        delete query.bedroomCountFrom;
+    }
+
+    let bedroomCountTo = query.bedroomCountTo;
+    if (Array.isArray(bedroomCountTo)) {
+        bedroomCountTo = bedroomCountTo.at(0);
+    }
+    if (isNaN(bedroomCountTo as any)) {
+        bedroomCountTo = undefined;
+        delete query.bedroomCountTo;
+    }
+
+    let bathroomCountFrom = query.bathroomCountFrom;
+    if (Array.isArray(bathroomCountFrom)) {
+        bathroomCountFrom = bathroomCountFrom.at(0);
+    }
+    if (isNaN(bathroomCountFrom as any)) {
+        bathroomCountFrom = undefined;
+        delete query.bathroomCountFrom;
+    }
+
+    let bathroomCountTo = query.bathroomCountTo;
+    if (Array.isArray(bathroomCountTo)) {
+        bathroomCountTo = bathroomCountTo.at(0);
+    }
+    if (isNaN(bathroomCountTo as any)) {
+        bathroomCountTo = undefined;
+        delete query.bathroomCountTo;
+    }
+
+    let parkingSpaceCountFrom = query.parkingSpaceCountFrom;
+    if (Array.isArray(parkingSpaceCountFrom)) {
+        parkingSpaceCountFrom = parkingSpaceCountFrom.at(0);
+    }
+    if (isNaN(parkingSpaceCountFrom as any)) {
+        parkingSpaceCountFrom = undefined;
+        delete query.parkingSpaceCountFrom;
+    }
+
+    let parkingSpaceCountTo = query.parkingSpaceCountTo;
+    if (Array.isArray(parkingSpaceCountTo)) {
+        parkingSpaceCountTo = parkingSpaceCountTo.at(0);
+    }
+    if (isNaN(parkingSpaceCountTo as any)) {
+        parkingSpaceCountTo = undefined;
+        delete query.parkingSpaceCountTo;
+    }
+
+    let buildYearFrom = query.buildYearFrom;
+    if (Array.isArray(buildYearFrom)) {
+        buildYearFrom = buildYearFrom.at(0);
+    }
+    if (isNaN(buildYearFrom as any)) {
+        buildYearFrom = undefined;
+        delete query.buildYearFrom;
+    }
+
+    let buildYearTo = query.buildYearTo;
+    if (Array.isArray(buildYearTo)) {
+        buildYearTo = buildYearTo.at(0);
+    }
+    if (isNaN(buildYearTo as any)) {
+        buildYearTo = undefined;
+        delete query.buildYearTo;
+    }
+
+    let renovationYearFrom = query.renovationYearFrom;
+    if (Array.isArray(renovationYearFrom)) {
+        renovationYearFrom = renovationYearFrom.at(0);
+    }
+    if (isNaN(renovationYearFrom as any)) {
+        renovationYearFrom = undefined;
+        delete query.renovationYearFrom;
+    }
+
+    let renovationYearTo = query.renovationYearTo;
+    if (Array.isArray(renovationYearTo)) {
+        renovationYearTo = renovationYearTo.at(0);
+    }
+    if (isNaN(renovationYearTo as any)) {
+        renovationYearTo = undefined;
+        delete query.renovationYearTo;
+    }
+
     let pricePerSquareMeterFrom = query.pricePerSquareMeterFrom;
     if (Array.isArray(pricePerSquareMeterFrom)) {
         pricePerSquareMeterFrom = pricePerSquareMeterFrom.at(0);
@@ -162,6 +269,18 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         sortDirection: sortDirectionTyped,
         region: regions,
         jwt,
+        areaFrom,
+        areaTo,
+        bathroomCountFrom,
+        bathroomCountTo,
+        bedroomCountFrom,
+        bedroomCountTo,
+        buildYearFrom,
+        buildYearTo,
+        parkingSpaceCountFrom,
+        parkingSpaceCountTo,
+        renovationYearFrom,
+        renovationYearTo,
     });
 
     return {
@@ -262,7 +381,118 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                 return a.label.localeCompare(b.label);
             })
     );
+    const [areaFrom, setareaFrom] = useState<string | undefined>(
+        isNaN(params?.areaFrom as any)
+            ? undefined
+            : Array.isArray(params?.areaFrom)
+            ? undefined
+            : params?.areaFrom
+    );
 
+    const [areaTo, setareaTo] = useState<string | undefined>(
+        isNaN(params?.areaTo as any)
+            ? undefined
+            : Array.isArray(params?.areaTo)
+            ? undefined
+            : params?.areaTo
+    );
+
+    const [bedroomCountFrom, setbedroomCountFrom] = useState<string | undefined>(
+        isNaN(params?.bedroomCountFrom as any)
+            ? undefined
+            : Array.isArray(params?.bedroomCountFrom)
+            ? undefined
+            : params?.bedroomCountFrom
+    );
+
+    const [bedroomCountTo, setbedroomCountTo] = useState<string | undefined>(
+        isNaN(params?.bedroomCountTo as any)
+            ? undefined
+            : Array.isArray(params?.bedroomCountTo)
+            ? undefined
+            : params?.bedroomCountTo
+    );
+
+    const [bathroomCountFrom, setbathroomCountFrom] = useState<string | undefined>(
+        isNaN(params?.bathroomCountFrom as any)
+            ? undefined
+            : Array.isArray(params?.bathroomCountFrom)
+            ? undefined
+            : params?.bathroomCountFrom
+    );
+
+    const [bathroomCountTo, setbathroomCountTo] = useState<string | undefined>(
+        isNaN(params?.bathroomCountTo as any)
+            ? undefined
+            : Array.isArray(params?.bathroomCountTo)
+            ? undefined
+            : params?.bathroomCountTo
+    );
+
+    const [parkingSpaceCountFrom, setparkingSpaceCountFrom] = useState<string | undefined>(
+        isNaN(params?.parkingSpaceCountFrom as any)
+            ? undefined
+            : Array.isArray(params?.parkingSpaceCountFrom)
+            ? undefined
+            : params?.parkingSpaceCountFrom
+    );
+
+    const [parkingSpaceCountTo, setparkingSpaceCountTo] = useState<string | undefined>(
+        isNaN(params?.parkingSpaceCountTo as any)
+            ? undefined
+            : Array.isArray(params?.parkingSpaceCountTo)
+            ? undefined
+            : params?.parkingSpaceCountTo
+    );
+
+    const [buildYearFrom, setbuildYearFrom] = useState<string | undefined>(
+        isNaN(params?.buildYearFrom as any)
+            ? undefined
+            : Array.isArray(params?.buildYearFrom)
+            ? undefined
+            : params?.buildYearFrom
+    );
+
+    const [buildYearTo, setbuildYearTo] = useState<string | undefined>(
+        isNaN(params?.buildYearTo as any)
+            ? undefined
+            : Array.isArray(params?.buildYearTo)
+            ? undefined
+            : params?.buildYearTo
+    );
+
+    const [renovationYearFrom, setrenovationYearFrom] = useState<string | undefined>(
+        isNaN(params?.renovationYearFrom as any)
+            ? undefined
+            : Array.isArray(params?.renovationYearFrom)
+            ? undefined
+            : params?.renovationYearFrom
+    );
+
+    const [renovationYearTo, setrenovationYearTo] = useState<string | undefined>(
+        isNaN(params?.renovationYearTo as any)
+            ? undefined
+            : Array.isArray(params?.renovationYearTo)
+            ? undefined
+            : params?.renovationYearTo
+    );
+
+    const [showMoreFilter, setShowMoreFilter] = useState(
+        !!(
+            areaFrom ||
+            areaTo ||
+            bedroomCountFrom ||
+            bedroomCountTo ||
+            bathroomCountFrom ||
+            bathroomCountTo ||
+            parkingSpaceCountFrom ||
+            parkingSpaceCountTo ||
+            buildYearFrom ||
+            buildYearTo ||
+            renovationYearFrom ||
+            renovationYearTo
+        )
+    );
     const router = useRouter();
 
     async function handleFilterChange() {
@@ -323,6 +553,90 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             delete allParams.region;
         }
 
+        if (areaFrom && areaFrom.length > 0 && !isNaN(areaFrom as any)) {
+            allParams.areaFrom = areaFrom;
+        } else {
+            delete allParams.areaFrom;
+        }
+
+        if (areaTo && areaTo.length > 0 && !isNaN(areaTo as any)) {
+            allParams.areaTo = areaTo;
+        } else {
+            delete allParams.areaTo;
+        }
+
+        if (bedroomCountFrom && bedroomCountFrom.length > 0 && !isNaN(bedroomCountFrom as any)) {
+            allParams.bedroomCountFrom = bedroomCountFrom;
+        } else {
+            delete allParams.bedroomCountFrom;
+        }
+
+        if (bedroomCountTo && bedroomCountTo.length > 0 && !isNaN(bedroomCountTo as any)) {
+            allParams.bedroomCountTo = bedroomCountTo;
+        } else {
+            delete allParams.bedroomCountTo;
+        }
+
+        if (bathroomCountFrom && bathroomCountFrom.length > 0 && !isNaN(bathroomCountFrom as any)) {
+            allParams.bathroomCountFrom = bathroomCountFrom;
+        } else {
+            delete allParams.bathroomCountFrom;
+        }
+
+        if (bathroomCountTo && bathroomCountTo.length > 0 && !isNaN(bathroomCountTo as any)) {
+            allParams.bathroomCountTo = bathroomCountTo;
+        } else {
+            delete allParams.bathroomCountTo;
+        }
+
+        if (
+            parkingSpaceCountFrom &&
+            parkingSpaceCountFrom.length > 0 &&
+            !isNaN(parkingSpaceCountFrom as any)
+        ) {
+            allParams.parkingSpaceCountFrom = parkingSpaceCountFrom;
+        } else {
+            delete allParams.parkingSpaceCountFrom;
+        }
+
+        if (
+            parkingSpaceCountTo &&
+            parkingSpaceCountTo.length > 0 &&
+            !isNaN(parkingSpaceCountTo as any)
+        ) {
+            allParams.parkingSpaceCountTo = parkingSpaceCountTo;
+        } else {
+            delete allParams.parkingSpaceCountTo;
+        }
+
+        if (buildYearFrom && buildYearFrom.length > 0 && !isNaN(buildYearFrom as any)) {
+            allParams.buildYearFrom = buildYearFrom;
+        } else {
+            delete allParams.buildYearFrom;
+        }
+
+        if (buildYearTo && buildYearTo.length > 0 && !isNaN(buildYearTo as any)) {
+            allParams.buildYearTo = buildYearTo;
+        } else {
+            delete allParams.buildYearTo;
+        }
+
+        if (
+            renovationYearFrom &&
+            renovationYearFrom.length > 0 &&
+            !isNaN(renovationYearFrom as any)
+        ) {
+            allParams.renovationYearFrom = renovationYearFrom;
+        } else {
+            delete allParams.renovationYearFrom;
+        }
+
+        if (renovationYearTo && renovationYearTo.length > 0 && !isNaN(renovationYearTo as any)) {
+            allParams.renovationYearTo = renovationYearTo;
+        } else {
+            delete allParams.renovationYearTo;
+        }
+
         // Restart to first page when filter changes
         delete allParams.page;
         await router.push(
@@ -373,6 +687,32 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             }
         );
         router.reload();
+    }
+
+    function clearFilter() {
+        setFilterApartments(false);
+        setFilterHouses(false);
+        setFilterLand(false);
+        setFilterSale(false);
+        setFilterShortTermRent(false);
+        setFilterLongTermRent(false);
+        setFilterRegionShortCodes([]);
+        setPriceFrom(undefined);
+        setPriceTo(undefined);
+        setPricePerSquareMeterFrom(undefined);
+        setPricePerSquareMeterTo(undefined);
+        setareaFrom(undefined);
+        setareaTo(undefined);
+        setbedroomCountFrom(undefined);
+        setbedroomCountTo(undefined);
+        setbathroomCountFrom(undefined);
+        setbathroomCountTo(undefined);
+        setparkingSpaceCountFrom(undefined);
+        setparkingSpaceCountTo(undefined);
+        setbuildYearFrom(undefined);
+        setbuildYearTo(undefined);
+        setrenovationYearFrom(undefined);
+        setrenovationYearTo(undefined);
     }
 
     return (
@@ -436,7 +776,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="w-full mt-8">
+                    <div className="w-full mt-6">
                         <Typography bold>{t("offering-type")}</Typography>
                         <div className="w-full">
                             <Input
@@ -463,7 +803,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="w-full mt-8">
+                    <div className="w-full mt-6">
                         <Typography bold>{t("regions")}</Typography>
                         <div className="w-full mt-2">
                             <RegionDropdown
@@ -482,7 +822,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="mt-6">
                         <Typography bold>{t("price")}</Typography>
                         <div className="flex flex-row flex-wrap items-center">
                             <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -490,7 +830,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     id="priceFrom"
                                     name="priceFrom"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                    value={priceFrom}
+                                    value={priceFrom || ""}
                                     onChange={(e) => {
                                         setPriceFrom(e.target.value);
                                     }}
@@ -505,7 +845,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     id="priceTo"
                                     name="priceTo"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                    value={priceTo}
+                                    value={priceTo || ""}
                                     onChange={(e) => {
                                         setPriceTo(e.target.value);
                                     }}
@@ -517,7 +857,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="mt-6">
                         <Typography bold>{t("price-per-meter-squared")}</Typography>
                         <div className="flex flex-row flex-wrap items-center">
                             <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -525,7 +865,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     id="pricePerSquareMeterFrom"
                                     name="pricePerSquareMeterFrom"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                    value={pricePerSquareMeterFrom}
+                                    value={pricePerSquareMeterFrom || ""}
                                     onChange={(e) => {
                                         setPricePerSquareMeterFrom(e.target.value);
                                     }}
@@ -540,7 +880,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     id="pricePerSquareMeterTo"
                                     name="pricePerSquareMeterTo"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
-                                    value={pricePerSquareMeterTo}
+                                    value={pricePerSquareMeterTo || ""}
                                     onChange={(e) => {
                                         setPricePerSquareMeterTo(e.target.value);
                                     }}
@@ -552,8 +892,237 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="my-8">
+                    {/* SHOW MORE FILTERS SECTION START */}
+                    <div id="more-filter" className="pt-6 text-center">
+                        <Link
+                            onClick={() => {
+                                if (!showMoreFilter) {
+                                    const showMoreFilterStart =
+                                        document.querySelector("#more-filter");
+                                    if (showMoreFilterStart) {
+                                        showMoreFilterStart.scrollIntoView({
+                                            behavior: "smooth",
+                                        });
+                                    }
+                                }
+                                setShowMoreFilter(!showMoreFilter);
+                            }}
+                        >
+                            <div className="flex flex-row -ml-1.5">
+                                <Icon
+                                    name="down-chevron"
+                                    className={`${
+                                        showMoreFilter && "rotate-90"
+                                    } origin-center transition-all`}
+                                />
+
+                                <Typography variant="span">
+                                    {showMoreFilter
+                                        ? t("show-less-filters")
+                                        : t("show-more-filters")}
+                                </Typography>
+                            </div>
+                        </Link>
+                    </div>
+
+                    <div className={`${showMoreFilter ? "flex" : "hidden"} flex-col`}>
+                        <div className="mt-6">
+                            <Typography bold>{t("area")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="areaFrom"
+                                        name="areaFrom"
+                                        className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                        value={areaFrom || ""}
+                                        onChange={(e) => {
+                                            setareaFrom(e.target.value);
+                                        }}
+                                    />
+                                    <label htmlFor="areaFrom">
+                                        <Typography>m²</Typography>
+                                    </label>
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="areaTo"
+                                        name="areaTo"
+                                        className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                        value={areaTo || ""}
+                                        onChange={(e) => {
+                                            setareaTo(e.target.value);
+                                        }}
+                                    />
+                                    <label htmlFor="areaTo">
+                                        <Typography>m²</Typography>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("bedroomCount")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="bedroomCountFrom"
+                                        name="bedroomCountFrom"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={bedroomCountFrom || ""}
+                                        onChange={(e) => {
+                                            setbedroomCountFrom(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="bedroomCountTo"
+                                        name="bedroomCountTo"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={bedroomCountTo || ""}
+                                        onChange={(e) => {
+                                            setbedroomCountTo(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("bathroomCount")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="bathroomCountFrom"
+                                        name="bathroomCountFrom"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={bathroomCountFrom || ""}
+                                        onChange={(e) => {
+                                            setbathroomCountFrom(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="bathroomCountTo"
+                                        name="bathroomCountTo"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={bathroomCountTo || ""}
+                                        onChange={(e) => {
+                                            setbathroomCountTo(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("parkingSpaceCount")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="parkingSpaceCountFrom"
+                                        name="parkingSpaceCountFrom"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={parkingSpaceCountFrom || ""}
+                                        onChange={(e) => {
+                                            setparkingSpaceCountFrom(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="parkingSpaceCountTo"
+                                        name="parkingSpaceCountTo"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={parkingSpaceCountTo || ""}
+                                        onChange={(e) => {
+                                            setparkingSpaceCountTo(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("buildYear")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="buildYearFrom"
+                                        name="buildYearFrom"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={buildYearFrom || ""}
+                                        onChange={(e) => {
+                                            setbuildYearFrom(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="buildYearTo"
+                                        name="buildYearTo"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={buildYearTo || ""}
+                                        onChange={(e) => {
+                                            setbuildYearTo(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("renovationYear")}</Typography>
+                            <div className="flex flex-row flex-wrap items-center">
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="renovationYearFrom"
+                                        name="renovationYearFrom"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={renovationYearFrom || ""}
+                                        onChange={(e) => {
+                                            setrenovationYearFrom(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                    <input
+                                        id="renovationYearTo"
+                                        name="renovationYearTo"
+                                        className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
+                                        value={renovationYearTo || ""}
+                                        onChange={(e) => {
+                                            setrenovationYearTo(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* SHOW MORE FILTERS SECTION END */}
+
+                    <div className="mt-6">
                         <Button.Primary label={t("search")} onClick={handleFilterChange} />
+                    </div>
+
+                    <div className="mt-3 mb-6 flex items-center justify-center">
+                        <Link
+                            onClick={() => {
+                                clearFilter();
+                            }}
+                            underlineClassName="!bg-zinc-500"
+                        >
+                            <Typography variant="secondary" uppercase>
+                                {t("clear-filter")}
+                            </Typography>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex-1 container mx-auto px-2 pb-8">
@@ -601,8 +1170,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     className={`ml-1 bg-white p-2 !pr-1 rounded shadow-sm ${space_grotesk.className}`}
                                     defaultValue={selectedSort}
                                 >
-                                    <option value="createdAt-asc">{t("newest-first")}</option>
-                                    <option value="createdAt-desc">{t("oldest-first")}</option>
+                                    <option value="createdAt-desc">{t("newest-first")}</option>
+                                    <option value="createdAt-asc">{t("oldest-first")}</option>
                                     <option value="price-asc">{t("cheapest-first")}</option>
                                     <option value="price-desc">{t("expensive-first")}</option>
                                 </select>

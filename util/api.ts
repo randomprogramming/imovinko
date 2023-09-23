@@ -397,6 +397,18 @@ export async function findListingsByQuery(data: {
     page?: number | string;
     priceFrom?: number | string;
     priceTo?: number | string;
+    areaFrom?: number | string;
+    areaTo?: number | string;
+    bedroomCountFrom?: number | string;
+    bedroomCountTo?: number | string;
+    bathroomCountFrom?: number | string;
+    bathroomCountTo?: number | string;
+    parkingSpaceCountFrom?: number | string;
+    parkingSpaceCountTo?: number | string;
+    buildYearFrom?: number | string;
+    buildYearTo?: number | string;
+    renovationYearFrom?: number | string;
+    renovationYearTo?: number | string;
     pricePerSquareMeterFrom?: number | string;
     pricePerSquareMeterTo?: number | string;
     sortBy?: string;
