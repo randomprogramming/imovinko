@@ -143,7 +143,14 @@
         "custom-id": "Property code",
         "custom-id-description": "Property code intended for your internal use.",
         "existing-title": "Listing for existing property",
-        "existing-description": "If you want to submit a listing for an already existing property, no need to enter the property data again."
+        "existing-description": "If you want to submit a listing for an already existing property, no need to enter the property data again.",
+        "furniture-state": "Furniture",
+        "furniture-state-description": "Does the property come with or without the furniture?",
+        "partially-furnished": "Partially Furnished",
+        "furnished": "Furnished",
+        "unfurnished": "Unfurnished",
+        "elevator-access": "Elevator access",
+        "needs-renovation": "Needs renovations"
     },
     "Map": {
         "search": "Search",
@@ -231,7 +238,15 @@
         "link": "Link",
         "copy": "Copy",
         "listing-sold": "Listing sold or rented",
-        "listing-sold-message": "This listing is no longer available."
+        "listing-sold-message": "This listing is no longer available.",
+        "elevator-access": "Elevator Access",
+        "yes": "Yes",
+        "no": "No",
+        "needs-renovation": "Needs renovations",
+        "furniture-state": "Namještaj",
+        "partiallyFurnished": "Partially Furnished",
+        "furnished": "Furnished",
+        "unfurnished": "Unfurnished"
     },
     "ListingsPage": {
         "per-night": "per night",

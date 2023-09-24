@@ -143,7 +143,14 @@
         "custom-id": "Šifra nekretnine",
         "custom-id-description": "Šifra nekretnine za vašu internu uporabu.",
         "existing-title": "Oglas za postojeću nekretninu",
-        "existing-description": "Ukoliko želite predati oglas za nekretninu koju ste već unijeli u nekom prijašnjem oglasu, možete odabrati tu nekretninu ovdje."
+        "existing-description": "Ukoliko želite predati oglas za nekretninu koju ste već unijeli u nekom prijašnjem oglasu, možete odabrati tu nekretninu ovdje.",
+        "furniture-state": "Namještaj",
+        "furniture-state-description": "Dolazi li nekretnina sa namještajem ili bez namještaja?",
+        "partially-furnished": "Djelomično namješteno",
+        "furnished": "Namješteno",
+        "unfurnished": "Nenamješteno",
+        "elevator-access": "Pristup liftu",
+        "needs-renovation": "Potrebna renovacija"
     },
     "Map": {
         "search": "Traži",
@@ -231,7 +238,15 @@
         "link": "Poveznica",
         "copy": "Kopiraj",
         "listing-sold": "Oglas prodan ili iznajmljen",
-        "listing-sold-message": "Ovaj oglas više nije dostupan."
+        "listing-sold-message": "Ovaj oglas više nije dostupan.",
+        "elevator-access": "Pristup liftu",
+        "yes": "Da",
+        "no": "Ne",
+        "needs-renovation": "Potrebna renovacija",
+        "furniture-state": "Namještaj",
+        "partiallyFurnished": "Djelomično namješteno",
+        "furnished": "Namješteno",
+        "unfurnished": "Nenamješteno"
     },
     "ListingsPage": {
         "per-night": "noćenje",

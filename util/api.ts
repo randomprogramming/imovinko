@@ -135,6 +135,11 @@ export interface ListingData {
     manualAccountContactIds?: string[];
     title?: string;
 }
+export enum FurnitureState {
+    furnished = "furnished",
+    partiallyFurnished = "partiallyFurnished",
+    unfurnished = "unfurnished",
+}
 export interface CreateListingData {
     sale?: ListingData;
     shortTermRent?: ListingData;
@@ -155,6 +160,9 @@ export interface CreateListingData {
         renovationYear?: string | number | null;
         energyLabel?: EnergyClass | null;
         customId?: string | null;
+        furnitureState?: FurnitureState | null;
+        needsRenovation?: boolean | null;
+        elevatorAccess?: boolean | null;
     };
 
     house?: {
@@ -170,6 +178,8 @@ export interface CreateListingData {
         renovationYear?: string | number | null;
         energyLabel?: EnergyClass | null;
         customId?: string | null;
+        furnitureState?: FurnitureState | null;
+        needsRenovation?: boolean | null;
     };
 
     land?: {
@@ -492,6 +502,9 @@ export interface Apartment extends PropertyLocation {
     renovationYear?: number | null;
     energyLabel?: EnergyClass | null;
     customId?: string | null;
+    furnitureState?: FurnitureState | null;
+    needsRenovation?: boolean | null;
+    elevatorAccess?: boolean | null;
 }
 export interface House extends PropertyLocation {
     id: string;
@@ -511,6 +524,8 @@ export interface House extends PropertyLocation {
     renovationYear?: number | null;
     energyLabel?: EnergyClass | null;
     customId?: string | null;
+    furnitureState?: FurnitureState | null;
+    needsRenovation?: boolean | null;
 }
 export interface Land extends PropertyLocation {
     id: string;

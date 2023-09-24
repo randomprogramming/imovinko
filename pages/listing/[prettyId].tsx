@@ -788,6 +788,10 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                     val: listing.apartment.buildingFloors,
                 });
             }
+            obj.push({
+                name: t("elevator-access"),
+                val: listing.apartment.elevatorAccess ? t("yes") : t("no"),
+            });
             if (listing.apartment.buildYear) {
                 obj.push({
                     name: t("buildYear"),
@@ -798,6 +802,16 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                 obj.push({
                     name: t("renovationYear"),
                     val: listing.apartment.renovationYear + ".",
+                });
+            }
+            obj.push({
+                name: t("needs-renovation"),
+                val: listing.apartment.needsRenovation ? t("yes") : t("no"),
+            });
+            if (listing.apartment.furnitureState) {
+                obj.push({
+                    name: t("furniture-state"),
+                    val: t(listing.apartment.furnitureState),
                 });
             }
             if (listing.apartment.energyLabel) {
@@ -861,6 +875,16 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                 obj.push({
                     name: t("renovationYear"),
                     val: listing.house.renovationYear + ".",
+                });
+            }
+            obj.push({
+                name: t("needs-renovation"),
+                val: listing.house.needsRenovation ? t("yes") : t("no"),
+            });
+            if (listing.house.furnitureState) {
+                obj.push({
+                    name: t("furniture-state"),
+                    val: t(listing.house.furnitureState),
                 });
             }
             if (listing.house.energyLabel) {

@@ -9,6 +9,7 @@ import {
     Company,
     CreateListingData,
     EnergyClass,
+    FurnitureState,
     OfferingType,
     PropertyType,
     createListing,
@@ -89,11 +90,15 @@ export default function CreateListing({ company, type }: CreateListingProps) {
     const [existingPropertySelected, setExistingPropertySelected] = useState<
         BasicApartment | BasicHouse | BasicLand
     >();
+    const [furnitureState, setFurnitureState] = useState<FurnitureState | null>(null);
+    const [needsRenovation, setNeedsRenovation] = useState(false);
+    const [elevatorAccess, setElevatorAccess] = useState(false);
 
     const id1 = useId();
     const id2 = useId();
     const id3 = useId();
     const id4 = useId();
+    const id5 = useId();
 
     const allCompanyAccounts = company
         ? [
@@ -208,6 +213,9 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         renovationYear,
                         energyLabel,
                         customId,
+                        furnitureState,
+                        elevatorAccess,
+                        needsRenovation,
                     },
                 };
             } else if (type === PropertyType.house) {
@@ -225,6 +233,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         renovationYear,
                         energyLabel,
                         customId,
+                        furnitureState,
+                        needsRenovation,
                     },
                 };
             } else {
@@ -1161,6 +1171,13 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                         `${type}.buildingFloors`
                                     )}
                                 />
+                                <Input
+                                    className="mt-2"
+                                    type="checkbox"
+                                    checked={elevatorAccess}
+                                    onCheckedChange={setElevatorAccess}
+                                    name={t("elevator-access")}
+                                />
                             </RowItem>
                         </FlexRow>
 
@@ -1193,6 +1210,66 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                         `${type}.renovationYear`
                                     )}
                                 />
+                                <Input
+                                    className="mt-2"
+                                    type="checkbox"
+                                    checked={needsRenovation}
+                                    onCheckedChange={setNeedsRenovation}
+                                    name={t("needs-renovation")}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]} className="z-50">
+                            <TitleCol title={t("furniture-state")}>
+                                {t("furniture-state-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Select
+                                    instanceId={id5}
+                                    onChange={(newVal) => {
+                                        setFurnitureState(newVal ? newVal.value : null);
+                                    }}
+                                    isSearchable={false}
+                                    isClearable
+                                    className={`${space_grotesk.className}`}
+                                    classNames={{
+                                        menuList() {
+                                            return "z-50";
+                                        },
+                                        control() {
+                                            return "!py-2 !px-2 !rounded-md !shadow-sm !border-none !bg-zinc-50";
+                                        },
+                                    }}
+                                    placeholder={t("energy-placeholder")}
+                                    components={{
+                                        Option: ({ innerProps, data, isSelected }) => {
+                                            return (
+                                                <div
+                                                    {...innerProps}
+                                                    className={`select-none p-1.5 flex flex-row items-center ${
+                                                        isSelected
+                                                            ? "bg-emerald-500"
+                                                            : "hover:bg-zinc-200"
+                                                    }`}
+                                                >
+                                                    <Typography bold>{data.label}</Typography>
+                                                </div>
+                                            );
+                                        },
+                                    }}
+                                    options={[
+                                        { label: t("furnished"), value: FurnitureState.furnished },
+                                        {
+                                            label: t("partially-furnished"),
+                                            value: FurnitureState.partiallyFurnished,
+                                        },
+                                        {
+                                            label: t("unfurnished"),
+                                            value: FurnitureState.unfurnished,
+                                        },
+                                    ]}
+                                />
                             </RowItem>
                         </FlexRow>
 
@@ -1220,7 +1297,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                     {...innerProps}
                                                     className={`${getEnergyBg(
                                                         data.value
-                                                    )} py-1 px-2`}
+                                                    )} select-none py-1 px-2`}
                                                 >
                                                     <Typography bold>{data.label}</Typography>
                                                 </div>
