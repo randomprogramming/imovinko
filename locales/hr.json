@@ -551,7 +551,7 @@
         "building-floor": "Katovi u zgradi",
         "building-floor-description": "Ukupan broj katova u zgradi u kojoj se stan nalazi.",
         "build-year": "Godina izgradnje",
-        "build-year-description": "Godina kada se nekretnina izgradila.",
+        "build-year-description": "Godina kada se nekretnina izgradila, ili planirana godina izgradnje.",
         "renovation-year": "Godina renovacije",
         "renovation-year-description": "Godina zadnje renovacije nekretnine.",
         "energy-title": "Energetski certifikat",
