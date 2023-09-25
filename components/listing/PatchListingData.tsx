@@ -689,10 +689,6 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             options={allCompanyAccounts}
                                             hideSelectedOptions={false}
                                             onChange={(val) => {
-                                                console.log("val:");
-
-                                                console.log(val);
-
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
@@ -1093,9 +1089,6 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             options={allCompanyAccounts}
                                             hideSelectedOptions={false}
                                             onChange={(val) => {
-                                                console.log("val");
-                                                console.log(val);
-
                                                 const contacts = val.filter((c) => !c.manual);
                                                 const manualContacts = val.filter((c) => c.manual);
 
