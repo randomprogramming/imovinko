@@ -179,7 +179,22 @@
         "sale": "Sale",
         "show-filter": "Show filter",
         "loading-directions": "Loading directions...",
-        "destination": "Destination"
+        "destination": "Destination",
+        "area": "Surface Area",
+        "bedroomCount": "Bedroom count",
+        "bathroomCount": "Bathroom count",
+        "parkingSpaceCount": "Parking Spaces count",
+        "buildYear": "Build year",
+        "renovationYear": "Last renovation year",
+        "needs-renovation": "Needs renovation",
+        "yes": "Yes",
+        "no": "No",
+        "furniture-state": "Furniture",
+        "furnished": "Furnished",
+        "partially-furnished": "Partially Furnished",
+        "unfurnished": "Unfurnished",
+        "elevator-access": "Elevator",
+        "has-elevator-access": "Has elevator access"
     },
     "ErrorCodes": {
         "too_small": "Too short",

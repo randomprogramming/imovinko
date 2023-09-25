@@ -4,11 +4,17 @@ import Link from "@/components/Link";
 import Map, { DEFAULT_ZOOM, MapStyle } from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { ListingBasic, OfferingType, PropertyType, findListingsByBoundingBox } from "@/util/api";
+import {
+    FurnitureState,
+    ListingBasic,
+    OfferingType,
+    PropertyType,
+    findListingsByBoundingBox,
+} from "@/util/api";
 import { LngLatBounds } from "mapbox-gl";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { Marker, Popup } from "react-map-gl";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
@@ -22,6 +28,7 @@ import SaveListingIcon from "@/components/SaveListingIcon";
 import IconRow from "@/components/listing/IconRow";
 import { useRouter } from "next/router";
 import { formatPrice } from "@/util/listing";
+import Select from "react-select";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -32,6 +39,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale }) 
     };
 };
 
+enum TriBoolean {
+    unselected,
+    yes,
+    no,
+}
+
 interface MapScreenProps {
     query: ParsedUrlQuery;
 }
@@ -40,6 +53,12 @@ export default function MapScreen({ query }: MapScreenProps) {
     const t = useTranslations("Map");
 
     const router = useRouter();
+
+    const triBooleanDropdownValues = {
+        unselected: { label: "-", value: TriBoolean.unselected },
+        yes: { label: t("yes"), value: TriBoolean.yes },
+        no: { label: t("no"), value: TriBoolean.no },
+    };
 
     const [locationLat, setLocationLat] = useState(
         typeof queryCopy.lat === "string" ? parseFloat(queryCopy.lat) : null
@@ -99,6 +118,121 @@ export default function MapScreen({ query }: MapScreenProps) {
             : Array.isArray(queryCopy?.pricePerSquareMeterTo)
             ? undefined
             : queryCopy?.pricePerSquareMeterTo
+    );
+    const [areaFrom, setareaFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.areaFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.areaFrom)
+            ? undefined
+            : queryCopy?.areaFrom
+    );
+
+    const [areaTo, setareaTo] = useState<string | undefined>(
+        isNaN(queryCopy?.areaTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.areaTo)
+            ? undefined
+            : queryCopy?.areaTo
+    );
+
+    const [bedroomCountFrom, setbedroomCountFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.bedroomCountFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.bedroomCountFrom)
+            ? undefined
+            : queryCopy?.bedroomCountFrom
+    );
+
+    const [bedroomCountTo, setbedroomCountTo] = useState<string | undefined>(
+        isNaN(queryCopy?.bedroomCountTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.bedroomCountTo)
+            ? undefined
+            : queryCopy?.bedroomCountTo
+    );
+
+    const [bathroomCountFrom, setbathroomCountFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.bathroomCountFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.bathroomCountFrom)
+            ? undefined
+            : queryCopy?.bathroomCountFrom
+    );
+
+    const [bathroomCountTo, setbathroomCountTo] = useState<string | undefined>(
+        isNaN(queryCopy?.bathroomCountTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.bathroomCountTo)
+            ? undefined
+            : queryCopy?.bathroomCountTo
+    );
+
+    const [parkingSpaceCountFrom, setparkingSpaceCountFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.parkingSpaceCountFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.parkingSpaceCountFrom)
+            ? undefined
+            : queryCopy?.parkingSpaceCountFrom
+    );
+
+    const [parkingSpaceCountTo, setparkingSpaceCountTo] = useState<string | undefined>(
+        isNaN(queryCopy?.parkingSpaceCountTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.parkingSpaceCountTo)
+            ? undefined
+            : queryCopy?.parkingSpaceCountTo
+    );
+
+    const [buildYearFrom, setbuildYearFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.buildYearFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.buildYearFrom)
+            ? undefined
+            : queryCopy?.buildYearFrom
+    );
+
+    const [buildYearTo, setbuildYearTo] = useState<string | undefined>(
+        isNaN(queryCopy?.buildYearTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.buildYearTo)
+            ? undefined
+            : queryCopy?.buildYearTo
+    );
+
+    const [renovationYearFrom, setrenovationYearFrom] = useState<string | undefined>(
+        isNaN(queryCopy?.renovationYearFrom as any)
+            ? undefined
+            : Array.isArray(queryCopy?.renovationYearFrom)
+            ? undefined
+            : queryCopy?.renovationYearFrom
+    );
+
+    const [renovationYearTo, setrenovationYearTo] = useState<string | undefined>(
+        isNaN(queryCopy?.renovationYearTo as any)
+            ? undefined
+            : Array.isArray(queryCopy?.renovationYearTo)
+            ? undefined
+            : queryCopy?.renovationYearTo
+    );
+    const [needsRenovationFilter, setNeedsRenovationFilter] = useState(
+        queryCopy?.needsRenovation === "true"
+            ? triBooleanDropdownValues.yes
+            : queryCopy?.needsRenovation === "false"
+            ? triBooleanDropdownValues.no
+            : triBooleanDropdownValues.unselected
+    );
+    const [elevatorAccessFilter, setElevatorAccessFilter] = useState(
+        queryCopy?.elevatorAccess === "true"
+    );
+
+    const [fullyFurnishedFilter, setFullyFurnishedFilter] = useState(
+        !!queryCopy?.furnitureState?.includes(FurnitureState.furnished)
+    );
+    const [partiallyFurnishedFilter, setPartiallyFurnishedFilter] = useState(
+        !!queryCopy?.furnitureState?.includes(FurnitureState.partiallyFurnished)
+    );
+    const [unfurnishedFilter, setUnfurnishedFilter] = useState(
+        !!queryCopy?.furnitureState?.includes(FurnitureState.unfurnished)
     );
 
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
@@ -164,6 +298,130 @@ export default function MapScreen({ query }: MapScreenProps) {
                 delete allParams.pricePerSquareMeterTo;
             }
 
+            if (areaFrom && areaFrom.length > 0 && !isNaN(areaFrom as any)) {
+                allParams.areaFrom = areaFrom;
+            } else {
+                delete allParams.areaFrom;
+            }
+
+            if (areaTo && areaTo.length > 0 && !isNaN(areaTo as any)) {
+                allParams.areaTo = areaTo;
+            } else {
+                delete allParams.areaTo;
+            }
+
+            if (
+                bedroomCountFrom &&
+                bedroomCountFrom.length > 0 &&
+                !isNaN(bedroomCountFrom as any)
+            ) {
+                allParams.bedroomCountFrom = bedroomCountFrom;
+            } else {
+                delete allParams.bedroomCountFrom;
+            }
+
+            if (bedroomCountTo && bedroomCountTo.length > 0 && !isNaN(bedroomCountTo as any)) {
+                allParams.bedroomCountTo = bedroomCountTo;
+            } else {
+                delete allParams.bedroomCountTo;
+            }
+
+            if (
+                bathroomCountFrom &&
+                bathroomCountFrom.length > 0 &&
+                !isNaN(bathroomCountFrom as any)
+            ) {
+                allParams.bathroomCountFrom = bathroomCountFrom;
+            } else {
+                delete allParams.bathroomCountFrom;
+            }
+
+            if (bathroomCountTo && bathroomCountTo.length > 0 && !isNaN(bathroomCountTo as any)) {
+                allParams.bathroomCountTo = bathroomCountTo;
+            } else {
+                delete allParams.bathroomCountTo;
+            }
+
+            if (
+                parkingSpaceCountFrom &&
+                parkingSpaceCountFrom.length > 0 &&
+                !isNaN(parkingSpaceCountFrom as any)
+            ) {
+                allParams.parkingSpaceCountFrom = parkingSpaceCountFrom;
+            } else {
+                delete allParams.parkingSpaceCountFrom;
+            }
+
+            if (
+                parkingSpaceCountTo &&
+                parkingSpaceCountTo.length > 0 &&
+                !isNaN(parkingSpaceCountTo as any)
+            ) {
+                allParams.parkingSpaceCountTo = parkingSpaceCountTo;
+            } else {
+                delete allParams.parkingSpaceCountTo;
+            }
+
+            if (buildYearFrom && buildYearFrom.length > 0 && !isNaN(buildYearFrom as any)) {
+                allParams.buildYearFrom = buildYearFrom;
+            } else {
+                delete allParams.buildYearFrom;
+            }
+
+            if (buildYearTo && buildYearTo.length > 0 && !isNaN(buildYearTo as any)) {
+                allParams.buildYearTo = buildYearTo;
+            } else {
+                delete allParams.buildYearTo;
+            }
+
+            if (
+                renovationYearFrom &&
+                renovationYearFrom.length > 0 &&
+                !isNaN(renovationYearFrom as any)
+            ) {
+                allParams.renovationYearFrom = renovationYearFrom;
+            } else {
+                delete allParams.renovationYearFrom;
+            }
+
+            if (
+                renovationYearTo &&
+                renovationYearTo.length > 0 &&
+                !isNaN(renovationYearTo as any)
+            ) {
+                allParams.renovationYearTo = renovationYearTo;
+            } else {
+                delete allParams.renovationYearTo;
+            }
+
+            if (needsRenovationFilter.value === TriBoolean.yes) {
+                allParams.needsRenovation = "true";
+            } else if (needsRenovationFilter.value === TriBoolean.no) {
+                allParams.needsRenovation = "false";
+            } else {
+                delete allParams.needsRenovation;
+            }
+
+            const furnitureState = [];
+            if (fullyFurnishedFilter) {
+                furnitureState.push(FurnitureState.furnished);
+            }
+            if (partiallyFurnishedFilter) {
+                furnitureState.push(FurnitureState.partiallyFurnished);
+            }
+            if (unfurnishedFilter) {
+                furnitureState.push(FurnitureState.unfurnished);
+            }
+            if (furnitureState.length === 0) {
+                delete allParams.furnitureState;
+            }
+
+            if (elevatorAccessFilter) {
+                allParams.elevatorAccess = "true";
+            } else {
+                delete allParams.elevatorAccess;
+            }
+
             if (propertyTypes.length === 0) {
                 propertyTypes = [PropertyType.apartment, PropertyType.house, PropertyType.land];
             }
@@ -187,11 +445,25 @@ export default function MapScreen({ query }: MapScreenProps) {
                 priceTo,
                 pricePerSquareMeterFrom,
                 pricePerSquareMeterTo,
+                areaFrom,
+                areaTo,
+                bedroomCountFrom,
+                bedroomCountTo,
+                bathroomCountFrom,
+                bathroomCountTo,
+                parkingSpaceCountFrom,
+                parkingSpaceCountTo,
+                buildYearFrom,
+                buildYearTo,
+                renovationYearFrom,
+                renovationYearTo,
+                furnitureState: furnitureState.length > 0 ? furnitureState : undefined,
+                elevatorAccess: elevatorAccessFilter ? true : undefined,
             });
 
             // Restart to first page when filter changes
             delete allParams.page;
-            setQueryCopy({ ...allParams, propertyTypes, offeringTypes });
+            setQueryCopy({ ...allParams, propertyTypes, offeringTypes, furnitureState });
 
             // VERY IMPORTANT!!!
             // This forces the properties with smaller price tags to be rendered in front of the properties with larger tags
@@ -276,47 +548,6 @@ export default function MapScreen({ query }: MapScreenProps) {
         setOpenProperty(null);
     }
 
-    function getPropertyLocationString(p: ListingBasic) {
-        let region: string | null = null;
-        let city: string | null = null;
-        let street: string | null = null;
-
-        if (p.apartment) {
-            region = p.apartment.region;
-            city = p.apartment.city;
-            street = p.apartment.street;
-        } else if (p.house) {
-            region = p.house.region;
-            city = p.house.city;
-            street = p.house.street;
-        } else {
-            region = p.land!.region;
-            city = p.land!.city;
-            street = p.land!.street;
-        }
-
-        let locationStr = "";
-        if (street) {
-            locationStr += street;
-        }
-        if (city) {
-            if (locationStr.length > 0) {
-                locationStr += `, ${city}`;
-            } else {
-                locationStr += city;
-            }
-        }
-        if (region) {
-            if (locationStr.length > 0) {
-                locationStr += `, ${region}`;
-            } else {
-                locationStr += region;
-            }
-        }
-
-        return locationStr;
-    }
-
     function onMapStyleChange(newStyle: string) {
         // Mapbox satellite images are quite dark, so you can't see the navbar icons...
         if (newStyle === MapStyle.satelliteMapStyle) {
@@ -327,6 +558,8 @@ export default function MapScreen({ query }: MapScreenProps) {
     }
 
     React.useEffect(() => {
+        // TODO: When a field changes while a search was in progress, the newly changed
+        // field will not call this function again and won't be filtered. Figure out a way to fix that..
         if (!isSearchInProgress) {
             searchProperties();
         }
@@ -342,6 +575,23 @@ export default function MapScreen({ query }: MapScreenProps) {
         priceTo,
         pricePerSquareMeterFrom,
         pricePerSquareMeterTo,
+        areaFrom,
+        areaTo,
+        bedroomCountFrom,
+        bedroomCountTo,
+        bathroomCountFrom,
+        bathroomCountTo,
+        parkingSpaceCountFrom,
+        parkingSpaceCountTo,
+        buildYearFrom,
+        buildYearTo,
+        renovationYearFrom,
+        renovationYearTo,
+        needsRenovationFilter,
+        fullyFurnishedFilter,
+        partiallyFurnishedFilter,
+        unfurnishedFilter,
+        elevatorAccessFilter,
     ]);
 
     React.useEffect(() => {
@@ -740,6 +990,272 @@ export default function MapScreen({ query }: MapScreenProps) {
                                             <Typography>€</Typography>
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("area")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="areaFrom"
+                                            name="areaFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setareaFrom(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="areaFrom">
+                                            <Typography>m²</Typography>
+                                        </label>
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="areaTo"
+                                            name="areaTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setareaTo(e.target.value);
+                                            }}
+                                        />
+                                        <label htmlFor="areaTo">
+                                            <Typography>m²</Typography>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("bedroomCount")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="bedroomCountFrom"
+                                            name="bedroomCountFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setbedroomCountFrom(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="bedroomCountTo"
+                                            name="bedroomCountTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setbedroomCountTo(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("bathroomCount")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="bathroomCountFrom"
+                                            name="bathroomCountFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setbathroomCountFrom(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="bathroomCountTo"
+                                            name="bathroomCountTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setbathroomCountTo(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("parkingSpaceCount")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="parkingSpaceCountFrom"
+                                            name="parkingSpaceCountFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setparkingSpaceCountFrom(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="parkingSpaceCountTo"
+                                            name="parkingSpaceCountTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setparkingSpaceCountTo(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("buildYear")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="buildYearFrom"
+                                            name="buildYearFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setbuildYearFrom(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="buildYearTo"
+                                            name="buildYearTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setbuildYearTo(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("renovationYear")}</Typography>
+                                <div className="flex flex-row flex-wrap items-center">
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="renovationYearFrom"
+                                            name="renovationYearFrom"
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            debounceTimeout={1000}
+                                            onChange={(e) => {
+                                                setrenovationYearFrom(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <Typography className="mx-2 mt-2">{t("to")}</Typography>
+                                    <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
+                                        <DebounceInput
+                                            id="renovationYearTo"
+                                            name="renovationYearTo"
+                                            debounceTimeout={1000}
+                                            className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                            onChange={(e) => {
+                                                setrenovationYearTo(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("needs-renovation")}</Typography>
+                                <Select
+                                    instanceId={useId()}
+                                    hideSelectedOptions={false}
+                                    className={`outline-none border-none ${space_grotesk.className}`}
+                                    options={Object.values(triBooleanDropdownValues)}
+                                    onChange={(d) => {
+                                        if (d) {
+                                            setNeedsRenovationFilter(d);
+                                        }
+                                    }}
+                                    value={needsRenovationFilter}
+                                    components={{
+                                        Option({ innerProps, children, isSelected }) {
+                                            return (
+                                                <div
+                                                    {...innerProps}
+                                                    className={`select-none p-1.5 flex flex-row items-center ${
+                                                        isSelected
+                                                            ? "bg-emerald-500"
+                                                            : "hover:bg-zinc-200"
+                                                    }`}
+                                                >
+                                                    <div className="ml-1">{children}</div>
+                                                </div>
+                                            );
+                                        },
+                                    }}
+                                    classNames={{
+                                        control() {
+                                            return "!bg-transparent !border !border-zinc-400 !rounded-md !shadow";
+                                        },
+                                        multiValue() {
+                                            return "!bg-zinc-300 !rounded !shadow-sm !text-sm";
+                                        },
+                                        menu() {
+                                            return "!bg-white !shadow-sm !overflow-hidden !rounded-md !border !border-zinc-300 !z-30";
+                                        },
+                                        menuList() {
+                                            return "!p-0";
+                                        },
+                                    }}
+                                />
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("furniture-state")}</Typography>
+                                <div className="w-full">
+                                    <Input
+                                        name={t("furnished")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={fullyFurnishedFilter}
+                                        onCheckedChange={setFullyFurnishedFilter}
+                                    />
+                                    <Input
+                                        name={t("partially-furnished")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={partiallyFurnishedFilter}
+                                        onCheckedChange={setPartiallyFurnishedFilter}
+                                    />
+                                    <Input
+                                        name={t("unfurnished")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={unfurnishedFilter}
+                                        onCheckedChange={setUnfurnishedFilter}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <Typography bold>{t("elevator-access")}</Typography>
+                                <div className="w-full">
+                                    <Input
+                                        name={t("has-elevator-access")}
+                                        type="checkbox"
+                                        className="ml-2"
+                                        checked={elevatorAccessFilter}
+                                        onCheckedChange={setElevatorAccessFilter}
+                                    />
                                 </div>
                             </div>
 

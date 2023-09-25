@@ -179,7 +179,22 @@
         "sale": "Prodaja",
         "show-filter": "Prikaži filter",
         "loading-directions": "Učitavanje uputa...",
-        "destination": "Destinacija"
+        "destination": "Destinacija",
+        "area": "Površina",
+        "bedroomCount": "Broj spavaćih soba",
+        "bathroomCount": "Broj kupaonica",
+        "parkingSpaceCount": "Broj parkirnih mjesta",
+        "buildYear": "Godina izgradnje",
+        "renovationYear": "Godina zadnje renovacije",
+        "needs-renovation": "Potrebna renovacija",
+        "yes": "Da",
+        "no": "Ne",
+        "furniture-state": "Namještaj",
+        "furnished": "Namješteno",
+        "partially-furnished": "Djelomično namješteno",
+        "unfurnished": "Nenamješteno",
+        "elevator-access": "Lift",
+        "has-elevator-access": "Ima pristup liftu"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

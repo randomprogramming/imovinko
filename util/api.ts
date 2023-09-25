@@ -395,18 +395,8 @@ type PaginatedData<T> = {
 
 export type PaginatedListingBasic = PaginatedData<ListingBasic>;
 
-export async function findListingsByBoundingBox(data: {
-    boundingBox?: BoundingBox;
-    propertyType?: PropertyType[];
-    offeringType?: OfferingType[];
-    priceFrom?: number | string;
-    priceTo?: number | string;
-    pricePerSquareMeterFrom?: number | string;
-    pricePerSquareMeterTo?: number | string;
-    pageSize?: number;
-    exclude?: string[];
-    jwt?: string;
-}) {
+type ListingsQueryBoundingBox = ListingsQuery & { boundingBox?: BoundingBox };
+export async function findListingsByBoundingBox(data: ListingsQueryBoundingBox) {
     const { ...bounding } = data.boundingBox;
     const jwtC = data.jwt;
     delete data.boundingBox;
@@ -417,6 +407,7 @@ export async function findListingsByBoundingBox(data: {
         headers.Authorization = `Bearer ${jwtC}`;
     }
 
+    data = clearEmptyStrings(data);
     return (
         await client<PaginatedListingBasic>({
             url: "/listing/",
@@ -426,6 +417,7 @@ export async function findListingsByBoundingBox(data: {
                 ...bounding,
                 propertyType: data.propertyType ? data.propertyType.join(",") : undefined,
                 offeringType: data.offeringType ? data.offeringType.join(",") : undefined,
+                furnitureState: data.furnitureState ? data.furnitureState.join(",") : undefined,
                 exclude: data.exclude ? data.exclude.join(",") : undefined,
                 pageSize: data.pageSize || 20,
             },
@@ -433,7 +425,7 @@ export async function findListingsByBoundingBox(data: {
         })
     ).data;
 }
-export async function findListingsByQuery(data: {
+interface ListingsQuery {
     propertyType: PropertyType[];
     offeringType: OfferingType[];
     furnitureState?: FurnitureState[];
@@ -461,7 +453,9 @@ export async function findListingsByQuery(data: {
     pageSize?: number;
     region?: HRRegionShortCode[];
     jwt?: string;
-}) {
+    exclude?: string[];
+}
+export async function findListingsByQuery(data: ListingsQuery) {
     if (data.region && data.region.length === 0) {
         data.region = undefined;
     }
@@ -471,6 +465,7 @@ export async function findListingsByQuery(data: {
     if (jwtC) {
         headers.Authorization = `Bearer ${jwtC}`;
     }
+    data = clearEmptyStrings(data);
     return await client<PaginatedListingBasic>({
         url: "/listing/",
         method: "GET",
