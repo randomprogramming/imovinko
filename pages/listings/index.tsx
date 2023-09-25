@@ -370,6 +370,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
 
     const [useCards, setUseCards] = useState(params?.useList !== "true"); // Use Cards or List UI for showing listings
 
+    const [isHandlingFilterChange, setIsHandlingFilterChange] = useState(false);
+
     const [filterApartments, setFilterApartments] = useState(
         !!params?.propertyTypes?.includes(PropertyType.apartment)
     );
@@ -433,6 +435,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                 return a.label.localeCompare(b.label);
             })
     );
+    // If the region dropdown re-renders it does some weird stuff so we have to make sure it doesn't re render
+    const initialFilterRegionShortCodes = React.useMemo(() => [...filterRegionShortCodes], []);
     const [areaFrom, setareaFrom] = useState<string | undefined>(
         isNaN(params?.areaFrom as any)
             ? undefined
@@ -575,6 +579,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
     const router = useRouter();
 
     async function handleFilterChange() {
+        setIsHandlingFilterChange(true);
         let allParams = params ? { ...params } : {};
 
         const propertyTypes = [];
@@ -801,6 +806,12 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         router.reload();
     }
 
+    function checkForInputEnterPress(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter" && !isHandlingFilterChange) {
+            handleFilterChange();
+        }
+    }
+
     function clearFilter() {
         setFilterApartments(false);
         setFilterHouses(false);
@@ -831,6 +842,18 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         setUnfurnishedFilter(false);
         setElevatorAccessFilter(false);
     }
+
+    // We have to use callback here or else it does some weird stuff after selected(rerendering)
+    const onRegionChange = React.useCallback((newVal: any) => {
+        setFilterRegionShortCodes(
+            newVal.map((v: any) => {
+                return {
+                    label: v.label,
+                    value: v.value,
+                };
+            })
+        );
+    }, []);
 
     return (
         <>
@@ -925,17 +948,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         <Typography bold>{t("regions")}</Typography>
                         <div className="w-full mt-2">
                             <RegionDropdown
-                                selected={filterRegionShortCodes}
-                                onChange={(newVal) => {
-                                    setFilterRegionShortCodes(
-                                        newVal.map((v) => {
-                                            return {
-                                                label: v.label,
-                                                value: v.value,
-                                            };
-                                        })
-                                    );
-                                }}
+                                onChange={onRegionChange}
+                                initial={initialFilterRegionShortCodes}
                             />
                         </div>
                     </div>
@@ -952,6 +966,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     onChange={(e) => {
                                         setPriceFrom(e.target.value);
                                     }}
+                                    onKeyDown={checkForInputEnterPress}
                                 />
                                 <label htmlFor="priceFrom">
                                     <Typography>€</Typography>
@@ -967,6 +982,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     onChange={(e) => {
                                         setPriceTo(e.target.value);
                                     }}
+                                    onKeyDown={checkForInputEnterPress}
                                 />
                                 <label htmlFor="priceTo">
                                     <Typography>€</Typography>
@@ -984,6 +1000,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     name="pricePerSquareMeterFrom"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
                                     value={pricePerSquareMeterFrom || ""}
+                                    onKeyDown={checkForInputEnterPress}
                                     onChange={(e) => {
                                         setPricePerSquareMeterFrom(e.target.value);
                                     }}
@@ -999,6 +1016,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     name="pricePerSquareMeterTo"
                                     className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
                                     value={pricePerSquareMeterTo || ""}
+                                    onKeyDown={checkForInputEnterPress}
                                     onChange={(e) => {
                                         setPricePerSquareMeterTo(e.target.value);
                                     }}
@@ -1053,6 +1071,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="areaFrom"
                                         className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
                                         value={areaFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setareaFrom(e.target.value);
                                         }}
@@ -1068,6 +1087,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="areaTo"
                                         className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
                                         value={areaTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setareaTo(e.target.value);
                                         }}
@@ -1088,6 +1108,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="bedroomCountFrom"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={bedroomCountFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbedroomCountFrom(e.target.value);
                                         }}
@@ -1100,6 +1121,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="bedroomCountTo"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={bedroomCountTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbedroomCountTo(e.target.value);
                                         }}
@@ -1117,6 +1139,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="bathroomCountFrom"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={bathroomCountFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbathroomCountFrom(e.target.value);
                                         }}
@@ -1129,6 +1152,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="bathroomCountTo"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={bathroomCountTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbathroomCountTo(e.target.value);
                                         }}
@@ -1146,6 +1170,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="parkingSpaceCountFrom"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={parkingSpaceCountFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setparkingSpaceCountFrom(e.target.value);
                                         }}
@@ -1158,6 +1183,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="parkingSpaceCountTo"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={parkingSpaceCountTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setparkingSpaceCountTo(e.target.value);
                                         }}
@@ -1175,6 +1201,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="buildYearFrom"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={buildYearFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbuildYearFrom(e.target.value);
                                         }}
@@ -1187,6 +1214,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="buildYearTo"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={buildYearTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setbuildYearTo(e.target.value);
                                         }}
@@ -1204,6 +1232,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="renovationYearFrom"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={renovationYearFrom || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setrenovationYearFrom(e.target.value);
                                         }}
@@ -1216,6 +1245,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         name="renovationYearTo"
                                         className={`bg-transparent outline-none border-none w-28 pr-1 ${space_grotesk.className}`}
                                         value={renovationYearTo || ""}
+                                        onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
                                             setrenovationYearTo(e.target.value);
                                         }}

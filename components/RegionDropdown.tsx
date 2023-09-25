@@ -1,7 +1,7 @@
 import { space_grotesk } from "@/util/fonts";
 import { useTranslations } from "next-intl";
-import React, { useId } from "react";
-import ReactSelect, { MultiValue } from "react-select";
+import React, { useId, memo } from "react";
+import ReactSelect, { MultiValue, components } from "react-select";
 import Icon from "./Icon";
 
 export enum HRRegionShortCode {
@@ -30,7 +30,7 @@ export enum HRRegionShortCode {
 
 interface RegionDropdownProps {
     onChange(newVal: MultiValue<{ label: string; value: HRRegionShortCode }>): void;
-    selected: any;
+    initial: any;
 }
 
 export function parseInitialRegionParams(parseInitialParams?: string | string[]) {
@@ -51,7 +51,7 @@ export function parseInitialRegionParams(parseInitialParams?: string | string[])
     return [];
 }
 
-export default function RegionDropdown({ onChange, selected }: RegionDropdownProps) {
+function RegionDropdown({ initial, onChange }: RegionDropdownProps) {
     const t = useTranslations("RegionDropdown");
 
     const selectValues = Object.values(HRRegionShortCode)
@@ -75,14 +75,20 @@ export default function RegionDropdown({ onChange, selected }: RegionDropdownPro
             options={selectValues}
             placeholder={t("select")}
             onChange={onChange}
-            value={selected}
+            defaultValue={initial}
             components={{
-                Option({ innerProps, children, isSelected }) {
+                Option(innerProps) {
                     return (
-                        <div
+                        <components.Option
                             {...innerProps}
-                            className={`select-none p-1.5 flex flex-row items-center ${
-                                isSelected ? "bg-emerald-500" : "hover:bg-zinc-200"
+                            className={`!select-none p-1.5 !flex !flex-row !items-center ${
+                                innerProps.isSelected
+                                    ? innerProps.isFocused
+                                        ? "!bg-emerald-400"
+                                        : "!bg-emerald-500"
+                                    : innerProps.isFocused
+                                    ? "!bg-zinc-200"
+                                    : "!hover:bg-zinc-200"
                             }`}
                         >
                             <Icon
@@ -91,8 +97,8 @@ export default function RegionDropdown({ onChange, selected }: RegionDropdownPro
                                 width={20}
                                 className="fill-transparent"
                             />
-                            <div className="ml-1">{children}</div>
-                        </div>
+                            <div className="ml-1">{innerProps.children}</div>
+                        </components.Option>
                     );
                 },
             }}
@@ -113,3 +119,5 @@ export default function RegionDropdown({ onChange, selected }: RegionDropdownPro
         />
     );
 }
+
+export default memo(RegionDropdown);
