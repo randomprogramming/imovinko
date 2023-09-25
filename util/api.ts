@@ -141,7 +141,9 @@ export enum FurnitureState {
     unfurnished = "unfurnished",
 }
 export interface CreateListingData {
-    sale?: ListingData;
+    sale?: ListingData & {
+        saleCommissionPercent?: number | string | null;
+    };
     shortTermRent?: ListingData;
     longTermRent?: ListingData;
 
@@ -554,6 +556,7 @@ export interface Listing {
     deactivated: string | Date | null;
     offeringType: OfferingType;
     price: number;
+    saleCommissionPercent?: number;
     pricePerMeterSquared: number | null;
     houseId: string | null;
     apartmentId: string | null;

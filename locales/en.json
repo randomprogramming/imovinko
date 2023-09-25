@@ -150,7 +150,9 @@
         "furnished": "Furnished",
         "unfurnished": "Unfurnished",
         "elevator-access": "Elevator access",
-        "needs-renovation": "Needs renovations"
+        "needs-renovation": "Needs renovations",
+        "commissions": "Commission",
+        "commissions-description": "If there are commissions which the buyer needs to pay, enter the percentage of the commission."
     },
     "Map": {
         "search": "Search",
@@ -246,7 +248,9 @@
         "furniture-state": "Namještaj",
         "partiallyFurnished": "Partially Furnished",
         "furnished": "Furnished",
-        "unfurnished": "Unfurnished"
+        "unfurnished": "Unfurnished",
+        "commission": "Commission",
+        "none": "None"
     },
     "ListingsPage": {
         "per-night": "per night",

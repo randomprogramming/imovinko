@@ -46,6 +46,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
     const [saleListingDescription, setSaleListingDescription] = useState<string>("");
     const [saleManualAccountContacts, setSaleManualAccountContacts] = useState<string[]>([]);
     const [saleContacts, setSaleContacts] = useState<string[]>([]);
+    const [saleCommissionsPercent, setSaleCommissionsPercent] = useState<string | number>();
     const [isForShortTermRent, setIsForShortTermRent] = useState(false);
     const [shortTermListingTitle, setShortTermListingTitle] = useState("");
     const [shortTermListingPrice, setShortTermListingPrice] = useState<string>("");
@@ -160,6 +161,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         description: saleListingDescription,
                         contactIds: saleContacts,
                         manualAccountContactIds: saleManualAccountContacts,
+                        saleCommissionPercent: saleCommissionsPercent,
                     },
                 };
             }
@@ -248,6 +250,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                     },
                 };
             }
+            console.log(listingData);
+
             const resp = await createListing(listingData);
 
             if (images.length > 0 && !isForExistingProperty) {
@@ -517,6 +521,26 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                     placeholder={"150000"}
                                     hasError={fieldErrorCodesParser.has("sale.price")}
                                     errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
+                                />
+                            </RowItem>
+                        </FlexRow>
+                        <FlexRow type={type} hideBottomBorder>
+                            <TitleCol title={t("commissions")}>
+                                {t("commissions-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Input
+                                    suffix="%"
+                                    name="saleCommissionPercent"
+                                    value={saleCommissionsPercent}
+                                    onChange={setSaleCommissionsPercent}
+                                    placeholder={"2.2"}
+                                    hasError={fieldErrorCodesParser.has(
+                                        "sale.saleCommissionPercent"
+                                    )}
+                                    errorMsg={fieldErrorCodesParser.getTranslated(
+                                        "sale.saleCommissionPercent"
+                                    )}
                                 />
                             </RowItem>
                         </FlexRow>

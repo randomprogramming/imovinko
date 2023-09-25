@@ -920,6 +920,21 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                 });
             }
         }
+        if (listing.offeringType === OfferingType.sale) {
+            if (listing.saleCommissionPercent) {
+                obj.push({
+                    name: t("commission"),
+                    val: `${listing.saleCommissionPercent.toFixed(2)}% [${formatPrice(
+                        listing.price * (listing.saleCommissionPercent / 100)
+                    )}]`,
+                });
+            } else {
+                obj.push({
+                    name: t("commission"),
+                    val: t("none"),
+                });
+            }
+        }
         return obj;
     }
 

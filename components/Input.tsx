@@ -66,6 +66,7 @@ interface InputProps extends CheckBoxInputProps {
     disabled?: boolean;
     onKeyDown?(e: React.KeyboardEvent<HTMLInputElement>): void;
     onKeyDownTextArea?(e: React.KeyboardEvent<HTMLTextAreaElement>): void;
+    suffix?: string;
 }
 export default function Input({
     name,
@@ -83,6 +84,7 @@ export default function Input({
     disabled,
     onKeyDown,
     onKeyDownTextArea,
+    suffix,
 }: InputProps) {
     if (type === "checkbox") {
         return (
@@ -203,7 +205,11 @@ export default function Input({
     }
 
     return (
-        <div className="relative">
+        <div
+            className={`relative ${small ? "rounded-sm" : "w-full rounded-md"} ${
+                hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"
+            } shadow-sm z-[15] flex flex-row ${className}`}
+        >
             <input
                 id={name}
                 disabled={disabled}
@@ -217,12 +223,19 @@ export default function Input({
                         onChange(e.currentTarget.value);
                     }
                 }}
-                className={`${space_grotesk.className} ${
-                    small ? "rounded-sm py-1 px-2" : "py-3 px-4 w-full rounded-md"
-                } ${hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"} border-2  ${
+                className={`flex-1 border-2 ${small ? "rounded-sm" : "rounded-md"} ${
                     hasError ? "!border-rose-700" : "border-transparent"
-                } outline-none shadow-sm relative z-[15] disabled:bg-zinc-300 ${className}`}
+                } ${space_grotesk.className} ${
+                    small ? "py-1 px-2" : "py-3 px-4"
+                } disabled:bg-zinc-300 bg-transparent outline-none z-[15] ${
+                    hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"
+                }`}
             />
+            {suffix && (
+                <label htmlFor={name} className="flex items-center justify-center px-4 select-none">
+                    <Typography bold>{suffix}</Typography>
+                </label>
+            )}
             {hasError &&
                 errorMsg &&
                 (hollow ? (

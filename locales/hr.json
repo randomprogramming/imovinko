@@ -150,7 +150,9 @@
         "furnished": "Namješteno",
         "unfurnished": "Nenamješteno",
         "elevator-access": "Pristup liftu",
-        "needs-renovation": "Potrebna renovacija"
+        "needs-renovation": "Potrebna renovacija",
+        "commissions": "Provizija",
+        "commissions-description": "Ukoliko postoji provizija koju plaća kupac, unesite postotak provizije."
     },
     "Map": {
         "search": "Traži",
@@ -246,7 +248,9 @@
         "furniture-state": "Namještaj",
         "partiallyFurnished": "Djelomično namješteno",
         "furnished": "Namješteno",
-        "unfurnished": "Nenamješteno"
+        "unfurnished": "Nenamješteno",
+        "commission": "Provizija",
+        "none": "Nema"
     },
     "ListingsPage": {
         "per-night": "noćenje",
