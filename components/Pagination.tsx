@@ -61,15 +61,20 @@ export default function Pagination({ currentPage, maxPage }: PaginationProps) {
     }, [currentPage, maxPage]);
 
     return (
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row space-x-1">
             <button
                 disabled={currentPage === 1}
-                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-300`}
+                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md ${
+                    currentPage !== 1 && "hover:bg-zinc-300"
+                }`}
                 onClick={() => {
                     onPageChange(currentPage - 1);
                 }}
             >
-                <Icon name="down-chevron" className="rotate-45 origin-center" />
+                <Icon
+                    name="down-chevron"
+                    className={`rotate-45 origin-center ${currentPage === 1 && "stroke-zinc-500"}`}
+                />
             </button>
             {indexes.map((i) => {
                 return (
@@ -89,12 +94,19 @@ export default function Pagination({ currentPage, maxPage }: PaginationProps) {
             })}
             <button
                 disabled={currentPage === maxPage}
-                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md hover:bg-zinc-300`}
+                className={`transition-all outline-none border-none w-10 h-10 flex items-center justify-center rounded-md ${
+                    currentPage !== maxPage && "hover:bg-zinc-300"
+                }`}
                 onClick={() => {
                     onPageChange(currentPage + 1);
                 }}
             >
-                <Icon name="down-chevron" className="-rotate-45 origin-center" />
+                <Icon
+                    name="down-chevron"
+                    className={`-rotate-45 origin-center ${
+                        currentPage === maxPage && "stroke-zinc-500"
+                    }`}
+                />
             </button>
         </div>
     );

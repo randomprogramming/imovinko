@@ -215,7 +215,7 @@ export default function Input({
                 disabled={disabled}
                 type={type}
                 name={name}
-                value={value || undefined}
+                value={value || ""}
                 placeholder={placeholder}
                 onKeyDown={onKeyDown}
                 onChange={(e) => {

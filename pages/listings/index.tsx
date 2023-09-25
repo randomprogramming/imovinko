@@ -1229,7 +1229,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                             <Select
                                 instanceId={useId()}
                                 hideSelectedOptions={false}
-                                className={`outline-none border-none ${space_grotesk.className}`}
+                                className={`mt-2 outline-none border-none ${space_grotesk.className}`}
                                 options={Object.values(triBooleanDropdownValues)}
                                 onChange={(d) => {
                                     if (d) {
