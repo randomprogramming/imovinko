@@ -152,7 +152,8 @@
         "elevator-access": "Pristup liftu",
         "needs-renovation": "Potrebna renovacija",
         "commissions": "Provizija",
-        "commissions-description": "Ukoliko postoji provizija koju plaća kupac, unesite postotak provizije."
+        "commissions-description": "Ukoliko postoji provizija koju plaća kupac, unesite postotak provizije.",
+        "location-cant-change": "Lokacija nekretnine se kasnije ne može mijenjati."
     },
     "Map": {
         "search": "Traži",

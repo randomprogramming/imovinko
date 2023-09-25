@@ -42,14 +42,20 @@ interface TitleColProps {
     children?: React.ReactNode;
     hasError?: boolean;
     errorMsg?: string;
+    warningText?: string;
 }
-export function TitleCol({ title, children, errorMsg, hasError }: TitleColProps) {
+export function TitleCol({ title, children, errorMsg, hasError, warningText }: TitleColProps) {
     return (
         <div className="w-full flex flex-col md:w-1/2">
             <Typography bold className={`${hasError && "text-rose-700"}`}>
                 {title}
             </Typography>
             <Typography className="text-zinc-500">{children}</Typography>
+            {warningText && (
+                <Typography className="text-zinc-500" bold>
+                    {warningText}
+                </Typography>
+            )}
             {hasError && errorMsg && (
                 <Typography className="text-rose-700 mt-auto">{errorMsg}</Typography>
             )}

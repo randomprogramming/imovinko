@@ -1334,7 +1334,10 @@ export default function CreateListing({ company, type }: CreateListingProps) {
 
                         <FlexRow type={type} singleCol noPadding>
                             <div className="px-2">
-                                <TitleCol title={t(`location-${type}`)}>
+                                <TitleCol
+                                    title={t(`location-${type}`)}
+                                    warningText={t("location-cant-change")}
+                                >
                                     {t("location-desc")}
                                 </TitleCol>
                             </div>
