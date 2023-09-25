@@ -186,7 +186,9 @@ export default function InputListingData({ company, listing, type }: ListApartme
                           manual: false,
                           value: ac.id,
                           avatarUrl: ac.avatarUrl,
-                          label: `${ac.firstName}${ac.firstName && " "}${ac.lastName}`,
+                          label: `${ac.firstName ? ac.firstName : ""}${ac.firstName && " "}${
+                              ac.lastName ? ac.lastName : ""
+                          }`,
                       };
                   }),
               },
@@ -203,7 +205,9 @@ export default function InputListingData({ company, listing, type }: ListApartme
                           manual: true,
                           value: mac.id,
                           avatarUrl: mac.avatarUrl,
-                          label: `${mac.firstName}${mac.firstName && " "}${mac.lastName}`,
+                          label: `${mac.firstName ? mac.firstName : ""}${mac.firstName && " "}${
+                              mac.lastName ? mac.lastName : ""
+                          }`,
                       };
                   }),
               },
@@ -735,9 +739,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {`${data.firstName}${
-                                                                        data.firstName && " "
-                                                                    }${data.lastName}`}
+                                                                    {data.label}
                                                                 </Typography>
                                                             </div>
                                                         </components.Label>
@@ -775,7 +777,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
-                                                                    className={`w-4 h-4 rounded-sm border border-zinc-400 ${
+                                                                    className={`ml-1 w-4 h-4 rounded-sm border border-zinc-400 ${
                                                                         isSelected
                                                                             ? "bg-indigo-600"
                                                                             : "bg-transparent"
@@ -937,9 +939,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {`${data.firstName}${
-                                                                        data.firstName && " "
-                                                                    }${data.lastName}`}
+                                                                    {data.label}
                                                                 </Typography>
                                                             </div>
                                                         </components.Label>
@@ -977,7 +977,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
-                                                                    className={`w-4 h-4 rounded-sm border border-zinc-400 ${
+                                                                    className={`ml-1 w-4 h-4 rounded-sm border border-zinc-400 ${
                                                                         isSelected
                                                                             ? "bg-indigo-600"
                                                                             : "bg-transparent"
@@ -1142,9 +1142,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                     <Icon name="account" />
                                                                 )}
                                                                 <Typography className="ml-1">
-                                                                    {`${data.firstName}${
-                                                                        data.firstName && " "
-                                                                    }${data.lastName}`}
+                                                                    {data.label}
                                                                 </Typography>
                                                             </div>
                                                         </components.Label>
@@ -1182,7 +1180,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                                         `(${data.email})`}
                                                                 </Typography>
                                                                 <div
-                                                                    className={`w-4 h-4 rounded-sm border border-zinc-400 ${
+                                                                    className={`ml-1 w-4 h-4 rounded-sm border border-zinc-400 ${
                                                                         isSelected
                                                                             ? "bg-indigo-600"
                                                                             : "bg-transparent"
