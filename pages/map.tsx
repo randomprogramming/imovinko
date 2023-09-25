@@ -480,6 +480,39 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
+    function hasActiveFilter() {
+        return !!(
+            filterApartments ||
+            filterHouses ||
+            filterLand ||
+            filterLongTermRent ||
+            filterSale ||
+            filterShortTermRent ||
+            priceFrom ||
+            priceTo ||
+            pricePerSquareMeterFrom ||
+            pricePerSquareMeterTo ||
+            areaFrom ||
+            areaTo ||
+            bedroomCountFrom ||
+            bedroomCountTo ||
+            bathroomCountFrom ||
+            bathroomCountTo ||
+            parkingSpaceCountFrom ||
+            parkingSpaceCountTo ||
+            buildYearFrom ||
+            buildYearTo ||
+            renovationYearFrom ||
+            renovationYearTo ||
+            needsRenovationFilter.value === TriBoolean.yes ||
+            needsRenovationFilter.value === TriBoolean.no ||
+            fullyFurnishedFilter ||
+            partiallyFurnishedFilter ||
+            unfurnishedFilter ||
+            elevatorAccessFilter
+        );
+    }
+
     function getPropertyLat(p: ListingBasic) {
         if (p.apartment) {
             return p.apartment.latitude;
@@ -856,20 +889,20 @@ export default function MapScreen({ query }: MapScreenProps) {
                             : "opacity-0 invisible top-64 md:top-32 right-0 md:right-auto"
                     }`}
                 >
-                    <div className="bg-zinc-100 w-full h-full flex flex-col px-2 overflow-y-auto">
-                        <div className="px-4 py-4">
-                            <div className="flex flex-row justify-between items-center">
-                                <Typography variant="h2">{t("filter")}</Typography>
-                                <Button.Transparent
-                                    onClick={() => {
-                                        setIsFilterOpen(false);
-                                    }}
-                                >
-                                    <Icon name="close" />
-                                </Button.Transparent>
-                            </div>
+                    <div className="bg-zinc-100 w-full h-full flex flex-col overflow-y-auto">
+                        <div className="flex flex-row justify-between items-center sticky top-0 px-4 py-2 border-b border-zinc-300 bg-zinc-100">
+                            <Typography variant="h2">{t("filter")}</Typography>
+                            <Button.Transparent
+                                onClick={() => {
+                                    setIsFilterOpen(false);
+                                }}
+                            >
+                                <Icon name="close" />
+                            </Button.Transparent>
+                        </div>
 
-                            <div className="w-full mt-8">
+                        <div className="px-4 pb-4">
+                            <div className="w-full mt-6">
                                 <Typography bold>{t("property-type")}</Typography>
                                 <div className="w-full">
                                     <Input
@@ -896,7 +929,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="w-full mt-8">
+                            <div className="w-full mt-6">
                                 <Typography bold>{t("offering-type")}</Typography>
                                 <div className="w-full">
                                     <Input
@@ -923,7 +956,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("price")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -958,7 +991,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("price-per-meter-squared")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -993,7 +1026,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("area")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1028,7 +1061,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("bedroomCount")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1057,7 +1090,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("bathroomCount")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1086,7 +1119,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("parkingSpaceCount")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1115,7 +1148,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("buildYear")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1144,7 +1177,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("renovationYear")}</Typography>
                                 <div className="flex flex-row flex-wrap items-center">
                                     <div className="mt-2 border border-zinc-400 inline-flex flex-row px-2 py-1 rounded-md shadow-sm">
@@ -1173,7 +1206,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("needs-renovation")}</Typography>
                                 <Select
                                     instanceId={useId()}
@@ -1219,7 +1252,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 />
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("furniture-state")}</Typography>
                                 <div className="w-full">
                                     <Input
@@ -1246,7 +1279,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <Typography bold>{t("elevator-access")}</Typography>
                                 <div className="w-full">
                                     <Input
@@ -1259,7 +1292,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 </div>
                             </div>
 
-                            <div className="mt-8 md:hidden">
+                            <div className="mt-6 md:hidden">
                                 <Button.Primary
                                     label={t("search")}
                                     onClick={() => {
@@ -1308,6 +1341,9 @@ export default function MapScreen({ query }: MapScreenProps) {
                         isFilterOpen && "opacity-0 invisible"
                     }`}
                 >
+                    {hasActiveFilter() && (
+                        <div className="absolute top-0 right-0 bg-rose-600 rounded-full w-2.5 h-2.5 animate-pulse" />
+                    )}
                     <button
                         onClick={() => {
                             setIsFilterOpen(!isFilterOpen);
