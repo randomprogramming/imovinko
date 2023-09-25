@@ -284,7 +284,16 @@
         "renovationYear": "Godina zadnje renovacije",
         "show-more-filters": "Prikaži više filtera",
         "show-less-filters": "Prikaži manje filtera",
-        "clear-filter": "Obriši filter"
+        "clear-filter": "Obriši filter",
+        "needs-renovation": "Potrebna renovacija",
+        "yes": "Da",
+        "no": "Ne",
+        "furniture-state": "Namještaj",
+        "furnished": "Namješteno",
+        "partially-furnished": "Djelomično namješteno",
+        "unfurnished": "Nenamješteno",
+        "elevator-access": "Lift",
+        "has-elevator-access": "Ima pristup liftu"
     },
     "AccountPage": {
         "my-account": "Moj račun",

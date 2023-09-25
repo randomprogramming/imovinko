@@ -284,7 +284,16 @@
         "renovationYear": "Last renovation year",
         "show-more-filters": "Show more filters",
         "show-less-filters": "Show less filters",
-        "clear-filter": "Clear filter"
+        "clear-filter": "Clear filter",
+        "needs-renovation": "Needs renovation",
+        "yes": "Yes",
+        "no": "No",
+        "furniture-state": "Furniture",
+        "furnished": "Furnished",
+        "partially-furnished": "Partially Furnished",
+        "unfurnished": "Unfurnished",
+        "elevator-access": "Elevator",
+        "has-elevator-access": "Has elevator access"
     },
     "AccountPage": {
         "my-account": "My Account",

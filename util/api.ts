@@ -404,6 +404,9 @@ export async function findListingsByBoundingBox(data: {
 export async function findListingsByQuery(data: {
     propertyType: PropertyType[];
     offeringType: OfferingType[];
+    furnitureState?: FurnitureState[];
+    needsRenovation?: boolean;
+    elevatorAccess?: boolean;
     page?: number | string;
     priceFrom?: number | string;
     priceTo?: number | string;
@@ -443,6 +446,7 @@ export async function findListingsByQuery(data: {
             ...data,
             propertyType: data.propertyType.join(","),
             offeringType: data.offeringType.join(","),
+            furnitureState: data.furnitureState ? data.furnitureState.join(",") : undefined,
             region: data.region?.join(","),
         },
         headers,

@@ -1,8 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
-import { OfferingType, PaginatedListingBasic, PropertyType, findListingsByQuery } from "@/util/api";
+import {
+    FurnitureState,
+    OfferingType,
+    PaginatedListingBasic,
+    PropertyType,
+    findListingsByQuery,
+} from "@/util/api";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import Link from "@/components/Link";
 import { useTranslations } from "next-intl";
 import Input from "@/components/Input";
@@ -23,6 +29,7 @@ import NoData from "@/components/NoData";
 import ListingCardItem from "@/components/listing/ListingCardItem";
 import Main from "@/components/Main";
 import cookie from "cookie";
+import Select from "react-select";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale, req }) => {
     let page = query.page;
@@ -214,6 +221,28 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         propertyTypes = [PropertyType.apartment, PropertyType.house, PropertyType.land];
     }
 
+    const furnitureState: FurnitureState[] = [];
+    if (Array.isArray(query.furnitureState)) {
+        query.furnitureState.forEach((f) => {
+            if (
+                f === FurnitureState.furnished ||
+                f === FurnitureState.partiallyFurnished ||
+                f === FurnitureState.unfurnished
+            ) {
+                furnitureState.push(f as FurnitureState);
+            }
+        });
+    } else if (typeof query.furnitureState === "string") {
+        const f = query.furnitureState;
+        if (f === FurnitureState.furnished) {
+            furnitureState.push(FurnitureState.furnished);
+        } else if (f === FurnitureState.partiallyFurnished) {
+            furnitureState.push(FurnitureState.partiallyFurnished);
+        } else if (f === FurnitureState.unfurnished) {
+            furnitureState.push(FurnitureState.unfurnished);
+        }
+    }
+
     let offeringTypes: OfferingType[] = [];
     if (Array.isArray(query.offeringTypes)) {
         query.offeringTypes.forEach((ot) => {
@@ -252,6 +281,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         }) as HRRegionShortCode[];
     }
 
+    let needsRenovation: undefined | boolean;
+    if (query.needsRenovation === "true") {
+        needsRenovation = true;
+    } else if (query.needsRenovation === "false") {
+        needsRenovation = false;
+    }
+
     const cookies = req.headers.cookie;
 
     const parsed = cookie.parse(cookies || "");
@@ -281,6 +317,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         parkingSpaceCountTo,
         renovationYearFrom,
         renovationYearTo,
+        needsRenovation,
+        // Query by this field only if user selected at least one of the values
+        furnitureState: furnitureState.length > 0 ? furnitureState : undefined,
+        elevatorAccess: query.elevatorAccess === "true" ? true : undefined,
     });
 
     return {
@@ -291,6 +331,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         },
     };
 };
+
+enum TriBoolean {
+    unselected,
+    yes,
+    no,
+}
 
 interface ListingsPageProps {
     listings: PaginatedListingBasic;
@@ -315,6 +361,12 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
     } else {
         selectedSort += "desc";
     }
+
+    const triBooleanDropdownValues = {
+        unselected: { label: "-", value: TriBoolean.unselected },
+        yes: { label: t("yes"), value: TriBoolean.yes },
+        no: { label: t("no"), value: TriBoolean.no },
+    };
 
     const [useCards, setUseCards] = useState(params?.useList !== "true"); // Use Cards or List UI for showing listings
 
@@ -477,6 +529,27 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             : params?.renovationYearTo
     );
 
+    const [needsRenovationFilter, setNeedsRenovationFilter] = useState(
+        params?.needsRenovation === "true"
+            ? triBooleanDropdownValues.yes
+            : params?.needsRenovation === "false"
+            ? triBooleanDropdownValues.no
+            : triBooleanDropdownValues.unselected
+    );
+    const [elevatorAccessFilter, setElevatorAccessFilter] = useState(
+        params?.elevatorAccess === "true"
+    );
+
+    const [fullyFurnishedFilter, setFullyFurnishedFilter] = useState(
+        !!params?.furnitureState?.includes(FurnitureState.furnished)
+    );
+    const [partiallyFurnishedFilter, setPartiallyFurnishedFilter] = useState(
+        !!params?.furnitureState?.includes(FurnitureState.partiallyFurnished)
+    );
+    const [unfurnishedFilter, setUnfurnishedFilter] = useState(
+        !!params?.furnitureState?.includes(FurnitureState.unfurnished)
+    );
+
     const [showMoreFilter, setShowMoreFilter] = useState(
         !!(
             areaFrom ||
@@ -490,7 +563,13 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             buildYearFrom ||
             buildYearTo ||
             renovationYearFrom ||
-            renovationYearTo
+            renovationYearTo ||
+            needsRenovationFilter.value === TriBoolean.yes ||
+            needsRenovationFilter.value === TriBoolean.no ||
+            fullyFurnishedFilter ||
+            partiallyFurnishedFilter ||
+            unfurnishedFilter ||
+            elevatorAccessFilter
         )
     );
     const router = useRouter();
@@ -637,12 +716,45 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             delete allParams.renovationYearTo;
         }
 
+        if (needsRenovationFilter.value === TriBoolean.yes) {
+            allParams.needsRenovation = "true";
+        } else if (needsRenovationFilter.value === TriBoolean.no) {
+            allParams.needsRenovation = "false";
+        } else {
+            delete allParams.needsRenovation;
+        }
+
+        const furnitureState = [];
+        if (fullyFurnishedFilter) {
+            furnitureState.push(FurnitureState.furnished);
+        }
+        if (partiallyFurnishedFilter) {
+            furnitureState.push(FurnitureState.partiallyFurnished);
+        }
+        if (unfurnishedFilter) {
+            furnitureState.push(FurnitureState.unfurnished);
+        }
+        if (furnitureState.length === 0) {
+            delete allParams.furnitureState;
+        }
+
+        if (elevatorAccessFilter) {
+            allParams.elevatorAccess = "true";
+        } else {
+            delete allParams.elevatorAccess;
+        }
+
         // Restart to first page when filter changes
         delete allParams.page;
         await router.push(
             {
                 pathname: router.pathname,
-                query: { ...allParams, propertyTypes, offeringTypes },
+                query: {
+                    ...allParams,
+                    propertyTypes,
+                    offeringTypes,
+                    furnitureState,
+                },
             },
             undefined,
             {
@@ -713,6 +825,11 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         setbuildYearTo(undefined);
         setrenovationYearFrom(undefined);
         setrenovationYearTo(undefined);
+        setNeedsRenovationFilter(triBooleanDropdownValues.unselected);
+        setFullyFurnishedFilter(false);
+        setPartiallyFurnishedFilter(false);
+        setUnfurnishedFilter(false);
+        setElevatorAccessFilter(false);
     }
 
     return (
@@ -749,7 +866,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     </div>
                     <Typography variant="h2">{t("filter")}</Typography>
 
-                    <div className="w-full mt-4">
+                    <div className="mt-4">
                         <Typography bold>{t("property-type")}</Typography>
                         <div className="w-full">
                             <Input
@@ -776,7 +893,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                         </div>
                     </div>
 
-                    <div className="w-full mt-6">
+                    <div className="mt-6">
                         <Typography bold>{t("offering-type")}</Typography>
                         <div className="w-full">
                             <Input
@@ -1103,6 +1220,92 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                         }}
                                     />
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("needs-renovation")}</Typography>
+                            <Select
+                                instanceId={useId()}
+                                hideSelectedOptions={false}
+                                className={`outline-none border-none ${space_grotesk.className}`}
+                                options={Object.values(triBooleanDropdownValues)}
+                                onChange={(d) => {
+                                    if (d) {
+                                        setNeedsRenovationFilter(d);
+                                    }
+                                }}
+                                value={needsRenovationFilter}
+                                components={{
+                                    Option({ innerProps, children, isSelected }) {
+                                        return (
+                                            <div
+                                                {...innerProps}
+                                                className={`select-none p-1.5 flex flex-row items-center ${
+                                                    isSelected
+                                                        ? "bg-emerald-500"
+                                                        : "hover:bg-zinc-200"
+                                                }`}
+                                            >
+                                                <div className="ml-1">{children}</div>
+                                            </div>
+                                        );
+                                    },
+                                }}
+                                classNames={{
+                                    control() {
+                                        return "!bg-transparent !border !border-zinc-400 !rounded-md !shadow";
+                                    },
+                                    multiValue() {
+                                        return "!bg-zinc-300 !rounded !shadow-sm !text-sm";
+                                    },
+                                    menu() {
+                                        return "!bg-white !shadow-sm !overflow-hidden !rounded-md !border !border-zinc-300 !z-30";
+                                    },
+                                    menuList() {
+                                        return "!p-0";
+                                    },
+                                }}
+                            />
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("furniture-state")}</Typography>
+                            <div className="w-full">
+                                <Input
+                                    name={t("furnished")}
+                                    type="checkbox"
+                                    className="ml-2"
+                                    checked={fullyFurnishedFilter}
+                                    onCheckedChange={setFullyFurnishedFilter}
+                                />
+                                <Input
+                                    name={t("partially-furnished")}
+                                    type="checkbox"
+                                    className="ml-2"
+                                    checked={partiallyFurnishedFilter}
+                                    onCheckedChange={setPartiallyFurnishedFilter}
+                                />
+                                <Input
+                                    name={t("unfurnished")}
+                                    type="checkbox"
+                                    className="ml-2"
+                                    checked={unfurnishedFilter}
+                                    onCheckedChange={setUnfurnishedFilter}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <Typography bold>{t("elevator-access")}</Typography>
+                            <div className="w-full">
+                                <Input
+                                    name={t("has-elevator-access")}
+                                    type="checkbox"
+                                    className="ml-2"
+                                    checked={elevatorAccessFilter}
+                                    onCheckedChange={setElevatorAccessFilter}
+                                />
                             </div>
                         </div>
                     </div>
