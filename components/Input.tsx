@@ -208,7 +208,7 @@ export default function Input({
         <div
             className={`relative ${small ? "rounded-sm" : "w-full rounded-md"} ${
                 hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"
-            } shadow-sm z-[15] flex flex-row ${className}`}
+            } shadow-sm z-[15] flex flex-row`}
         >
             <input
                 id={name}
@@ -229,7 +229,7 @@ export default function Input({
                     small ? "py-1 px-2" : "py-3 px-4"
                 } disabled:bg-zinc-300 bg-transparent outline-none z-[15] ${
                     hollow ? "border-zinc-400 bg-transparent" : "bg-zinc-50"
-                }`}
+                } ${className}`}
             />
             {suffix && (
                 <label htmlFor={name} className="flex items-center justify-center px-4 select-none">
