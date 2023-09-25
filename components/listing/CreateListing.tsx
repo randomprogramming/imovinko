@@ -250,7 +250,6 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                     },
                 };
             }
-            console.log(listingData);
 
             const resp = await createListing(listingData);
 

@@ -199,11 +199,41 @@ interface CreateListingResponse {
     id: string;
     listingFor: ListingFor;
 }
+function clearEmptyStrings(obj: any) {
+    if (!obj) {
+        return undefined;
+    }
+
+    const emptyKeys = Object.keys(obj).filter((k) => {
+        if (obj[k] === "") {
+            return true;
+        }
+        return false;
+    });
+
+    emptyKeys.forEach((k) => {
+        delete obj[k];
+    });
+
+    return obj;
+}
 export async function createListing(data: CreateListingData) {
+    data = {
+        ...data,
+        apartment: clearEmptyStrings(data.apartment),
+        house: clearEmptyStrings(data.house),
+        land: clearEmptyStrings(data.land),
+        sale: clearEmptyStrings(data.sale),
+        longTermRent: clearEmptyStrings(data.longTermRent),
+        shortTermRent: clearEmptyStrings(data.shortTermRent),
+    };
+
     return await client<CreateListingResponse>({
         url: "/listing/submit",
         method: "POST",
-        data,
+        data: {
+            ...clearEmptyStrings(data),
+        },
         headers: {
             ...getAuthHeaders(),
         },
