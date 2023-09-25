@@ -855,6 +855,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                     <div className={`flex items-center justify-center w-full`}>
                         <Link
                             to="/map"
+                            query={{ ...params }}
                             disableAnimatedHover
                             className="border-2 border-transparent hover:border-zinc-900 transition-all rounded-md px-2 py-1"
                         >

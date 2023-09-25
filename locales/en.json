@@ -194,7 +194,8 @@
         "partially-furnished": "Partially Furnished",
         "unfurnished": "Unfurnished",
         "elevator-access": "Elevator",
-        "has-elevator-access": "Has elevator access"
+        "has-elevator-access": "Has elevator access",
+        "clear-filter": "Clear filter"
     },
     "ErrorCodes": {
         "too_small": "Too short",

@@ -194,7 +194,8 @@
         "partially-furnished": "Djelomično namješteno",
         "unfurnished": "Nenamješteno",
         "elevator-access": "Lift",
-        "has-elevator-access": "Ima pristup liftu"
+        "has-elevator-access": "Ima pristup liftu",
+        "clear-filter": "Obriši filter"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",

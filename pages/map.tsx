@@ -590,6 +590,36 @@ export default function MapScreen({ query }: MapScreenProps) {
         }
     }
 
+    function clearFilter() {
+        setFilterApartments(false);
+        setFilterHouses(false);
+        setFilterLand(false);
+        setFilterSale(false);
+        setFilterShortTermRent(false);
+        setFilterLongTermRent(false);
+        setPriceFrom(undefined);
+        setPriceTo(undefined);
+        setPricePerSquareMeterFrom(undefined);
+        setPricePerSquareMeterTo(undefined);
+        setareaFrom(undefined);
+        setareaTo(undefined);
+        setbedroomCountFrom(undefined);
+        setbedroomCountTo(undefined);
+        setbathroomCountFrom(undefined);
+        setbathroomCountTo(undefined);
+        setparkingSpaceCountFrom(undefined);
+        setparkingSpaceCountTo(undefined);
+        setbuildYearFrom(undefined);
+        setbuildYearTo(undefined);
+        setrenovationYearFrom(undefined);
+        setrenovationYearTo(undefined);
+        setNeedsRenovationFilter(triBooleanDropdownValues.unselected);
+        setFullyFurnishedFilter(false);
+        setPartiallyFurnishedFilter(false);
+        setUnfurnishedFilter(false);
+        setElevatorAccessFilter(false);
+    }
+
     React.useEffect(() => {
         // TODO: When a field changes while a search was in progress, the newly changed
         // field will not call this function again and won't be filtered. Figure out a way to fix that..
@@ -1290,6 +1320,19 @@ export default function MapScreen({ query }: MapScreenProps) {
                                         onCheckedChange={setElevatorAccessFilter}
                                     />
                                 </div>
+                            </div>
+
+                            <div className="mt-3 mb-6 flex items-center justify-center">
+                                <Link
+                                    onClick={() => {
+                                        clearFilter();
+                                    }}
+                                    underlineClassName="!bg-zinc-500"
+                                >
+                                    <Typography variant="secondary" uppercase>
+                                        {t("clear-filter")}
+                                    </Typography>
+                                </Link>
                             </div>
 
                             <div className="mt-6 md:hidden">
