@@ -1033,6 +1033,7 @@ interface PatchListingData {
         description?: string;
         contactIds: string[];
         manualAccountContactIds: string[];
+        saleCommissionPercent?: number | string | null;
     };
     shortTermRent?: {
         title?: string;
@@ -1060,6 +1061,9 @@ interface PatchListingData {
         renovationYear?: string | number | null;
         energyLabel?: EnergyClass | null;
         customId?: string | null;
+        furnitureState?: FurnitureState | null;
+        needsRenovation?: boolean | null;
+        elevatorAccess?: boolean | null;
     };
     house?: {
         surfaceArea: number;
@@ -1071,6 +1075,8 @@ interface PatchListingData {
         renovationYear?: string | number | null;
         energyLabel?: EnergyClass | null;
         customId?: string | null;
+        furnitureState?: FurnitureState | null;
+        needsRenovation?: boolean | null;
     };
     land?: {
         surfaceArea: number;
@@ -1078,6 +1084,16 @@ interface PatchListingData {
     };
 }
 export async function patchListing(prettyId: string, data: PatchListingData) {
+    data = {
+        ...data,
+        apartment: clearEmptyStrings(data.apartment),
+        house: clearEmptyStrings(data.house),
+        land: clearEmptyStrings(data.land),
+        sale: clearEmptyStrings(data.sale),
+        longTermRent: clearEmptyStrings(data.longTermRent),
+        shortTermRent: clearEmptyStrings(data.shortTermRent),
+    };
+
     return await client({
         url: "/listing/pretty-id/" + prettyId,
         method: "PATCH",

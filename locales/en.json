@@ -150,7 +150,7 @@
         "furnished": "Furnished",
         "unfurnished": "Unfurnished",
         "elevator-access": "Elevator access",
-        "needs-renovation": "Needs renovations",
+        "needs-renovation": "Needs Renovations",
         "commissions": "Commission",
         "commissions-description": "If there are commissions which the buyer needs to pay, enter the percentage of the commission."
     },
@@ -260,7 +260,7 @@
         "elevator-access": "Elevator Access",
         "yes": "Yes",
         "no": "No",
-        "needs-renovation": "Needs renovations",
+        "needs-renovation": "Needs Renovations",
         "furniture-state": "Namještaj",
         "partiallyFurnished": "Partially Furnished",
         "furnished": "Furnished",
@@ -590,7 +590,16 @@
         "custom-id-description": "Property code intended for your internal use.",
         "confirm": "Are you sure you want to remove this image?",
         "cancel": "Cancel",
-        "delete": "Delete"
+        "delete": "Delete",
+        "commissions": "Commission",
+        "commissions-description": "If there are commissions which the buyer needs to pay, enter the percentage of the commission.",
+        "elevator-access": "Elevator access",
+        "needs-renovation": "Needs Renovations",
+        "furniture-state": "Furniture",
+        "furniture-state-description": "Does the property come with or without the furniture?",
+        "partially-furnished": "Partially Furnished",
+        "furnished": "Furnished",
+        "unfurnished": "Unfurnished"
     },
     "PropertyDropdown": {
         "choose": "Choose property...",

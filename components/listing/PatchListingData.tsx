@@ -5,6 +5,7 @@ import Typography from "@/components/Typography";
 import {
     Company,
     EnergyClass,
+    FurnitureState,
     Listing,
     ListingFor,
     PropertyType,
@@ -62,12 +63,29 @@ export default function InputListingData({ company, listing, type }: ListApartme
 
     const router = useRouter();
 
+    const furnitureStateOptions = [
+        { label: t("furnished"), value: FurnitureState.furnished },
+        {
+            label: t("partially-furnished"),
+            value: FurnitureState.partiallyFurnished,
+        },
+        {
+            label: t("unfurnished"),
+            value: FurnitureState.unfurnished,
+        },
+    ];
+
     const imageUploadRef = useRef<HTMLInputElement>(null);
 
     const [isSubmittingAd, setIsSubmittingAd] = useState(false);
 
     const [saleListingTitle, setSaleListingTitle] = useState(listing?.title);
     const [saleListingPrice, setSaleListingPrice] = useState<string>(String(listing?.price));
+    const [saleCommissionsPercent, setSaleCommissionsPercent] = useState<undefined | string>(
+        typeof listing?.saleCommissionPercent === "number"
+            ? String(listing.saleCommissionPercent)
+            : ""
+    );
     const [saleListingDescription, setSaleListingDescription] = useState<string | undefined>(
         listing?.description
     );
@@ -138,6 +156,13 @@ export default function InputListingData({ company, listing, type }: ListApartme
     const [energyLabel, setEnergyLabel] = useState<EnergyClass | null>(
         getListingProperty(listing, type, "energyLabel") as EnergyClass
     );
+    const [needsRenovation, setNeedsRenovation] = useState<boolean>(
+        !!getListingProperty(listing, type, "needsRenovation")
+    );
+    const [elevatorAccess, setElevatorAccess] = useState<boolean>(
+        !!getListingProperty(listing, type, "elevatorAccess")
+    );
+    const [furnitureState, setFurnitureState] = useState(getPropertyFurnishedState(listing, type));
 
     const [mediaToDelete, setMediaToDelete] = useState<string | null>(null);
 
@@ -223,6 +248,20 @@ export default function InputListingData({ company, listing, type }: ListApartme
           ]
         : [];
 
+    function getPropertyFurnishedState(l: Listing | null, t: PropertyType) {
+        if (!l) return null;
+
+        if (t === PropertyType.apartment || t === PropertyType.house) {
+            if (l[t]?.furnitureState) {
+                const currState = furnitureStateOptions.find(
+                    (o) => o.value === l[t]?.furnitureState
+                );
+                if (currState) return currState;
+            }
+        }
+        return null;
+    }
+
     async function handleMediaDelete(id: string) {
         try {
             await deleteMedia(id);
@@ -258,6 +297,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                         contactIds: saleContacts,
                         manualAccountContactIds: saleManualAccountContacts,
                         description: saleListingDescription,
+                        saleCommissionPercent: saleCommissionsPercent,
                     },
                 };
             } else if (listing?.offeringType === OfferingType.shortTermRent) {
@@ -296,6 +336,9 @@ export default function InputListingData({ company, listing, type }: ListApartme
                         parkingSpaceCount,
                         renovationYear,
                         totalFloors,
+                        needsRenovation,
+                        elevatorAccess,
+                        furnitureState: furnitureState ? furnitureState.value : null,
                     },
                 });
             } else if (type === PropertyType.house) {
@@ -311,6 +354,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                         parkingSpaceCount,
                         renovationYear,
                         totalFloors,
+                        needsRenovation,
+                        furnitureState: furnitureState ? furnitureState.value : null,
                     },
                 });
             } else if (type === PropertyType.land) {
@@ -580,6 +625,26 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                         placeholder={"150000"}
                                         hasError={fieldErrorCodesParser.has("sale.price")}
                                         errorMsg={fieldErrorCodesParser.getTranslated("sale.price")}
+                                    />
+                                </RowItem>
+                            </FlexRow>
+                            <FlexRow type={type} hideBottomBorder>
+                                <TitleCol title={t("commissions")}>
+                                    {t("commissions-description")}
+                                </TitleCol>
+                                <RowItem>
+                                    <Input
+                                        suffix="%"
+                                        name="saleCommissionPercent"
+                                        value={saleCommissionsPercent}
+                                        onChange={setSaleCommissionsPercent}
+                                        placeholder={"2.2"}
+                                        hasError={fieldErrorCodesParser.has(
+                                            "sale.saleCommissionPercent"
+                                        )}
+                                        errorMsg={fieldErrorCodesParser.getTranslated(
+                                            "sale.saleCommissionPercent"
+                                        )}
                                     />
                                 </RowItem>
                             </FlexRow>
@@ -1233,6 +1298,13 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                         "apartment.buildingFloors"
                                     )}
                                 />
+                                <Input
+                                    className="mt-2"
+                                    type="checkbox"
+                                    checked={elevatorAccess}
+                                    onCheckedChange={setElevatorAccess}
+                                    name={t("elevator-access")}
+                                />
                             </RowItem>
                         </FlexRow>
 
@@ -1265,6 +1337,60 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                         "apartment.renovationYear"
                                     )}
                                 />
+                                <Input
+                                    className="mt-2"
+                                    type="checkbox"
+                                    checked={needsRenovation}
+                                    onCheckedChange={setNeedsRenovation}
+                                    name={t("needs-renovation")}
+                                />
+                            </RowItem>
+                        </FlexRow>
+
+                        <FlexRow type={type} blacklistTypes={[PropertyType.land]} className="z-50">
+                            <TitleCol title={t("furniture-state")}>
+                                {t("furniture-state-description")}
+                            </TitleCol>
+                            <RowItem>
+                                <Select
+                                    instanceId={useId()}
+                                    onChange={(newVal) => {
+                                        setFurnitureState(newVal ? newVal : null);
+                                    }}
+                                    isSearchable={false}
+                                    isClearable
+                                    className={`${space_grotesk.className}`}
+                                    classNames={{
+                                        menu() {
+                                            return "!z-50";
+                                        },
+                                        menuList() {
+                                            return "z-50";
+                                        },
+                                        control() {
+                                            return "!py-2 !px-2 !rounded-md !shadow-sm !border-none !bg-zinc-50";
+                                        },
+                                    }}
+                                    value={furnitureState}
+                                    placeholder={t("energy-placeholder")}
+                                    components={{
+                                        Option: ({ innerProps, data, isSelected }) => {
+                                            return (
+                                                <div
+                                                    {...innerProps}
+                                                    className={`select-none p-1.5 flex flex-row items-center ${
+                                                        isSelected
+                                                            ? "bg-emerald-500"
+                                                            : "hover:bg-zinc-200"
+                                                    }`}
+                                                >
+                                                    <Typography bold>{data.label}</Typography>
+                                                </div>
+                                            );
+                                        },
+                                    }}
+                                    options={furnitureStateOptions}
+                                />
                             </RowItem>
                         </FlexRow>
 
@@ -1295,7 +1421,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                     {...innerProps}
                                                     className={`${getEnergyBg(
                                                         data.value
-                                                    )} py-1 px-2`}
+                                                    )} select-none py-1 px-2`}
                                                 >
                                                     <Typography bold>{data.label}</Typography>
                                                 </div>

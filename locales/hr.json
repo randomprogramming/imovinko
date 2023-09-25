@@ -590,7 +590,16 @@
         "custom-id-description": "Šifra nekretnine za vašu internu uporabu.",
         "confirm": "Jeste li sigurni da želite obrisati ovu sliku?",
         "cancel": "Otkaži",
-        "delete": "Obriši"
+        "delete": "Obriši",
+        "commissions": "Provizija",
+        "commissions-description": "Ukoliko postoji provizija koju plaća kupac, unesite postotak provizije.",
+        "elevator-access": "Pristup liftu",
+        "needs-renovation": "Potrebna renovacija",
+        "furniture-state": "Namještaj",
+        "furniture-state-description": "Dolazi li nekretnina sa namještajem ili bez namještaja?",
+        "partially-furnished": "Djelomično namješteno",
+        "furnished": "Namješteno",
+        "unfurnished": "Nenamješteno"
     },
     "PropertyDropdown": {
         "choose": "Odaberi nekretninu...",
