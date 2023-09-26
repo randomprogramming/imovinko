@@ -28,6 +28,7 @@ import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Main from "@/components/Main";
 import { formatDMYDate } from "@/util/date";
+import { AxiosError } from "axios";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -95,6 +96,9 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
     const fieldErrorCodesParser = useFieldErrorCodes();
 
     const [isRedirecting, setIsRedirecting] = useState(false);
+
+    const [errorInvitingUser, setErrorInvitingUser] = useState(false);
+    const [errorMessageInvitingUser, setErrorMessageInvitingUser] = useState<string>();
 
     async function handleCompanyPatch() {
         setIsLoading(true);
@@ -188,6 +192,8 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
 
     async function handleInviteMember() {
         setIsInvitingMember(true);
+        setErrorInvitingUser(false);
+        setErrorMessageInvitingUser(undefined);
         try {
             await inviteMember(handle);
             await router.push(
@@ -206,6 +212,15 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
             router.reload();
         } catch (e) {
             console.error(e);
+            setErrorInvitingUser(true);
+            if (e instanceof AxiosError) {
+                if (e.response?.data === "err::account::not_found") {
+                    setErrorMessageInvitingUser(t("not-found-user"));
+                }
+                if (e.response?.data === "err::account::has_company") {
+                    setErrorMessageInvitingUser(t("has-company"));
+                }
+            }
         } finally {
             setIsInvitingMember(false);
         }
@@ -266,6 +281,8 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                         className="!p-2 max-w-sm"
                                         value={handle}
                                         onChange={setHandle}
+                                        hasError={errorInvitingUser}
+                                        errorMsg={errorMessageInvitingUser}
                                     />
                                 </div>
 

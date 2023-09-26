@@ -378,7 +378,9 @@
         "username-or-email": "Username or e-mail of the member",
         "updated-title": "Company updated",
         "updated-message": "Company successfully updated and saved.",
-        "uploading-image": "Uploading image..."
+        "uploading-image": "Uploading image...",
+        "not-found-user": "User not found",
+        "has-company": "User already is in a company"
     },
     "CreateCompanyPage": {
         "title": "Company Information",

@@ -50,7 +50,10 @@ export default function () {
     }
 
     function parseErrorMessage(message: string) {
-        // message should be in format err::model::field_name::message
+        // Message can be in following formats:
+        // err::model::field_name::message
+        // err::model::error_message
+        // This method should only handle the first case
         // Model is account, listing, company, etc.
         const msgSplit = message.split("::");
         if (msgSplit.length !== 4) {

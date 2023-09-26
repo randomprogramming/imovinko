@@ -378,7 +378,9 @@
         "username-or-email": "Korisničko ime ili e-mail člana",
         "updated-title": "Tvrtka ažurirana",
         "updated-message": "Tvrtka uspješno ažurirana i spremljena",
-        "uploading-image": "Učitavanje slike..."
+        "uploading-image": "Učitavanje slike...",
+        "not-found-user": "Korisnik nije pronađen",
+        "has-company": "Korisnik već pripada tvrtci"
     },
     "CreateCompanyPage": {
         "title": "Informacije o tvrtci",
