@@ -20,7 +20,7 @@ function MessageStateComponent({ state }: MessageStateComponentProps) {
     if (state === MessageState.loading) {
         return <Icon height={16} width={16} name="loading" />;
     } else if (state === MessageState.sent) {
-        return <Icon height={16} width={16} name="checkmark" className="stroke-emerald-300" />;
+        return <Icon height={16} width={16} name="checkmark" className="stroke-emerald-200" />;
     } else if (state === MessageState.error) {
         return <Icon height={16} width={16} name="error" className="fill-red-400" />;
     } else {
@@ -192,6 +192,9 @@ export default function Conversation({ allConversations }: ConversationProps) {
         );
     }
 
+    const otherP = openConversation?.participants.filter((p) => p.id !== account?.id);
+    const firstOtherP = otherP && otherP.length > 0 ? otherP.at(0) : null;
+
     return (
         <div className="w-full flex flex-col bg-white rounded-md shadow-sm h-[65vh]">
             <Modal
@@ -261,11 +264,22 @@ export default function Conversation({ allConversations }: ConversationProps) {
             <div className="border-b border-zinc-200 flex flex-row">
                 {openConversation && (
                     <div className="py-2 ml-2">
-                        <Icon name="account" height={48} width={48} />
+                        {firstOtherP && firstOtherP.avatarUrl ? (
+                            <div className="w-12 h-12 rounded-full shadow-sm relative overflow-hidden">
+                                <Image
+                                    alt="avatar"
+                                    src={firstOtherP.avatarUrl}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        ) : (
+                            <Icon name="account" height={48} width={48} />
+                        )}
                     </div>
                 )}
                 {openConversation && (
-                    <div className="self-center">
+                    <div className="ml-2 self-center">
                         <Typography variant="h2">{openConversation.title}</Typography>
                         {openConversation.participants.length > 2 && (
                             <Typography variant="secondary" uppercase>

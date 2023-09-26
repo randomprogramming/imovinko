@@ -5,6 +5,7 @@ import Link from "../Link";
 import Icon from "../Icon";
 import useAuthentication from "@/hooks/useAuthentication";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 interface ConversationProps {
     conversations: Conversation[];
@@ -28,6 +29,9 @@ export default function Conversations({ conversations }: ConversationProps) {
                 </Typography>
             )}
             {conversations.map((c) => {
+                const otherP = c.participants.filter((p) => p.id !== account?.id);
+                const firstOtherP = otherP.length > 0 ? otherP.at(0) : null;
+
                 return (
                     <Link
                         key={c.id}
@@ -39,10 +43,20 @@ export default function Conversations({ conversations }: ConversationProps) {
                         disableAnimatedHover
                     >
                         <div>
-                            {/* TODO: Add image here: */}
-                            <Icon name="account" height={48} width={48} />
+                            {firstOtherP && firstOtherP.avatarUrl ? (
+                                <div className="w-12 h-12 rounded-full shadow-sm relative overflow-hidden">
+                                    <Image
+                                        alt="avatar"
+                                        src={firstOtherP.avatarUrl}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            ) : (
+                                <Icon name="account" height={48} width={48} />
+                            )}
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col ml-1">
                             <Typography className="line-clamp-1" bold>
                                 {c.title}
                             </Typography>

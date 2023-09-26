@@ -369,7 +369,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                 </div>
             </Modal>
             <Main container mobilePadding>
-                <div className="flex flex-col xl:flex-row mt-8">
+                <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="flex flex-col flex-1 max-w-full md:max-w-2xl mx-auto">
                         {successfullyUpdated && !isRedirecting && (

@@ -14,31 +14,31 @@ function ImageUpload({ inputRef, images, disabled, removeImage }: ImageUploadPro
             <button
                 disabled={disabled}
                 //         // TODO: Handle file drag and drop
-                //         onDrop={(e) => {
-                //             console.log("on drop");
+                // onDrop={(e) => {
+                //     console.log("on drop");
 
-                //             console.log(e);
-                //             //prevent the browser from opening the image
-                //             e.preventDefault();
-                //             e.stopPropagation(); //let's grab the image file
-                //             let imageFile = e.dataTransfer.files[0];
-                //         }}
-                //         onDragOverCapture={(e) => {
-                //             console.log("on onDragOverCapture");
-                //             // console.log(e);
-                //         }}
-                //         onDropCapture={(e) => {
-                //             console.log("on onDropCapture");
-                //             // console.log(e);
-                //         }}
-                //         onPointerDownCapture={(e) => {
-                //             console.log("on onPointerDownCapture");
-                //             console.log(e);
-                //         }}
-                //         onDragOver={(e) => {
-                //             e.preventDefault();
-                //             console.log(e.dataTransfer);
-                //         }}
+                //     console.log(e);
+                //     //prevent the browser from opening the image
+                //     e.preventDefault();
+                //     e.stopPropagation(); //let's grab the image file
+                //     let imageFile = e.dataTransfer.files[0];
+                // }}
+                // onDragOverCapture={(e) => {
+                //     console.log("on onDragOverCapture");
+                //     // console.log(e);
+                // }}
+                // onDropCapture={(e) => {
+                //     console.log("on onDropCapture");
+                //     // console.log(e);
+                // }}
+                // onPointerDownCapture={(e) => {
+                //     console.log("on onPointerDownCapture");
+                //     console.log(e);
+                // }}
+                // onDragOver={(e) => {
+                //     e.preventDefault();
+                //     console.log(e.dataTransfer);
+                // }}
                 className={`p-12 border-zinc-900 border-dashed border-4 rounded-lg transition-all ${
                     disabled ? "bg-zinc-200" : "hover:bg-zinc-300"
                 }`}
