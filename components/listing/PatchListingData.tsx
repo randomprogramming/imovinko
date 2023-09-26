@@ -532,7 +532,15 @@ export default function InputListingData({ company, listing, type }: ListApartme
                             />
                             <TitleCol title={t("new-images")}>{t("new-images-desc")}</TitleCol>
 
-                            <ImageUpload images={images} inputRef={imageUploadRef} />
+                            <ImageUpload
+                                images={images}
+                                inputRef={imageUploadRef}
+                                removeImage={(i) => {
+                                    const copy = [...images];
+                                    copy.splice(i, 1);
+                                    setImages(copy);
+                                }}
+                            />
                         </FlexRow>
                         {listing && listing[type]?.media && listing[type]?.media.length! > 0 && (
                             <FlexRow singleCol>

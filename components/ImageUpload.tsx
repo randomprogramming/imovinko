@@ -6,8 +6,9 @@ interface ImageUploadProps {
     inputRef: React.RefObject<HTMLInputElement>;
     images: File[];
     disabled?: boolean;
+    removeImage(index: number): void;
 }
-function ImageUpload({ inputRef, images, disabled }: ImageUploadProps) {
+function ImageUpload({ inputRef, images, disabled, removeImage }: ImageUploadProps) {
     return (
         <div className="flex flex-row space-x-6 w-full relative overflow-x-auto py-2">
             <button
@@ -49,20 +50,32 @@ function ImageUpload({ inputRef, images, disabled }: ImageUploadProps) {
             >
                 <Icon height={48} width={48} name="image-plus" />
             </button>
-            {/* TODO: add ability to remove image when clicking on it */}
             {!disabled &&
-                images.map((i) => {
+                images.map((i, index) => {
                     const url = URL.createObjectURL(i);
 
                     return (
                         <div
+                            onClick={() => {
+                                removeImage(index);
+                            }}
                             key={url}
-                            className="min-h-full relative rounded-md overflow-hidden shadow-md"
+                            className="cursor-pointer group min-h-full relative rounded-md overflow-hidden shadow-md"
                             style={{
                                 minWidth: "152px",
                                 maxWidth: "152px",
                             }}
                         >
+                            <div className="z-50 absolute top-0 left-0 right-0 bottom-0 bg-zinc-400 bg-opacity-0 group-hover:bg-opacity-75">
+                                <div className="group-hover:flex hidden items-center justify-center w-full h-full">
+                                    <Icon
+                                        name="trash"
+                                        height={48}
+                                        width={48}
+                                        className="stroke-rose-500"
+                                    />
+                                </div>
+                            </div>
                             <Image
                                 src={url}
                                 fill

@@ -391,6 +391,11 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                             disabled={isForExistingProperty}
                             images={images}
                             inputRef={imageUploadRef}
+                            removeImage={(i) => {
+                                const copy = [...images];
+                                copy.splice(i, 1);
+                                setImages(copy);
+                            }}
                         />
                     </FlexRow>
 
