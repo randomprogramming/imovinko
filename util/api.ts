@@ -826,6 +826,7 @@ export interface CompanyInvitation {
     company: {
         name: string;
         prettyId: string;
+        avatarUrl?: string;
     };
     createdAt: string | Date;
 }

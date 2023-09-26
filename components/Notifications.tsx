@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import Link from "./Link";
 import Conversations from "./conversations/Conversations";
+import Image from "next/image";
 
 interface ConversationsScreenProps {
     conversations: Conversation[];
@@ -100,8 +101,18 @@ function InvitationsScreen({ invitations }: InvitationsScreenProps) {
                         }`}
                     >
                         <div>
-                            {/* TODO: Add company image */}
-                            <Icon name="account" height={32} width={32} />
+                            {i.company.avatarUrl ? (
+                                <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                                    <Image
+                                        src={i.company.avatarUrl}
+                                        alt="logo"
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            ) : (
+                                <Icon name="account" height={48} width={48} />
+                            )}
                         </div>
                         <div className="flex flex-col px-2">
                             <div>

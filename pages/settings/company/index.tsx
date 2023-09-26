@@ -249,9 +249,9 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                     >
                         <Icon name="close" />
                     </Button.Transparent>
-                    <div className="flex-1 flex flex-col lg:flex-row justify-evenly">
+                    <div className="flex-1 flex flex-col xl:flex-row justify-evenly">
                         <div className="flex-1 flex flex-col pr-2 max-w-3xl">
-                            <Typography className="mt-8 lg:mt-32" variant="h2">
+                            <Typography className="mt-8 xl:mt-32" variant="h2">
                                 {t("invite-member")}
                             </Typography>
                             <Typography>{t("invite-member-description")}</Typography>
@@ -278,11 +278,11 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-8 py-6 lg:py-20 lg:px-0">
-                            <div className="h-0.5 lg:w-0.5 w-full lg:h-full bg-zinc-300 rounded-full shadow-sm" />
+                        <div className="px-8 py-6 xl:py-20 xl:px-0">
+                            <div className="h-0.5 xl:w-0.5 w-full xl:h-full bg-zinc-300 rounded-full shadow-sm" />
                         </div>
                         <div className="flex-1 flex flex-col pl-2 max-w-3xl">
-                            <Typography className="mt-8 lg:mt-32" variant="h2">
+                            <Typography className="mt-8 xl:mt-32" variant="h2">
                                 {t("manual-member")}
                             </Typography>
                             <Typography>{t("manual-member-description")}</Typography>
@@ -352,12 +352,12 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                 </div>
             </Modal>
             <Main container mobilePadding>
-                <div className="flex flex-col lg:flex-row mt-8">
+                <div className="flex flex-col xl:flex-row mt-8">
                     <Navigation />
                     <div className="flex flex-col flex-1 max-w-full md:max-w-2xl mx-auto">
                         {successfullyUpdated && !isRedirecting && (
                             <Dialog
-                                className="mb-2"
+                                className="mb-4"
                                 type="success"
                                 title={t("updated-title")}
                                 message={t("updated-message")}
@@ -365,7 +365,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         )}
                         {successfullyInvited && (
                             <Dialog
-                                className="mb-2"
+                                className="mb-4"
                                 type="success"
                                 title={t("success")}
                                 message={t("success-message")}
@@ -373,7 +373,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         )}
                         {manualSuccessfullyCreate && (
                             <Dialog
-                                className="mb-2"
+                                className="mb-4"
                                 type="success"
                                 title={t("manual-succes")}
                                 message={t("manual-message")}
@@ -381,7 +381,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         )}
                         {successfullyCreated && (
                             <Dialog
-                                className="mb-2"
+                                className="mb-4"
                                 type="success"
                                 title={t("created")}
                                 message={t("created-message")}

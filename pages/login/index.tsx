@@ -132,6 +132,7 @@ export default function Login() {
                             onKeyDown={listenToEnter}
                             hasError={fieldErrorCodesParser.has("handle")}
                             errorMsg={fieldErrorCodesParser.getTranslated("handle")}
+                            value={handle}
                         />
                     </div>
                     <div className="mt-4">
@@ -149,6 +150,7 @@ export default function Login() {
                             onKeyDown={listenToEnter}
                             hasError={fieldErrorCodesParser.has("password")}
                             errorMsg={fieldErrorCodesParser.getTranslated("password")}
+                            value={password}
                         />
                     </div>
                     <div className="mt-6">

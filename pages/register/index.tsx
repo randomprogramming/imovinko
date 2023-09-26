@@ -156,6 +156,7 @@ export default function Register() {
                                 hasError={fieldErrorCodesParser.has("firstName")}
                                 errorMsg={fieldErrorCodesParser.getTranslated("firstName")}
                                 onKeyDown={listenToEnter}
+                                value={firstName}
                             />
                         </div>
 
@@ -176,6 +177,7 @@ export default function Register() {
                                 hasError={fieldErrorCodesParser.has("lastName")}
                                 errorMsg={fieldErrorCodesParser.getTranslated("lastName")}
                                 onKeyDown={listenToEnter}
+                                value={lastName}
                             />
                         </div>
                     </div>
@@ -195,6 +197,7 @@ export default function Register() {
                             onChange={setUsername}
                             placeholder="username300"
                             onKeyDown={listenToEnter}
+                            value={username}
                         />
                     </div>
 
@@ -213,6 +216,7 @@ export default function Register() {
                             hasError={fieldErrorCodesParser.has("email")}
                             errorMsg={fieldErrorCodesParser.getTranslated("email")}
                             onKeyDown={listenToEnter}
+                            value={email}
                         />
                     </div>
 
@@ -231,6 +235,7 @@ export default function Register() {
                             hasError={fieldErrorCodesParser.has("password")}
                             errorMsg={fieldErrorCodesParser.getTranslated("password")}
                             onKeyDown={listenToEnter}
+                            value={password}
                         />
                     </div>
 
@@ -249,6 +254,7 @@ export default function Register() {
                             hasError={fieldErrorCodesParser.has("confirmPassword")}
                             errorMsg={fieldErrorCodesParser.getTranslated("confirmPassword")}
                             onKeyDown={listenToEnter}
+                            value={confirmPassword}
                         />
                     </div>
 
