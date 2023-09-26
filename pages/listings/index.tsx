@@ -870,7 +870,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             </header>
             <Main className="md:flex-row border-t border-zinc-300">
                 <div
-                    className="md:sw-1/4 min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-sm"
+                    className="min-h-full md:border-r border-zinc-300 px-2 pt-2 flex flex-col md:max-w-xs xl: max-w-md"
                     style={{
                         minWidth: "210px",
                     }}
@@ -1069,7 +1069,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <input
                                         id="areaFrom"
                                         name="areaFrom"
-                                        className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                        className={`bg-transparent outline-none border-none w-[92px] pr-1 ${space_grotesk.className}`}
                                         value={areaFrom || ""}
                                         onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
@@ -1085,7 +1085,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                     <input
                                         id="areaTo"
                                         name="areaTo"
-                                        className={`bg-transparent outline-none border-none w-24 pr-1 ${space_grotesk.className}`}
+                                        className={`bg-transparent outline-none border-none w-[92px] pr-1 ${space_grotesk.className}`}
                                         value={areaTo || ""}
                                         onKeyDown={checkForInputEnterPress}
                                         onChange={(e) => {
