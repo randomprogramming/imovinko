@@ -1156,7 +1156,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                             } fixed top-0 bottom-0 left-0 right-0 bg-zinc-900 z-40 flex flex-col`}
                         >
                             <div className="h-full w-full">
-                                <div className="h-[15%] flex flex-row">
+                                <div className="h-[10%] flex flex-row">
                                     <div
                                         style={{
                                             minWidth: "25%",
@@ -1198,7 +1198,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     </div>
                                 </div>
                                 <RCarousel
-                                    className={`h-[80%] z-30 ${styles["carousel-root"]}`}
+                                    className={`h-[90%] z-30 ${styles["carousel-root"]}`}
                                     showThumbs={false}
                                     selectedItem={currentSlide}
                                     onChange={(newSlide) => {
@@ -1261,9 +1261,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         );
                                     })}
                                 </RCarousel>
-                                <div className="h-[5%] text-white">
-                                    {/* TODO: Render thumbnails here */}
-                                </div>
+                                {/* <div className="h-[5%] text-white"> */}
+                                {/* TODO: Render thumbnails here */}
+                                {/* </div> */}
                             </div>
                         </div>
 
