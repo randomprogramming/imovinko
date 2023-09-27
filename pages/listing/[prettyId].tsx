@@ -1256,6 +1256,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                     height={0}
                                                     sizes="100vw"
                                                     className="select-none !max-h-full !w-auto object-contain"
+                                                    style={{
+                                                        maxWidth: "100%",
+                                                    }}
                                                     src={m.url}
                                                     alt="property image"
                                                     unoptimized
