@@ -49,6 +49,7 @@ import SaveListingIcon from "@/components/SaveListingIcon";
 import Dialog from "@/components/Dialog";
 import { formatPrice, isSold } from "@/util/listing";
 import { formatDMYDate } from "@/util/date";
+import CImage from "@/components/CImage";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
 const MortgageCalculator = dynamic(() => import("@/components/MortgageCalculator"), { ssr: false });
@@ -140,7 +141,12 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                     <Link to={`/account/${username}`} disableAnimatedHover>
                         {avatarUrl ? (
                             <div className="relative w-16 h-16 rounded-full overflow-hidden">
-                                <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
+                                <CImage
+                                    src={avatarUrl}
+                                    alt="avatar"
+                                    fill
+                                    className="object-cover"
+                                />
                             </div>
                         ) : (
                             <Icon name="account" height={64} width={64} />
@@ -150,7 +156,12 @@ function ContactCard({ firstName, lastName, username, avatarUrl, contacts }: Con
                     <div>
                         {avatarUrl ? (
                             <div className="relative w-16 h-16 rounded-full overflow-hidden">
-                                <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
+                                <CImage
+                                    src={avatarUrl}
+                                    alt="avatar"
+                                    fill
+                                    className="object-cover"
+                                />
                             </div>
                         ) : (
                             <Icon name="account" height={64} width={64} />
@@ -238,7 +249,7 @@ function ClickableImage({ url, onClick, showBanner, small }: ClickableImageProps
             }}
             onClick={onClick}
         >
-            <Image
+            <CImage
                 src={url}
                 alt="property image"
                 fill
@@ -1251,7 +1262,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 key={m.url}
                                                 className="h-full max-h-full flex items-center justify-center flex-1 relative"
                                             >
-                                                <Image
+                                                <CImage
                                                     width={0}
                                                     height={0}
                                                     sizes="100vw"
@@ -1316,7 +1327,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         <div className="-translate-y-1/2 pl-10">
                                             {getListingAvatarUrl(listing) ? (
                                                 <div className="relative w-16 h-16 rounded-full overflow-hidden">
-                                                    <Image
+                                                    <CImage
                                                         src={getListingAvatarUrl(listing)!}
                                                         alt="avatar"
                                                         fill
