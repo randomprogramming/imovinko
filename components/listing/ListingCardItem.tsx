@@ -1,14 +1,13 @@
 import { ListingBasic, OfferingType } from "@/util/api";
 import { useTranslations } from "next-intl";
 import Link from "../Link";
-import Image from "next/image";
 import NoImage from "../NoImage";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
 import SaveListingIcon from "../SaveListingIcon";
 import { formatPrice, isSold } from "@/util/listing";
-import moment from "moment";
 import { formatDMYDate } from "@/util/date";
+import CImage from "../CImage";
 
 interface Props {
     listing: ListingBasic;
@@ -136,19 +135,17 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                     }}
                 >
                     {firstImage ? (
-                        <>
-                            <Image
-                                src={firstImage?.url}
-                                alt="media image"
-                                fill
-                                style={{
-                                    objectFit: "cover",
-                                    height: "100%",
-                                    width: "100%",
-                                }}
-                                quality={50}
-                            />
-                        </>
+                        <CImage
+                            src={firstImage?.url}
+                            alt="media image"
+                            fill
+                            style={{
+                                objectFit: "cover",
+                                height: "100%",
+                                width: "100%",
+                            }}
+                            quality={50}
+                        />
                     ) : (
                         <div className="absolute left-0 right-0 top-0 bottom-0">
                             <NoImage />

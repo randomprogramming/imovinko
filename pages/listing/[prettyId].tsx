@@ -19,7 +19,6 @@ import {
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import React, { useRef, useState } from "react";
-import Image from "next/image";
 import Icon from "@/components/Icon";
 import Map from "@/components/Map";
 import { Marker } from "react-map-gl";

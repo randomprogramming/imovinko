@@ -21,9 +21,9 @@ import Dialog from "@/components/Dialog";
 import { setJWTCookie } from "@/util/cookie";
 import { useRouter } from "next/router";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
-import Image from "next/image";
 import Main from "@/components/Main";
 import { formatDMYDate } from "@/util/date";
+import CImage from "@/components/CImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
     const cookies = req.headers.cookie;
@@ -192,7 +192,7 @@ export default function AccountPage({ account }: AccountPageProps) {
                                 </div>
 
                                 {account.avatarUrl ? (
-                                    <Image
+                                    <CImage
                                         src={account.avatarUrl}
                                         alt="account avatar"
                                         className="object-cover"

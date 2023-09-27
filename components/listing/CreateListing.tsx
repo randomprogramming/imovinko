@@ -24,10 +24,10 @@ import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import { space_grotesk } from "@/util/fonts";
-import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import PropertyDropdown from "@/components/PropertyDropdown";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
+import CImage from "../CImage";
 
 interface CreateListingProps {
     company: Company | null;
@@ -617,7 +617,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"
@@ -648,7 +648,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"
@@ -816,7 +816,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"
@@ -847,7 +847,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"
@@ -1012,7 +1012,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"
@@ -1043,7 +1043,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                                             {/* @ts-ignore */}
                                                             {data.avatarUrl ? (
                                                                 <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                    <Image
+                                                                    <CImage
                                                                         // @ts-ignore
                                                                         src={data.avatarUrl}
                                                                         alt="avatar"

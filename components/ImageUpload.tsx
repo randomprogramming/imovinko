@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import Icon from "./Icon";
-import Image from "next/image";
+import CImage from "./CImage";
 
 interface ImageUploadProps {
     inputRef: React.RefObject<HTMLInputElement>;
@@ -76,7 +76,7 @@ function ImageUpload({ inputRef, images, disabled, removeImage }: ImageUploadPro
                                     />
                                 </div>
                             </div>
-                            <Image
+                            <CImage
                                 src={url}
                                 fill
                                 alt="uploaded image"

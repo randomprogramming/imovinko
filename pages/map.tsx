@@ -17,7 +17,6 @@ import { useTranslations } from "next-intl";
 import React, { useId, useState } from "react";
 import { Marker, Popup } from "react-map-gl";
 import { Carousel } from "react-responsive-carousel";
-import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
 import { space_grotesk } from "@/util/fonts";
 import Input from "@/components/Input";
@@ -29,6 +28,7 @@ import IconRow from "@/components/listing/IconRow";
 import { useRouter } from "next/router";
 import { formatPrice } from "@/util/listing";
 import Select from "react-select";
+import CImage from "@/components/CImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
     return {
@@ -804,7 +804,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                                             maxHeight: "300px",
                                                         }}
                                                     >
-                                                        <Image
+                                                        <CImage
                                                             src={m.url}
                                                             alt="media image"
                                                             fill

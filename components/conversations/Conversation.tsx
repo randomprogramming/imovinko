@@ -10,8 +10,8 @@ import { useTranslations } from "next-intl";
 import ListingListItem from "../listing/ListingListItem";
 import Button from "../Button";
 import Modal from "../Modal";
-import Image from "next/image";
 import Link from "../Link";
+import CImage from "../CImage";
 
 interface MessageStateComponentProps {
     state?: MessageState | null;
@@ -221,7 +221,7 @@ export default function Conversation({ allConversations }: ConversationProps) {
                                 <div key={p.id} className="flex flex-row items-center">
                                     <div className="relative w-10 h-10 flex items-center justify-center rounded-full overflow-hidden shadow-sm">
                                         {p.avatarUrl ? (
-                                            <Image
+                                            <CImage
                                                 src={p.avatarUrl}
                                                 alt="account image"
                                                 fill
@@ -266,7 +266,7 @@ export default function Conversation({ allConversations }: ConversationProps) {
                     <div className="py-2 ml-2">
                         {firstOtherP && firstOtherP.avatarUrl ? (
                             <div className="w-12 h-12 rounded-full shadow-sm relative overflow-hidden">
-                                <Image
+                                <CImage
                                     alt="avatar"
                                     src={firstOtherP.avatarUrl}
                                     fill

@@ -24,11 +24,11 @@ import { ParsedUrlQuery } from "querystring";
 import Dialog from "@/components/Dialog";
 import Footer from "@/components/Footer";
 import Head from "next/head";
-import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import Main from "@/components/Main";
 import { formatDMYDate } from "@/util/date";
 import { AxiosError } from "axios";
+import CImage from "@/components/CImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
     const cookies = req.headers.cookie;
@@ -437,7 +437,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                         )}
 
                                         {company.avatarUrl ? (
-                                            <Image
+                                            <CImage
                                                 src={company.avatarUrl}
                                                 alt="account avatar"
                                                 className="object-cover"
@@ -633,7 +633,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                 <div className="px-2 py-4">
                                                                     <div className="relative rounded-full overflow-hidden w-8 h-8">
                                                                         {ma.avatarUrl ? (
-                                                                            <Image
+                                                                            <CImage
                                                                                 src={ma.avatarUrl}
                                                                                 alt="account avatar"
                                                                                 className="object-cover"
@@ -688,7 +688,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                                                 <div className="px-2 py-4">
                                                                     <div className="relative rounded-full overflow-hidden w-8 h-8">
                                                                         {ca.avatarUrl ? (
-                                                                            <Image
+                                                                            <CImage
                                                                                 src={ca.avatarUrl}
                                                                                 alt="account avatar"
                                                                                 className="object-cover"

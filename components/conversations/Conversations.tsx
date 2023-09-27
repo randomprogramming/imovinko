@@ -5,7 +5,7 @@ import Link from "../Link";
 import Icon from "../Icon";
 import useAuthentication from "@/hooks/useAuthentication";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+import CImage from "../CImage";
 
 interface ConversationProps {
     conversations: Conversation[];
@@ -45,7 +45,7 @@ export default function Conversations({ conversations }: ConversationProps) {
                         <div>
                             {firstOtherP && firstOtherP.avatarUrl ? (
                                 <div className="w-12 h-12 rounded-full shadow-sm relative overflow-hidden">
-                                    <Image
+                                    <CImage
                                         alt="avatar"
                                         src={firstOtherP.avatarUrl}
                                         fill

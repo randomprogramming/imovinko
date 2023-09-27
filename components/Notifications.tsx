@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import Link from "./Link";
 import Conversations from "./conversations/Conversations";
-import Image from "next/image";
+import CImage from "./CImage";
 
 interface ConversationsScreenProps {
     conversations: Conversation[];
@@ -103,7 +103,7 @@ function InvitationsScreen({ invitations }: InvitationsScreenProps) {
                         <div>
                             {i.company.avatarUrl ? (
                                 <div className="w-12 h-12 rounded-full overflow-hidden relative">
-                                    <Image
+                                    <CImage
                                         src={i.company.avatarUrl}
                                         alt="logo"
                                         fill

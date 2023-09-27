@@ -1,7 +1,6 @@
 import { ListingBasic, OfferingType } from "@/util/api";
 import { useTranslations } from "next-intl";
 import React from "react";
-import Image from "next/image";
 import Typography from "../Typography";
 import IconRow from "./IconRow";
 import NoImage from "../NoImage";
@@ -9,6 +8,7 @@ import Link from "../Link";
 import SaveListingIcon from "../SaveListingIcon";
 import { formatPrice, isSold } from "@/util/listing";
 import { formatDMYDate } from "@/util/date";
+import CImage from "../CImage";
 
 interface Props {
     listing: ListingBasic;
@@ -149,7 +149,7 @@ export default function ListingListItem({
                 <div className="h-64 lg:w-96 lg:h-full">
                     {firstImage ? (
                         <div className="select-none relative w-full h-full">
-                            <Image
+                            <CImage
                                 src={firstImage?.url}
                                 alt="media image"
                                 fill

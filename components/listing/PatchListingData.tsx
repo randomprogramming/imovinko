@@ -22,13 +22,13 @@ import Icon from "@/components/Icon";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import { space_grotesk } from "@/util/fonts";
-import Image from "next/image";
 import useFieldErrorCodes from "@/hooks/useFieldErrorCodes";
 import { OfferingType } from "@/util/api";
 import Modal from "../Modal";
 import { FlexRow, RowItem, TitleCol, energyLabels } from "./InputListingComponents";
 import Main from "../Main";
 import { Marker } from "react-map-gl";
+import CImage from "../CImage";
 
 export function intersection(a?: string[], b?: string[]): string[] {
     if (!a || !b || a.length === 0 || b.length === 0) {
@@ -732,7 +732,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -761,7 +761,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -932,7 +932,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -961,7 +961,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -1132,7 +1132,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center border border-zinc-300 rounded-md px-1 py-1 ml-1 my-0.5">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-6 h-6 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill
@@ -1161,7 +1161,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                                             <div className="flex flex-row items-center pl-2 pr-2 py-2 hover:bg-zinc-300 cursor-pointer">
                                                                 {data.avatarUrl ? (
                                                                     <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                                                                        <Image
+                                                                        <CImage
                                                                             src={data.avatarUrl}
                                                                             alt="avatar"
                                                                             fill

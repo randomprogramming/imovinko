@@ -12,10 +12,10 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import NoData from "@/components/NoData";
 import NotFound from "@/components/404";
-import Image from "next/image";
 import Main from "@/components/Main";
 import cookie from "cookie";
 import { formatDMYDate } from "@/util/date";
+import CImage from "@/components/CImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ params, locale, query, req }) => {
     let company: CompanyWithListings | null = null;
@@ -98,7 +98,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
                                 <div className="border-b-2 border-b-zinc-300 px-8 py-6 flex flex-col items-center justify-center">
                                     {company.avatarUrl ? (
                                         <div className="relative h-32 w-32 rounded-full overflow-hidden shadow">
-                                            <Image
+                                            <CImage
                                                 src={company.avatarUrl}
                                                 alt="account avatar"
                                                 className="object-cover"
