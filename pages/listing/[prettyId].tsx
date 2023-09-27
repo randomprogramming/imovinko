@@ -1252,10 +1252,13 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 className="flex items-center justify-center flex-1 relative"
                                             >
                                                 <Image
-                                                    fill
-                                                    className="select-none max-h-full w-auto object-contain"
+                                                    width={0}
+                                                    height={0}
+                                                    sizes="100vw"
+                                                    className="select-none !max-h-full !w-auto object-contain"
                                                     src={m.url}
                                                     alt="property image"
+                                                    unoptimized
                                                 />
                                             </div>
                                         );
