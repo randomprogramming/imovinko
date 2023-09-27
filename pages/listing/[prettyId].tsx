@@ -1249,7 +1249,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         return (
                                             <div
                                                 key={m.url}
-                                                className="flex items-center justify-center flex-1 relative"
+                                                className="h-full max-h-full flex items-center justify-center flex-1 relative"
                                             >
                                                 <Image
                                                     width={0}
