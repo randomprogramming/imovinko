@@ -1249,7 +1249,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         return (
                                             <div
                                                 key={m.url}
-                                                className="flex items-center justify-center flex-1"
+                                                className="flex items-center justify-center flex-1 relative"
                                             >
                                                 <Image
                                                     fill
@@ -1276,6 +1276,14 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                             type="information"
                                             title={t("listing-sold")}
                                             message={t("listing-sold-message")}
+                                        />
+                                    )}
+                                    {!!listing.deactivated && (
+                                        <Dialog
+                                            className="mb-2"
+                                            type="warning"
+                                            title={t("listing-deactivated")}
+                                            message={t("listing-deactivated-message")}
                                         />
                                     )}
                                     <Typography variant="h1">{listing.title}</Typography>

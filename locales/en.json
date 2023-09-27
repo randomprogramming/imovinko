@@ -267,7 +267,9 @@
         "furnished": "Furnished",
         "unfurnished": "Unfurnished",
         "commission": "Commission",
-        "none": "None"
+        "none": "None",
+        "listing-deactivated": "Listing deactivated",
+        "listing-deactivated-message": "Listing is deactivated, only you have access to it."
     },
     "ListingsPage": {
         "per-night": "per night",

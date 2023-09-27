@@ -239,7 +239,7 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         <ListingCardItem
                             listing={removeListingModal!}
                             hideIconRow
-                            className="!shadow-none !rounded-none"
+                            className="!shadow-none !rounded-none !border-none"
                         />
                         <Typography className="text-center mt-6 mb-2 px-4" bold>
                             {t("deactivate-listing")}

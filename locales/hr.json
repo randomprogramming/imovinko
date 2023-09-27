@@ -267,7 +267,9 @@
         "furnished": "Namješteno",
         "unfurnished": "Nenamješteno",
         "commission": "Provizija",
-        "none": "Nema"
+        "none": "Nema",
+        "listing-deactivated": "Oglas deaktiviran",
+        "listing-deactivated-message": "Oglas je deaktiviran, samo vi imate pristup oglasu."
     },
     "ListingsPage": {
         "per-night": "noćenje",
