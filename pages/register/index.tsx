@@ -102,7 +102,7 @@ export default function Register() {
                 />
             </Head>
             <div className="flex-1 hidden lg:flex">
-                <div className="relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden shadow-lg">
+                <div className="h-screen relative w-full flex-1 rounded-tr-3xl rounded-br-3xl overflow-hidden shadow-lg">
                     <Link to="/" className="absolute z-30 top-10 left-12 p-1" disableAnimatedHover>
                         <Icon name="logo-text" height={48} />
                     </Link>
@@ -116,10 +116,10 @@ export default function Register() {
                     />
                 </div>
             </div>
-            <div className="flex-1 flex flex-col justify-between items-center">
+            <div className="flex-1 flex flex-col justify-between items-center h-screen overflow-y-auto">
                 <div className="px-2 md:px-10 py-4 w-full">
                     <div className="flex lg:hidden items-center justify-center">
-                        <Link to="/" className="p-1" disableAnimatedHover>
+                        <Link to="/" className="p-1 mb-2" disableAnimatedHover>
                             <Icon name="logo-text" height={48} className="inline" />
                         </Link>
                     </div>
@@ -146,7 +146,7 @@ export default function Register() {
                         <div className="flex-1 mr-20 h-0.5 bg-zinc-600" />
                     </div>
 
-                    <div className="flex flex-row">
+                    <div className="flex flex-row gap-4 flex-wrap">
                         <div className="flex-1">
                             <label htmlFor="firstName">
                                 <Typography variant="secondary" uppercase>
@@ -163,9 +163,6 @@ export default function Register() {
                                 value={firstName}
                             />
                         </div>
-
-                        {/* Spacer element */}
-                        <div className="w-4" />
 
                         <div className="flex-1">
                             <label htmlFor="lastName">

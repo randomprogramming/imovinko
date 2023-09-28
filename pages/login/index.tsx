@@ -70,7 +70,7 @@ export default function Login() {
                     content="oglasnik, nekretnina, kuća, stan, zemljište, kupovina, prodaja, najam, prijava, račun"
                 />
             </Head>
-            <div className="hidden lg:flex" style={{ flex: 3 }}>
+            <div className="hidden lg:flex h-screen" style={{ flex: 3 }}>
                 <div className="relative w-full flex-1 overflow-hidden">
                     <Link to="/" className="absolute z-30 top-10 left-12 p-1" disableAnimatedHover>
                         <Icon name="logo-text" height={48} className="fill-zinc-50" />
@@ -86,12 +86,12 @@ export default function Login() {
                 </div>
             </div>
             <div
-                className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0"
+                className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0 h-screen overflow-y-auto"
                 style={{ flex: 2 }}
             >
                 <div className="lg:px-10 py-4">
                     <div className="flex lg:hidden items-center justify-center">
-                        <Link to="/" className="p-1" disableAnimatedHover>
+                        <Link to="/" className="p-1 mb-2" disableAnimatedHover>
                             <Icon name="logo-text" height={48} className="inline" />
                         </Link>
                     </div>
