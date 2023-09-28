@@ -117,7 +117,12 @@ export default function Register() {
                 </div>
             </div>
             <div className="flex-1 flex flex-col justify-between items-center">
-                <div className="px-2 md:px-10 py-6 w-full">
+                <div className="px-2 md:px-10 py-4 w-full">
+                    <div className="flex lg:hidden items-center justify-center">
+                        <Link to="/" className="p-1" disableAnimatedHover>
+                            <Icon name="logo-text" height={48} className="inline" />
+                        </Link>
+                    </div>
                     <Typography variant="h1">{t("sign-up")}</Typography>
                     <div className="mt-8 flex flex-col items-center">
                         <Button.Primary
@@ -150,7 +155,6 @@ export default function Register() {
                             </label>
                             <Input
                                 name="firstName"
-                                className="mt-1"
                                 onChange={setFirstNameParsed}
                                 placeholder={t("first-name-placeholder")}
                                 hasError={fieldErrorCodesParser.has("firstName")}
@@ -171,7 +175,6 @@ export default function Register() {
                             </label>
                             <Input
                                 name="lastName"
-                                className="mt-1"
                                 onChange={setLastNameParsed}
                                 placeholder={t("last-name-placeholder")}
                                 hasError={fieldErrorCodesParser.has("lastName")}
@@ -191,7 +194,6 @@ export default function Register() {
 
                         <Input
                             name="username"
-                            className="mt-1"
                             hasError={fieldErrorCodesParser.has("username")}
                             errorMsg={fieldErrorCodesParser.getTranslated("username")}
                             onChange={setUsername}
@@ -209,7 +211,6 @@ export default function Register() {
                         </label>
                         <Input
                             name="email"
-                            className="mt-1"
                             type="email"
                             onChange={setEmail}
                             placeholder="my.mail@gmail.com"
@@ -228,7 +229,6 @@ export default function Register() {
                         </label>
                         <Input
                             name="password"
-                            className="mt-1"
                             type="password"
                             onChange={setPassword}
                             placeholder={t("password")}
@@ -247,7 +247,6 @@ export default function Register() {
                         </label>
                         <Input
                             name="confirmPassword"
-                            className="mt-1"
                             type="password"
                             onChange={setConfirmPassword}
                             placeholder={t("confirm-password")}

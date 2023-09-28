@@ -89,7 +89,12 @@ export default function Login() {
                 className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0"
                 style={{ flex: 2 }}
             >
-                <div className="lg:px-10 py-6">
+                <div className="lg:px-10 py-4">
+                    <div className="flex lg:hidden items-center justify-center">
+                        <Link to="/" className="p-1" disableAnimatedHover>
+                            <Icon name="logo-text" height={48} className="inline" />
+                        </Link>
+                    </div>
                     <Typography variant="h1">{t("welcome")}</Typography>
                     <div className="mt-8 flex flex-col items-center">
                         <Button.Primary
@@ -126,7 +131,6 @@ export default function Login() {
                         </label>
                         <Input
                             name="handle"
-                            className="mt-1"
                             onChange={setHandle}
                             placeholder="username300"
                             onKeyDown={listenToEnter}
@@ -143,7 +147,6 @@ export default function Login() {
                         </label>
                         <Input
                             name="password"
-                            className="mt-1"
                             onChange={setPassword}
                             placeholder={t("password")}
                             type="password"
