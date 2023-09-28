@@ -283,12 +283,12 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                         <ListingCardItem
                             listing={activateListingModal!}
                             hideIconRow
-                            className="!shadow-none !rounded-none"
+                            className="!shadow-none !rounded-none !border-none"
                         />
                         <Typography className="text-center mt-6 mb-2 px-4" bold>
                             {t("activate-listing")}
                         </Typography>
-                        <div className="grid grid-cols-2 border-t border-zinc-300 ">
+                        <div className="grid grid-cols-2 border-t border-zinc-300">
                             <div
                                 className="px-2 py-1 text-center hover:bg-zinc-200 transition-all cursor-pointer"
                                 onClick={() => {
