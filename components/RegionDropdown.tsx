@@ -76,6 +76,7 @@ function RegionDropdown({ initial, onChange }: RegionDropdownProps) {
             placeholder={t("select")}
             onChange={onChange}
             defaultValue={initial}
+            blurInputOnSelect={false}
             components={{
                 Option(innerProps) {
                     return (
