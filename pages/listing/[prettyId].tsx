@@ -1208,7 +1208,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     </div>
                                 </div>
                                 <RCarousel
-                                    className={`h-[90%] z-30 ${styles["carousel-root"]}`}
+                                    className={`h-[85%] z-30 ${styles["carousel-root"]}`}
                                     showThumbs={false}
                                     selectedItem={currentSlide}
                                     onChange={(newSlide) => {
@@ -1277,9 +1277,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         );
                                     })}
                                 </RCarousel>
-                                {/* <div className="h-[5%] text-white"> */}
-                                {/* TODO: Render thumbnails here */}
-                                {/* </div> */}
+                                <div className="h-[5%]">{/* TODO: Render thumbnails here */}</div>
                             </div>
                         </div>
 
