@@ -8,7 +8,7 @@ interface NotFoundProps {
 export default function NotFound({ children, className }: NotFoundProps) {
     return (
         <div className={`w-full text-center ${className}`}>
-            <Typography className="text-rose-800 text-[112px] md:text-[178px] leading-[120px]">
+            <Typography className="text-rose-800 text-[112px] md:text-[178px] leading-[120px] select-none">
                 4
                 <Typography variant="span" className="text-zinc-900 stretch">
                     0
