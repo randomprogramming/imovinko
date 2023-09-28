@@ -86,7 +86,7 @@ export default function Login() {
                 </div>
             </div>
             <div
-                className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0 h-screen overflow-y-auto"
+                className="bg-zinc-100 rounded-2xl lg:-ml-10 z-50 px-2 lg:px-0 lg:h-screen lg:overflow-y-auto"
                 style={{ flex: 2 }}
             >
                 <div className="lg:px-10 py-4">

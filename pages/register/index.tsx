@@ -116,7 +116,7 @@ export default function Register() {
                     />
                 </div>
             </div>
-            <div className="flex-1 flex flex-col justify-between items-center h-screen overflow-y-auto">
+            <div className="flex-1 flex flex-col justify-between items-center lg:h-screen lg:overflow-y-auto">
                 <div className="px-2 md:px-10 py-4 w-full">
                     <div className="flex lg:hidden items-center justify-center">
                         <Link to="/" className="p-1 mb-2" disableAnimatedHover>
