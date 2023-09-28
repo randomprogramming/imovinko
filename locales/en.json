@@ -209,7 +209,7 @@
         "invalid_url": "Invalid URL",
         "missing_offering_type": "Please choose at least one offering type!",
         "not_valid_number": "Not a valid number",
-        "invalid_username": "Username may only contain letters and numbers"
+        "invalid_username": "Valid characters are letters A-Z, numbers 0-9 and \"-\", \"_\""
     },
     "ListingPage": {
         "per-night": "per night",

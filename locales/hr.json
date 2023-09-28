@@ -209,7 +209,7 @@
         "invalid_url": "Neispravan URL",
         "missing_offering_type": "Molimo odaberite barem jedan tip ponude!",
         "not_valid_number": "Nije važeći broj",
-        "invalid_username": "Korisničko ime smije sadržavati samo slova i brojke"
+        "invalid_username": "Dopuštena su slova A-Z, brojke 0-9 te znakovi \"-\" i \"_\""
     },
     "ListingPage": {
         "per-night": "noćenje",
