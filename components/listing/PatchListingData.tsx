@@ -674,6 +674,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             isSearchable
                                             defaultValue={defaultContacts}
                                             closeMenuOnSelect={false}
+                                            blurInputOnSelect={false}
                                             noOptionsMessage={() => {
                                                 return (
                                                     <div className="w-full flex items-center justify-center">
@@ -873,6 +874,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
+                                            blurInputOnSelect={false}
                                             defaultValue={defaultContacts}
                                             noOptionsMessage={() => {
                                                 return (
@@ -1073,6 +1075,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                             isMulti
                                             isSearchable
                                             closeMenuOnSelect={false}
+                                            blurInputOnSelect={false}
                                             defaultValue={defaultContacts}
                                             noOptionsMessage={() => {
                                                 return (

@@ -76,6 +76,7 @@ function RegionDropdown({ initial, onChange }: RegionDropdownProps) {
             placeholder={t("select")}
             onChange={onChange}
             defaultValue={initial}
+            // This must be false otherwise it closes the menu on select when on a mobile(touch) device
             blurInputOnSelect={false}
             components={{
                 Option(innerProps) {

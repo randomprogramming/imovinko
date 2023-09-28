@@ -563,6 +563,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                         className={`z-30 ${space_grotesk.className}`}
                                         isSearchable
                                         closeMenuOnSelect={false}
+                                        blurInputOnSelect={false}
                                         noOptionsMessage={() => {
                                             return (
                                                 <div className="w-full flex items-center justify-center">
@@ -762,6 +763,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                         isMulti
                                         isSearchable
                                         closeMenuOnSelect={false}
+                                        blurInputOnSelect={false}
                                         noOptionsMessage={() => {
                                             return (
                                                 <div className="w-full flex items-center justify-center">
@@ -958,6 +960,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                         isMulti
                                         isSearchable
                                         closeMenuOnSelect={false}
+                                        blurInputOnSelect={false}
                                         noOptionsMessage={() => {
                                             return (
                                                 <div className="w-full flex items-center justify-center">
