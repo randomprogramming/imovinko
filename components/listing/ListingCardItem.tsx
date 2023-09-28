@@ -131,7 +131,7 @@ export default function ListingCardItem({ listing, hideIconRow, className }: Pro
                 <div
                     className="w-full relative flex flex-col"
                     style={{
-                        minHeight: "230px",
+                        minHeight: "240px",
                     }}
                 >
                     {firstImage ? (

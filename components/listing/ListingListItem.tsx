@@ -146,7 +146,7 @@ export default function ListingListItem({
                 <SaveListingIcon listingId={listing.id} saved={listing.saved} className="!p-1.5" />
             </div>
             <div className="flex lg:flex-row flex-col w-full">
-                <div className="h-64 lg:w-96 lg:h-full">
+                <div className="h-72 lg:w-96 lg:h-full">
                     {firstImage ? (
                         <div className="select-none relative w-full h-full">
                             <CImage
