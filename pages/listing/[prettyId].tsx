@@ -783,7 +783,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             if (listing.apartment.floor) {
                 obj.push({
                     name: t("floor"),
-                    val: listing.apartment.floor,
+                    val: listing.apartment.floor + ".",
                 });
             }
             if (listing.apartment.totalFloors) {

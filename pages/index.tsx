@@ -174,7 +174,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                     </Link>
                 </section>
 
-                <section className="container mx-auto mt-8">
+                <section className="container mx-auto mt-8 px-2 md:px-0">
                     <Typography variant="h1">{t("newest-ads")}</Typography>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full gap-4">
                         {newestListings.map((l) => {
