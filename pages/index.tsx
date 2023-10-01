@@ -155,6 +155,7 @@ export default function Home({ newestListings, counts }: HomeProps) {
                             alt="architecture"
                             fill
                             className="object-cover w-full h-full z-10"
+                            loading="eager"
                         />
                     </div>
                 </section>
