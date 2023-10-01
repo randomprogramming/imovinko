@@ -47,7 +47,7 @@ import cookie from "cookie";
 import SaveListingIcon from "@/components/SaveListingIcon";
 import Dialog from "@/components/Dialog";
 import { formatPrice, isSold } from "@/util/listing";
-import { formatDMYDate } from "@/util/date";
+import { formatDMYDate, formatHHMMTime } from "@/util/date";
 import CImage from "@/components/CImage";
 
 const PriceChangeChart = dynamic(() => import("@/components/PriceChangeChart"), { ssr: false });
@@ -1367,8 +1367,12 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                 </div>
 
                                 <div className="w-fit mt-12 bg-zinc-50 rounded shadow-sm">
-                                    <div>
-                                        <div className="-translate-y-1/2 pl-10">
+                                    <div className="-translate-y-1/2 pl-10 w-fit">
+                                        <Link
+                                            disableAnimatedHover
+                                            to={getAccountHref(listing)}
+                                            className="w-fit"
+                                        >
                                             {getListingAvatarUrl(listing) ? (
                                                 <div className="relative w-16 h-16 rounded-full overflow-hidden">
                                                     <CImage
@@ -1381,10 +1385,10 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                             ) : (
                                                 <Icon name="account" height={64} width={64} />
                                             )}
-                                        </div>
+                                        </Link>
                                     </div>
                                     <div className="-mt-6 px-12">
-                                        <Typography className="text-lg mb-2">
+                                        <Typography className="text-lg">
                                             <Link
                                                 to={getAccountHref(listing)}
                                                 className="text-blue-700"
@@ -1397,6 +1401,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         </Typography>
                                         {getListingCompanyWebsite(listing) && (
                                             <Link
+                                                newTab
                                                 to={getListingCompanyWebsite(listing)!}
                                                 className="text-blue-700 flex w-fit"
                                                 underlineClassName="!bg-blue-700"
@@ -1424,27 +1429,15 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                             <Typography variant="span" bold>
                                                 {formatDMYDate(listing.createdAt) +
                                                     " " +
-                                                    new Date(listing.createdAt).toLocaleTimeString(
-                                                        undefined,
-                                                        {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        }
-                                                    )}
+                                                    formatHHMMTime(listing.createdAt)}
                                             </Typography>
                                         </Typography>
                                         <Typography>
                                             {t("last-update")}:{" "}
                                             <Typography variant="span" bold>
-                                                {formatDMYDate(listing.createdAt) +
+                                                {formatDMYDate(listing.updatedAt) +
                                                     " " +
-                                                    new Date(listing.createdAt).toLocaleTimeString(
-                                                        undefined,
-                                                        {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        }
-                                                    )}
+                                                    formatHHMMTime(listing.updatedAt)}
                                             </Typography>
                                         </Typography>
                                         <Typography>
