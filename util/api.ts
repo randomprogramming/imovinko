@@ -504,8 +504,9 @@ export interface FullAccount extends Account {
 export interface FullAccountSingleCompany extends Account {
     createdAt: string | Date;
     avatarUrl: string | null;
-    company: BasicCompany & {
+    company?: BasicCompany & {
         createdAt: Date | string;
+        website: string | null;
     };
 }
 export interface Media {

@@ -554,6 +554,11 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         return account.avatarUrl;
     }
 
+    function getListingCompanyWebsite(p: Listing) {
+        const account = getListingAccount(p);
+        return account?.company?.website;
+    }
+
     function getAccountJoinDate(p: Listing) {
         let account = getListingAccount(p);
 
@@ -1319,7 +1324,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     <Typography>{listing.description}</Typography>
                                 </div>
 
-                                <div className="w-fit mt-10 bg-zinc-50 rounded shadow-sm">
+                                <div className="w-fit mt-12 bg-zinc-50 rounded shadow-sm">
                                     <div>
                                         <div className="-translate-y-1/2 pl-10">
                                             {getListingAvatarUrl(listing) ? (
@@ -1337,8 +1342,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         </div>
                                     </div>
                                     <div className="-mt-6 px-12">
-                                        <Typography className="text-lg">
-                                            {t("listing-by")}:{" "}
+                                        <Typography className="text-lg mb-2">
                                             <Link
                                                 to={getAccountHref(listing)}
                                                 className="text-blue-700"
@@ -1349,6 +1353,19 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 </Typography>
                                             </Link>
                                         </Typography>
+                                        {getListingCompanyWebsite(listing) && (
+                                            <Link
+                                                to={getListingCompanyWebsite(listing)!}
+                                                className="text-blue-700 flex w-fit"
+                                                underlineClassName="!bg-blue-700"
+                                            >
+                                                <Typography variant="span">
+                                                    {getListingCompanyWebsite(listing)!
+                                                        .replace("https://", "")
+                                                        .replace("www.", "")}
+                                                </Typography>
+                                            </Link>
+                                        )}
                                         <Typography>
                                             {t("lister-joined")}:{" "}
                                             <Typography variant="span" bold>
