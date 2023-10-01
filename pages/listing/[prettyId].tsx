@@ -1388,17 +1388,15 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         </Link>
                                     </div>
                                     <div className="-mt-6 px-12">
-                                        <Typography className="text-lg">
-                                            <Link
-                                                to={getAccountHref(listing)}
-                                                className="text-blue-700"
-                                                underlineClassName="!bg-blue-700"
-                                            >
-                                                <Typography variant="span" bold>
-                                                    {getAccountHandle(listing)}
-                                                </Typography>
-                                            </Link>
-                                        </Typography>
+                                        <Link
+                                            to={getAccountHref(listing)}
+                                            className="text-blue-700"
+                                            underlineClassName="!bg-blue-700"
+                                        >
+                                            <Typography className="text-lg" variant="span" bold>
+                                                {getAccountHandle(listing)}
+                                            </Typography>
+                                        </Link>
                                         {getListingCompanyWebsite(listing) && (
                                             <Link
                                                 newTab
