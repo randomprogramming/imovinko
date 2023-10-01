@@ -1113,11 +1113,53 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         />
                                         <button
                                             onClick={onShareLinkCopy}
-                                            className="bg-emerald-700 hover:bg-emerald-600 text-white py-1 px-1 rounded-r border border-emerald-700 outline-none"
+                                            className="bg-emerald-700 hover:bg-emerald-600 text-white py-1 px-2 rounded-r border border-emerald-700 outline-none uppercase"
                                         >
                                             {t("copy")}
                                         </button>
                                     </div>
+                                </div>
+
+                                <div className="mx-4 mb-4 flex flex-row flex-wrap gap-4">
+                                    <Link
+                                        newTab
+                                        to="https://www.facebook.com/sharer.php"
+                                        query={{
+                                            u: shareLink,
+                                        }}
+                                        disableAnimatedHover
+                                        className="cursor-pointer flex flex-row space-x-2 bg-zinc-200 hover:bg-zinc-300 transition-all shadow rounded py-2 px-4 items-center"
+                                    >
+                                        <Icon name="facebook" />
+                                        <Typography
+                                            uppercase
+                                            sm
+                                            bold
+                                            className="tracking-wide select-none"
+                                        >
+                                            Facebook
+                                        </Typography>
+                                    </Link>
+
+                                    <Link
+                                        newTab
+                                        to="https://twitter.com/intent/tweet"
+                                        query={{
+                                            url: shareLink,
+                                        }}
+                                        disableAnimatedHover
+                                        className="cursor-pointer flex flex-row space-x-2 bg-zinc-200 hover:bg-zinc-300 transition-all shadow rounded py-2 px-4 items-center"
+                                    >
+                                        <Icon name="twitter" />
+                                        <Typography
+                                            uppercase
+                                            sm
+                                            bold
+                                            className="tracking-wide select-none"
+                                        >
+                                            Twitter
+                                        </Typography>
+                                    </Link>
                                 </div>
                             </div>
                         </Modal>

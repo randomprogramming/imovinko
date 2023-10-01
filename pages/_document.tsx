@@ -8,7 +8,6 @@ export default function Document({ locale }: DocumentProps) {
     return (
         <Html lang={locale || "hr"}>
             <Head>
-                <title>Imovinko</title>
                 <meta name="description" content="Kupuj i prodaj nekretnine" />
                 <meta property="og:title" content="Imovinko" />
                 <meta property="og:description" content="Kupuj i prodaj nekretnine" />
