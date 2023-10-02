@@ -163,8 +163,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         price: saleListingPrice,
                         title: saleListingTitle,
                         description: saleListingDescription,
-                        contactIds: saleContacts,
-                        manualAccountContactIds: saleManualAccountContacts,
+                        contacts: saleContacts,
+                        manualAccountContacts: saleManualAccountContacts,
                         saleCommissionPercent: saleCommissionsPercent,
                     },
                 };
@@ -176,8 +176,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         price: shortTermListingPrice,
                         title: shortTermListingTitle,
                         description: shortTermListingDescription,
-                        contactIds: shortTermContacts,
-                        manualAccountContactIds: shortTermManualAccountContacts,
+                        contacts: shortTermContacts,
+                        manualAccountContacts: shortTermManualAccountContacts,
                     },
                 };
             }
@@ -188,8 +188,8 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         price: longTermListingPrice,
                         title: longTermListingTitle,
                         description: longTermListingDescription,
-                        contactIds: longTermContacts,
-                        manualAccountContactIds: longTermManualAccountContacts,
+                        contacts: longTermContacts,
+                        manualAccountContacts: longTermManualAccountContacts,
                     },
                 };
             }

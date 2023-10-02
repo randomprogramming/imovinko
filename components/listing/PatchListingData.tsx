@@ -8,6 +8,7 @@ import {
     FurnitureState,
     Listing,
     ListingFor,
+    PatchListingData,
     PropertyType,
     deleteMedia,
     patchListing,
@@ -292,14 +293,14 @@ export default function InputListingData({ company, listing, type }: ListApartme
             percent: 10,
         });
         try {
-            let listingData = {};
+            let listingData: PatchListingData = {};
             if (listing?.offeringType === OfferingType.sale) {
                 listingData = {
                     sale: {
                         title: saleListingTitle,
                         price: saleListingPrice,
-                        contactIds: saleContacts,
-                        manualAccountContactIds: saleManualAccountContacts,
+                        contacts: saleContacts,
+                        manualAccountContacts: saleManualAccountContacts,
                         description: saleListingDescription,
                         saleCommissionPercent: saleCommissionsPercent,
                     },
@@ -309,8 +310,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                     shortTermRent: {
                         title: shortTermListingTitle,
                         price: shortTermListingPrice,
-                        contactIds: shortTermContacts,
-                        manualAccountContactIds: shortTermManualAccountContacts,
+                        contacts: shortTermContacts,
+                        manualAccountContacts: shortTermManualAccountContacts,
                         description: shortTermListingDescription,
                     },
                 };
@@ -319,8 +320,8 @@ export default function InputListingData({ company, listing, type }: ListApartme
                     longTermRent: {
                         title: longTermListingTitle,
                         price: longTermListingPrice,
-                        contactIds: longTermContacts,
-                        manualAccountContactIds: longTermManualAccountContacts,
+                        contacts: longTermContacts,
+                        manualAccountContacts: longTermManualAccountContacts,
                         description: longTermListingDescription,
                     },
                 };

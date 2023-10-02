@@ -131,8 +131,8 @@ export enum ListingFor {
 export interface ListingData {
     price?: number | string;
     description?: string | null;
-    contactIds?: string[];
-    manualAccountContactIds?: string[];
+    contacts?: string[];
+    manualAccountContacts?: string[];
     title?: string;
 }
 export enum FurnitureState {
@@ -226,7 +226,14 @@ export async function createListing(data: CreateListingData) {
         sale: clearEmptyStrings(data.sale),
         longTermRent: clearEmptyStrings(data.longTermRent),
         shortTermRent: clearEmptyStrings(data.shortTermRent),
+        existingProperty: clearEmptyStrings(data.existingProperty),
     };
+
+    if (data.existingProperty) {
+        delete data.apartment;
+        delete data.house;
+        delete data.land;
+    }
 
     return await client<CreateListingResponse>({
         url: "/listing/submit",
@@ -1028,29 +1035,12 @@ export async function createContactMessage(data: ContactMessageData) {
     });
 }
 
-interface PatchListingData {
-    sale?: {
-        title?: string;
-        price?: number | string;
-        description?: string;
-        contactIds: string[];
-        manualAccountContactIds: string[];
+export interface PatchListingData {
+    sale?: ListingData & {
         saleCommissionPercent?: number | string | null;
     };
-    shortTermRent?: {
-        title?: string;
-        price?: number | string;
-        description?: string;
-        contactIds: string[];
-        manualAccountContactIds: string[];
-    };
-    longTermRent?: {
-        title?: string;
-        price?: number | string;
-        description?: string;
-        contactIds: string[];
-        manualAccountContactIds: string[];
-    };
+    shortTermRent?: ListingData;
+    longTermRent?: ListingData;
     apartment?: {
         surfaceArea: number;
         bedroomCount?: string | number | null;
