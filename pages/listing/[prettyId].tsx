@@ -735,6 +735,10 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         return locationStr;
     }
 
+    function getPropertyCustomId(l: Listing) {
+        return l.apartment?.customId || l.house?.customId || l.land?.customId;
+    }
+
     function formatPhone(phone: string | undefined | null) {
         if (!phone) {
             return undefined;
@@ -1552,6 +1556,12 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 />
                                             );
                                         })}
+                                        <Typography variant="secondary" uppercase>
+                                            {t("custom-id")}:{" "}
+                                            <Typography variant="span" bold>
+                                                {getPropertyCustomId(listing)}
+                                            </Typography>
+                                        </Typography>
                                     </div>
                                 )}
                             </div>
