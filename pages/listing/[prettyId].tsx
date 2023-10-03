@@ -1556,12 +1556,14 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 />
                                             );
                                         })}
-                                        <Typography variant="secondary" uppercase>
-                                            {t("custom-id")}:{" "}
-                                            <Typography variant="span" bold>
-                                                {getPropertyCustomId(listing)}
+                                        {getPropertyCustomId(listing) && (
+                                            <Typography variant="secondary" uppercase>
+                                                {t("custom-id")}:{" "}
+                                                <Typography variant="span" bold>
+                                                    {getPropertyCustomId(listing)}
+                                                </Typography>
                                             </Typography>
-                                        </Typography>
+                                        )}
                                     </div>
                                 )}
                             </div>
