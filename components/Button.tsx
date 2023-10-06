@@ -35,6 +35,7 @@ function Primary({
     icon,
     loading,
     className,
+    disabled,
 }: PrimaryButtonProps) {
     return (
         <button
@@ -44,7 +45,7 @@ function Primary({
                     : "text-white bg-zinc-900 shadow-md"
             } w-full transition-all flex items-center justify-center rounded-md hover:rounded-lg disabled:rounded-md h-14 ${className}`}
             onClick={onClick}
-            disabled={loading}
+            disabled={loading || disabled}
         >
             {label ? (
                 <div className="flex flex-row items-center justify-center space-x-2">

@@ -319,6 +319,14 @@ export default function MyProperties({ listings }: MyPropertiesPageProps) {
                 <div className="flex flex-col lg:flex-row mt-8">
                     <Navigation />
                     <div className="px-4 flex flex-col flex-1 max-w-2xl mx-auto">
+                        {router.query.fileUploaded === "true" && (
+                            <Dialog
+                                className="mb-4"
+                                type="success"
+                                title={t("file-uploaded")}
+                                message={t("file-uploaded-message")}
+                            />
+                        )}
                         {router.query.listingCreated === "true" && (
                             <Dialog
                                 className="mb-4"

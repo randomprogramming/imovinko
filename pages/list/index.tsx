@@ -24,13 +24,19 @@ interface LinkButtonProps {
     title: string;
     icon: IconName;
     disabled?: boolean;
+    fullWidth?: boolean;
+    iconClassName?: string;
 }
-function LinkButton({ href, title, icon, disabled }: LinkButtonProps) {
+function LinkButton({ href, title, icon, disabled, fullWidth, iconClassName }: LinkButtonProps) {
     function Content() {
         return (
-            <div className="w-full md:w-60 bg-zinc-50 hover:bg-zinc-100 hover:shadow-sm transition-all rounded-md shadow-md px-2 py-8">
+            <div
+                className={`w-full ${
+                    !fullWidth && "md:w-60"
+                } bg-zinc-50 hover:bg-zinc-100 hover:shadow-sm transition-all rounded-md shadow px-2 py-8`}
+            >
                 <div className="flex justify-center items-center">
-                    <Icon name={icon} height="50px" width="50px" />
+                    <Icon className={iconClassName} name={icon} height="50px" width="50px" />
                 </div>
                 <Typography variant="h1" className="text-center mt-4 select-none">
                     {title}
@@ -98,6 +104,17 @@ export default function List() {
                             href="/list/land"
                             title={t("land")}
                             icon="land-colorful"
+                            disabled={!!(account && !account.username)}
+                        />
+                    </div>
+                    {/* TODO: Show only if user has a company */}
+                    <div className="mt-4">
+                        <LinkButton
+                            fullWidth
+                            href="/list/file"
+                            title={t("file")}
+                            icon="file-upload"
+                            iconClassName="fill-blue-300"
                             disabled={!!(account && !account.username)}
                         />
                     </div>

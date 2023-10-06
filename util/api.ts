@@ -1228,3 +1228,17 @@ export async function removeSavedListing(listingId: string) {
         },
     });
 }
+
+export async function uploadListingsFile(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return await client({
+        method: "POST",
+        url: "/listing/submit/file",
+        headers: {
+            ...getAuthHeaders(),
+        },
+        data: formData,
+    });
+}

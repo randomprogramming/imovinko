@@ -73,7 +73,8 @@
         "missing-username": "Dodajte korisničko ime",
         "missing-username-message": "Prije predavanja oglasa, trebat ćete dodati korisničko ime. Kliknite",
         "missing-username-here": "ovdje",
-        "missing-username-rest": "kako bi dodali korisničko ime."
+        "missing-username-rest": "kako bi dodali korisničko ime.",
+        "file": "Iz Datoteke"
     },
     "CreateListing": {
         "title-apartment": "Informacije o stanu",
@@ -456,6 +457,8 @@
         "add-new": "predajte novi oglas ovdje!",
         "listing-added": "Oglas predan!",
         "listing-added-messages": "Vaš oglas je uspješno predan!",
+        "file-uploaded": "Datoteka procesirana",
+        "file-uploaded-message": "Datoteka je procesirana te su vaši novi oglasi uspješno uneseni.",
         "listing-updated": "Oglas izmijenjen!",
         "listing-updated-messages": "Vaš oglas je uspješno izmijenjen!",
         "deactivate-listing": "Jeste li sigurni za želite deaktivirati ovaj oglas?",
@@ -650,5 +653,30 @@
     "SavedPropertiesPage": {
         "saved-listings": "Spremljeni oglasi",
         "no-data-message": "Nemate niti jedan spremljeni oglas!"
+    },
+    "CreateListingFromFilePage": {
+        "listings-from-file": "Oglas iz datoteke",
+        "send-file": "Pošalji datoteku",
+        "how-to": "Rad s datotekama",
+        "only-allow-xml-json": "Dopuštene vrste datoteka: .xml, .json",
+        "xml-example": "Primjer XML datoteke.",
+        "json-example": "Primjer JSON datoteke.",
+        "xml-1": "'root' element u slučaju XML datoteke je obavezan.",
+        "general-1": "Datoteka se sastoji od niza <code>listing</code> objekta. Jedan <code>listing</code> objekt može sadržati sljedeća polja: <code>apartment</code>, <code>house</code>, <code>land</code>, <code>sale</code>, <code>longTermRent</code>, <code>shortTermRent</code>. <code>listing</code> element smije sadržavati samo <b>jedan</b> tip nekretnine(<code>apartment</code>, <code>house</code>, <code>land</code>), dok tipovi ponude(<code>sale</code>, <code>longTermRent</code>, <code>shortTermRent</code>) su proizvoljni. Jedan stan se na primjer može nuditi za prodaju te za dugoročan najam u isto vrijeme. Iznimka ovome su zemljišta, koja se mogu nuditi samo za prodaju.",
+        "sequence-number": "Broj",
+        "custom-id": "Šifra nekretnine",
+        "price": "Cijena",
+        "title": "Naslov",
+        "read-from-file": "Pročitani oglasi",
+        "offering-type": "Tip",
+        "sale": "Prodaja",
+        "shortTermRent": "Dnevni najam",
+        "longTermRent": "Mjesečni najam",
+        "media": "Slika",
+        "back": "Natrag",
+        "file-no-listing-object": "Datoteka ne sadrži obavezan 'listing' objekt.",
+        "missing-property": "Nedostaje nekretnina (apartment, house, land).",
+        "missing-offering-type": "Nedostaje tip ponude (sale, shortTermRent, longTermRent).",
+        "select-file": "Odaberite datoteku"
     }
 }
