@@ -76,10 +76,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
             } else {
                 propertyType = PropertyType.land;
             }
-            const nwlat = listingProperty.latitude + 0.01;
-            const nwlng = listingProperty.longitude - 0.01;
-            const selat = listingProperty.latitude - 0.01;
-            const selng = listingProperty.longitude + 0.01;
+            const nwlat = listingProperty.latitude + 0.02;
+            const nwlng = listingProperty.longitude - 0.02;
+            const selat = listingProperty.latitude - 0.02;
+            const selng = listingProperty.longitude + 0.02;
 
             // This finds some listings which are similar to the currently opened listing(similar location, similar price, etc.)
             const similarListingsResp = await findListingsByBoundingBox({
@@ -91,8 +91,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
                 },
                 propertyType: [propertyType],
                 offeringType: [listing.offeringType],
-                priceFrom: listing.price * 0.9,
-                priceTo: listing.price * 1.1,
+                priceFrom: listing.price * 0.8,
+                priceTo: listing.price * 1.2,
                 pageSize: 4,
                 exclude: [listing.prettyId],
                 jwt,

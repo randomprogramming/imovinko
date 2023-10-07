@@ -24,6 +24,13 @@ enum PropertyType {
     land = "land",
 }
 
+export const nullableString = (max?: number) =>
+    z
+        .string()
+        .max(max || 128)
+        .nullish()
+        .transform((x) => (x && x.length > 0 ? x : null));
+
 const nullableBool = () =>
     z
         .boolean()
@@ -118,7 +125,7 @@ const patchableLand = () =>
 const patchableListingData = () =>
     z.object({
         price: price(),
-        description: z.string().max(3440),
+        description: nullableString(3440),
         // These may be either IDs or usernames or emails
         contacts: stringArr(99).optional(),
         manualAccountContacts: stringArr(99).optional(),
