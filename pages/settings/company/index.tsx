@@ -407,14 +407,6 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                         {company ? (
                             <div>
                                 <div className="flex flex-row items-center space-x-2">
-                                    {company.role === "admin" && (
-                                        <input
-                                            ref={avatarUploadRef}
-                                            type="file"
-                                            className="hidden"
-                                            onChange={handleImageUpload}
-                                        />
-                                    )}
                                     <div
                                         className={`rounded-full ${
                                             company.role === "admin" && "cursor-pointer"
@@ -456,6 +448,15 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                             {t("created")}: {formatDMYDate(company.createdAt)}
                                         </Typography>
                                     </div>
+
+                                    {company.role === "admin" && (
+                                        <input
+                                            ref={avatarUploadRef}
+                                            type="file"
+                                            className="hidden"
+                                            onChange={handleImageUpload}
+                                        />
+                                    )}
                                 </div>
                                 {isUploadingImage && (
                                     <div className="flex flex-row ml-3">

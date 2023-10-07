@@ -674,7 +674,8 @@
         "longTermRent": "Mjesečni najam",
         "media": "Slika",
         "back": "Natrag",
-        "file-no-listing-object": "Datoteka ne sadrži obavezan 'listing' objekt.",
+        "file-no-listing-object": "Datoteka ne sadrži obavezan 'listings' objekt.",
+        "file-no-root-object": "Datoteka ne sadrži obavezan 'root' objekt.",
         "missing-property": "Nedostaje nekretnina (apartment, house, land).",
         "missing-offering-type": "Nedostaje tip ponude (sale, shortTermRent, longTermRent).",
         "select-file": "Odaberite datoteku"

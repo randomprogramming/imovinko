@@ -24,13 +24,6 @@ enum PropertyType {
     land = "land",
 }
 
-const nullableString = (max?: number) =>
-    z
-        .string()
-        .max(max || 128)
-        .nullish()
-        .transform((x) => (x && x.length > 0 ? x : null));
-
 const nullableBool = () =>
     z
         .boolean()
@@ -84,7 +77,7 @@ const patchableApartment = () =>
             .optional()
             .nullish()
             .transform((val) => (val ? val : null)),
-        customId: nullableString(),
+        customId: z.string().min(1),
 
         furnitureState: z
             .nativeEnum(FurnitureState)
@@ -108,7 +101,7 @@ const patchableHouse = () =>
             .optional()
             .nullish()
             .transform((val) => (val ? val : null)),
-        customId: nullableString(),
+        customId: z.string().min(1),
 
         furnitureState: z
             .nativeEnum(FurnitureState)
@@ -120,7 +113,7 @@ const patchableHouse = () =>
 const patchableLand = () =>
     z.object({
         surfaceArea: surfaceArea(),
-        customId: nullableString(),
+        customId: z.string().min(1),
     });
 const patchableListingData = () =>
     z.object({

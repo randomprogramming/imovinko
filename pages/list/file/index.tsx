@@ -15,6 +15,8 @@ import { ZodError } from "zod";
 import { formatPrice } from "@/util/listing";
 import Icon from "@/components/Icon";
 import { useRouter } from "next/router";
+import { AxiosError } from "axios";
+import xmlParser, { processors } from "xml2js";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     return {
@@ -61,6 +63,8 @@ export default function CreateListingFromFilePage() {
 
     const [listingErrors, setlistingErrors] = useState<ListingError[]>();
 
+    const [responseError, setResponseError] = useState();
+
     function openFilePicker() {
         fileRef?.current?.click();
     }
@@ -80,6 +84,11 @@ export default function CreateListingFromFilePage() {
             });
         } catch (e) {
             console.error(e);
+            if (e instanceof AxiosError) {
+                if (typeof e.response?.data === "string") {
+                    setResponseError(responseError);
+                }
+            }
         } finally {
             setIsUploadingFile(false);
         }
@@ -114,17 +123,45 @@ export default function CreateListingFromFilePage() {
     function parseJSONString(str: string) {
         const parsedJson = JSON.parse(str);
 
-        if (!parsedJson.listing) {
+        if (!parsedJson?.root) {
+            setFileErrorMessage(t("file-no-root-object"));
+            return;
+        }
+
+        if (!parsedJson?.root?.listings) {
             setFileErrorMessage(t("file-no-listing-object"));
             return;
         }
 
-        const parsedArr = Array.isArray(parsedJson.listing)
-            ? parsedJson.listing
-            : [parsedJson?.listing];
+        const listings = parsedJson.root.listings;
+
+        const parsedArr = Array.isArray(listings) ? listings : [listings];
 
         parseListings(parsedArr);
     }
+
+    const parseXMLString = async (str: string) => {
+        const parsedXml = await xmlParser.parseStringPromise(str, {
+            explicitArray: false,
+            valueProcessors: [processors.parseNumbers],
+        });
+
+        if (!parsedXml?.root) {
+            setFileErrorMessage(t("file-no-root-object"));
+            return;
+        }
+
+        if (!parsedXml?.root?.listings) {
+            setFileErrorMessage(t("file-no-listing-object"));
+            return;
+        }
+
+        const listings = parsedXml.root.listings;
+
+        const parsedArr = Array.isArray(listings) ? listings : [listings];
+
+        parseListings(parsedArr);
+    };
 
     function resetFileUpload(resetFile?: boolean) {
         setFileErrorMessage(undefined);
@@ -134,6 +171,7 @@ export default function CreateListingFromFilePage() {
             setFile(undefined);
         }
         setlistingErrors(undefined);
+        setResponseError(undefined);
     }
 
     const handleDrop = function (e: React.DragEvent<HTMLButtonElement>) {
@@ -226,7 +264,9 @@ export default function CreateListingFromFilePage() {
                     return;
                 }
                 if (file.name.endsWith(".xml")) {
-                    console.log("not implemented");
+                    if (typeof fileReader.result === "string") {
+                        parseXMLString(fileReader.result);
+                    }
                 } else if (file.name.endsWith(".json")) {
                     if (typeof fileReader.result === "string") {
                         parseJSONString(fileReader.result);
@@ -308,6 +348,7 @@ export default function CreateListingFromFilePage() {
                                                         className="p-1 border-l border-zinc-300 flex items-center justify-center"
                                                         style={{ maxWidth: "260px" }}
                                                     >
+                                                        {/* TODO: If no image show that no image component which we used somewhere else idk */}
                                                         {m.firstImage && (
                                                             <img
                                                                 src={m.firstImage}
@@ -347,7 +388,7 @@ export default function CreateListingFromFilePage() {
                                                         className="p-1 border-l border-zinc-300 text-center"
                                                         style={{ maxWidth: "260px" }}
                                                     >
-                                                        <Typography>
+                                                        <Typography className="whitespace-nowrap">
                                                             {m.price ? formatPrice(m.price) : "-"}
                                                         </Typography>
                                                     </td>
@@ -362,10 +403,18 @@ export default function CreateListingFromFilePage() {
                         {listingErrors && listingErrors.length > 0 && (
                             <div className="mt-8">
                                 {listingErrors.map((e) => (
-                                    <Typography className="text-red-500" bold>
+                                    <Typography key={e.message} className="text-red-500" bold>
                                         {e.message}
                                     </Typography>
                                 ))}
+                            </div>
+                        )}
+
+                        {responseError && (
+                            <div className="mt-8">
+                                <Typography className="text-red-500" bold>
+                                    {responseError}
+                                </Typography>
                             </div>
                         )}
 
@@ -441,40 +490,44 @@ export default function CreateListingFromFilePage() {
                                     stringValue: "text-green-700",
                                 }}
                                 data={{
-                                    listing: [
-                                        {
-                                            apartment: {
-                                                surfaceArea: 160,
-                                                longitude: 15.966568,
-                                                latitude: 45.815399,
-                                                customId: "APT-ZG-820",
+                                    root: {
+                                        listings: [
+                                            {
+                                                apartment: {
+                                                    surfaceArea: 160,
+                                                    longitude: 15.966568,
+                                                    latitude: 45.815399,
+                                                    customId: "APT-ZG-820",
+                                                },
+                                                sale: {
+                                                    title: "Apartment for sale title!",
+                                                    price: 290000,
+                                                    description:
+                                                        "Apartment sale listing description",
+                                                    saleCommissionPercent: 2.2,
+                                                },
+                                                longTermRent: {
+                                                    title: "Apartment for rent title!",
+                                                    price: 799.99,
+                                                    description:
+                                                        "Apartment rent listing description",
+                                                },
                                             },
-                                            sale: {
-                                                title: "Apartment for sale title!",
-                                                price: 290000,
-                                                description: "Apartment sale listing description",
-                                                saleCommissionPercent: 2.2,
+                                            {
+                                                house: {
+                                                    surfaceArea: 260,
+                                                    longitude: 15.966568,
+                                                    latitude: 45.815399,
+                                                    customId: "ID-123",
+                                                },
+                                                sale: {
+                                                    title: "Apartment for sale title!",
+                                                    price: 520000.99,
+                                                    description: "House for sale description",
+                                                },
                                             },
-                                            longTermRent: {
-                                                title: "Apartment for rent title!",
-                                                price: 799.99,
-                                                description: "Apartment rent listing description",
-                                            },
-                                        },
-                                        {
-                                            house: {
-                                                surfaceArea: 260,
-                                                longitude: 15.966568,
-                                                latitude: 45.815399,
-                                                customId: "ID-123",
-                                            },
-                                            sale: {
-                                                title: "Apartment for sale title!",
-                                                price: 520000.99,
-                                                description: "House for sale description",
-                                            },
-                                        },
-                                    ],
+                                        ],
+                                    },
                                 }}
                             />
 
@@ -487,7 +540,7 @@ export default function CreateListingFromFilePage() {
                                         fontFamily: "monospace",
                                     }}
                                     xml="<root>
-                                    <listing>
+                                    <listings>
                                         <apartment>
                                         <surfaceArea>160</surfaceArea>
                                         <longitude>15.966568</longitude>
@@ -505,8 +558,8 @@ export default function CreateListingFromFilePage() {
                                         <price>799.99</price>
                                         <description>Apartment rent listing description</description>
                                         </longTermRent>
-                                    </listing>
-                                    <listing>
+                                    </listings>
+                                    <listings>
                                         <house>
                                         <surfaceArea>260</surfaceArea>
                                         <longitude>15.966568</longitude>
@@ -518,7 +571,7 @@ export default function CreateListingFromFilePage() {
                                         <price>520000.99</price>
                                         <description>House for sale description</description>
                                         </sale>
-                                    </listing>
+                                    </listings>
                                 </root>"
                                 />
                             </div>

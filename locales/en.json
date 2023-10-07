@@ -674,7 +674,8 @@
         "longTermRent": "Monthly rent",
         "media": "Image",
         "back": "Back",
-        "file-no-listing-object": "File does not contain the mandatory 'listing' object.",
+        "file-no-listing-object": "File does not contain the mandatory 'listings' object.",
+        "file-no-root-object": "File does not contain the mandatory 'root' object.",
         "missing-property": "Missing property (apartment, house, land).",
         "missing-offering-type": "Missing offering type (sale, shortTermRent, longTermRent).",
         "select-file": "Select file"
