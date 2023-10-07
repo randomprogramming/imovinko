@@ -358,7 +358,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
     const [isMediaPopupOpen, setIsMediaPopupOpen] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     // remember where the user was when they open the media popup and scroll to that place when they close the popup
-    const [scrollWhenOpeningImage, setScrollWhenOpeningImage] = useState(0);
+    const [scrollWhenOpeningImage, setScrollWhenOpeningImage] = useState<number>();
 
     const [travelingMethod, setTravelingMethod] = useState<TravelingMethods>();
     const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -1035,7 +1035,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
-            window.scroll(0, scrollWhenOpeningImage);
+            if (scrollWhenOpeningImage) {
+                window.scroll(0, scrollWhenOpeningImage);
+            }
         }
     }, [isMediaPopupOpen]);
 
