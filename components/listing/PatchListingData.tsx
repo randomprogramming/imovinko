@@ -87,7 +87,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
             ? String(listing.saleCommissionPercent)
             : ""
     );
-    const [saleListingDescription, setSaleListingDescription] = useState<string | undefined>(
+    const [saleListingDescription, setSaleListingDescription] = useState<string | undefined | null>(
         listing?.description
     );
     const [saleManualAccountContacts, setSaleManualAccountContacts] = useState<string[]>([]);
@@ -97,7 +97,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
         String(listing?.price)
     );
     const [shortTermListingDescription, setShortTermListingDescription] = useState<
-        string | undefined
+        string | undefined | null
     >(listing?.description);
     const [shortTermContacts, setShortTermContacts] = useState<string[]>([]);
     const [shortTermManualAccountContacts, setShortTermManualAccountContacts] = useState<string[]>(
@@ -108,7 +108,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
         String(listing?.price)
     );
     const [longTermListingDescription, setLongTermListingDescription] = useState<
-        string | undefined
+        string | undefined | null
     >(listing?.description);
     const [longTermContacts, setLongTermContacts] = useState<string[]>([]);
     const [longTermManualAccountContacts, setLongTermManualAccountContacts] = useState<string[]>(

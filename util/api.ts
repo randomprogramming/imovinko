@@ -380,7 +380,7 @@ export interface ListingBasic {
     title: string;
     price: number;
     pricePerMeterSquared: number | null;
-    description: string;
+    description?: string | null;
     apartment: BasicProperty | null;
     house: BasicProperty | null;
     land: BasicProperty | null;
@@ -585,7 +585,7 @@ export interface PriceChange {
 export interface Listing {
     id: string;
     title: string;
-    description: string;
+    description?: string | null;
     deactivated: string | Date | null;
     offeringType: OfferingType;
     price: number;
