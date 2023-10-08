@@ -17,6 +17,7 @@ import Icon from "@/components/Icon";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import xmlParser, { processors } from "xml2js";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     return {
@@ -39,6 +40,53 @@ interface MinifiedListing {
 
 function Code(props: { children: React.ReactNode }) {
     return <code className="text-sm bg-zinc-300 font-mono px-1 rounded">{props.children}</code>;
+}
+
+interface TableProps {
+    columns: string[];
+    children: React.ReactNode;
+}
+function FieldsExplainedTable({ columns, children }: TableProps) {
+    return (
+        <table className="w-full">
+            <thead>
+                <tr>
+                    {columns.map((c) => {
+                        return (
+                            <th className="border-l first:!border-none border-zinc-300" key={c}>
+                                {c}
+                            </th>
+                        );
+                    })}
+                </tr>
+            </thead>
+            <tbody>{children}</tbody>
+        </table>
+    );
+}
+
+function Row(props: any) {
+    return <tr className="border-t border-zinc-300">{props.children}</tr>;
+}
+
+interface TdProps {
+    children?: React.ReactNode;
+    center?: boolean;
+    minWidth?: boolean;
+}
+function Td({ children, center, minWidth }: TdProps) {
+    return (
+        <td
+            className={`${
+                center && "flex items-center justify-center"
+            } border-l border-zinc-300 first:!border-none p-1`}
+            style={{
+                minWidth: minWidth ? "260px" : undefined,
+            }}
+        >
+            {children}
+        </td>
+    );
 }
 
 interface ListingError {
@@ -519,6 +567,10 @@ export default function CreateListingFromFilePage() {
                                                     longitude: 15.966568,
                                                     latitude: 45.815399,
                                                     customId: "ID-123",
+                                                    media: [
+                                                        "https://images.pexels.com/photos/1795508/pexels-photo-1795508.jpeg",
+                                                        "https://images.pexels.com/photos/1876045/pexels-photo-1876045.jpeg",
+                                                    ],
                                                 },
                                                 sale: {
                                                     title: "Apartment for sale title!",
@@ -531,9 +583,7 @@ export default function CreateListingFromFilePage() {
                                 }}
                             />
 
-                            <Typography className="mt-8">
-                                {t("xml-example") + " " + t("xml-1")}
-                            </Typography>
+                            <Typography className="mt-8">{t("xml-example")}</Typography>
                             <div className="bg-zinc-200 shadow-sm rounded overflow-x-auto font-mono pl-2">
                                 <XMLViewer
                                     theme={{
@@ -565,6 +615,8 @@ export default function CreateListingFromFilePage() {
                                         <longitude>15.966568</longitude>
                                         <latitude>45.815399</latitude>
                                         <customId>ID-123</customId>
+                                        <media>https://images.pexels.com/photos/1795508/pexels-photo-1795508.jpeg</media>
+                                        <media>https://images.pexels.com/photos/1876045/pexels-photo-1876045.jpeg</media>
                                         </house>
                                         <sale>
                                         <title>Apartment for sale title!</title>
@@ -575,10 +627,894 @@ export default function CreateListingFromFilePage() {
                                 </root>"
                                 />
                             </div>
+
+                            <div className="mt-12">
+                                <Typography bold>{t("all-fields-explanation")}</Typography>
+                                <Typography>
+                                    {t.rich("all-fields-explanation-extra", {
+                                        code: (chunks) => <Code>{chunks}</Code>,
+                                    })}
+                                </Typography>
+
+                                <div className="mt-4">
+                                    <Typography code>apartment</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>bathroomCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("bathroomCount")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>bedroomCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("bedroomCount")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>buildYear</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("buildYear")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>buildingFloors</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("buildingFloors")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>customId</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("customId")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>elevatorAccess</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>boolean</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("elevatorAccess")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>energyLabel</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("energyLabel")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>floor</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("floor")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>furnitureState</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("furnitureState")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>latitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("latitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>longitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("longitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>media</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("media-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>needsRenovation</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>boolean</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("needsRenovation")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>parkingSpaceCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("parkingSpaceCount")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>renovationYear</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("renovationYear")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>surfaceArea</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("surfaceArea")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>totalFloors</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("totalFloors")}</Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Typography code>house</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>bathroomCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("bathroomCount")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>bedroomCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("bedroomCount")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>buildYear</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("buildYear")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>customId</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("customId")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>energyLabel</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("energyLabel")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>furnitureState</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("furnitureState")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>latitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("latitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>longitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("longitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>media</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("media-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>needsRenovation</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>boolean</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("needsRenovation")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>parkingSpaceCount</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("parkingSpaceCount")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>renovationYear</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("renovationYear")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>surfaceArea</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("surfaceArea")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>totalFloors</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("totalFloors")}</Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Typography code>land</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>customId</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("customId")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>latitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("latitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>longitude</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("longitude")}</Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>media</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("media-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>surfaceArea</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("surfaceArea")}</Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Typography code>sale</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>contacts</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("contacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>description</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("description-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>
+                                                        manualAccountContacts
+                                                    </Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("manualAccountContacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>price</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>{t("price-sale")}</Typography>
+                                                </Td>
+                                            </Row>
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>
+                                                        saleCommissionPercent
+                                                    </Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("saleCommissionPercent")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>title</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("title-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Typography code>longTermRent</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>contacts</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("contacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>description</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("description-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>
+                                                        manualAccountContacts
+                                                    </Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("manualAccountContacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>price</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("price-longTermRent")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>
+                                                        priceIncludesUtilities
+                                                    </Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>boolean</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("priceIncludesUtilities")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>title</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("title-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Typography code>shortTermRent</Typography>
+                                    <div className="w-full bg-zinc-200 border rounded-md border-zinc-300 overflow-auto max-w-full">
+                                        <FieldsExplainedTable
+                                            columns={[
+                                                t("field-name"),
+                                                t("type"),
+                                                t("required"),
+                                                t("description"),
+                                            ]}
+                                        >
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>contacts</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("contacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>description</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("description-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>
+                                                        manualAccountContacts
+                                                    </Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string[]</Typography>
+                                                </Td>
+                                                <Td></Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t.rich("manualAccountContacts", {
+                                                            b: (chunks) => <b>{chunks}</b>,
+                                                            code: (chunks) => <Code>{chunks}</Code>,
+                                                        })}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>price</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>number</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("price-shortTermRent")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+
+                                            <Row>
+                                                <Td>
+                                                    <Typography code>title</Typography>
+                                                </Td>
+                                                <Td>
+                                                    <Typography code>string</Typography>
+                                                </Td>
+                                                <Td center>
+                                                    <Icon name="checkmark" />
+                                                </Td>
+                                                <Td minWidth>
+                                                    <Typography>
+                                                        {t("title-explanation")}
+                                                    </Typography>
+                                                </Td>
+                                            </Row>
+                                        </FieldsExplainedTable>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     </div>
                 )}
             </Main>
+            <Footer />
         </>
     );
 }

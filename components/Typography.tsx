@@ -10,6 +10,7 @@ interface TypographyProps {
     className?: string;
     sm?: boolean;
     style?: React.CSSProperties;
+    code?: boolean;
 }
 
 export default function Typography({
@@ -21,6 +22,7 @@ export default function Typography({
     className,
     sm,
     style,
+    code,
 }: TypographyProps) {
     let sharedClass = "";
     if (uppercase) {
@@ -48,6 +50,14 @@ export default function Typography({
 
     if (variant === "span") {
         return <span className={`${sharedClass} ${className}`}>{children}</span>;
+    }
+
+    if (code) {
+        return (
+            <code className={`${sharedClass} !font-mono bg-zinc-300 rounded px-1 inline`}>
+                {children}
+            </code>
+        );
     }
 
     return (
