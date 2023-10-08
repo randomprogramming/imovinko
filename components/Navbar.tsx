@@ -307,7 +307,7 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             {/* Profile section */}
             {/* Mobile View */}
             <div className="lg:hidden flex flex-row items-center">
-                {auth.account && companyInvitations && conversations && (
+                {auth.account && (
                     <Notifications
                         lightIcons={lightIcons}
                         invitations={companyInvitations}
@@ -321,13 +321,13 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        {companyInvitations && conversations && (
-                            <Notifications
-                                lightIcons={lightIcons}
-                                invitations={companyInvitations}
-                                conversations={conversations}
-                            />
-                        )}
+                        (
+                        <Notifications
+                            lightIcons={lightIcons}
+                            invitations={companyInvitations}
+                            conversations={conversations}
+                        />
+                        )
                         <AuthDropdown lightIcons={lightIcons} />
                     </>
                 ) : (

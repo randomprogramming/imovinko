@@ -232,9 +232,9 @@ enum NotificationScreen {
 }
 
 interface NotificationsProps {
-    invitations: CompanyInvitation[];
+    invitations: CompanyInvitation[] | null;
     lightIcons?: boolean;
-    conversations: Conversation[];
+    conversations?: Conversation[] | null;
 }
 export default function Notifications({
     invitations,
@@ -243,7 +243,9 @@ export default function Notifications({
 }: NotificationsProps) {
     const t = useTranslations("Notifications");
 
-    const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[]>(invitations);
+    const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[]>(
+        invitations || []
+    );
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [declinedInvitations, setDeclinedInvitations] = useState<string[]>([]);
@@ -251,7 +253,9 @@ export default function Notifications({
 
     const Screens = {
         [NotificationScreen.invitations]: <InvitationsScreen invitations={companyInvitations} />,
-        [NotificationScreen.conversations]: <ConversationsScreen conversations={conversations} />,
+        [NotificationScreen.conversations]: (
+            <ConversationsScreen conversations={conversations || []} />
+        ),
     };
 
     useEffect(() => {
@@ -277,7 +281,7 @@ export default function Notifications({
                     setIsMenuOpen(!isMenuOpen);
                 }}
             >
-                {(companyInvitations.length > 0 || conversations.length > 0) && (
+                {(companyInvitations.length > 0 || (conversations && conversations.length > 0)) && (
                     <div className="animate-pulse absolute top-1 right-1 w-2 h-2 bg-rose-600 rounded-full"></div>
                 )}
                 <Icon
@@ -315,7 +319,7 @@ export default function Notifications({
                             onScreenChange={setOpenScreen}
                             openScreen={openScreen}
                             title={t(NotificationScreen.conversations)}
-                            hasNotification={conversations.length > 0}
+                            hasNotification={!!conversations && conversations.length > 0}
                         />
                         <NotificationNavigationButton
                             navigationFor={NotificationScreen.invitations}
