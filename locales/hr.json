@@ -154,7 +154,8 @@
         "needs-renovation": "Potrebna renovacija",
         "commissions": "Provizija",
         "commissions-description": "Ukoliko postoji provizija koju plaća kupac, unesite postotak provizije.",
-        "location-cant-change": "Lokacija nekretnine se kasnije ne može mijenjati."
+        "location-cant-change": "Lokacija nekretnine se kasnije ne može mijenjati.",
+        "includes-utilities": "Režije uključene u cijeni"
     },
     "Map": {
         "search": "Traži",
@@ -197,7 +198,8 @@
         "unfurnished": "Nenamješteno",
         "elevator-access": "Lift",
         "has-elevator-access": "Ima pristup liftu",
-        "clear-filter": "Obriši filter"
+        "clear-filter": "Obriši filter",
+        "includes-utilities": "Cijena uključuje režije"
     },
     "ErrorCodes": {
         "too_small": "Nedovoljan broj znakova",
@@ -270,7 +272,10 @@
         "commission": "Provizija",
         "none": "Nema",
         "listing-deactivated": "Oglas deaktiviran",
-        "listing-deactivated-message": "Oglas je deaktiviran, samo vi imate pristup oglasu."
+        "listing-deactivated-message": "Oglas je deaktiviran, samo vi imate pristup oglasu.",
+        "includes-utilities": "Cijena uključuje režije",
+        "price-with-utilities": "režije uključene",
+        "price-without-utilities": "režije nisu uključene"
     },
     "ListingsPage": {
         "per-night": "noćenje",
@@ -310,6 +315,7 @@
         "show-less-filters": "Prikaži manje filtera",
         "clear-filter": "Obriši filter",
         "needs-renovation": "Potrebna renovacija",
+        "includes-utilities": "Cijena uključuje režije",
         "yes": "Da",
         "no": "Ne",
         "furniture-state": "Namještaj",

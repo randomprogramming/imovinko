@@ -288,6 +288,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         needsRenovation = false;
     }
 
+    let priceIncludesUtilities: undefined | boolean;
+    if (query.priceIncludesUtilities === "true") {
+        priceIncludesUtilities = true;
+    } else if (query.priceIncludesUtilities === "false") {
+        priceIncludesUtilities = false;
+    }
+
     const cookies = req.headers.cookie;
 
     const parsed = cookie.parse(cookies || "");
@@ -318,6 +325,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, locale, re
         renovationYearFrom,
         renovationYearTo,
         needsRenovation,
+        priceIncludesUtilities,
         // Query by this field only if user selected at least one of the values
         furnitureState: furnitureState.length > 0 ? furnitureState : undefined,
         elevatorAccess: query.elevatorAccess === "true" ? true : undefined,
@@ -540,6 +548,14 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             ? triBooleanDropdownValues.no
             : triBooleanDropdownValues.unselected
     );
+
+    const [priceIncludesUtilitiesFilter, setpriceIncludesUtilitiesFilter] = useState(
+        params?.priceIncludesUtilities === "true"
+            ? triBooleanDropdownValues.yes
+            : params?.priceIncludesUtilities === "false"
+            ? triBooleanDropdownValues.no
+            : triBooleanDropdownValues.unselected
+    );
     const [elevatorAccessFilter, setElevatorAccessFilter] = useState(
         params?.elevatorAccess === "true"
     );
@@ -570,6 +586,8 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
             renovationYearTo ||
             needsRenovationFilter.value === TriBoolean.yes ||
             needsRenovationFilter.value === TriBoolean.no ||
+            priceIncludesUtilitiesFilter.value === TriBoolean.yes ||
+            priceIncludesUtilitiesFilter.value === TriBoolean.no ||
             fullyFurnishedFilter ||
             partiallyFurnishedFilter ||
             unfurnishedFilter ||
@@ -728,6 +746,13 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         } else {
             delete allParams.needsRenovation;
         }
+        if (priceIncludesUtilitiesFilter.value === TriBoolean.yes) {
+            allParams.priceIncludesUtilities = "true";
+        } else if (priceIncludesUtilitiesFilter.value === TriBoolean.no) {
+            allParams.priceIncludesUtilities = "false";
+        } else {
+            delete allParams.priceIncludesUtilities;
+        }
 
         const furnitureState = [];
         if (fullyFurnishedFilter) {
@@ -837,6 +862,7 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
         setrenovationYearFrom(undefined);
         setrenovationYearTo(undefined);
         setNeedsRenovationFilter(triBooleanDropdownValues.unselected);
+        setpriceIncludesUtilitiesFilter(triBooleanDropdownValues.unselected);
         setFullyFurnishedFilter(false);
         setPartiallyFurnishedFilter(false);
         setUnfurnishedFilter(false);
@@ -1026,6 +1052,50 @@ export default function ListingsPage({ listings, params }: ListingsPageProps) {
                                 </label>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="mt-6">
+                        <Typography bold>{t("includes-utilities")}</Typography>
+                        <Select
+                            instanceId={useId()}
+                            hideSelectedOptions={false}
+                            className={`mt-2 outline-none border-none ${space_grotesk.className}`}
+                            options={Object.values(triBooleanDropdownValues)}
+                            onChange={(d) => {
+                                if (d) {
+                                    setpriceIncludesUtilitiesFilter(d);
+                                }
+                            }}
+                            value={priceIncludesUtilitiesFilter}
+                            components={{
+                                Option({ innerProps, children, isSelected }) {
+                                    return (
+                                        <div
+                                            {...innerProps}
+                                            className={`select-none p-1.5 flex flex-row items-center ${
+                                                isSelected ? "bg-emerald-500" : "hover:bg-zinc-200"
+                                            }`}
+                                        >
+                                            <div className="ml-1">{children}</div>
+                                        </div>
+                                    );
+                                },
+                            }}
+                            classNames={{
+                                control() {
+                                    return "!bg-transparent !border !border-zinc-400 !rounded-md !shadow";
+                                },
+                                multiValue() {
+                                    return "!bg-zinc-300 !rounded !shadow-sm !text-sm";
+                                },
+                                menu() {
+                                    return "!bg-white !shadow-sm !overflow-hidden !rounded-md !border !border-zinc-300 !z-30";
+                                },
+                                menuList() {
+                                    return "!p-0";
+                                },
+                            }}
+                        />
                     </div>
 
                     {/* SHOW MORE FILTERS SECTION START */}

@@ -19,6 +19,7 @@ interface IconRowProps {
         land: {
             surfaceArea: number | null;
         } | null;
+        priceIncludesUtilities?: boolean | null;
     };
     containerClassName?: string;
 }
@@ -69,6 +70,17 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                             </div>
                         </div>
                     )}
+                    {listing.priceIncludesUtilities && (
+                        <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
+                            <Icon name="heating" />
+
+                            <div className="opacity-0 group-hover/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
+                                <Typography className="text-xs">
+                                    {t("includes-utilities")}
+                                </Typography>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -77,7 +89,7 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
             <div
                 className={`bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm ${containerClassName}`}
             >
-                <div className="flex flex-row space-x-4">
+                <div className="flex flex-row space-x-3">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
                         <Typography>
@@ -116,6 +128,17 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                             </div>
                         </div>
                     )}
+                    {listing.priceIncludesUtilities && (
+                        <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
+                            <Icon name="heating" />
+
+                            <div className="opacity-0 group-hover/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
+                                <Typography className="text-xs">
+                                    {t("includes-utilities")}
+                                </Typography>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -124,7 +147,7 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
             <div
                 className={`bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm ${containerClassName}`}
             >
-                <div className="flex flex-row space-x-4">
+                <div className="flex flex-row space-x-3">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
                         <Typography>
@@ -132,7 +155,7 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
                                 Math.round(listing.land.surfaceArea)}{" "}
                             m²
                         </Typography>
-                        <div className="opacity-0 group-hover/IconRow/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
+                        <div className="opacity-0 group-hover/IconRow:opacity-100 absolute -bottom-3 -right-2 bg-zinc-100 transition-all px-1 rounded-sm w-max">
                             <Typography className="text-xs">{t("area")}</Typography>
                         </div>
                     </div>

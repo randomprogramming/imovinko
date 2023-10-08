@@ -224,6 +224,13 @@ export default function MapScreen({ query }: MapScreenProps) {
     const [elevatorAccessFilter, setElevatorAccessFilter] = useState(
         queryCopy?.elevatorAccess === "true"
     );
+    const [priceIncludesUtilitiesFilter, setpriceIncludesUtilitiesFilter] = useState(
+        queryCopy?.priceIncludesUtilities === "true"
+            ? triBooleanDropdownValues.yes
+            : queryCopy?.priceIncludesUtilities === "false"
+            ? triBooleanDropdownValues.no
+            : triBooleanDropdownValues.unselected
+    );
 
     const [fullyFurnishedFilter, setFullyFurnishedFilter] = useState(
         !!queryCopy?.furnitureState?.includes(FurnitureState.furnished)
@@ -238,6 +245,16 @@ export default function MapScreen({ query }: MapScreenProps) {
     const [mapBounds, setMapBounds] = useState<LngLatBounds>();
     const [isSearchInProgress, setIsSearchInProgress] = useState(false);
     const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
+
+    function triBooleanToBool(v: TriBoolean) {
+        if (v === TriBoolean.yes) {
+            return true;
+        } else if (v === TriBoolean.no) {
+            return false;
+        } else {
+            return undefined;
+        }
+    }
 
     async function searchProperties() {
         if (!mapBounds) {
@@ -402,6 +419,14 @@ export default function MapScreen({ query }: MapScreenProps) {
                 delete allParams.needsRenovation;
             }
 
+            if (priceIncludesUtilitiesFilter.value === TriBoolean.yes) {
+                allParams.priceIncludesUtilities = "true";
+            } else if (priceIncludesUtilitiesFilter.value === TriBoolean.no) {
+                allParams.priceIncludesUtilities = "false";
+            } else {
+                delete allParams.priceIncludesUtilities;
+            }
+
             const furnitureState = [];
             if (fullyFurnishedFilter) {
                 furnitureState.push(FurnitureState.furnished);
@@ -459,6 +484,8 @@ export default function MapScreen({ query }: MapScreenProps) {
                 renovationYearTo,
                 furnitureState: furnitureState.length > 0 ? furnitureState : undefined,
                 elevatorAccess: elevatorAccessFilter ? true : undefined,
+                needsRenovation: triBooleanToBool(needsRenovationFilter.value),
+                priceIncludesUtilities: triBooleanToBool(priceIncludesUtilitiesFilter.value),
             });
 
             // Restart to first page when filter changes
@@ -506,6 +533,8 @@ export default function MapScreen({ query }: MapScreenProps) {
             renovationYearTo ||
             needsRenovationFilter.value === TriBoolean.yes ||
             needsRenovationFilter.value === TriBoolean.no ||
+            priceIncludesUtilitiesFilter.value === TriBoolean.yes ||
+            priceIncludesUtilitiesFilter.value === TriBoolean.no ||
             fullyFurnishedFilter ||
             partiallyFurnishedFilter ||
             unfurnishedFilter ||
@@ -614,6 +643,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         setrenovationYearFrom(undefined);
         setrenovationYearTo(undefined);
         setNeedsRenovationFilter(triBooleanDropdownValues.unselected);
+        setpriceIncludesUtilitiesFilter(triBooleanDropdownValues.unselected);
         setFullyFurnishedFilter(false);
         setPartiallyFurnishedFilter(false);
         setUnfurnishedFilter(false);
@@ -651,6 +681,7 @@ export default function MapScreen({ query }: MapScreenProps) {
         renovationYearFrom,
         renovationYearTo,
         needsRenovationFilter,
+        priceIncludesUtilitiesFilter,
         fullyFurnishedFilter,
         partiallyFurnishedFilter,
         unfurnishedFilter,
@@ -1054,6 +1085,52 @@ export default function MapScreen({ query }: MapScreenProps) {
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="mt-6">
+                                <Typography bold>{t("includes-utilities")}</Typography>
+                                <Select
+                                    instanceId={useId()}
+                                    hideSelectedOptions={false}
+                                    className={`mt-2 outline-none border-none ${space_grotesk.className}`}
+                                    options={Object.values(triBooleanDropdownValues)}
+                                    onChange={(d) => {
+                                        if (d) {
+                                            setpriceIncludesUtilitiesFilter(d);
+                                        }
+                                    }}
+                                    value={priceIncludesUtilitiesFilter}
+                                    components={{
+                                        Option({ innerProps, children, isSelected }) {
+                                            return (
+                                                <div
+                                                    {...innerProps}
+                                                    className={`select-none p-1.5 flex flex-row items-center ${
+                                                        isSelected
+                                                            ? "bg-emerald-500"
+                                                            : "hover:bg-zinc-200"
+                                                    }`}
+                                                >
+                                                    <div className="ml-1">{children}</div>
+                                                </div>
+                                            );
+                                        },
+                                    }}
+                                    classNames={{
+                                        control() {
+                                            return "!bg-transparent !border !border-zinc-400 !rounded-md !shadow";
+                                        },
+                                        multiValue() {
+                                            return "!bg-zinc-300 !rounded !shadow-sm !text-sm";
+                                        },
+                                        menu() {
+                                            return "!bg-white !shadow-sm !overflow-hidden !rounded-md !border !border-zinc-300 !z-30";
+                                        },
+                                        menuList() {
+                                            return "!p-0";
+                                        },
+                                    }}
+                                />
                             </div>
 
                             <div className="mt-6">

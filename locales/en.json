@@ -154,7 +154,8 @@
         "needs-renovation": "Needs Renovations",
         "commissions": "Commission",
         "commissions-description": "If there are commissions which the buyer needs to pay, enter the percentage of the commission.",
-        "location-cant-change": "Property location can not be changed later."
+        "location-cant-change": "Property location can not be changed later.",
+        "includes-utilities": "Utilities included in price"
     },
     "Map": {
         "search": "Search",
@@ -197,7 +198,8 @@
         "unfurnished": "Unfurnished",
         "elevator-access": "Elevator",
         "has-elevator-access": "Has elevator access",
-        "clear-filter": "Clear filter"
+        "clear-filter": "Clear filter",
+        "includes-utilities": "Price includes utilities"
     },
     "ErrorCodes": {
         "too_small": "Too short",
@@ -270,7 +272,10 @@
         "commission": "Commission",
         "none": "None",
         "listing-deactivated": "Listing deactivated",
-        "listing-deactivated-message": "Listing is deactivated, only you have access to it."
+        "listing-deactivated-message": "Listing is deactivated, only you have access to it.",
+        "includes-utilities": "Price includes utilities",
+        "price-with-utilities": "utilities included",
+        "price-without-utilities": "utilities not included"
     },
     "ListingsPage": {
         "per-night": "per night",
@@ -310,6 +315,7 @@
         "show-less-filters": "Show less filters",
         "clear-filter": "Clear filter",
         "needs-renovation": "Needs renovation",
+        "includes-utilities": "Price includes utilities",
         "yes": "Yes",
         "no": "No",
         "furniture-state": "Furniture",

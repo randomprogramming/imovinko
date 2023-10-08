@@ -384,7 +384,9 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         if (p.offeringType === OfferingType.shortTermRent) {
             return ` ${t("per-night")}`;
         } else if (p.offeringType === OfferingType.longTermRent) {
-            return ` ${t("per-month")}`;
+            return ` ${t("per-month")}, ${
+                p.priceIncludesUtilities ? t("price-with-utilities") : t("price-without-utilities")
+            }`;
         } else {
             let pricePerMeterSquared = p.pricePerMeterSquared;
             if (!pricePerMeterSquared) {

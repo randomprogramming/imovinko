@@ -145,7 +145,9 @@ export interface CreateListingData {
         saleCommissionPercent?: number | string | null;
     };
     shortTermRent?: ListingData;
-    longTermRent?: ListingData;
+    longTermRent?: ListingData & {
+        priceIncludesUtilities?: boolean | string | null;
+    };
 
     apartment?: {
         latitude: number;
@@ -384,6 +386,7 @@ export interface ListingBasic {
     apartment: BasicProperty | null;
     house: BasicProperty | null;
     land: BasicProperty | null;
+    priceIncludesUtilities?: boolean;
     offeringType: OfferingType;
     createdAt: string | Date;
     saved: boolean;
@@ -437,6 +440,7 @@ interface ListingsQuery {
     offeringType: OfferingType[];
     furnitureState?: FurnitureState[];
     needsRenovation?: boolean;
+    priceIncludesUtilities?: boolean;
     elevatorAccess?: boolean;
     page?: number | string;
     priceFrom?: number | string;
@@ -590,6 +594,7 @@ export interface Listing {
     offeringType: OfferingType;
     price: number;
     saleCommissionPercent?: number;
+    priceIncludesUtilities?: boolean;
     pricePerMeterSquared: number | null;
     houseId: string | null;
     apartmentId: string | null;

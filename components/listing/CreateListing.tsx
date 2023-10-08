@@ -94,6 +94,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
     const [furnitureState, setFurnitureState] = useState<FurnitureState | null>(null);
     const [needsRenovation, setNeedsRenovation] = useState(false);
     const [elevatorAccess, setElevatorAccess] = useState(false);
+    const [priceIncludesUtilities, setPriceIncludesUtilities] = useState(false);
 
     const id1 = useId();
     const id2 = useId();
@@ -190,6 +191,7 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                         description: longTermListingDescription,
                         contacts: longTermContacts,
                         manualAccountContacts: longTermManualAccountContacts,
+                        priceIncludesUtilities: priceIncludesUtilities,
                     },
                 };
             }
@@ -946,6 +948,13 @@ export default function CreateListing({ company, type }: CreateListingProps) {
                                     errorMsg={fieldErrorCodesParser.getTranslated(
                                         "longTermRent.price"
                                     )}
+                                />
+                                <Input
+                                    className="mt-2"
+                                    type="checkbox"
+                                    checked={priceIncludesUtilities}
+                                    onCheckedChange={setPriceIncludesUtilities}
+                                    name={t("includes-utilities")}
                                 />
                             </RowItem>
                         </FlexRow>
