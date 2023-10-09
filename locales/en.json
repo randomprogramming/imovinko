@@ -613,7 +613,8 @@
         "furniture-state-description": "Does the property come with or without the furniture?",
         "partially-furnished": "Partially Furnished",
         "furnished": "Furnished",
-        "unfurnished": "Unfurnished"
+        "unfurnished": "Unfurnished",
+        "includes-utilities": "Utilities included in price"
     },
     "PropertyDropdown": {
         "choose": "Choose property...",

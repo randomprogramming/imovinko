@@ -1045,7 +1045,9 @@ export interface PatchListingData {
         saleCommissionPercent?: number | string | null;
     };
     shortTermRent?: ListingData;
-    longTermRent?: ListingData;
+    longTermRent?: ListingData & {
+        priceIncludesUtilities?: boolean | null;
+    };
     apartment?: {
         surfaceArea: number;
         bedroomCount?: string | number | null;

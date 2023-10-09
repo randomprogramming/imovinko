@@ -613,7 +613,8 @@
         "furniture-state-description": "Dolazi li nekretnina sa namještajem ili bez namještaja?",
         "partially-furnished": "Djelomično namješteno",
         "furnished": "Namješteno",
-        "unfurnished": "Nenamješteno"
+        "unfurnished": "Nenamješteno",
+        "includes-utilities": "Režije uključene u cijeni"
     },
     "PropertyDropdown": {
         "choose": "Odaberi nekretninu...",

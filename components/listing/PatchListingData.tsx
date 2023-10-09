@@ -107,6 +107,9 @@ export default function InputListingData({ company, listing, type }: ListApartme
     const [longTermListingPrice, setLongTermListingPrice] = useState<string>(
         String(listing?.price)
     );
+    const [priceIncludesUtilities, setPriceIncludesUtilities] = useState(
+        !!listing?.priceIncludesUtilities
+    );
     const [longTermListingDescription, setLongTermListingDescription] = useState<
         string | undefined | null
     >(listing?.description);
@@ -323,6 +326,7 @@ export default function InputListingData({ company, listing, type }: ListApartme
                         contacts: longTermContacts,
                         manualAccountContacts: longTermManualAccountContacts,
                         description: longTermListingDescription,
+                        priceIncludesUtilities,
                     },
                 };
             }
@@ -1060,6 +1064,13 @@ export default function InputListingData({ company, listing, type }: ListApartme
                                         errorMsg={fieldErrorCodesParser.getTranslated(
                                             "longTermRent.price"
                                         )}
+                                    />
+                                    <Input
+                                        className="mt-2"
+                                        type="checkbox"
+                                        checked={priceIncludesUtilities}
+                                        onCheckedChange={setPriceIncludesUtilities}
+                                        name={t("includes-utilities")}
                                     />
                                 </RowItem>
                             </FlexRow>
