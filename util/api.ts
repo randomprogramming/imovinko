@@ -1236,7 +1236,26 @@ export async function removeSavedListing(listingId: string) {
     });
 }
 
-export async function uploadListingsFile(file: File) {
+export interface CreatingListingStatusUpdate {
+    processed: number;
+    total: number;
+}
+
+function isUpdate(obj: any): obj is CreatingListingStatusUpdate {
+    const isIn = "processed" in obj && "total" in obj;
+
+    if (!isIn) {
+        return false;
+    }
+
+    return typeof obj["processed"] === "number" && typeof obj["total"] === "number";
+}
+
+export async function uploadListingsFile(
+    file: File,
+    onStatusUpdate: (status: CreatingListingStatusUpdate) => void
+) {
+    // Using SSE to keep the frontend updated on how much listings has been processed so far
     const formData = new FormData();
     formData.append("file", file);
 
@@ -1244,8 +1263,33 @@ export async function uploadListingsFile(file: File) {
         method: "POST",
         url: "/listing/submit/file",
         headers: {
+            "Content-Type": "text/event-stream",
             ...getAuthHeaders(),
         },
         data: formData,
+        responseType: "stream",
+        onDownloadProgress: (evt: any) => {
+            // As of writing this code, axios doesn't really support streams
+            // Using workaround found at https://github.com/axios/axios/issues/479
+            // This data contains all the data gathered so far, not just the last message...
+            const data = evt.event.target.responseText || evt.event.target.response;
+
+            if (data && typeof data === "string" && data.length > 0) {
+                // Splitting and finding the last message, we use \n\n as a separator
+                const split = data.trim().split("\n\n");
+                if (split.length === 0) {
+                    return;
+                }
+
+                const lastData = split[split.length - 1];
+                console.log("lastDAta:");
+                console.log(lastData);
+
+                const json = JSON.parse(lastData);
+                if (isUpdate(json)) {
+                    onStatusUpdate(json);
+                }
+            }
+        },
     });
 }

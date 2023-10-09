@@ -114,6 +114,10 @@ export default function CreateListingFromFilePage() {
 
     const [responseError, setResponseError] = useState();
 
+    // Keeping track of processed status on the server
+    const [processed, setProcessed] = useState(0);
+    const [totalToProcess, setTotalToProcess] = useState<number>();
+
     function openFilePicker() {
         fileRef?.current?.click();
     }
@@ -124,12 +128,18 @@ export default function CreateListingFromFilePage() {
         }
         setIsUploadingFile(true);
         try {
-            await uploadListingsFile(file);
-            await router.push({
-                pathname: "/settings/listings",
-                query: {
-                    fileUploaded: true,
-                },
+            await uploadListingsFile(file, (stats) => {
+                if (stats.processed >= stats.total) {
+                    router.push({
+                        pathname: "/settings/listings",
+                        query: {
+                            fileUploaded: true,
+                        },
+                    });
+                } else {
+                    setProcessed(stats.processed);
+                    setTotalToProcess(stats.total);
+                }
             });
         } catch (e) {
             console.error(e);
@@ -470,7 +480,17 @@ export default function CreateListingFromFilePage() {
                             </div>
                         )}
 
-                        <div className="mt-8">
+                        {isUploadingFile && (
+                            <div className="text-center mt-6">
+                                <Typography>
+                                    {t("loading-properties")}:{" "}
+                                    <Typography bold variant="span">
+                                        {processed}/{totalToProcess || "?"}
+                                    </Typography>
+                                </Typography>
+                            </div>
+                        )}
+                        <div className="mt-6">
                             <Button.Primary
                                 disabled={!file || (listingErrors && listingErrors.length > 0)}
                                 loading={isUploadingFile}

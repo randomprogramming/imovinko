@@ -717,6 +717,7 @@
         "price-sale": "Sale price",
         "title-explanation": "Listing title",
         "priceIncludesUtilities": "Utilities are included in the price?",
-        "saleCommissionPercent": "Commission to be paid by the buyer expressed in percentage"
+        "saleCommissionPercent": "Commission to be paid by the buyer expressed in percentage",
+        "loading-properties": "Loading listings"
     }
 }
