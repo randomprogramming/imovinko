@@ -278,7 +278,7 @@ export default function CompanyPage({ company, query }: CompanyPageProps) {
                                     <Input
                                         name="name"
                                         hollow
-                                        className="!p-2 max-w-sm"
+                                        className="!p-2"
                                         value={handle}
                                         onChange={setHandle}
                                         hasError={errorInvitingUser}
