@@ -3,21 +3,46 @@ import Icon, { IconName } from "@/components/Icon";
 import Navbar from "@/components/Navbar";
 import Typography from "@/components/Typography";
 import useAuthentication from "@/hooks/useAuthentication";
-import { NextPageContext } from "next";
+import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import CustomLink from "@/components/Link";
 import Main from "@/components/Main";
+import { Company, getMyCompany } from "@/util/api";
+import cookie from "cookie";
 
-export async function getStaticProps(context: NextPageContext) {
+export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
+    const cookies = req.headers.cookie;
+    if (!cookies) {
+        return {
+            props: {
+                messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
+                company: null,
+            },
+        };
+    }
+
+    const parsed = cookie.parse(cookies);
+    const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
+
+    let company: Company | null = null;
+    try {
+        const { data } = await getMyCompany(jwt);
+        company = data;
+    } catch (e) {
+        console.error("Error when fetching company while creating apartment listing");
+        console.error(e);
+    }
+
     return {
         props: {
-            messages: (await import(`../../locales/${context.locale || "hr"}.json`)).default,
+            messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
+            company,
         },
     };
-}
+};
 
 interface LinkButtonProps {
     href: string;
@@ -56,7 +81,7 @@ function LinkButton({ href, title, icon, disabled, fullWidth, iconClassName }: L
     }
 }
 
-export default function List() {
+export default function List({ company }: { company: Company | null }) {
     const t = useTranslations("List");
 
     const { account } = useAuthentication();
@@ -107,17 +132,18 @@ export default function List() {
                             disabled={!!(account && !account.username)}
                         />
                     </div>
-                    {/* TODO: Show only if user has a company */}
-                    <div className="mt-4">
-                        <LinkButton
-                            fullWidth
-                            href="/list/file"
-                            title={t("file")}
-                            icon="file-upload"
-                            iconClassName="fill-blue-300"
-                            disabled={!!(account && !account.username)}
-                        />
-                    </div>
+                    {company && (
+                        <div className="mt-4">
+                            <LinkButton
+                                fullWidth
+                                href="/list/file"
+                                title={t("file")}
+                                icon="file-upload"
+                                iconClassName="fill-blue-300"
+                                disabled={!!(account && !account.username)}
+                            />
+                        </div>
+                    )}
                 </div>
             </Main>
         </>
