@@ -529,6 +529,12 @@ export default function CreateListingFromFilePage() {
                                     code: (chunks) => <Code>{chunks}</Code>,
                                 })}
                             </Typography>
+                            <Typography>
+                                {t.rich("general-2", {
+                                    b: (chunks) => <b>{chunks}</b>,
+                                    code: (chunks) => <Code>{chunks}</Code>,
+                                })}
+                            </Typography>
                             <Typography className="mt-8">{t("json-example")}</Typography>
                             <JsonView
                                 shouldExpandNode={allExpanded}
@@ -557,12 +563,14 @@ export default function CreateListingFromFilePage() {
                                                     description:
                                                         "Apartment sale listing description",
                                                     saleCommissionPercent: 2.2,
+                                                    contacts: ["ivan@agency.com", "jan_horvat"],
                                                 },
                                                 longTermRent: {
                                                     title: "Apartment for rent title!",
                                                     price: 799.99,
                                                     description:
                                                         "Apartment rent listing description",
+                                                    priceIncludesUtilities: true,
                                                 },
                                             },
                                             {
@@ -606,11 +614,14 @@ export default function CreateListingFromFilePage() {
                                         <price>290000</price>
                                         <description>Apartment sale listing description</description>
                                         <saleCommissionPercent>2.2</saleCommissionPercent>
+                                        <contacts>ivan@agency.com</contacts>
+                                        <contacts>jan_horvat</contacts>
                                         </sale>
                                         <longTermRent>
                                         <title>Apartment for rent title!</title>
                                         <price>799.99</price>
                                         <description>Apartment rent listing description</description>
+                                        <priceIncludesUtilities>true</priceIncludesUtilities>
                                         </longTermRent>
                                     </listings>
                                     <listings>
