@@ -180,7 +180,13 @@ export default function CreateListingFromFilePage() {
     }
 
     function parseJSONString(str: string) {
-        const parsedJson = JSON.parse(str);
+        let parsedJson;
+        try {
+            parsedJson = JSON.parse(str);
+        } catch (e) {
+            setFileErrorMessage(t("invalid-json"));
+            return;
+        }
 
         if (!parsedJson?.root) {
             setFileErrorMessage(t("file-no-root-object"));

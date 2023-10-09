@@ -718,6 +718,7 @@
         "title-explanation": "Listing title",
         "priceIncludesUtilities": "Utilities are included in the price?",
         "saleCommissionPercent": "Commission to be paid by the buyer expressed in percentage",
-        "loading-properties": "Loading listings"
+        "loading-properties": "Loading listings",
+        "invalid-json": "Not a valid JSON file!"
     }
 }

@@ -1282,9 +1282,6 @@ export async function uploadListingsFile(
                 }
 
                 const lastData = split[split.length - 1];
-                console.log("lastDAta:");
-                console.log(lastData);
-
                 const json = JSON.parse(lastData);
                 if (isUpdate(json)) {
                     onStatusUpdate(json);

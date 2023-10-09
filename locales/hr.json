@@ -718,6 +718,7 @@
         "title-explanation": "Naslov oglasa",
         "priceIncludesUtilities": "Režije su uključene u cijenu najma?",
         "saleCommissionPercent": "Provizija koju plaća kupac izražena u postocima",
-        "loading-properties": "Učitavamo oglase"
+        "loading-properties": "Učitavamo oglase",
+        "invalid-json": "Nije važeća JSON datoteka!"
     }
 }
