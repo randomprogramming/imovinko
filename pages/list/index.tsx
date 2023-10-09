@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req }) =>
     if (!cookies) {
         return {
             props: {
-                messages: (await import(`../../../locales/${locale || "hr"}.json`)).default,
+                messages: (await import(`../../locales/${locale || "hr"}.json`)).default,
                 company: null,
             },
         };
