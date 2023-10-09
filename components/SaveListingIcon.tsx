@@ -12,12 +12,14 @@ interface SaveListingIconProps {
     saved?: boolean | null;
     className?: string;
     text?: string;
+    iconSize?: string | number;
 }
 export default function SaveListingIcon({
     saved,
     listingId,
     className,
     text,
+    iconSize,
 }: SaveListingIconProps) {
     const [isSaved, setIsSaved] = useState<boolean>(!!saved);
     const [isFetching, setIsFetching] = useState(false);
@@ -67,7 +69,12 @@ export default function SaveListingIcon({
 
     return (
         <Button.Transparent onClick={onSaveButtonClick} className={`backdrop-blur-sm ${className}`}>
-            <Icon name="star" className={`${getIconFill()} transition-all`} />
+            <Icon
+                width={iconSize}
+                height={iconSize}
+                name="star"
+                className={`${getIconFill()} transition-all`}
+            />
             {text && (
                 <Typography className="ml-1" bold>
                     {text}

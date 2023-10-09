@@ -246,6 +246,8 @@ export default function MapScreen({ query }: MapScreenProps) {
     const [isSearchInProgress, setIsSearchInProgress] = useState(false);
     const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
 
+    const [imageIndex, setImageIndex] = useState(0);
+
     function triBooleanToBool(v: TriBoolean) {
         if (v === TriBoolean.yes) {
             return true;
@@ -650,6 +652,39 @@ export default function MapScreen({ query }: MapScreenProps) {
         setElevatorAccessFilter(false);
     }
 
+    function upHandler(event: KeyboardEvent) {
+        if (openProperty) {
+            const { key } = event;
+
+            if (key === "ArrowLeft") {
+                let newSlide = imageIndex - 1;
+                if (newSlide < 0) {
+                    newSlide = getPropertyMedia(openProperty).length - 1;
+                }
+                setImageIndex(newSlide);
+            }
+
+            if (key === "ArrowRight") {
+                let newSlide = imageIndex + 1;
+                if (newSlide >= getPropertyMedia(openProperty).length) {
+                    newSlide = 0;
+                }
+                setImageIndex(newSlide);
+            }
+        }
+    }
+
+    function downHandler(event: KeyboardEvent) {
+        const { key } = event;
+
+        if (key === "Escape") {
+            if (openProperty) {
+                event.preventDefault();
+                setOpenProperty(null);
+            }
+        }
+    }
+
     React.useEffect(() => {
         // TODO: When a field changes while a search was in progress, the newly changed
         // field will not call this function again and won't be filtered. Figure out a way to fix that..
@@ -704,6 +739,24 @@ export default function MapScreen({ query }: MapScreenProps) {
         } catch (_e) {}
     }, [router.query]);
 
+    React.useEffect(() => {
+        if (openProperty) {
+            // Very important to use keydown to listen for the Escape key:
+            // Macos will exit your Full-screen app if you press the Escape key, so we need to prevent the default action
+            // And close the media popup.
+            // If you use keyup, it won't work, as the call order is like this-> keydown event->exit fullscreen->keyup event
+            window.addEventListener("keydown", downHandler);
+            window.addEventListener("keyup", upHandler);
+            // Remove event listeners on cleanup
+            return () => {
+                window.addEventListener("keydown", downHandler);
+                window.removeEventListener("keyup", upHandler);
+            };
+        } else {
+            setImageIndex(0);
+        }
+    }, [openProperty, imageIndex]);
+
     return (
         <>
             <Head>
@@ -752,6 +805,7 @@ export default function MapScreen({ query }: MapScreenProps) {
                                 <div className="w-full relative border-b border-zinc-300">
                                     <div className="absolute top-2 left-2 z-50">
                                         <SaveListingIcon
+                                            iconSize={20}
                                             saved={openProperty.saved}
                                             className="bg-white !p-1.5"
                                             listingId={openProperty.id}
@@ -784,6 +838,10 @@ export default function MapScreen({ query }: MapScreenProps) {
                                             showIndicators={false}
                                             swipeable={true}
                                             emulateTouch={true}
+                                            selectedItem={imageIndex}
+                                            onChange={(newSlide) => {
+                                                setImageIndex(newSlide);
+                                            }}
                                             className={`w-full ${space_grotesk.className}`}
                                             statusFormatter={(curr, total) => {
                                                 return `${curr}/${total}`;
