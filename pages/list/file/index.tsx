@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import xmlParser, { processors } from "xml2js";
 import Footer from "@/components/Footer";
+import NoImage from "@/components/NoImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     return {
@@ -396,13 +397,16 @@ export default function CreateListingFromFilePage() {
                                                         className="p-1 border-l border-zinc-300 flex items-center justify-center"
                                                         style={{ maxWidth: "260px" }}
                                                     >
-                                                        {/* TODO: If no image show that no image component which we used somewhere else idk */}
-                                                        {m.firstImage && (
-                                                            <img
-                                                                src={m.firstImage}
-                                                                className="w-16 h-16 object-cover rounded-sm"
-                                                            />
-                                                        )}
+                                                        <div className="w-16 h-12 rounded overflow-hidden">
+                                                            {m.firstImage ? (
+                                                                <img
+                                                                    src={m.firstImage}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            ) : (
+                                                                <NoImage />
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td
                                                         className="p-1 border-l border-zinc-300"
