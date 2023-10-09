@@ -321,13 +321,12 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
             <div className="hidden lg:flex flex-row items-center">
                 {auth.account ? (
                     <>
-                        (
                         <Notifications
                             lightIcons={lightIcons}
                             invitations={companyInvitations}
                             conversations={conversations}
                         />
-                        )
+
                         <AuthDropdown lightIcons={lightIcons} />
                     </>
                 ) : (
