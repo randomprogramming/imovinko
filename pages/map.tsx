@@ -789,6 +789,9 @@ export default function MapScreen({ query }: MapScreenProps) {
                                                 return `${curr}/${total}`;
                                             }}
                                             renderArrowPrev={(onClickHandler) => {
+                                                if (getPropertyMedia(openProperty).length === 1) {
+                                                    return null;
+                                                }
                                                 return (
                                                     <div className="absolute top-0 bottom-0 left-0 w-12 flex items-center justify-center z-30">
                                                         <button
@@ -807,6 +810,9 @@ export default function MapScreen({ query }: MapScreenProps) {
                                                 );
                                             }}
                                             renderArrowNext={(onClickHandler) => {
+                                                if (getPropertyMedia(openProperty).length === 1) {
+                                                    return null;
+                                                }
                                                 return (
                                                     <div className="absolute top-0 bottom-0 right-0 w-12 flex items-center justify-center z-30">
                                                         <button
