@@ -27,8 +27,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req }) =>
     const jwt = parsed[process.env.NEXT_PUBLIC_JWT_COOKIE_NAME || ""];
 
     const newest = await findListingsByQuery({
-        propertyType: [PropertyType.apartment, PropertyType.apartment, PropertyType.land],
-        offeringType: [OfferingType.longTermRent, OfferingType.sale, OfferingType.shortTermRent],
+        propertyType: Object.values(PropertyType),
+        offeringType: Object.values(OfferingType),
         page: 1,
         sortBy: "createdAt",
         sortDirection: "desc",
