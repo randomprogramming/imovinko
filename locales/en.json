@@ -56,7 +56,9 @@
         "no-account": "Don't have an account?",
         "register-here": "Create one here!",
         "registration-success-title": "Registration successful!",
-        "registration-success-message": "Registration successful, please log in through the form below."
+        "registration-success-message": "Registration successful, please log in through the form below.",
+        "account-not-activated": "Account not activated",
+        "account-not-activated-message": "Please check your email for an activation link before signing in."
     },
     "Navbar": {
         "submit-ad": "New Listing",

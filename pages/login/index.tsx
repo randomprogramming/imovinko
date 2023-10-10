@@ -32,8 +32,11 @@ export default function Login() {
 
     const fieldErrorCodesParser = useFieldErrorCodes();
 
+    const [userNotActivated, setUserNotActivated] = useState(false);
+
     async function onLogin() {
         try {
+            setUserNotActivated(false);
             fieldErrorCodesParser.empty();
             setIsSendingLoginReq(true);
             const response = await login({ handle, password });
@@ -43,6 +46,10 @@ export default function Login() {
             if (e.response?.status === 400 && Array.isArray(e.response?.data)) {
                 fieldErrorCodesParser.parseErrorCodes(e.response.data);
             } else if (typeof e.response?.data === "string") {
+                if (e.response.data === "err::account::not_activated") {
+                    setUserNotActivated(true);
+                    return;
+                }
                 fieldErrorCodesParser.parseErrorMessage(e.response.data);
             } else {
                 console.error(e);
@@ -121,6 +128,13 @@ export default function Login() {
                             type="success"
                             title={t("registration-success-title")}
                             message={t("registration-success-message")}
+                        />
+                    )}
+                    {userNotActivated && (
+                        <Dialog
+                            type="warning"
+                            title={t("account-not-activated")}
+                            message={t("account-not-activated-message")}
                         />
                     )}
                     <div className="mt-4">
