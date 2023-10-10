@@ -84,7 +84,7 @@ export default function CompanyByPrettyIdPage({ company }: CompanyByPrettyIdPage
             <header>
                 <Navbar />
             </header>
-            <Main className="mt-8" container>
+            <Main className="mt-8" container mobilePadding>
                 {company ? (
                     <div>
                         <div className="flex flex-col sm:flex-row">

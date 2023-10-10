@@ -220,7 +220,7 @@ export default function ListingListItem({
                     </div>
                     {!hideIconRow && (
                         <div className="mt-2 self-center lg:self-start">
-                            <IconRow listing={listing} />
+                            <IconRow containerClassName="px-2" listing={listing} />
                         </div>
                     )}
                     {/* Push the price element to the end */}

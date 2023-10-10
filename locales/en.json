@@ -699,7 +699,7 @@
         "furnitureState": "Furniture state. Allowed values are: 'furnished', 'partiallyFurnished', 'unfurnished'",
         "latitude": "Property latitude",
         "longitude": "Property longitude",
-        "media-explanation": "List of URLs which lead to the images of the property",
+        "media-explanation": "List of URLs which lead to the images of the property. Maximum allowed image size is 8MB.",
         "needsRenovation": "Does the property need renovations",
         "parkingSpaceCount": "Parking space count",
         "renovationYear": "Year of last renovation",

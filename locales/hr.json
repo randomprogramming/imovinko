@@ -699,7 +699,7 @@
         "furnitureState": "Namještenost. Dozvoljene vrijednosti su: 'furnished', 'partiallyFurnished', 'unfurnished'",
         "latitude": "Zemljopisna širina nekretnine",
         "longitude": "Zemljopisna dužina nekretnine",
-        "media-explanation": "Lista URL-ova koji vode na fotografije nekretnine",
+        "media-explanation": "Lista URL-ova koji vode na fotografije nekretnine. Najveća dozvoljena veličina fotografije je 8MB.",
         "needsRenovation": "Treba li nekretnina renovacije",
         "parkingSpaceCount": "Broj parkirnih mjesta",
         "renovationYear": "Godina zadnje renovacije",

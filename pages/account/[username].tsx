@@ -66,7 +66,7 @@ export default function AccountByUsernamePage({ account }: AccountByUsernamePage
             <header>
                 <Navbar />
             </header>
-            <Main container>
+            <Main container mobilePadding>
                 {account ? (
                     <div>
                         <div className="flex flex-col-reverse sm:flex-row w-full max-w-3xl mx-auto">
