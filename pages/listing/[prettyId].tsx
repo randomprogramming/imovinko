@@ -1366,7 +1366,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {getPriceString(listing)}
                                     </Typography>
                                 </div>
-                                <div className="my-4 text-center hidden lg:block">
+                                <div className="my-4 px-2 text-center hidden lg:block">
                                     <IconRow listing={listing} />
                                 </div>
 
@@ -1487,7 +1487,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     <Typography className="text-right">
                                         {getPriceString(listing)}
                                     </Typography>
-                                    <div className="my-2 flex items-center justify-center">
+                                    <div className="my-2 px-2 flex items-center justify-center">
                                         <IconRow listing={listing} />
                                     </div>
                                 </div>
