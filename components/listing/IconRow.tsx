@@ -28,10 +28,8 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
 
     if (listing.apartment) {
         return (
-            <div
-                className={`bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm ${containerClassName}`}
-            >
-                <div className="flex flex-row space-x-3">
+            <div className={`bg-zinc-200 w-fit py-1 rounded-lg shadow-sm ${containerClassName}`}>
+                <div className="flex flex-row space-x-2">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
                         <Typography>
@@ -86,9 +84,7 @@ export default function IconRow({ listing, containerClassName }: IconRowProps) {
         );
     } else if (listing.house) {
         return (
-            <div
-                className={`bg-zinc-200 w-fit px-2 py-1 rounded-lg shadow-sm ${containerClassName}`}
-            >
+            <div className={`bg-zinc-200 w-fit py-1 rounded-lg shadow-sm ${containerClassName}`}>
                 <div className="flex flex-row space-x-3">
                     <div className="flex flex-row space-x-1 group/IconRow hover:bg-zinc-300 px-1 py-0.5 select-none rounded-md relative items-center justify-center">
                         <Icon name="area" />
