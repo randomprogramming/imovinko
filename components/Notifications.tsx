@@ -243,24 +243,30 @@ export default function Notifications({
 }: NotificationsProps) {
     const t = useTranslations("Notifications");
 
-    const [companyInvitations, setCompanyInvitations] = useState<CompanyInvitation[]>(
-        invitations || []
-    );
+    const [companyInvitations, setCompanyInvitations] = useState(invitations);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [declinedInvitations, setDeclinedInvitations] = useState<string[]>([]);
     const [openScreen, setOpenScreen] = useState(NotificationScreen.conversations);
 
     const Screens = {
-        [NotificationScreen.invitations]: <InvitationsScreen invitations={companyInvitations} />,
+        [NotificationScreen.invitations]: (
+            <InvitationsScreen invitations={companyInvitations || []} />
+        ),
         [NotificationScreen.conversations]: (
             <ConversationsScreen conversations={conversations || []} />
         ),
     };
 
     useEffect(() => {
+        if (invitations) {
+            setCompanyInvitations(invitations);
+        }
+    }, [invitations]);
+
+    useEffect(() => {
         setTimeout(() => {
-            if (!isMenuOpen && declinedInvitations.length > 0) {
+            if (!isMenuOpen && declinedInvitations.length > 0 && companyInvitations) {
                 setCompanyInvitations(
                     companyInvitations.filter((i) => {
                         return !declinedInvitations.includes(i.id);
@@ -281,7 +287,8 @@ export default function Notifications({
                     setIsMenuOpen(!isMenuOpen);
                 }}
             >
-                {(companyInvitations.length > 0 || (conversations && conversations.length > 0)) && (
+                {((companyInvitations && companyInvitations.length > 0) ||
+                    (conversations && conversations.length > 0)) && (
                     <div className="animate-pulse absolute top-1 right-1 w-2 h-2 bg-rose-600 rounded-full"></div>
                 )}
                 <Icon
@@ -326,7 +333,7 @@ export default function Notifications({
                             onScreenChange={setOpenScreen}
                             openScreen={openScreen}
                             title={t(NotificationScreen.invitations)}
-                            hasNotification={companyInvitations.length > 0}
+                            hasNotification={!!companyInvitations && companyInvitations.length > 0}
                         />
                     </div>
                 </div>
