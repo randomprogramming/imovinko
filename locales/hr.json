@@ -56,9 +56,11 @@
         "no-account": "Još nemate račun?",
         "register-here": "Napravite ga ovdje.",
         "registration-success-title": "Uspješna registracija!",
-        "registration-success-message": "Registracija uspješna, molimo da se prijavite sa svojim podacima.",
+        "registration-success-message": "Registracija uspješna, molimo provjerite vašu email adresu kako bi aktivirali svoj korisnički račun.",
         "account-not-activated": "Račun nije aktiviran",
-        "account-not-activated-message": "Molimo da provjerite vašu email adresu za aktivacijski link kako bi se mogli prijaviti."
+        "account-not-activated-message": "Molimo da provjerite vašu email adresu za aktivacijski link kako bi se mogli prijaviti.",
+        "activated": "Račun aktiviran",
+        "activated-message": "Vaš korisnički račun je aktiviran, sada se možete prijaviti sa svojim podacima."
     },
     "Navbar": {
         "submit-ad": "Predaj oglas",
@@ -722,5 +724,8 @@
         "saleCommissionPercent": "Provizija koju plaća kupac izražena u postocima",
         "loading-properties": "Učitavamo oglase",
         "invalid-json": "Nije važeća JSON datoteka!"
+    },
+    "CompleteRegistrationPage": {
+        "error": "Nismo uspjeli aktivirati vaš račun, molimo pokušajte ponovo!"
     }
 }

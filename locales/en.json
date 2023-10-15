@@ -56,9 +56,11 @@
         "no-account": "Don't have an account?",
         "register-here": "Create one here!",
         "registration-success-title": "Registration successful!",
-        "registration-success-message": "Registration successful, please log in through the form below.",
+        "registration-success-message": "Registration successful, please check your email to activate your account.",
         "account-not-activated": "Account not activated",
-        "account-not-activated-message": "Please check your email for an activation link before signing in."
+        "account-not-activated-message": "Please check your email for an activation link before signing in.",
+        "activated": "Account activated",
+        "activated-message": "Your account has been activate, you may sign in now."
     },
     "Navbar": {
         "submit-ad": "New Listing",
@@ -722,5 +724,8 @@
         "saleCommissionPercent": "Commission to be paid by the buyer expressed in percentage",
         "loading-properties": "Loading listings",
         "invalid-json": "Not a valid JSON file!"
+    },
+    "CompleteRegistrationPage": {
+        "error": "We didn't manage to activate your account, please try again!"
     }
 }

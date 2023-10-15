@@ -64,13 +64,14 @@ export default function Register() {
         try {
             fieldErrorCodesParser.empty();
             setIsSendingRegisterReq(true);
-            const resp = await registerAccount({
+            await registerAccount({
                 username,
                 firstName,
                 lastName,
                 email,
                 password,
                 confirmPassword,
+                locale: router.locale,
             });
             await router.push({
                 pathname: "/login",

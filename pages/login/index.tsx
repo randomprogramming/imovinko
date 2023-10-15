@@ -36,6 +36,7 @@ export default function Login() {
 
     async function onLogin() {
         try {
+            await router.replace("/login", undefined, { shallow: true });
             setUserNotActivated(false);
             fieldErrorCodesParser.empty();
             setIsSendingLoginReq(true);
@@ -123,6 +124,13 @@ export default function Login() {
                         </div>
                         <div className="flex-1 mr-20 h-0.5 bg-zinc-600" />
                     </div>
+                    {router.query.activated === "true" && (
+                        <Dialog
+                            type="success"
+                            title={t("activated")}
+                            message={t("activated-message")}
+                        />
+                    )}
                     {router.query.registrationSuccess === "true" && (
                         <Dialog
                             type="success"

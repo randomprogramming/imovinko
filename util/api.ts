@@ -64,6 +64,7 @@ interface AccountRegistrationProps {
     email: string;
     password: string;
     confirmPassword: string;
+    locale?: string | null;
 }
 export async function registerAccount(acc: AccountRegistrationProps) {
     return await client({
@@ -1287,6 +1288,16 @@ export async function uploadListingsFile(
                     onStatusUpdate(json);
                 }
             }
+        },
+    });
+}
+
+export async function activateAccount(activationToken: string) {
+    return await client({
+        method: "POST",
+        url: "/auth/activate",
+        data: {
+            activationToken,
         },
     });
 }
