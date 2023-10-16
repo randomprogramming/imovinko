@@ -1374,7 +1374,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     <IconRow containerClassName="px-2" listing={listing} />
                                 </div>
 
-                                <div className="mt-4 whitespace-pre-line break-all px-1 md:px-0">
+                                <div className="mt-4 whitespace-pre-line px-1 md:px-0">
                                     <Typography>{listing.description}</Typography>
                                 </div>
 
