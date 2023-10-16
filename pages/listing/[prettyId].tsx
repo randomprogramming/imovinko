@@ -1371,7 +1371,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                     </Typography>
                                 </div>
                                 <div className="my-4 px-2 text-center hidden lg:block">
-                                    <IconRow listing={listing} />
+                                    <IconRow containerClassName="px-2" listing={listing} />
                                 </div>
 
                                 <div className="mt-4 whitespace-pre-line break-all px-1 md:px-0">
@@ -1494,7 +1494,7 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                         {getPriceString(listing)}
                                     </Typography>
                                     <div className="my-2 px-2 flex items-center justify-center">
-                                        <IconRow listing={listing} />
+                                        <IconRow containerClassName="px-2" listing={listing} />
                                     </div>
                                 </div>
 

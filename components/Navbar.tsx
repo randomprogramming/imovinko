@@ -263,19 +263,6 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
                 disableAnimatedHover
             >
                 <Icon name="logo-text" height="36" className={`${lightIcons && "fill-zinc-50"}`} />
-                {process.env.NEXT_PUBLIC_BETA && (
-                    <div className="absolute -bottom-1 right-0 rounded  bg-rose-500 translate-y-1/2 px-0.5">
-                        <Typography
-                            uppercase
-                            bold
-                            style={{
-                                fontSize: "12px",
-                            }}
-                        >
-                            Beta
-                        </Typography>
-                    </div>
-                )}
             </Link>
             <Link
                 to="/"
@@ -283,19 +270,6 @@ export default function Navbar({ hideSearchBar, lighterSearchbar, lightIcons }: 
                 disableAnimatedHover
             >
                 <Icon name="logo" height="32" className={`${lightIcons && "fill-zinc-50"}`} />
-                {process.env.NEXT_PUBLIC_BETA && (
-                    <div className="absolute -bottom-1 right-0 rounded  bg-rose-500 translate-y-1/2 px-0.5">
-                        <Typography
-                            uppercase
-                            bold
-                            style={{
-                                fontSize: "12px",
-                            }}
-                        >
-                            Beta
-                        </Typography>
-                    </div>
-                )}
             </Link>
             {hideSearchBar ? (
                 // h-12 is the same height as the searchbar
