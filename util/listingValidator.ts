@@ -31,11 +31,27 @@ export const nullableString = (max?: number) =>
         .nullish()
         .transform((x) => (x && x.length > 0 ? x : null));
 
-const nullableBool = () =>
-    z
-        .boolean()
-        .nullish()
-        .transform((x) => (typeof x === "boolean" ? x : null));
+export function preprocessBool(val: any) {
+    if (typeof val === "boolean") {
+        return val;
+    }
+    if (typeof val === "string") {
+        if (val === "true") {
+            return true;
+        } else if (val === "false") {
+            return false;
+        }
+    }
+    return val;
+}
+export const nullableBool = () =>
+    z.preprocess(
+        preprocessBool,
+        z
+            .boolean()
+            .nullish()
+            .transform((x) => (typeof x === "boolean" ? x : null))
+    );
 
 function preprocessArr(val: any) {
     if (!val) {

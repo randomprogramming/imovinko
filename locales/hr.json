@@ -557,7 +557,7 @@
         "location-desc": "Molimo da odaberete lokaciju nekretnine tako da pomičete mapu dokle oznaka ne pokazuje točnu lokaciju nekretnine. Također možete tražiti adresu nekretnine.",
         "area": "Površina",
         "area-desc": "Površina nekretnine izražena u metrima kvadratnim (m²).",
-        "submit": "Izmjeni Oglas",
+        "submit": "Izmijeni Oglas",
         "images-apartment": "Slike apartmana",
         "images-house": "Slike kuće",
         "images-land": "Slike zemljišta",
@@ -714,7 +714,7 @@
         "required": "Obavezno",
         "description": "Opis",
         "contacts": "Lista koja se sastoji od korisničkih imena ili e-mail adresa članova vaše tvrtke na stranicama Imovinka. Ti korisnici će biti prikazani kao kontakti na stranici oglasa. Ukoliko su i ovo polje i <code>manualAccountContacts</code> polje oboje prazna, <b>korisnik koji šalje datoteku će biti naveden kao kontakt</b>.",
-        "description-explanation": "Opis oglasa",
+        "description-explanation": "Opis oglasa. Koristite znak '\\n' kako bi započeli novi red u opisu.",
         "manualAccountContacts": "Lista koja se sastoji od korisničkih imena ili e-mail adresa ručno unesenih članova vaše tvrtke na stranicama Imovinka. Ti korisnici će biti prikazani kao kontakti na stranici oglasa. Ukoliko su i ovo polje i <code>contacts</code> polje oboje prazni, <b>korisnik koji šalje datoteku će biti naveden kao kontakt</b>.",
         "price-shortTermRent": "Cijena noćenja",
         "price-longTermRent": "Cijena mjesečnog najma",
@@ -722,7 +722,7 @@
         "title-explanation": "Naslov oglasa",
         "priceIncludesUtilities": "Režije su uključene u cijenu najma?",
         "saleCommissionPercent": "Provizija koju plaća kupac izražena u postocima",
-        "loading-properties": "Učitavamo oglase",
+        "loading-properties": "Učitavamo nekretnine",
         "invalid-json": "Nije važeća JSON datoteka!"
     },
     "CompleteRegistrationPage": {

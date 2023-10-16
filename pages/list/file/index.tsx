@@ -582,20 +582,28 @@ export default function CreateListingFromFilePage() {
                                                     longitude: 15.966568,
                                                     latitude: 45.815399,
                                                     customId: "APT-ZG-820",
+                                                    bedroomCount: 1,
+                                                    buildingFloors: 7,
+                                                    elevatorAccess: true,
+                                                    furnitureState: "furnished",
+                                                    needsRenovation: false,
+                                                    totalFloors: 1,
+                                                    energyLabel: "Ap",
                                                 },
                                                 sale: {
                                                     title: "Apartment for sale title!",
                                                     price: 290000,
                                                     description:
-                                                        "Apartment sale listing description",
+                                                        "Apartment sale listing description\\nThis line will be printed in a new line!",
                                                     saleCommissionPercent: 2.2,
                                                     contacts: ["ivan@agency.com", "jan_horvat"],
+                                                    manualAccountContacts: ["luka.h@agency.com"],
                                                 },
                                                 longTermRent: {
                                                     title: "Apartment for rent title!",
                                                     price: 799.99,
                                                     description:
-                                                        "Apartment rent listing description",
+                                                        "Apartment rent listing description\\nThis line will be printed in a new line!",
                                                     priceIncludesUtilities: true,
                                                 },
                                             },
@@ -634,19 +642,27 @@ export default function CreateListingFromFilePage() {
                                         <longitude>15.966568</longitude>
                                         <latitude>45.815399</latitude>
                                         <customId>APT-ZG-820</customId>
+                                        <bedroomCount>1</bedroomCount>
+                                        <buildingFloors>7</buildingFloors>
+                                        <elevatorAccess>true</elevatorAccess>
+                                        <furnitureState>furnished</furnitureState>
+                                        <needsRenovation>false</needsRenovation>
+                                        <totalFloors>1</totalFloors>
+                                        <energyLabel>Ap</energyLabel>
                                         </apartment>
                                         <sale>
                                         <title>Apartment for sale title!</title>
                                         <price>290000</price>
-                                        <description>Apartment sale listing description</description>
+                                        <description>Apartment sale listing description\nThis line will be printed in a new line!</description>
                                         <saleCommissionPercent>2.2</saleCommissionPercent>
                                         <contacts>ivan@agency.com</contacts>
                                         <contacts>jan_horvat</contacts>
+                                        <manualAccountContacts>luka.h@agency.com</manualAccountContacts>
                                         </sale>
                                         <longTermRent>
                                         <title>Apartment for rent title!</title>
                                         <price>799.99</price>
-                                        <description>Apartment rent listing description</description>
+                                        <description>Apartment rent listing description\nThis line will be printed in a new line!</description>
                                         <priceIncludesUtilities>true</priceIncludesUtilities>
                                         </longTermRent>
                                     </listings>
@@ -665,7 +681,7 @@ export default function CreateListingFromFilePage() {
                                         <description>House for sale description</description>
                                         </sale>
                                     </listings>
-                                </root>"
+                                    </root>"
                                 />
                             </div>
 

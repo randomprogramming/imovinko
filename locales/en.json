@@ -714,7 +714,7 @@
         "required": "Required",
         "description": "Description",
         "contacts": "List of usernames or emails of your company members on the Imovinko website. These users will be named as contacts on the listing page. If both this and the <code>manualAccountContacts</code> fields are empty, <b>user which is uploading the file will be listed as the contact</b>.",
-        "description-explanation": "Listing description",
+        "description-explanation": "Listing description. Use '\\n' character to start new lines.",
         "manualAccountContacts": "List of usernames or emails of your manually entered company members on the Imovinko website. These users will be named as contacts on the listing page. If both this and the <code>contacts</code> fields are empty, <b>user which is uploading the file will be listed as the contact</b>.",
         "price-shortTermRent": "Price of nightly stay",
         "price-longTermRent": "Price of monthly rent",
@@ -722,7 +722,7 @@
         "title-explanation": "Listing title",
         "priceIncludesUtilities": "Utilities are included in the price?",
         "saleCommissionPercent": "Commission to be paid by the buyer expressed in percentage",
-        "loading-properties": "Loading listings",
+        "loading-properties": "Loading properties",
         "invalid-json": "Not a valid JSON file!"
     },
     "CompleteRegistrationPage": {
