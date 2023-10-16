@@ -24,10 +24,12 @@ export default function CompleteRegistrationPage() {
     const router = useRouter();
 
     const [isActivating, setIsActivating] = useState(true);
+    const [isError, setIsError] = useState(false);
 
     async function tryActivateAccount() {
         if (!router.query.activationToken || typeof router.query.activationToken !== "string") {
             setIsActivating(false);
+            setIsError(true);
             return;
         }
 
@@ -41,6 +43,7 @@ export default function CompleteRegistrationPage() {
             });
         } catch (e) {
             console.error(e);
+            setIsError(true);
             setIsActivating(false);
         }
     }
@@ -63,11 +66,13 @@ export default function CompleteRegistrationPage() {
                 <Navbar />
             </header>
             <Main container mobilePadding className="!max-w-md">
-                {isActivating ? (
+                {isActivating && (
                     <div className="flex-1 text-center w-full flex items-center justify-center">
                         <Icon name="loading" />
                     </div>
-                ) : (
+                )}
+
+                {isError && (
                     <div className="flex-1 text-center w-full flex items-center justify-center">
                         <Typography className="text-red-500">{t("error")}</Typography>
                     </div>

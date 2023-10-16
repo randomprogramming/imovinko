@@ -492,6 +492,10 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
         return account.email;
     }
 
+    function accountHasCompany(account?: FullAccountSingleCompany | null) {
+        return !!account?.company;
+    }
+
     function getAccountHandleAcc(account?: FullAccountSingleCompany | null) {
         if (!account) {
             return "";
@@ -1419,12 +1423,14 @@ export default function ListingPage({ listing, similarListings }: ListingPagePro
                                                 </Typography>
                                             </Link>
                                         )}
-                                        <Typography>
-                                            {t("lister-joined")}:{" "}
-                                            <Typography variant="span" bold>
-                                                {getAccountJoinDate(listing)}
+                                        {!accountHasCompany(getListingAccount(listing)) && (
+                                            <Typography>
+                                                {t("lister-joined")}:{" "}
+                                                <Typography variant="span" bold>
+                                                    {getAccountJoinDate(listing)}
+                                                </Typography>
                                             </Typography>
-                                        </Typography>
+                                        )}
                                     </div>
                                     <div className="w-full my-4 px-6">
                                         <div className="bg-zinc-300 h-0.5 rounded-full" />
